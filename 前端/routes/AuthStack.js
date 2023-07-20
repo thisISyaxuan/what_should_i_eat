@@ -6,6 +6,8 @@ import SendPWD from '../screens/LoginRegister/SendPWD';
 import Register from '../screens/LoginRegister/Register';
 import 'react-native-gesture-handler';
 import ButtomTabStack from './ButtomTabStack';
+import SearchRes from '../screens/Home/Search';
+
 const Stack = createStackNavigator();
 
 const AuthStack = () => (

@@ -45,7 +45,6 @@ export default function ButtomTabStack() {
                     options={{
                       headerStyle: {
                       backgroundColor: '#f6d58a',
-                      
                       },
                       headerShown: false,
                       }}/>

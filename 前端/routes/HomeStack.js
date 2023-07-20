@@ -1,14 +1,16 @@
+import React from 'react';
+import { View, SafeAreaView, TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import { useNavigation } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import Home from '../screens/Home/Home';
 import ResInfo from '../screens/Home/res-detail-screen';
 import 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import SearchRes from '../screens/Home/Search';
 
 const Stack = createStackNavigator();
+
 const HomeStack = () => (
-    
   <NavigationContainer independent={true}>
     <Stack.Navigator>
         <Stack.Screen name="餐廳探索" component={Home} 
@@ -16,9 +18,15 @@ const HomeStack = () => (
                         headerStyle: {
                         backgroundColor: '#f6d58a',
                         },
-                        headerLeft: null,
+                        headerLeft: () => (
+                          <TouchableOpacity>
+                            <Ionicons name="menu-outline" size={24} color="black" style={{ marginLeft: 10 }} />
+                          </TouchableOpacity>
+                        ),
                         }} />
-                      
+        <Stack.Screen name="SearchRes" component={SearchRes} 
+                        options={{headerShown: false}} 
+        />
         <Stack.Screen name="resInfo" component={ResInfo} 
                       options={{
                         headerShown: true,
@@ -32,6 +40,8 @@ const HomeStack = () => (
                         },
                         headerTintColor: 'black'
                         }} />
+          
+          
     </Stack.Navigator>
   </NavigationContainer>
   
