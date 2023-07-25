@@ -203,7 +203,7 @@ def new_rlabel(data):
                 cursor.execute(sql)
                 db.commit()
                 this_restaurant = row[1].split(',')
-                # print(this_restaurant)
+                print(this_restaurant)
                 try:
                     for i in range(len(this_restaurant)):
                         # print(this_restaurant[i])
