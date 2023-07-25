@@ -6,6 +6,7 @@
 # ------------------------------------
 import pandas as pd
 import pymysql
+import random
 # ------------------------------------
 import openpyxl
 wb = openpyxl.load_workbook('restaurant.xlsx')     # 開啟 Excel 檔案
@@ -120,11 +121,20 @@ def all_label(data):
         sql = "SELECT rID FROM restaurant WHERE rName = %s"
         cursor.execute(sql, (row[0],))
         id_result = cursor.fetchone()
-        if (id_result != None and type(row[1]) == str):
-            # print(id_result[0])
-            sql = "INSERT INTO `rlabel`(`rID`, `all_label`) VALUES (%s, '%s')" % (id_result[0], row[1])
-            cursor.execute(sql)
-            db.commit()
+        # print(id_result)
+        if (id_result != None):
+            # print(id_result)
+            if (type(row[1]) == str):    # 店名有在 restaurant 記錄過而且有 label
+                sql = "INSERT INTO `rlabel`(`rID`, `all_label`) VALUES (%s, '%s')" % (id_result[0], row[1])
+                cursor.execute(sql)
+                db.commit()
+            else:
+                print(id_result, row[0], row[1])
+                sql = "DELETE FROM `restaurant` WHERE rID = %s"
+                cursor.execute(sql, (id_result,))
+                db.commit()
+        else:
+            print(id_result, row[0])
 
 def split_label():
     static = {}
@@ -156,10 +166,99 @@ def split_label():
         index += 1
     wb.save('test2.xlsx')
 
+def create_mysql_table_from_excel(table_name):
+    try:
+        # 開啟 Excel 檔案
+        wb = openpyxl.load_workbook('restaurant.xlsx')
+        sheet = wb['label_static']  # 讀取名為STATIC的工作表
+        # 讀取Excel檔案中的A行
+        columns_list = [cell.value for cell in sheet['A']]
+        # 建立資料表的SQL語句，將欄位設計為TINYINT類型並設定預設值為0
+        column_definitions = ', '.join(f'`{col}` TINYINT DEFAULT 0' for col in columns_list)
+        table_schema = (
+            f"CREATE TABLE {table_name} ("
+            f"{column_definitions}"
+            ")"
+        )
+        # 執行SQL語句來建立MySQL資料表
+        cursor.execute(table_schema)
+        print("資料表建立成功！")
+    except FileNotFoundError:
+        print("找不到指定的Excel檔案")
+    except Exception as e:
+        print(f"發生錯誤：{e}")
+
+def new_rlabel(data):
+    for index, row in data.iterrows():
+        # print(index)    # 編號
+        # print(row[0])    # 店名
+        # print(row[1], type(row[1]))    # label
+        sql = "SELECT rID FROM restaurant WHERE rName = %s"
+        cursor.execute(sql, (row[0],))
+        id_result = cursor.fetchone()
+        # print(id_result)
+        if (id_result != None):    # 這間店有在 restaurant 記錄過
+            if (type(row[1]) == str):    # excel 有紀錄 label
+                sql = "INSERT INTO new_rlabel (rID) VALUES (%d)" % (id_result)
+                cursor.execute(sql)
+                db.commit()
+                this_restaurant = row[1].split(',')
+                # print(this_restaurant)
+                try:
+                    for i in range(len(this_restaurant)):
+                        # print(this_restaurant[i])
+                        sql = f"UPDATE `new_rlabel` SET `{this_restaurant[i]}` = 1 WHERE rID = {id_result[0]}"
+                        cursor.execute(sql)
+                        db.commit()
+                except Exception as e:
+                    db.rollback()
+                    print(f"Error：{e}")
+            else:    # excel 沒有紀錄 label    # 把餐廳從資料表刪掉
+                print(id_result, row[0], row[1])
+                sql = "DELETE FROM `restaurant` WHERE rID = %s"
+                cursor.execute(sql, (id_result,))
+                db.commit()
+
+def add_user(uID):
+    # 新增使用者
+    sql = "INSERT INTO user_like (uID) VALUES (%d)" % (uID)
+    cursor.execute(sql)
+    db.commit()
+    # 新增喜好
+    sql = "SHOW COLUMNS FROM user_like"
+    cursor.execute(sql)
+    columns_info = cursor.fetchall()
+    num_columns = len(columns_info) - 1
+    try:
+        # 隨機選取 (10,30) 個欄位的索引
+        random_columns = random.sample(range(1,num_columns+1), random.randint(10, 30))
+        # print(random_columns)
+        # 建立UPDATE語句的SQL查詢
+        set_columns = ', '.join([f"`{columns_info[i][0]}` = 1" for i in random_columns])
+        # print(set_columns)
+        sql = f"UPDATE `user_like` SET {set_columns} WHERE uID = {uID}"
+        # 執行UPDATE語句
+        cursor.execute(sql)
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        print(f"Error：{e}")
+
+
 def main():
+    # 讀寫資料
     # restaurant(pd.read_excel("restaurant.xlsx", sheet_name="info"))
-    all_label(pd.read_excel("restaurant.xlsx", sheet_name="info_ft_label"))
-    split_label()
+    # ---
+    # all_label(pd.read_excel("restaurant.xlsx", sheet_name="info_ft_label"))
+    # split_label()
+    # ---
+    # 建表
+    # create_mysql_table_from_excel("user_like")
+    # create_mysql_table_from_excel("new_rlabel")
+    # ---
+    # new_rlabel(pd.read_excel("restaurant.xlsx", sheet_name="info_ft_label"))
+    # for i in range(1,21):
+    #     add_user(i)
     db.close
 
 if __name__ == '__main__':
