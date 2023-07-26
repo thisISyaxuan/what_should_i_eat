@@ -1,16 +1,19 @@
 import {StyleSheet, Text, View,Image,SafeAreaView,TouchableOpacity} from 'react-native';
 import { globalStyles } from '../../styles/global';
+import { useNavigation } from "@react-navigation/native";
 export default function Home() {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
     <TouchableOpacity style={styles.btn}>
         <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/coin.png')}/>
         <Text>899</Text>
     </TouchableOpacity>
-    <TouchableOpacity style={styles.btn2}>
+    <TouchableOpacity style={styles.btn2} onPress={() => navigation.navigate("限時翻倍")}>
         <Text>限時獎勵</Text>
     </TouchableOpacity>
     <TouchableOpacity style={styles.collect}>
+       <Image style={{ width: 50, height: 50 }} source={require('../../assets/images/babybook.png')}/>
         <Text>精靈圖鑑</Text>
     </TouchableOpacity>
     <View style={styles.circle}>

@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import Wallet from '../screens/Wallet/Wallet';
-import Baby from '../screens/Baby/Baby';
 import Addcash from '../screens/Add/AddCash';
 import Myacc from '../screens/Myacc/Myacc';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -11,6 +10,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack from './HomeStack';
 import MyaccStack from './MyaccStack';
 import WalletStack from './WalletStack';
+import Baby from './BabyStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -68,7 +68,8 @@ export default function ButtomTabStack() {
                       headerStyle: {
                       backgroundColor: '#f6d58a',
                       },
-                      }} />
+                      headerShown: false,
+                      }}/>
         <Tab.Screen name="帳號設定" component={MyaccStack}
                     options={{
                       headerStyle: {
