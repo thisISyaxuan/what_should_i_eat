@@ -174,7 +174,7 @@ def create_mysql_table_from_excel(table_name):
         # 讀取Excel檔案中的A行
         columns_list = [cell.value for cell in sheet['A']]
         # 建立資料表的SQL語句，將欄位設計為TINYINT類型並設定預設值為0
-        column_definitions = ', '.join(f'`{col}` TINYINT DEFAULT 0' for col in columns_list)
+        column_definitions = ', '.join(f'`{col}` FLOAT DEFAULT 0' for col in columns_list)
         table_schema = (
             f"CREATE TABLE {table_name} ("
             f"{column_definitions}"
@@ -230,11 +230,11 @@ def add_user(uID):
     columns_info = cursor.fetchall()
     num_columns = len(columns_info) - 1
     try:
-        # 隨機選取 (10,30) 個欄位的索引
-        random_columns = random.sample(range(1,num_columns+1), random.randint(10, 30))
+        # 隨機選取 (5,20) 個欄位的索引
+        random_columns = random.sample(range(1,num_columns+1), random.randint(5, 21))
         # print(random_columns)
         # 建立UPDATE語句的SQL查詢
-        set_columns = ', '.join([f"`{columns_info[i][0]}` = 1" for i in random_columns])
+        set_columns = ', '.join([f"`{columns_info[i][0]}` = {round(0.5, 3)}" for i in random_columns])
         # print(set_columns)
         sql = f"UPDATE `user_like` SET {set_columns} WHERE uID = {uID}"
         # 執行UPDATE語句
