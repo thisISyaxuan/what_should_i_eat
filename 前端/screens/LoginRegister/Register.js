@@ -5,13 +5,14 @@ import { useState } from "react";
 import Login from "./Login";
 export default function Register({navigation}) {
   const [username, setUsername] = useState('');
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState('男生');
   const [birthday, setBirthday] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  /*
   const handleRegister = () => {
     const data = {
       username: username,
@@ -41,7 +42,8 @@ export default function Register({navigation}) {
     .catch(error => {
       console.error(error);
     });
-  };
+    
+  };*/
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
       <SafeAreaView style={styles.container}>
@@ -52,14 +54,26 @@ export default function Register({navigation}) {
             placeholder='帳號:'
             onChangeText={text => setUsername(text)}
           />
+          <View style={[globalStyles.input, { flexDirection: 'row', alignItems: 'center' }]}>
+              <Text style={[styles.label, { color: '#C0C0C0' }]}>性別:   </Text>
+              <TouchableOpacity
+                  style={[styles.button, gender === '男生' && styles.activeButton]}
+                  onPress={() => setGender('男生')}
+              >
+              <Text style={[styles.buttonText, gender === '男生' && styles.activeButtonText]}>男生</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                  style={[styles.button, gender === '女生' && styles.activeButton]}
+                  onPress={() => setGender('女生')}
+              >
+              <Text style={[styles.buttonText, gender === '女生' && styles.activeButtonText]}>女生</Text>
+              </TouchableOpacity>
+            </View>
+
+           
           <TextInput 
             style={globalStyles.input}
-            placeholder='性別:'
-            onChangeText={text => setGender(text)}
-          />
-          <TextInput 
-            style={globalStyles.input}
-            placeholder='生日:'
+            placeholder='生日:  2000/01/01'
             onChangeText={text => setBirthday(text)}
           />
           <TextInput 
@@ -91,7 +105,7 @@ export default function Register({navigation}) {
       <TouchableOpacity style={globalStyles.GreenBtn} onPress={() => navigation.navigate('Login')}>
         <Text style={globalStyles.BtnText}>返回</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={globalStyles.RedBtn} onPress={handleRegister}>
+      <TouchableOpacity style={globalStyles.RedBtn} /*onPress={handleRegister}*/>
         <Text style={globalStyles.BtnText}>註冊</Text>
       </TouchableOpacity>
     </View>
@@ -127,5 +141,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     //justifyContent: 'flex-end',
     //alignItems: 'center',
+  },
+  button: {
+    padding: 8,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'gray',
+    marginRight: 10,
+  },
+  buttonText: {
+    fontSize: 14,
+    color: 'black',
+  },
+  activeButton: {
+    backgroundColor: '#F6D58A',
+  },
+  activeButtonText: {
+    color: 'white',
   },
 });
