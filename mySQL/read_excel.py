@@ -234,7 +234,8 @@ def add_user(uID):
         random_columns = random.sample(range(1,num_columns+1), random.randint(5, 21))
         # print(random_columns)
         # 建立UPDATE語句的SQL查詢
-        set_columns = ', '.join([f"`{columns_info[i][0]}` = {round(0.5, 3)}" for i in random_columns])
+        
+        set_columns = ', '.join([f"`{columns_info[i][0]}` = {float(format(0.5,'.3f'))}" for i in random_columns])
         # print(set_columns)
         sql = f"UPDATE `user_like` SET {set_columns} WHERE uID = {uID}"
         # 執行UPDATE語句
@@ -257,8 +258,8 @@ def main():
     # create_mysql_table_from_excel("new_rlabel")
     # ---
     # new_rlabel(pd.read_excel("restaurant.xlsx", sheet_name="info_ft_label"))
-    # for i in range(1,21):
-    #     add_user(i)
+    for i in range(1,21):
+        add_user(i)
     db.close
 
 if __name__ == '__main__':
