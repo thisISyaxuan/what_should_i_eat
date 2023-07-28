@@ -137,8 +137,8 @@ def all_label(data):
             print(id_result, row[0])
 
 def split_label():
-    static = {}
-    s1 = wb['工作表1']        # 取得工作表名稱為「工作表1」的內容
+    # static = {}
+    # s1 = wb['工作表1']        # 取得工作表名稱為「工作表1」的內容
     cursor.execute("SELECT * FROM rlabel ORDER BY rID DESC LIMIT 1")
     restaurant = cursor.fetchone()
     max_rID = restaurant[0]
@@ -153,18 +153,18 @@ def split_label():
             cursor.execute("UPDATE rlabel SET `label_1`=%s, `label_2`=%s, `label_3`=%s, `label_4`=%s, `label_5`=%s, `label_6`=%s, `label_7`=%s, `label_8`=%s WHERE rID = %s",
                (this_restaurant[0], this_restaurant[1], this_restaurant[2], this_restaurant[3], this_restaurant[4], this_restaurant[5], this_restaurant[6], this_restaurant[7], i))
             db.commit()
-            for j in range(len(this_restaurant)):
-                if this_restaurant[j] in static:
-                    static[this_restaurant[j]] += 1
-                else:
-                    static[this_restaurant[j]] = 1
-    index = 1
-    for key, value in static.items():
+            # for j in range(len(this_restaurant)):
+            #     if this_restaurant[j] in static:
+            #         static[this_restaurant[j]] += 1
+            #     else:
+            #         static[this_restaurant[j]] = 1
+    # index = 1
+    # for key, value in static.items():
         # print(key, ':', value)
-        s1.cell(index,1).value = key     # 儲存格 B1 內容 ( row=1, column=2 ) 為 100
-        s1.cell(index,2).value = value     # 儲存格 B2 內容 ( row=2, column=2 ) 為 200
-        index += 1
-    wb.save('test2.xlsx')
+    #     s1.cell(index,1).value = key     # 儲存格 B1 內容 ( row=1, column=2 ) 為 100
+    #     s1.cell(index,2).value = value     # 儲存格 B2 內容 ( row=2, column=2 ) 為 200
+    #     index += 1
+    # wb.save('test2.xlsx')
 
 def create_mysql_table_from_excel(table_name):
     try:
@@ -258,8 +258,8 @@ def main():
     # create_mysql_table_from_excel("new_rlabel")
     # ---
     # new_rlabel(pd.read_excel("restaurant.xlsx", sheet_name="info_ft_label"))
-    for i in range(1,21):
-        add_user(i)
+    # for i in range(1,21):
+    #     add_user(i)
     db.close
 
 if __name__ == '__main__':
