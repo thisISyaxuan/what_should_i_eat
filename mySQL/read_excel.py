@@ -112,12 +112,13 @@ def restaurant(data):
             cursor.execute(sql)
             db.commit()
 
-def all_label(data):
+def all_label(data, table):
     # print(type(data))
     for index, row in data.iterrows():
         # print(index)    # 編號
         # print(row[0])    # 店名
         # print(row[1], type(row[1]))    # label
+        # print(row[2])    # 正餐1 其他0
         sql = "SELECT rID FROM restaurant WHERE rName = %s"
         cursor.execute(sql, (row[0],))
         id_result = cursor.fetchone()
@@ -125,8 +126,12 @@ def all_label(data):
         if (id_result != None):
             # print(id_result)
             if (type(row[1]) == str):    # 店名有在 restaurant 記錄過而且有 label
-                sql = "INSERT INTO `rlabel`(`rID`, `all_label`) VALUES (%s, '%s')" % (id_result[0], row[1])
-                cursor.execute(sql)
+                if (table == 'rlabel'):
+                    sql = "INSERT INTO `rlabel`(`rID`, `all_label`) VALUES (%s, '%s')" % (id_result[0], row[1])
+                    cursor.execute(sql)
+                elif (table == 'restaurant'):
+                    sql = "UPDATE `restaurant` SET `all_label`= %s, `meal_or_not`= %s WHERE `rID` = %s"
+                    cursor.execute(sql, (row[1], int(row[2]), id_result[0],))
                 db.commit()
             else:
                 print(id_result, row[0], row[1])
@@ -137,8 +142,8 @@ def all_label(data):
             print(id_result, row[0])
 
 def split_label():
-    # static = {}
-    # s1 = wb['工作表1']        # 取得工作表名稱為「工作表1」的內容
+    static = {}
+    s1 = wb['label_static']        # 取得工作表名稱為「工作表1」的內容
     cursor.execute("SELECT * FROM rlabel ORDER BY rID DESC LIMIT 1")
     restaurant = cursor.fetchone()
     max_rID = restaurant[0]
@@ -153,20 +158,20 @@ def split_label():
             cursor.execute("UPDATE rlabel SET `label_1`=%s, `label_2`=%s, `label_3`=%s, `label_4`=%s, `label_5`=%s, `label_6`=%s, `label_7`=%s, `label_8`=%s WHERE rID = %s",
                (this_restaurant[0], this_restaurant[1], this_restaurant[2], this_restaurant[3], this_restaurant[4], this_restaurant[5], this_restaurant[6], this_restaurant[7], i))
             db.commit()
-            # for j in range(len(this_restaurant)):
-            #     if this_restaurant[j] in static:
-            #         static[this_restaurant[j]] += 1
-            #     else:
-            #         static[this_restaurant[j]] = 1
-    # index = 1
-    # for key, value in static.items():
+            for j in range(len(this_restaurant)):
+                if this_restaurant[j] in static:
+                    static[this_restaurant[j]] += 1
+                else:
+                    static[this_restaurant[j]] = 1
+    index = 1
+    for key, value in static.items():
         # print(key, ':', value)
-    #     s1.cell(index,1).value = key     # 儲存格 B1 內容 ( row=1, column=2 ) 為 100
-    #     s1.cell(index,2).value = value     # 儲存格 B2 內容 ( row=2, column=2 ) 為 200
-    #     index += 1
-    # wb.save('test2.xlsx')
+        s1.cell(index,1).value = key     # 儲存格 B1 內容 ( row=1, column=2 ) 為 100
+        s1.cell(index,2).value = value     # 儲存格 B2 內容 ( row=2, column=2 ) 為 200
+        index += 1
+    wb.save('test.xlsx')
 
-def create_mysql_table_from_excel(table_name):
+def create_mysql_table_from_excel(table_name, first_col):
     try:
         # 開啟 Excel 檔案
         wb = openpyxl.load_workbook('restaurant.xlsx')
@@ -183,6 +188,10 @@ def create_mysql_table_from_excel(table_name):
         # 執行SQL語句來建立MySQL資料表
         cursor.execute(table_schema)
         print("資料表建立成功！")
+        
+        sql = f"ALTER TABLE {table_name} ADD COLUMN {first_col} INT PRIMARY KEY AUTO_INCREMENT FIRST"
+        cursor.execute(sql)
+        db.commit()
     except FileNotFoundError:
         print("找不到指定的Excel檔案")
     except Exception as e:
@@ -245,22 +254,38 @@ def add_user(uID):
         db.rollback()
         print(f"Error：{e}")
 
+def check():
+    try:
+        # 使用LEFT JOIN查詢缺少的rID
+        sql = "SELECT restaurant.rID FROM restaurant LEFT JOIN rlabel ON restaurant.rID = rlabel.rID WHERE rlabel.rID IS NULL"
+        cursor.execute(sql)
+        missing_rIDs = cursor.fetchall()
+
+        # 顯示缺少的rID
+        print("缺少的rID：")
+        for rID in missing_rIDs:
+            print(rID[0])
+
+    except Exception as e:
+        print(f"Error：{e}")
 
 def main():
-    # 讀寫資料
+    # 資料表: restaurant
     # restaurant(pd.read_excel("restaurant.xlsx", sheet_name="info"))
-    # ---
-    # all_label(pd.read_excel("restaurant.xlsx", sheet_name="info_ft_label"))
+    # all_label(pd.read_excel("restaurant.xlsx", sheet_name="info_ft_label"), 'restaurant')
+    
+    # 資料表: rlabel & excel 新增 label static
+    # all_label(pd.read_excel("restaurant.xlsx", sheet_name="info_ft_label"), 'rlabel')
     # split_label()
-    # ---
+    
     # 建表
-    # create_mysql_table_from_excel("user_like")
-    # create_mysql_table_from_excel("new_rlabel")
-    # ---
+    # create_mysql_table_from_excel("new_rlabel", "rID")
+    # create_mysql_table_from_excel("user_like", "uID")
     # new_rlabel(pd.read_excel("restaurant.xlsx", sheet_name="info_ft_label"))
     # for i in range(1,21):
     #     add_user(i)
-    db.close
+    # check()
+    db.close 
 
 if __name__ == '__main__':
     main()
