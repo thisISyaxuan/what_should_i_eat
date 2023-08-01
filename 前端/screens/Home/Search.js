@@ -72,26 +72,9 @@ const SearchRes = () => {
         </View>
       </View>
       <View style={styles.optionContainer}>
-        <Text style={styles.optionTitle}>評論數</Text>
-        <View style={styles.sliderContainer}>
-          <Slider
-            style={styles.slider}
-            minimumValue={0}
-            maximumValue={5000}
-            step={100}
-            value={reviewCount}
-            onValueChange={value => setReviewCount(value)}
-            minimumTrackTintColor="#F6D58A" 
-            maximumTrackTintColor="gray" 
-            thumbTintColor="#F6D56E"
-          />
-          <Text style={styles.sliderValue}>{reviewCount}</Text>
-        </View>
-      </View>
-      <View style={styles.optionContainer}>
         <Text style={styles.optionTitle}>排序方式</Text>
         <View style={styles.sortButtonsContainer}>
-          {['個人化推薦', '評分高到低', '評論數多到少', '距離近到遠'].map(option => (
+          {['個人化推薦', '距離近到遠', '評分高到低', '評分低到高'].map(option => (
             <TouchableOpacity
               key={option}
               style={[styles.sortButton, option === sortOption ? styles.activeSortButton : null]}
