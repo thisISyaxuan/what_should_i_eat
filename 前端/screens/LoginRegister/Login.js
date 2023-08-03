@@ -6,7 +6,7 @@ import CustomButton from "../../customComponent/customButton";
 export default function Login({navigation}) {
   const [username,setUsername] = useState('');
   const [password,setPassword] = useState('');
-  /*
+  
   const handleLogin = () => {
     const data = {
       username: username,
@@ -14,7 +14,7 @@ export default function Login({navigation}) {
     };
 
     // 使用fetch axios進行POST請求，將data送至後端API
-    fetch('http://your-django-api-url', {//改成api連結
+    fetch('http://192.168.0.3:8000/api/Login/', {//改成api連結
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -26,13 +26,18 @@ export default function Login({navigation}) {
       // 處理後端回傳的資料
       console.log(responseData);
       // 導航到其他畫面
-      navigation.navigate('ButtomTabStack');
+      if (responseData.success === true) {
+        navigation.navigate('ButtomTabStack');
+      } else {
+        // 如果success為false，可能是登入失敗，做相應處理
+        console.log('登入失敗');
+      }
     })
     .catch(error => {
       console.error(error);
     });
   };
-  */
+  
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
     <SafeAreaView style={styles.container}>
@@ -60,7 +65,7 @@ export default function Login({navigation}) {
       <TouchableOpacity style={globalStyles.GreenBtn} onPress={() => navigation.navigate('Register')}>
         <Text style={globalStyles.BtnText}>註冊</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={globalStyles.RedBtn} onPress={/*handleLogin*/() => navigation.navigate('ButtomTabStack')}>
+      <TouchableOpacity style={globalStyles.RedBtn} onPress={handleLogin()}>
         <Text style={globalStyles.BtnText}>登入</Text>
       </TouchableOpacity>
       </View>
