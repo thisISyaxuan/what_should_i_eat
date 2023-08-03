@@ -5,27 +5,34 @@ import { useState } from "react";
 import Login from "./Login";
 export default function Register({navigation}) {
   const [username, setUsername] = useState('');
-  const [gender, setGender] = useState('男生');
+  const [gender, setGender] = useState(1);
   const [birthday, setBirthday] = useState('');
-  const [phone, setPhone] = useState('');
+  const [phone_number, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  /*
+  const [verify_password, setverify_Password] = useState('');
+  const handleGenderSelection = (selectedGender) => {
+    if (selectedGender === '男生') {
+      setGender(1);
+    } else if (selectedGender === '女生') {
+      setGender(0);
+    }
+  };
   const handleRegister = () => {
     const data = {
       username: username,
       gender: gender,
       birthday: birthday,
-      phone: phone,
+      phone_number: phone_number,
       address: address,
       email: email,
-      password: password
+      password: password,
+      verify_password:verify_password
     };
 
     // 使用fetch或axios進行POST請求，將data送至後端API
-    fetch('http://your-django-api-url', {
+    fetch('http://192.168.0.3:8000/api/Register/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'//用jsont傳
@@ -43,7 +50,7 @@ export default function Register({navigation}) {
       console.error(error);
     });
     
-  };*/
+  };
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
       <SafeAreaView style={styles.container}>
@@ -57,14 +64,14 @@ export default function Register({navigation}) {
           <View style={[globalStyles.input, { flexDirection: 'row', alignItems: 'center' }]}>
               <Text style={[styles.label, { color: '#C0C0C0' }]}>性別:   </Text>
               <TouchableOpacity
-                  style={[styles.button, gender === '男生' && styles.activeButton]}
-                  onPress={() => setGender('男生')}
+                  style={[styles.button, gender === 1 && styles.activeButton]}
+                  onPress={() => handleGenderSelection("男生")}
               >
               <Text style={[styles.buttonText, gender === '男生' && styles.activeButtonText]}>男生</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                  style={[styles.button, gender === '女生' && styles.activeButton]}
-                  onPress={() => setGender('女生')}
+                  style={[styles.button, gender === 0 && styles.activeButton]}
+                  onPress={() => handleGenderSelection("女生")}
               >
               <Text style={[styles.buttonText, gender === '女生' && styles.activeButtonText]}>女生</Text>
               </TouchableOpacity>
@@ -73,7 +80,7 @@ export default function Register({navigation}) {
            
           <TextInput 
             style={globalStyles.input}
-            placeholder='生日:  2000/01/01'
+            placeholder='生日:  2000-01-01'
             onChangeText={text => setBirthday(text)}
           />
           <TextInput 
@@ -99,13 +106,13 @@ export default function Register({navigation}) {
           <TextInput 
             style={globalStyles.input}
             placeholder='確認密碼:'
-            onChangeText={text => setConfirmPassword(text)}
+            onChangeText={text => setverify_Password(text)}
           />
     <View style={globalStyles.Btn}>
       <TouchableOpacity style={globalStyles.GreenBtn} onPress={() => navigation.navigate('Login')}>
         <Text style={globalStyles.BtnText}>返回</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={globalStyles.RedBtn} /*onPress={handleRegister}*/>
+      <TouchableOpacity style={globalStyles.RedBtn} onPress={handleRegister}>
         <Text style={globalStyles.BtnText}>註冊</Text>
       </TouchableOpacity>
     </View>
