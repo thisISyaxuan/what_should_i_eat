@@ -13,6 +13,8 @@ export default function Login({navigation}) {
       password: password
     };
 
+    /*
+
     // 使用fetch axios進行POST請求，將data送至後端API
     fetch('http://192.168.0.3:8000/api/Login/', {//改成api連結
       method: 'POST',
@@ -35,8 +37,9 @@ export default function Login({navigation}) {
     })
     .catch(error => {
       console.error(error);
-    });
+    });*/
   };
+  
   
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
@@ -65,7 +68,7 @@ export default function Login({navigation}) {
       <TouchableOpacity style={globalStyles.GreenBtn} onPress={() => navigation.navigate('Register')}>
         <Text style={globalStyles.BtnText}>註冊</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={globalStyles.RedBtn} onPress={handleLogin()}>
+      <TouchableOpacity style={globalStyles.RedBtn} onPress={/*handleLogin()*/() => navigation.navigate('ButtomTabStack')}>
         <Text style={globalStyles.BtnText}>登入</Text>
       </TouchableOpacity>
       </View>
