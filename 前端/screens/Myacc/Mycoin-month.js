@@ -25,10 +25,10 @@ export default function TodayTasks() {
       </View>
 
       <View style={styles.buttons}>
-        <TouchableOpacity style={styles.selectedButton} onPress={() => navigation.navigate('本日任務')}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('本日任務')}>
           <Text style={styles.buttonText}>本日任務</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('本月任務')}>
+        <TouchableOpacity style={styles.selectedButton} onPress={() => navigation.navigate('本月任務')}>
           <Text style={styles.buttonText}>本月任務</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('特別任務')}>

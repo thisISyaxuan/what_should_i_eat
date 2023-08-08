@@ -22,7 +22,7 @@ const MyaccStack = () => (
                         }} />
         <Stack.Screen name="我的脂肪幣" component={Mycoin} 
                       options={{
-                        headerShown: true,
+                        headerShown: false,
                         headerStyle: {
                             backgroundColor: '#f6d58a',
                         },
