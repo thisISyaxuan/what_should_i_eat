@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons"; // Import the desired icon from the library
 import React from "react";
 
@@ -7,7 +7,7 @@ export default function TodayTasks() {
   const navigation = useNavigation();
 
   // Define tasks for the page
-  const tasks = [{ name: "Task 1", coins: 10 }, { name: "Task 2", coins: 20 }];
+  const tasks = [{ name: "任務 1", coins: 10 }, { name: "任務 2", coins: 20 }];
 
   return (
     <View style={styles.container}>
@@ -19,16 +19,18 @@ export default function TodayTasks() {
 
         <Text style={styles.title}>今日任務</Text>
         <View style={styles.coins}>
-          <Text style={styles.coinsIcon}>Coins ICON</Text>
-          <Text style={styles.coinsValue}>{tasks.reduce((total, task) => total + task.coins, 0)}</Text>
+          <Image source={require('../../assets/images/coin.png')} style={styles.coinIcon} />
+          <Text style={styles.coinsValue}>
+            {tasks.reduce((total, task) => total + task.coins, 0)}
+          </Text>
         </View>
       </View>
 
       <View style={styles.buttons}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('本日任務')}>
+        <TouchableOpacity style={styles.selectedButton} onPress={() => navigation.navigate('本日任務')}>
           <Text style={styles.buttonText}>本日任務</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.selectedButton} onPress={() => navigation.navigate('本月任務')}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('本月任務')}>
           <Text style={styles.buttonText}>本月任務</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('特別任務')}>
@@ -41,8 +43,8 @@ export default function TodayTasks() {
           <View key={index} style={styles.task}>
             <Text style={styles.taskName}>{task.name}</Text>
             <View style={styles.coins}>
-              <Text style={styles.coinsIcon}>Coins ICON</Text>
-              <Text style={styles.coinsValue}>{task.coins}</Text>
+              <Image source={require('../../assets/images/coin.png')} style={{ width: 30, height: 30 }} />
+              <Text style={styles.coinsValue} >{task.coins} </Text>
             </View>
           </View>
         ))}
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
+    padding: 20, // Increase header padding
     backgroundColor: '#FFFACD',
   },
   backButton: {
@@ -70,14 +72,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   coins: {
-    flexDirection: 'column',
+    flexDirection: 'row', // Change to row to align image and text horizontally
     alignItems: 'center',
   },
-  coinsIcon: {
-    fontSize: 20,
+  coinIcon: {
+    width: 40,
+    height: 40,
+  },
+  smallCoinIcon: {
+    width: 20,
+    height: 20,
   },
   coinsValue: {
     fontSize: 16,
+    marginLeft: 5,
+    flexWrap: 'wrap', //換行   
   },
   buttons: {
     flexDirection: 'row',
@@ -110,11 +119,15 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     backgroundColor: '#FFFACD',
     borderRadius: 10,
+    width: '85%', // Set width to 85% of screen width
+    height: '12%', // Set height to 12% of screen height
+    alignSelf: 'center', // Center horizontally
   },
   taskName: {
     fontSize: 16,
   },
 });
+
 
 
 
