@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text,SafeAreaView, StyleSheet, TouchableOpacity, Image } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons"; // Import the desired icon from the library
 import React from "react";
 
@@ -10,7 +10,7 @@ export default function TodayTasks() {
   const tasks = [{ name: "任務 1", coins: 10 }, { name: "任務 2", coins: 20 }];
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         {/* Adding the back button */}
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
@@ -49,7 +49,7 @@ export default function TodayTasks() {
           </View>
         ))}
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
