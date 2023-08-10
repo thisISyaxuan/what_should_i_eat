@@ -13,7 +13,7 @@ export default function Login({navigation}) {
       password: password
     };
 
-    /*
+    
 
     // 使用fetch axios進行POST請求，將data送至後端API
     fetch('http://192.168.0.3:8000/api/Login/', {//改成api連結
@@ -29,7 +29,11 @@ export default function Login({navigation}) {
       console.log(responseData);
       // 導航到其他畫面
       if (responseData.success === true) {
-        navigation.navigate('ButtomTabStack');
+        // 儲存後端返回的 token
+        AsyncStorage.setItem('userToken', responseData.token);
+      
+        // 導航到其他畫面
+        navigation.navigate('ButtomTabStack'); // 假設是導航到主頁面
       } else {
         // 如果success為false，可能是登入失敗，做相應處理
         console.log('登入失敗');
@@ -37,7 +41,7 @@ export default function Login({navigation}) {
     })
     .catch(error => {
       console.error(error);
-    });*/
+    });
   };
   
   
@@ -68,7 +72,7 @@ export default function Login({navigation}) {
       <TouchableOpacity style={globalStyles.GreenBtn} onPress={() => navigation.navigate('Register')}>
         <Text style={globalStyles.BtnText}>註冊</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={globalStyles.RedBtn} onPress={/*handleLogin()*/() => navigation.navigate('ButtomTabStack')}>
+      <TouchableOpacity style={globalStyles.RedBtn} onPress={handleLogin()}>
         <Text style={globalStyles.BtnText}>登入</Text>
       </TouchableOpacity>
       </View>

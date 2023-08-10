@@ -40,11 +40,17 @@ export default function Register({navigation}) {
       body: JSON.stringify(data)
     })
     .then(response => response.json())
-    .then(responseData => {
-      // 處理後端回傳的資料
-      console.log(responseData);
-      // 導航到Login畫面
-      navigation.navigate('Login');
+    .then(responseData => {// 處理後端回傳的資料
+      if (responseData.success === true) {
+        // 儲存後端返回的 token
+        AsyncStorage.setItem('userToken', responseData.token);
+      
+        // 導航到其他畫面
+        navigation.navigate('Login'); // 假設是導航到主頁面
+      } else {
+        // 如果success為false，可能是註冊失敗，做相應處理
+        console.log('註冊失敗');
+      }
     })
     .catch(error => {
       console.error(error);
