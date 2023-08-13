@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { View,SafeAreaView, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text,SafeAreaView, StyleSheet, TouchableOpacity, Image } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons"; // Import the desired icon from the library
 import React from "react";
 
@@ -27,13 +27,13 @@ export default function TodayTasks() {
       </View>
 
       <View style={styles.buttons}>
-        <TouchableOpacity style={styles.selectedButton} onPress={() => navigation.navigate('本日任務')}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('本日任務')}>
           <Text style={styles.buttonText}>本日任務</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('本月任務')}>
           <Text style={styles.buttonText}>本月任務</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('特別任務')}>
+        <TouchableOpacity style={styles.selectedButton} onPress={() => navigation.navigate('特別任務')}>
           <Text style={styles.buttonText}>特別任務</Text>
         </TouchableOpacity>
       </View>
