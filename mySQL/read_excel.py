@@ -2,7 +2,7 @@
 # ------------------------------------
 # pip install pandas
 # pip install openpyxl
-# pip install pymyslq
+# pip install pymysql
 # ------------------------------------
 import pandas as pd
 import pymysql
