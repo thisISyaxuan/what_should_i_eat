@@ -17,9 +17,6 @@ const SearchRes = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-    <View style={styles.titleContainer}>
-      <Text style={styles.title}>搜尋條件</Text>
-    </View>
     {/*
       <View style={styles.optionContainer}>
         <Text style={styles.optionTitle}>搜尋半徑</Text>
@@ -115,17 +112,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
   },
   button: {
     backgroundColor: 'transparent',

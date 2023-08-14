@@ -7,19 +7,22 @@ import 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Mycoin from '../screens/Myacc/Mycoin';
 import Mycollect from '../screens/Myacc/Mycollect';
+import Login from '../screens/LoginRegister/Login';
 
 const Stack = createStackNavigator();
 const MyaccStack = () => (
-    
+  
   <NavigationContainer independent={true}>
     <Stack.Navigator>
-        <Stack.Screen name="帳號設定" component={Myacc} 
+        <Stack.Screen name="帳號設定" component={Myacc}
                       options={{
                         headerStyle: {
                         backgroundColor: '#f6d58a',
                         },
                         headerLeft: null,
-                        }} />
+                        }}
+                        
+                        />
         <Stack.Screen name="我的脂肪幣" component={Mycoin} 
                       options={{
                         headerShown: false,
