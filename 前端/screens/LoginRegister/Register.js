@@ -3,7 +3,7 @@ import { SafeAreaView ,TouchableOpacity,Button,TouchableWithoutFeedback,Keyboard
 import { globalStyles } from '../../styles/global';
 import { useState } from "react";
 import Login from "./Login";
-import bcrypt from 'bcryptjs';
+//import bcrypt from 'bcryptjs';
 //npm install bcryptjs
 export default function Register({navigation}) {
   const [username, setUsername] = useState('');
