@@ -4,7 +4,6 @@ import { useNavigation } from "@react-navigation/native";
 import Myacc from '../screens/Myacc/Myacc';
 import EventDetailScreen from '../screens/Home/res-detail-screen';
 import 'react-native-gesture-handler';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import Mycoin from '../screens/Myacc/Mycoin';
 import Mycollect from '../screens/Myacc/Mycollect';
 import Login from '../screens/LoginRegister/Login';

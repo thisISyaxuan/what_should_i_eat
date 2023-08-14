@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import Home from '../screens/Home/Home';
 import ResInfo from '../screens/Home/res-detail-screen';
+import Vegatablelist from '../screens/Home/vegatablelist';
 import 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SearchRes from '../screens/Home/Search';
@@ -21,12 +22,12 @@ const HomeStack = () => (
                         },
                         headerLeft: () => (
                           <TouchableOpacity onPress={() => navigation.navigate('搜尋條件')}>
-                            <Ionicons name="menu-outline" size={24} color="black" style={{ marginLeft: 10 }} />
+                            <Ionicons name="options-outline" size={35} color="black" style={{ marginLeft: 10 }} />
                           </TouchableOpacity>
                         ),
                         headerRight: () => (
                           <TouchableOpacity onPress={() => navigation.navigate('我的收藏')}>
-                            <Ionicons name="heart-circle-outline" size={30} color="black" style={{ marginRight: 10 }} />
+                            <Ionicons name="heart-circle-outline" size={35} color="black" style={{ marginRight: 10 }} />
                           </TouchableOpacity>
                         ),
                       })} />
@@ -40,7 +41,10 @@ const HomeStack = () => (
                               color: 'black', 
                               fontSize: 16,
                           },
-                          headerTintColor: 'black'
+                          headerTintColor: 'black',
+                          headerRight: () => (
+                            <TouchableOpacity color="black" style={{ marginRight: 18 }}><Text style={{ fontSize: 18 }}>預設</Text></TouchableOpacity>
+                          ),
                           }}
         />
         <Stack.Screen name="錯誤回報" component={Errorfb} 
@@ -69,7 +73,20 @@ const HomeStack = () => (
                         },
                         headerTintColor: 'black'
                         }} />
-        <Stack.Screen name="resInfo" component={ResInfo} 
+        <Stack.Screen name="菜單" component={Vegatablelist} 
+                      options={{
+                        headerShown: true,
+                        headerStyle: {
+                            backgroundColor: '#f6d58a',
+                        },
+                        headerBackTitle: ' ',
+                        headerBackTitleStyle: {
+                            color: 'black', 
+                            fontSize: 16,
+                        },
+                        headerTintColor: 'black'
+                        }} />
+                        <Stack.Screen name="resInfo" component={ResInfo} 
                       options={{
                         headerShown: true,
                         headerStyle: {

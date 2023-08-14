@@ -1,20 +1,31 @@
 import {StyleSheet, Text,TextInput, View,TouchableOpacity,Modal,SafeAreaView,TouchableWithoutFeedback,Keyboard} from 'react-native';
 import { globalStyles } from '../../styles/global';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
-
 
 export default function AddCash() {
   const [Price, SetPrice] = useState("");
   const [Name, SetName] = useState("");
   const [Class, SetClass] = useState("");
   const [Rating, SetRating] = useState("");
+  const [currentDate, setCurrentDate] = useState('');
+  useEffect(() => {
+    // 獲取當前時間
+    const now = new Date();
+    const formattedDate = `${now.getFullYear()} 年 ${now.getMonth() + 1} 月 ${now.getDate()} 日 ${getDayOfWeek(now.getDay())}`;
+    setCurrentDate(formattedDate);
+  }, []);
+
+  const getDayOfWeek = (dayIndex) => {
+    const daysOfWeek = ['週日', '週一', '週二', '週三', '週四', '週五', '週六'];
+    return daysOfWeek[dayIndex];
+  };
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
     <SafeAreaView style={styles.container}>
         <View>
-        <Text style={styles.title}>2023 年 7 月 1 日 週六</Text>
+          <View style={styles.title}><Text style={{fontSize:20}}>{currentDate}</Text></View>
 
       <View style={styles.input}>
         <Text style={{fontSize:20, flex: 2}}>金額</Text>
@@ -60,16 +71,12 @@ export default function AddCash() {
 
       <View style={styles.bottom}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 20}}>
-        <TouchableOpacity style={styles.ButtonL}>
-          <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}}>
-            上傳照片
-          </Text>
+        <TouchableOpacity style={styles.ButtonR}>
+          <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}}>清空</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.ButtonR}>
-          <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}}>
-            儲存
-          </Text>
+        <TouchableOpacity style={styles.ButtonL}>
+          <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}}>儲存</Text>
         </TouchableOpacity>
         </View>
       </View>
@@ -88,11 +95,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    borderBottomWidth:1, borderBottomColor:'gray',
-    textAlign: 'center',
-    width: '100%',
-    padding: 20,
-    fontSize: 20,
+    padding: 10,
+    alignItems: 'center',
   },
   input: {
     borderBottomWidth:1, borderBottomColor:'gray',

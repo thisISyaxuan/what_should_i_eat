@@ -6,9 +6,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from "@react-navigation/native";
 
 const SearchRes = () => {
-  const [radius, setRadius] = useState(1);
-  const [rating, setRating] = useState({ min: 0.0, max: 5.0 });
-  const [reviewCount, setReviewCount] = useState(0);
+  //const [radius, setRadius] = useState(1);
+  //const [rating, setRating] = useState({ min: 0.0, max: 5.0 });
+  //const [reviewCount, setReviewCount] = useState(0);
   const [sortOption, setSortOption] = useState('距離近到遠');
   const [isOpen, setIsOpen] = useState('全部');
   const [isMeal, setIsMeal] = useState('正餐');
@@ -74,16 +74,12 @@ const SearchRes = () => {
         <View style={styles.isMealButtonsContainer}>
           <TouchableOpacity
             style={[styles.isMealButton, isMeal === '正餐' ? styles.activeIsMealButton : null]}
-            onPress={() => setIsMeal('正餐')}
-          >
-            <Text style={[styles.isMealButtonText, isMeal === '正餐' ? styles.activeIsMealButtonText : null]}>正餐</Text>
-          </TouchableOpacity>
+            onPress={() => setIsMeal('正餐')}>
+            <Text style={[styles.isMealButtonText, isMeal === '正餐' ? styles.activeIsMealButtonText : null]}>正餐</Text></TouchableOpacity>
           <TouchableOpacity
             style={[styles.isMealButton, isMeal === '非正餐' ? styles.activeIsMealButton : null]}
-            onPress={() => setIsMeal('非正餐')}
-          >
-            <Text style={[styles.isMealButtonText, isMeal === '非正餐' ? styles.activeIsMealButtonText : null]}>非正餐</Text>
-          </TouchableOpacity>
+            onPress={() => setIsMeal('非正餐')}>
+            <Text style={[styles.isMealButtonText, isMeal === '非正餐' ? styles.activeIsMealButtonText : null]}>非正餐</Text></TouchableOpacity>
         </View>
       </View>
       <View style={styles.optionContainer}>
@@ -93,8 +89,7 @@ const SearchRes = () => {
             selectedValue={category}
             onValueChange={value => setCategory(value)}
             mode="dropdown"
-            style={styles.picker}
-          >
+            style={styles.picker}>
             {['全部', '飲料', '早餐', '中式', '炸物', '便當', '蛋餅', '麵', '咖啡'].map(option => (
               <Picker.Item key={option} label={option} value={option} />
             ))}
