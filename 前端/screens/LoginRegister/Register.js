@@ -3,6 +3,8 @@ import { SafeAreaView ,TouchableOpacity,Button,TouchableWithoutFeedback,Keyboard
 import { globalStyles } from '../../styles/global';
 import { useState } from "react";
 import Login from "./Login";
+import bcrypt from 'bcryptjs';
+//npm install bcryptjs
 export default function Register({navigation}) {
   const [username, setUsername] = useState('');
   const [gender, setGender] = useState(1);
@@ -19,18 +21,23 @@ export default function Register({navigation}) {
       setGender(0);
     }
   };
-  const handleRegister = () => {
-    const data = {
-      username: username,
-      gender: gender,
-      birthday: birthday,
-      phone_number: phone_number,
-      address: address,
-      email: email,
-      password: password,
-      verify_password:verify_password
-    };
-
+  const handleRegister = async () => {
+    try {
+      //const hashedPassword = await bcrypt.hash(password, 10); // 做hash
+      //const hashedVerifyPassword = await bcrypt.hash(verify_password, 10); // 做hash
+  
+      const data = {
+        username: username,
+        gender: gender,
+        birthday: birthday,
+        phone_number: phone_number,
+        address: address,
+        email: email,
+        password: password,//hashedPassword
+        verify_password: verify_password//hashedVerifyPassword
+      };
+      //console.log(password);
+      
     // 使用fetch或axios進行POST請求，將data送至後端API
     fetch('http://192.168.0.3:8000/api/Register/', {
       method: 'POST',
@@ -55,7 +62,10 @@ export default function Register({navigation}) {
     .catch(error => {
       console.error(error);
     });
-    
+
+  } catch (error) {
+    console.error('Error hashing password:', error);
+  }
   };
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
