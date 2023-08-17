@@ -5,14 +5,33 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Picker } from '@react-native-picker/picker';
 import Slider from '@react-native-community/slider';
 import { globalStyles } from '../../styles/global';
+import { DUMMY_DATA } from '../../data/dummy';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { Feather } from '@expo/vector-icons';
+import SearchFilter from '../../component/SearchFilter';
+const fixedRestaurants = [
+  '蘇媽媽湯圓', '一燒丼燒肉專賣店', '肯德基 南投埔里餐廳', '藝鍋物-埔里店', '鍋去啃 南投埔里店',
+  '食神滷味-埔里中山店', '第七家餐廳', '第八家餐廳', '第九家餐廳', '第十家餐廳'
+];
 export default function AddCash() {
   const [currentDate, setCurrentDate] = useState("");
-  const [Name, SetName] = useState("");
+  //const [Name, SetName] = useState("");
   const [Class, SetClass] = useState(0);
   const [Price, SetPrice] = useState("");
   const [Rating, SetRating] = useState(5.0);
   const [MyText, SetMyText] = useState("");
-  const navigation = useNavigation();
+
+  const [Name, SetName] = useState(''); // 添加 Name 状态
+
+  const [Input,SetInput] = useState('');
+  //const [shouldRender, setShouldRender] = useState(false);
+  console.log(Input)
+  const handleInputUpdate = (newInput) => {
+    SetInput(newInput);
+    //setShouldRender(true);
+  };
+  
+
   useEffect(() => {
     const now = new Date();// 獲取當前時間
     const formattedDate = `${now.getFullYear()} 年 ${now.getMonth() + 1} 月 ${now.getDate()} 日 ${getDayOfWeek(now.getDay())}`;
@@ -34,13 +53,27 @@ export default function AddCash() {
       SetClass(3);
     }
   };
-
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
     <SafeAreaView style={styles.container}>
         <View>
           <View style={styles.title}><Text style={{fontSize:20}}>{currentDate}</Text></View>
-          <TextInput style={styles.res} onChangeText={SetName} value={Name} placeholder='店家輸入'/>
+
+          
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+  <Feather name="search" size={20} color="black" style={{ marginLeft: 4,marginTop:10, marginRight: 4 }} />
+  <TextInput
+    value={Input}
+    onChangeText={(text) => SetInput(text)}
+    style={styles.res}
+    placeholder="請輸入完整店名"
+  />
+</View>
+
+{Input !== '' && <SearchFilter data={DUMMY_DATA} input={Input} SetInput={handleInputUpdate} />}
+
+
+
           <View style={styles.class}>
               <TouchableOpacity 
                   style={[styles.button, Class === 0 && styles.activeButton]}
@@ -139,6 +172,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom:10,
     marginTop:20,
+    flex:1
   },
   class:{
     padding:10,
@@ -218,7 +252,7 @@ const styles = StyleSheet.create({
   TextLine:{
     fontSize:20, 
     flex: 2, 
-    height:80,
+    height:50,
     padding:10,
   },
   bottom: {
@@ -226,5 +260,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between', 
     padding: 20
+  },
+  clearButton: {
+    backgroundColor: 'lightblue',
+    padding: 5,
+    borderRadius: 5,
   },
 });
