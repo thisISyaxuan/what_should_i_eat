@@ -4,12 +4,18 @@ import Slider from '@react-native-community/slider';
 import { Picker } from '@react-native-picker/picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from "@react-navigation/native";
+import { Switch } from 'react-native-gesture-handler';
 
 const SearchRes = () => {
-  //const [radius, setRadius] = useState(1);
-  //const [rating, setRating] = useState({ min: 0.0, max: 5.0 });
-  //const [reviewCount, setReviewCount] = useState(0);
-  const [sortOption, setSortOption] = useState('距離近到遠');
+  const [selectedSortOptions, setSelectedSortOptions] = useState(['距離近到遠']);
+  const handleSortOptionToggle = (option) => {
+    if (selectedSortOptions.includes(option)) {
+      setSelectedSortOptions(selectedSortOptions.filter(item => item !== option));
+    } else {
+      setSelectedSortOptions([...selectedSortOptions, option]);
+    }
+  };
+
   const [isOpen, setIsOpen] = useState('全部');
   const [isMeal, setIsMeal] = useState('正餐');
   const [category, setCategory] = useState('全部');
@@ -17,41 +23,32 @@ const SearchRes = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-    {/*
-      <View style={styles.optionContainer}>
-        <Text style={styles.optionTitle}>搜尋半徑</Text>
-        <View style={styles.sliderContainer}>
-          <Slider
-            style={styles.slider}
-            minimumValue={1}
-            maximumValue={10}
-            step={1}
-            value={radius}
-            onValueChange={value => setRadius(value)}
-            minimumTrackTintColor="#F6D58A" 
-            maximumTrackTintColor="gray" 
-            thumbTintColor="#F6D56E"
-          />
-          <Text style={styles.sliderValue}>{radius} 公里</Text>
-        </View>
-      </View>
-      */}
       <View style={styles.optionContainer}>
         <Text style={styles.optionTitle}>排序方式</Text>
-        <View style={styles.sortButtonsContainer}>
-          {['距離近到遠', '評分高到低'].map(option => (
-            <TouchableOpacity
-              key={option}
-              style={[styles.sortButton, option === sortOption ? styles.activeSortButton : null]}
-              onPress={() => setSortOption(option)}
-            >
-              <Text style={[styles.sortButtonText, option === sortOption ? styles.activeSortButtonText : null]}>
-                {option}
-              </Text>
-            </TouchableOpacity>
-          ))}
+        <View style={styles.isOpenButtonsContainer}>
+          <View style={styles.switcho}>
+            <Switch
+              value={selectedSortOptions.includes('距離近到遠')}
+              onValueChange={() => handleSortOptionToggle('距離近到遠')}
+              trackColor={{ false: 'gray', true: '#338168' }} //顏色
+              style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
+            />
+            <Text style={styles.sortButtonText}> 距離近到遠</Text>
+          </View>
+          
+          <View style={styles.switcho}>
+            <Switch
+              value={selectedSortOptions.includes('評分高到低')}
+              onValueChange={() => handleSortOptionToggle('評分高到低')}
+              trackColor={{ false: 'gray', true: '#338168' }} //顏色
+              style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
+            />
+            <Text style={styles.sortButtonText}> 評分高到低</Text>
+          </View>
         </View>
-      </View>
+        </View>
+
+
       <View style={styles.optionContainer}>
         <Text style={styles.optionTitle}>營業時間</Text>
         <View style={styles.isOpenButtonsContainer}>
@@ -108,14 +105,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-  button: {
-    backgroundColor: 'transparent',
-    padding: 10,
-  },
-  buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'black',
+  switcho:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding:10,
+
   },
   optionContainer: {
     marginBottom: 20,
@@ -123,21 +117,6 @@ const styles = StyleSheet.create({
   optionTitle: {
     fontSize: 16,
     marginBottom: 10,
-  },
-  sliderContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
- 
-  },
-  slider: {
-    flex: 1,
-    height: 40,
-
-  },
-  sliderValue: {
-    textAlign: 'center',
-    marginTop: 5,
-    fontSize: 14,
   },
   sortButtonsContainer: {
     flexDirection: 'row',

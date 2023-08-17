@@ -1,18 +1,20 @@
 import {StyleSheet, Text,TextInput, View,TouchableOpacity,Modal,SafeAreaView,TouchableWithoutFeedback,Keyboard} from 'react-native';
-import { globalStyles } from '../../styles/global';
 import React, {useEffect, useState} from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { NavigationContainer } from '@react-navigation/native';
-
+import { useNavigation } from "@react-navigation/native";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Picker } from '@react-native-picker/picker';
+import Slider from '@react-native-community/slider';
+import { globalStyles } from '../../styles/global';
 export default function AddCash() {
-  const [Price, SetPrice] = useState("");
+  const [currentDate, setCurrentDate] = useState("");
   const [Name, SetName] = useState("");
-  const [Class, SetClass] = useState("");
-  const [Rating, SetRating] = useState("");
-  const [currentDate, setCurrentDate] = useState('');
+  const [Class, SetClass] = useState(0);
+  const [Price, SetPrice] = useState("");
+  const [Rating, SetRating] = useState(5.0);
+  const [MyText, SetMyText] = useState("");
+  const navigation = useNavigation();
   useEffect(() => {
-    // 獲取當前時間
-    const now = new Date();
+    const now = new Date();// 獲取當前時間
     const formattedDate = `${now.getFullYear()} 年 ${now.getMonth() + 1} 月 ${now.getDate()} 日 ${getDayOfWeek(now.getDay())}`;
     setCurrentDate(formattedDate);
   }, []);
@@ -21,66 +23,98 @@ export default function AddCash() {
     const daysOfWeek = ['週日', '週一', '週二', '週三', '週四', '週五', '週六'];
     return daysOfWeek[dayIndex];
   };
+  const handleClassSelection = (selectedClass) => {
+    if (selectedClass === '早餐') {
+      SetClass(0);
+    } else if (selectedClass === '午餐') {
+      SetClass(1);
+    }else if (selectedClass === '晚餐') {
+      SetClass(2);
+    }else if (selectedClass === '其他') {
+      SetClass(3);
+    }
+  };
+
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
     <SafeAreaView style={styles.container}>
         <View>
           <View style={styles.title}><Text style={{fontSize:20}}>{currentDate}</Text></View>
+          <TextInput style={styles.res} onChangeText={SetName} value={Name} placeholder='店家輸入'/>
+          <View style={styles.class}>
+              <TouchableOpacity 
+                  style={[styles.button, Class === 0 && styles.activeButton]}
+                  onPress={() => handleClassSelection("早餐")}>
+              <Text style={[styles.buttonText, Class === '早餐' && styles.activeButtonText]}>早餐</Text></TouchableOpacity>
 
-      <View style={styles.input}>
-        <Text style={{fontSize:20, flex: 2}}>金額</Text>
-        <TextInput style={{fontSize:20, flex: 2, textAlign: 'right' }}
+              <TouchableOpacity
+                  style={[styles.button, Class === 1 && styles.activeButton]}
+                  onPress={() => handleClassSelection("午餐")}>
+              <Text style={[styles.buttonText, Class === '午餐' && styles.activeButtonText]}>午餐</Text></TouchableOpacity>
+
+              <TouchableOpacity
+                  style={[styles.button, Class === 2 && styles.activeButton]}
+                  onPress={() => handleClassSelection("晚餐")}>
+              <Text style={[styles.buttonText, Class === '晚餐' && styles.activeButtonText]}>晚餐</Text></TouchableOpacity>
+
+              <TouchableOpacity
+                  style={[styles.button, Class === 3 && styles.activeButton]}
+                  onPress={() => handleClassSelection("其他")}>
+              <Text style={[styles.buttonText, Class === '其他' && styles.activeButtonText]}>其他</Text></TouchableOpacity>
+          </View>
+      <View style={styles.dollar}>
+        <Icon name="dollar" size={20} color={'#F6D58A'} />
+        <Text style={{fontSize:20}}>  金額:  </Text>
+        <TextInput style={styles.dollarInput}
           onChangeText={SetPrice}
           value={Price}
           placeholder='金額輸入'
+          keyboardType='numeric'
         />
       </View>  
 
-      <View style={styles.input}>
-        <Text style={{fontSize:20, flex: 2}}>店家</Text>
-        <TextInput style={{fontSize:20, flex: 2, textAlign: 'right' }}
-          onChangeText={SetPrice}
-          value={Price}
-          placeholder='店家輸入'
-        />
-      </View>  
-
-      <View style={styles.input}>
-        <Text style={{fontSize:20, flex: 2}}>類別</Text>
-        <TextInput style={{fontSize:20, flex: 2, textAlign: 'right' }}
-          onChangeText={SetPrice}
-          value={Price}
-          placeholder='類別輸入'
-        />
-      </View>  
-
-      <View style={styles.input}>
-        <Text style={{fontSize:20, flex: 2}}>評價</Text>
-        <TextInput style={{fontSize:20, flex: 2, textAlign: 'right' }}
-          onChangeText={SetPrice}
-          value={Price}
-          placeholder='評價輸入'
-        />
-      </View>  
-
-      <TextInput style={{fontSize:20, alignSelf: 'flex-start'}}
-          onChangeText={SetPrice}
-          value={Price}
-          placeholder='寫點備註吧'
-        />
-
-      <View style={styles.bottom}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 20}}>
-        <TouchableOpacity style={styles.ButtonR}>
-          <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}}>清空</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.ButtonL}>
-          <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}}>儲存</Text>
-        </TouchableOpacity>
+        
+      <View style={styles.OO}>
+      <View style={styles.MyStar}>
+        <Icon name="star" size={20} color={'#F6D58A'} />
+        <Text style={{fontSize:20}}> 評價:  </Text>
+        </View>
+        
+        <View style={styles.sliderContainer}>
+          <Slider
+            style={styles.slider}
+            minimumValue={0}
+            maximumValue={5}
+            step={0.1}
+            value={Rating}
+            onValueChange={value => SetRating(value)}
+            minimumTrackTintColor="#F6D58A" 
+            maximumTrackTintColor="gray" 
+            thumbTintColor="#F6D56E"/>
+          <Text style={styles.sliderValue}>{Rating.toFixed(1)} 顆星</Text>
         </View>
       </View>
+
+
+
+      <View style={styles.Textinput}>
+        <View style={styles.Textlabel}>
+          <Icon name="file-text" size={20} color={'#F6D58A'} />
+          <Text style={{fontSize:20}}> 備註欄: </Text>
         </View>
+        <TextInput style={styles.TextLine}
+          onChangeText={SetMyText}
+          value={MyText}
+          placeholder='說點什麼吧!'
+          multiline={true}
+        />
+      </View>  
+
+      <View style={styles.bottom}>
+        <TouchableOpacity style={globalStyles.RedBtn}><Text style={globalStyles.BtnText}>清空</Text></TouchableOpacity>
+        <TouchableOpacity style={globalStyles.GreenBtn}><Text style={globalStyles.BtnText}>儲存</Text></TouchableOpacity>
+      </View>
+    </View>
     </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -94,36 +128,103 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
   },
-  title: {
-    padding: 10,
+  title:{
+    padding:10,
     alignItems: 'center',
   },
-  input: {
-    borderBottomWidth:1, borderBottomColor:'gray',
+  res:{
+    padding:10,
+    borderRadius: 50,
+    borderWidth:1,
     alignItems: 'center',
-    justifyContent: 'space-between',
+    marginBottom:10,
+    marginTop:20,
+  },
+  class:{
+    padding:10,
+    justifyContent: 'center',
     flexDirection: 'row',
+  },
+  button: {
+    padding: 15,
+    borderRadius: 35,
+    borderWidth: 1,
+    borderColor: '#DAD9D6',
+    backgroundColor: '#EFEEEC',
+    marginRight: 10,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: 'black',
+  },
+  activeButton: {
+    backgroundColor: '#F6D58A',
+    borderColor: '#F6D58A',
+  },
+  activeButtonText: {
+    color: 'white',
+  },
+  dollar:{
+    padding:10,
+    height: 80,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  dollarInput:{
+    borderBottomWidth:1, 
+    borderBottomColor:'#EFEEEC',
+    padding:10,
+    fontSize: 20,
+    width: 150,
+  },
+  OO:{
+    padding:10,
     height: 50,
-  },  
-  bottom: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom:20,
+  },
+  MyStar: {
+    flexDirection: 'row',
+    flex:1,
+  },
+  sliderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex:3,
+  },
+  slider: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignContent: 'space-between'
+    height: 40,
   },
-  ButtonL: {
-    justifyContent: 'center',
-    padding: 10,
-    width: '45%',
-    height: 60,
-    backgroundColor: '#338168',
-    borderRadius: 20
+  sliderValue: {
+    textAlign: 'center',
+    marginTop: 5,
+    fontSize: 14,
   },
-  ButtonR: {
-    justifyContent: 'center',
-    padding: 10,
-    width: '45%',
-    height: 60,
-    borderRadius: 20,
-    backgroundColor: '#C13E27',
-  }
+  Textinput: {
+    padding:10,
+    borderTopWidth:1, 
+    borderBottomWidth:1, 
+    borderTopColor:'#EFEEEC',
+    borderBottomColor:'#EFEEEC',
+    flexDirection: 'column',
+    height: 250,
+  }, 
+  Textlabel:{
+    flexDirection: 'row',
+    marginBottom:20,
+  },
+  TextLine:{
+    fontSize:20, 
+    flex: 2, 
+    height:80,
+    padding:10,
+  },
+  bottom: {
+    marginBottom:10,
+    flexDirection: 'row',
+    justifyContent: 'space-between', 
+    padding: 20
+  },
 });
