@@ -25,7 +25,7 @@ export default function AddCash() {
 
   const [Input,SetInput] = useState('');
   //const [shouldRender, setShouldRender] = useState(false);
-  console.log(Input)
+  //console.log(Input)
   const handleInputUpdate = (newInput) => {
     SetInput(newInput);
     //setShouldRender(true);

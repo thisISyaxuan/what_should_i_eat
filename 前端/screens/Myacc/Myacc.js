@@ -7,7 +7,9 @@ export default function Myacc() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={[styles.rowContainer]}>
-        <View style={styles.circle}><Image style={{width:100,resizeMode:'contain'}} source={require("../../assets/images/logos/selfie.png")}/></View>
+        <View style={styles.circle}>
+          <Image style={styles.pic} source={require("../../assets/images/baby/baby0/90.png")}/>
+        </View>
         <View><Text >用戶名稱</Text><Text >Email</Text></View>
       </View>
 
@@ -55,6 +57,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
+  },
+  pic:{
+    width:92,
+    height:92,
+    resizeMode:'contain',
   },
   infoCol: {
     marginBottom: 5,
