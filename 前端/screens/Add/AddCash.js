@@ -1,48 +1,35 @@
 import {StyleSheet, Text,TextInput, View,TouchableOpacity,Modal,SafeAreaView,TouchableWithoutFeedback,Keyboard} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import { useNavigation } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Picker } from '@react-native-picker/picker';
 import Slider from '@react-native-community/slider';
 import { globalStyles } from '../../styles/global';
 import { DUMMY_DATA } from '../../data/dummy';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import SearchFilter from '../../component/SearchFilter';
-const fixedRestaurants = [
-  '蘇媽媽湯圓', '一燒丼燒肉專賣店', '肯德基 南投埔里餐廳', '藝鍋物-埔里店', '鍋去啃 南投埔里店',
-  '食神滷味-埔里中山店', '第七家餐廳', '第八家餐廳', '第九家餐廳', '第十家餐廳'
-];
+
 export default function AddCash() {
   const [currentDate, setCurrentDate] = useState("");
-  //const [Name, SetName] = useState("");
   const [Class, SetClass] = useState(0);
   const [Price, SetPrice] = useState("");
   const [Rating, SetRating] = useState(5.0);
   const [MyText, SetMyText] = useState("");
-
-  const [Name, SetName] = useState(''); // 添加 Name 状态
-
   const [Input,SetInput] = useState('');
-  //const [shouldRender, setShouldRender] = useState(false);
-  //console.log(Input)
-  const handleInputUpdate = (newInput) => {
-    SetInput(newInput);
-    //setShouldRender(true);
-  };
-  
 
-  useEffect(() => {
+  useEffect(() => {//當前時間
     const now = new Date();// 獲取當前時間
     const formattedDate = `${now.getFullYear()} 年 ${now.getMonth() + 1} 月 ${now.getDate()} 日 ${getDayOfWeek(now.getDay())}`;
     setCurrentDate(formattedDate);
   }, []);
-
-  const getDayOfWeek = (dayIndex) => {
+  const getDayOfWeek = (dayIndex) => {//顯示出來
     const daysOfWeek = ['週日', '週一', '週二', '週三', '週四', '週五', '週六'];
     return daysOfWeek[dayIndex];
   };
-  const handleClassSelection = (selectedClass) => {
+
+  const handleInputUpdate = (newInput) => {//每次改變輸入文字都要更新SetInput
+    SetInput(newInput);
+  };
+
+  const handleClassSelection = (selectedClass) => {//類別
     if (selectedClass === '早餐') {
       SetClass(0);
     } else if (selectedClass === '午餐') {
@@ -52,106 +39,107 @@ export default function AddCash() {
     }else if (selectedClass === '其他') {
       SetClass(3);
     }
+  }
+  const ClearAllData=() => {
+    SetClass(0);
+    SetPrice("");
+    SetRating(5.0);
+    SetMyText("");
+    SetInput("");
+  }
+  
+  const handleAddMoney = () => {//送出表單
+    console.log('1.改api網址2.把我刪掉')
+    /*
+      const data = {
+        ResName: Input,//店名
+        VisitDate: currentDate,//日期
+        Class: Class,//類別(是數字0~3)
+        Price: Price,//價錢
+        Rating: Rating,//評分(小數點)
+        Mytext: MyText,//(備註)
+      };
+      try {
+        fetch('http://192.168.0.3:8000/api/AddCash/', {
+          //改成api連結
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(responseData => {
+            // 處理後端回傳的資料，印成功或失敗
+            console.log(responseData);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+      } catch (error) {
+        console.error('Error ', error);
+      }*/
   };
+
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
     <SafeAreaView style={styles.container}>
         <View>
           <View style={styles.title}><Text style={{fontSize:20}}>{currentDate}</Text></View>
-
-          
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-  <Feather name="search" size={20} color="black" style={{ marginLeft: 4,marginTop:10, marginRight: 4 }} />
-  <TextInput
-    value={Input}
-    onChangeText={(text) => SetInput(text)}
-    style={styles.res}
-    placeholder="請輸入完整店名"
-  />
-</View>
-
-{Input !== '' && <SearchFilter data={DUMMY_DATA} input={Input} SetInput={handleInputUpdate} />}
-
-
-
+            <Feather name="search" size={20} color="black" style={{ marginLeft: 4,marginTop:10, marginRight: 4 }} />
+            <TextInput value={Input} onChangeText={(text) => SetInput(text)} style={styles.res} placeholder="請輸入完整店名"/>
+          </View>
+          {Input !== '' && <SearchFilter data={DUMMY_DATA} input={Input} SetInput={handleInputUpdate} />}
+             
           <View style={styles.class}>
-              <TouchableOpacity 
-                  style={[styles.button, Class === 0 && styles.activeButton]}
-                  onPress={() => handleClassSelection("早餐")}>
+              <TouchableOpacity style={[styles.button, Class === 0 && styles.activeButton]} onPress={() => handleClassSelection("早餐")}>
               <Text style={[styles.buttonText, Class === '早餐' && styles.activeButtonText]}>早餐</Text></TouchableOpacity>
-
-              <TouchableOpacity
-                  style={[styles.button, Class === 1 && styles.activeButton]}
-                  onPress={() => handleClassSelection("午餐")}>
+              <TouchableOpacity style={[styles.button, Class === 1 && styles.activeButton]} onPress={() => handleClassSelection("午餐")}>
               <Text style={[styles.buttonText, Class === '午餐' && styles.activeButtonText]}>午餐</Text></TouchableOpacity>
-
-              <TouchableOpacity
-                  style={[styles.button, Class === 2 && styles.activeButton]}
-                  onPress={() => handleClassSelection("晚餐")}>
+              <TouchableOpacity style={[styles.button, Class === 2 && styles.activeButton]} onPress={() => handleClassSelection("晚餐")}>
               <Text style={[styles.buttonText, Class === '晚餐' && styles.activeButtonText]}>晚餐</Text></TouchableOpacity>
-
-              <TouchableOpacity
-                  style={[styles.button, Class === 3 && styles.activeButton]}
-                  onPress={() => handleClassSelection("其他")}>
+              <TouchableOpacity style={[styles.button, Class === 3 && styles.activeButton]} onPress={() => handleClassSelection("其他")}>
               <Text style={[styles.buttonText, Class === '其他' && styles.activeButtonText]}>其他</Text></TouchableOpacity>
           </View>
-      <View style={styles.dollar}>
-        <Icon name="dollar" size={20} color={'#F6D58A'} />
-        <Text style={{fontSize:20}}>  金額:  </Text>
-        <TextInput style={styles.dollarInput}
-          onChangeText={SetPrice}
-          value={Price}
-          placeholder='金額輸入'
-          keyboardType='numeric'
-        />
-      </View>  
-
-        
-      <View style={styles.OO}>
-      <View style={styles.MyStar}>
-        <Icon name="star" size={20} color={'#F6D58A'} />
-        <Text style={{fontSize:20}}> 評價:  </Text>
+          
+          <View style={styles.dollar}>
+            <Icon name="dollar" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}>  金額:  </Text>
+            <TextInput style={styles.dollarInput} onChangeText={SetPrice} value={Price} placeholder='金額輸入' keyboardType='numeric'/></View>
+              
+          <View style={styles.OO}><View style={styles.MyStar}>
+              <Icon name="star" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}> 評價:  </Text></View>
+          
+          <View style={styles.sliderContainer}>
+            <Slider
+              style={styles.slider}
+              minimumValue={0}
+              maximumValue={5}
+              step={0.1}
+              value={Rating}
+              onValueChange={value => SetRating(value)}
+              minimumTrackTintColor="#F6D58A" 
+              maximumTrackTintColor="gray" 
+              thumbTintColor="#F6D56E"/>
+            <Text style={styles.sliderValue}>{Rating.toFixed(1)} 顆星</Text>
+          </View>
         </View>
         
-        <View style={styles.sliderContainer}>
-          <Slider
-            style={styles.slider}
-            minimumValue={0}
-            maximumValue={5}
-            step={0.1}
-            value={Rating}
-            onValueChange={value => SetRating(value)}
-            minimumTrackTintColor="#F6D58A" 
-            maximumTrackTintColor="gray" 
-            thumbTintColor="#F6D56E"/>
-          <Text style={styles.sliderValue}>{Rating.toFixed(1)} 顆星</Text>
-        </View>
-      </View>
-
-
-
-      <View style={styles.Textinput}>
-        <View style={styles.Textlabel}>
-          <Icon name="file-text" size={20} color={'#F6D58A'} />
-          <Text style={{fontSize:20}}> 備註欄: </Text>
-        </View>
-        <TextInput style={styles.TextLine}
-          onChangeText={SetMyText}
-          value={MyText}
-          placeholder='說點什麼吧!'
-          multiline={true}
-        />
-      </View>  
-
-      <View style={styles.bottom}>
-        <TouchableOpacity style={globalStyles.RedBtn}><Text style={globalStyles.BtnText}>清空</Text></TouchableOpacity>
-        <TouchableOpacity style={globalStyles.GreenBtn}><Text style={globalStyles.BtnText}>儲存</Text></TouchableOpacity>
+        <View style={styles.Textinput}>
+          <View style={styles.Textlabel}>
+            <Icon name="file-text" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}> 備註欄: </Text></View>
+            <TextInput style={styles.TextLine} onChangeText={SetMyText} value={MyText} placeholder='說點什麼吧!' multiline={true}/>
+        </View>  
+        
+        <View style={styles.bottom}>
+        <TouchableOpacity style={globalStyles.RedBtn} onPress={ClearAllData}><Text style={globalStyles.BtnText}>清空</Text></TouchableOpacity>
+        <TouchableOpacity style={globalStyles.GreenBtn} onPress={handleAddMoney}><Text style={globalStyles.BtnText}>儲存</Text></TouchableOpacity>
       </View>
     </View>
     </SafeAreaView>
     </TouchableWithoutFeedback>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
