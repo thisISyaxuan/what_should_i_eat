@@ -7,14 +7,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function Login({navigation}) {
   const [username,setUsername] = useState('');
   const [password,setPassword] = useState('');
-  
+  const [userToken, setUserToken] = useState(null);
+
   const handleLogin = () => {
     const data = {
       username: username,
       password: password
     };
-
-    
     // 使用fetch axios進行POST請求，將data送至後端API
     fetch('http://192.168.0.2:8000/api/Login/', {//改成api連結
       method: 'POST',
@@ -29,12 +28,13 @@ export default function Login({navigation}) {
       console.log(responseData);
       // 導航到其他畫面
       if (responseData.success === true) {
-        // 儲存後端返回的 token
         AsyncStorage.setItem('userToken', responseData.token)
         .then(() => {
           // 儲存成功後的處理
-          // 導航到其他畫面
-          navigation.navigate('ButtomTabStack'); // 假設是導航到主頁面
+          setUserToken(responseData.token); // 設置用户 token
+
+          // 導航到其他畫面，同时將 token 作為參數傳遞
+          navigation.navigate('ButtomTabStack', { userToken: responseData.token });
         })
         .catch(error => {
           console.error('Error saving token:', error);
@@ -48,12 +48,10 @@ export default function Login({navigation}) {
       console.error(error);
     });
   };
-  
-  
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
     <SafeAreaView style={styles.container}>
-      
+
       <View style={styles.content}>
       <Text style={styles.h2text}> 歡迎使用! </Text>
 
@@ -72,7 +70,7 @@ export default function Login({navigation}) {
         <Text>忘記密碼嗎?</Text>
       </TouchableOpacity>
       <Text>{'\n'}</Text>
-      
+
       <View style={globalStyles.Btn}>
       <TouchableOpacity style={globalStyles.YellowBtn} onPress={() => navigation.navigate('Register')}>
         <Text style={globalStyles.BtnText}>註冊</Text>
@@ -82,10 +80,10 @@ export default function Login({navigation}) {
       </TouchableOpacity>
       </View>
       </View>
-      
+
     </SafeAreaView>
     </TouchableWithoutFeedback>
-    
+
   );
 }
 
@@ -102,12 +100,12 @@ const styles = StyleSheet.create({
     padding:8,
     fontSize:30,
   },
-  
+
   content:{
     marginTop:20,
   },
   button:{
     marginLeft: 'auto',
   },
-  
+
 });
