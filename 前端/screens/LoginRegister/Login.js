@@ -1,8 +1,8 @@
+//第74行 onPress={handleLogin()}
+//第16行註解拿掉
 import { startTransition, useState } from "react";
 import { StyleSheet, TextInput, Text, View ,SafeAreaView ,TouchableOpacity,TouchableWithoutFeedback,Keyboard,Button} from "react-native";
 import { globalStyles } from '../../styles/global';
-import CustomInput from "../../customComponent/customInput";
-import CustomButton from "../../customComponent/customButton";
 export default function Login({navigation}) {
   const [username,setUsername] = useState('');
   const [password,setPassword] = useState('');
@@ -14,7 +14,6 @@ export default function Login({navigation}) {
     };
 
     /*
-
     // 使用fetch axios進行POST請求，將data送至後端API
     fetch('http://192.168.0.3:8000/api/Login/', {//改成api連結
       method: 'POST',

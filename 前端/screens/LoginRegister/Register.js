@@ -2,10 +2,7 @@ import { StyleSheet, Text, View ,TextInput} from "react-native";
 import { SafeAreaView ,TouchableOpacity,Button,TouchableWithoutFeedback,Keyboard} from "react-native";
 import { globalStyles } from '../../styles/global';
 import { useState } from "react";
-import Login from "./Login";
 import { Switch } from "react-native-gesture-handler";
-//import bcrypt from 'bcryptjs';
-//npm install bcryptjs
 export default function Register({navigation}) {
   const [username, setUsername] = useState('');
   const [gender, setGender] = useState(1);
@@ -20,14 +17,6 @@ export default function Register({navigation}) {
   const handleSwitchToggle = () => {
     setIsChecked(!isChecked);
   };
-
-  const handleSendPress = () => {
-    if (isChecked) {
-      console.log('OK');
-    } else {
-      console.log('請勾選');
-    }
-  };
   const handleGenderSelection = (selectedGender) => {
     if (selectedGender === '男生') {
       setGender(1);
@@ -37,9 +26,6 @@ export default function Register({navigation}) {
   };
   const handleRegister = async () => {
     try {
-      //const hashedPassword = await bcrypt.hash(password, 10); // 做hash
-      //const hashedVerifyPassword = await bcrypt.hash(verify_password, 10); // 做hash
-  
       const data = {
         username: username,
         gender: gender,
@@ -47,39 +33,34 @@ export default function Register({navigation}) {
         phone_number: phone_number,
         address: address,
         email: email,
-        password: password,//hashedPassword
-        verify_password: verify_password//hashedVerifyPassword
+        password: password,
+        verify_password: verify_password
       };
-      //console.log(password);
-      
-    // 使用fetch或axios進行POST請求，將data送至後端API
-    fetch('http://192.168.0.3:8000/api/Register/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'//用jsont傳
-      },
-      body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(responseData => {// 處理後端回傳的資料
+  
+      // 使用fetch或axios進行POST請求，將data送至後端API
+      const response = await fetch('http://192.168.0.3:8000/api/Register/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'//用json傳
+        },
+        body: JSON.stringify(data)
+      });
+  
+      const responseData = await response.json();
+  
+      // 處理後端回傳的資料
       if (responseData.success === true) {
         // 儲存後端返回的 token
-        AsyncStorage.setItem('userToken', responseData.token);
-      
+        await AsyncStorage.setItem('userToken', responseData.token);
         // 導航到其他畫面
         navigation.navigate('Login'); // 假設是導航到主頁面
       } else {
         // 如果success為false，可能是註冊失敗，做相應處理
         console.log('註冊失敗');
       }
-    })
-    .catch(error => {
-      console.error(error);
-    });
-
-  } catch (error) {
-    console.error('Error hashing password:', error);
-  }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
@@ -199,8 +180,6 @@ const styles = StyleSheet.create({
   },
   Btn: {
     flexDirection: 'row',
-    //justifyContent: 'flex-end',
-    //alignItems: 'center',
   },
   button: {
     padding: 8,

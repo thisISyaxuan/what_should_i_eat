@@ -1,3 +1,6 @@
+//第13行userToken註解拿掉
+//第55行註解拿掉
+//第67行改api
 import {StyleSheet, Text,TextInput, View,TouchableOpacity,Modal,SafeAreaView,TouchableWithoutFeedback,Keyboard} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -7,7 +10,9 @@ import { DUMMY_DATA } from '../../data/dummy';
 import { Feather } from '@expo/vector-icons';
 import SearchFilter from '../../component/SearchFilter';
 
-export default function AddCash() {
+export default function AddCash({screenProps}) {
+  //const {userToken} = screenProps;//user的token
+
   const [currentDate, setCurrentDate] = useState("");
   const [Class, SetClass] = useState(0);
   const [Price, SetPrice] = useState("");
@@ -47,38 +52,34 @@ export default function AddCash() {
     SetMyText("");
     SetInput("");
   }
-  
-  const handleAddMoney = () => {//送出表單
-    console.log('1.改api網址2.把我刪掉')
+  const handleAddMoney = async () => {//送出表單
     /*
-      const data = {
-        ResName: Input,//店名
-        VisitDate: currentDate,//日期
-        Class: Class,//類別(是數字0~3)
-        Price: Price,//價錢
-        Rating: Rating,//評分(小數點)
-        Mytext: MyText,//(備註)
-      };
-      try {
-        fetch('http://192.168.0.3:8000/api/AddCash/', {
-          //改成api連結
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(responseData => {
-            // 處理後端回傳的資料，印成功或失敗
-            console.log(responseData);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-      } catch (error) {
-        console.error('Error ', error);
-      }*/
+        try {
+          const data = {
+            resName: Input,//店名
+            visitDate: currentDate,//日期
+            which_meal: Class,//類別(是數字0~3)
+            price: Price,//價錢
+            rating: Rating,//評分(小數點)
+            mytext: MyText,//(備註)
+          };
+      
+          const response = await fetch('http://192.168.0.3:8000/api/AddCash/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${userToken}`, // 添加 Token 到 Header
+            },
+            body: JSON.stringify(data),
+          });
+      
+          const responseData = await response.json();
+          console.log(responseData); // 處理後端回傳的資料
+        } catch (error) {
+          console.error('Error sending request:', error);
+        }
+        */
+      
   };
 
   return (
