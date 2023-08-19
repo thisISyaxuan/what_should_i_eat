@@ -38,7 +38,7 @@ export default function Register({navigation}) {
       };
   
       // 使用fetch或axios進行POST請求，將data送至後端API
-      const response = await fetch('http://192.168.0.3:8000/api/Register/', {
+      const response = await fetch('http://192.168.0.2:8000/api/Register/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'//用json傳
@@ -47,11 +47,9 @@ export default function Register({navigation}) {
       });
   
       const responseData = await response.json();
-  
+      
       // 處理後端回傳的資料
       if (responseData.success === true) {
-        // 儲存後端返回的 token
-        await AsyncStorage.setItem('userToken', responseData.token);
         // 導航到其他畫面
         navigation.navigate('Login'); // 假設是導航到主頁面
       } else {
