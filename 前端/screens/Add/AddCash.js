@@ -1,6 +1,7 @@
 //第13行userToken註解拿掉
 //第55行註解拿掉
 //第67行改api
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {StyleSheet, Text,TextInput, View,TouchableOpacity,Modal,SafeAreaView,TouchableWithoutFeedback,Keyboard} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -10,9 +11,9 @@ import { DUMMY_DATA } from '../../data/dummy';
 import { Feather } from '@expo/vector-icons';
 import SearchFilter from '../../component/SearchFilter';
 
-export default function AddCash({screenProps}) {
-  //const {userToken} = screenProps;//user的token
-
+export default function AddCash() {
+  // const {userToken} = screenProps;//user的token
+  const[senddate,setdate] = useState("");
   const [currentDate, setCurrentDate] = useState("");
   const [Class, SetClass] = useState(0);
   const [Price, SetPrice] = useState("");
@@ -23,7 +24,9 @@ export default function AddCash({screenProps}) {
   useEffect(() => {//當前時間
     const now = new Date();// 獲取當前時間
     const formattedDate = `${now.getFullYear()} 年 ${now.getMonth() + 1} 月 ${now.getDate()} 日 ${getDayOfWeek(now.getDay())}`;
+    const senddate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
     setCurrentDate(formattedDate);
+    setdate(senddate);
   }, []);
   const getDayOfWeek = (dayIndex) => {//顯示出來
     const daysOfWeek = ['週日', '週一', '週二', '週三', '週四', '週五', '週六'];
@@ -53,22 +56,23 @@ export default function AddCash({screenProps}) {
     SetInput("");
   }
   const handleAddMoney = async () => {//送出表單
-    /*
+    
         try {
+          const userToken = await AsyncStorage.getItem('userToken');
           const data = {
-            resName: Input,//店名
-            visitDate: currentDate,//日期
+            ResName: Input,//店名
+            date: senddate,//日期
             which_meal: Class,//類別(是數字0~3)
             price: Price,//價錢
-            rating: Rating,//評分(小數點)
-            mytext: MyText,//(備註)
+            rating: Rating.toFixed(1),
+            my_text: MyText,//(備註)
           };
       
-          const response = await fetch('http://192.168.0.3:8000/api/AddCash/', {
+          const response = await fetch('http://192.168.0.2:8000/account/cost/', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${userToken}`, // 添加 Token 到 Header
+              Authorization: `Token ${userToken}`, // 添加 Token 到 Header
             },
             body: JSON.stringify(data),
           });
@@ -78,7 +82,7 @@ export default function AddCash({screenProps}) {
         } catch (error) {
           console.error('Error sending request:', error);
         }
-        */
+        
       
   };
 
