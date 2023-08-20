@@ -58,10 +58,10 @@ export default ResInfo = ({navigation}) =>{
         <View style={styles.bottom}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 10, top: -20}}>
             <TouchableOpacity style={styles.ButtonR}>
-                <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}}>錯誤回報</Text>
+                <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}} onPress={() => navigation.navigate("錯誤回報")}>錯誤回報</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.ButtonL}>
-                <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}}>查看菜單</Text>
+                <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}} onPress={() => navigation.navigate("菜單")}>查看菜單</Text>
             </TouchableOpacity>
             </View>
         </View>

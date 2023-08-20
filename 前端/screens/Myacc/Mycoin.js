@@ -1,116 +1,69 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, ScrollView } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-
-const Tab = createMaterialTopTabNavigator();
+import { View,SafeAreaView, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons"; // Import the desired icon from the library
+import React from "react";
 
 export default function TodayTasks() {
   const navigation = useNavigation();
 
+  // Define tasks for the page
+  const tasks = [{ name: "任務 1", coins: 10 }, { name: "任務 2", coins: 20 }];
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.backButton}
-        >
+        {/* Adding the back button */}
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Icon name="arrow-back" size={24} color="#000000" />
         </TouchableOpacity>
 
         <Text style={styles.title}>今日任務</Text>
-
-        {/* Replace with your coin icon */}
-        <Icon name="coin" size={24} color="#000000" />
+        <View style={styles.coins}>
+          <Image source={require('../../assets/images/coin.png')} style={styles.coinIcon} />
+          <Text style={styles.coinsValue}>
+            {tasks.reduce((total, task) => total + task.coins, 0)}
+          </Text>
+        </View>
       </View>
 
-      <Tab.Navigator
-        screenOptions={{
-          tabBarLabelStyle: {
-            fontSize: 16,
-          },
-          tabBarStyle: {
-            backgroundColor: "#FFFACD",
-          },
-        }}
-      >
-        <Tab.Screen name="本日任務" component={DailyTasksScreen} />
-        <Tab.Screen name="本月任務" component={MonthlyTasksScreen} />
-        <Tab.Screen name="特別任務" component={SpecialTasksScreen} />
-      </Tab.Navigator>
-    </View>
+      <View style={styles.buttons}>
+        <TouchableOpacity style={styles.selectedButton} onPress={() => navigation.navigate('本日任務')}>
+          <Text style={styles.buttonText}>本日任務</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('本月任務')}>
+          <Text style={styles.buttonText}>本月任務</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('特別任務')}>
+          <Text style={styles.buttonText}>特別任務</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.tasks}>
+        {tasks.map((task, index) => (
+          <View key={index} style={styles.task}>
+            <Text style={styles.taskName}>{task.name}</Text>
+            <View style={styles.coins}>
+              <Image source={require('../../assets/images/coin.png')} style={{ width: 30, height: 30 }} />
+              <Text style={styles.coinsValue} >{task.coins} </Text>
+            </View>
+          </View>
+        ))}
+      </View>
+    </SafeAreaView>
   );
 }
-
-const TaskCard = ({ title, coins }) => {
-  return (
-    <View style={styles.taskCard}>
-      <Text style={styles.taskTitle}>{title}</Text>
-      <View style={styles.coinsContainer}>
-        <Image
-          source={require("../../assets/images/coin.png")}
-          style={styles.coinImage}
-        />
-        <Text style={styles.coinsText}>{coins}</Text>
-      </View>
-    </View>
-  );
-};
-
-const DailyTasksScreen = () => {
-  return (
-    <ScrollView contentContainerStyle={styles.tabContainer}>
-      <TaskCard title="今日簽到" coins={5} />
-      <TaskCard title="尋找餐廳" coins={5} />
-      <TaskCard title="瀏覽推薦餐廳" coins={10} />
-      <TaskCard title="紀錄用餐消費" coins={10} />
-      <TaskCard title="完成今日所有任務" coins={10} />
-    </ScrollView>
-  );
-};
-
-const MonthlyTasksScreen = () => {
-  return (
-    <ScrollView contentContainerStyle={styles.tabContainer}>
-      <TaskCard title="累積記帳5次" coins={20} />
-      <TaskCard title="累積記帳10次" coins={25} />
-      <TaskCard title="累積記帳15次" coins={30} />
-      <TaskCard title="累積記帳20次" coins={40} />
-      <TaskCard title="累積記帳25次" coins={60} />
-      <TaskCard title="累積記帳30次" coins={80} />
-      <TaskCard title="累積記帳30次" coins={80} />
-      <TaskCard title="累積記帳30次" coins={80} />
-      <TaskCard title="累積記帳30次" coins={80} />
-    </ScrollView>
-  );
-};
-
-const SpecialTasksScreen = () => {
-  return (
-    <ScrollView contentContainerStyle={styles.tabContainer}>
-      <TaskCard title="完成滿意度調查" coins={30} />
-      <TaskCard title="累積記帳100次" coins={50} />
-      <TaskCard title="錯誤資訊回報成功" coins={50} />
-    </ScrollView>
-  );
-};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#FFFFFF',
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: "#FFFACD",
-  },
-  scrollView: {
-    flex: 1,
-    width: "100%", // 100% 螢幕寬度
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 20, // Increase header padding
+    backgroundColor: '#FFFACD',
   },
   backButton: {
     padding: 10,
@@ -118,52 +71,62 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
   },
-  tabContainer: {
-    flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    padding: 20,
+  coins: {
+    flexDirection: 'row', // Change to row to align image and text horizontally
+    alignItems: 'center',
   },
-  taskCard: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#EFEFEF",
-    padding: 10,
-    marginBottom: 10,
-    width: "80%", // 80% 螢幕寬度
-    height: Dimensions.get("window").height * 0.12, // 螢幕高度的12%
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between", // 讓錢幣和文字對齊
-  },
-  taskTitle: {
-    fontSize: 16,
-  },
-  coinsContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  coinImage: {
+  coinIcon: {
     width: 40,
     height: 40,
-    alignSelf: "center", // 將錢幣圖片置中對齊
-    marginRight: 5,
   },
-  coinsText: {
-    fontSize: 22,
-    alignSelf: "center", // 將錢幣數字靠右對齊
+  smallCoinIcon: {
+    width: 20,
+    height: 20,
   },
-  
+  coinsValue: {
+    fontSize: 16,
+    marginLeft: 5,
+    flexWrap: 'wrap', //換行   
+  },
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
+  },
+  button: {
+    backgroundColor: '#FFFFFF',
+    padding: 10,
+    borderRadius: 5,
+  },
+  selectedButton: {
+    backgroundColor: '#FFFACD',
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: '#000',
+    fontSize: 16,
+  },
+  tasks: {
+    flex: 1,
+    padding: 10,
+  },
+  task: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+    marginVertical: 5,
+    backgroundColor: '#FFFACD',
+    borderRadius: 10,
+    width: '85%', // Set width to 85% of screen width
+    height: '12%', // Set height to 12% of screen height
+    alignSelf: 'center', // Center horizontally
+  },
+  taskName: {
+    fontSize: 16,
+  },
 });
-
-
-
-
-
-
-
-
 
 
 

@@ -1,5 +1,5 @@
 export const DUMMY_DATA =[
-    {id: 1, title:'蘇媽媽湯圓',description:'545南投縣埔里鎮中山路三段118號'},
+    {id: 1, title:'蘇媽媽湯圓',description:'545南投縣埔里鎮中正路309號'},
     {id: 2, title:'一燒丼燒肉專賣店',description:'545南投縣埔里鎮中正路309號'},
     {id: 3, title:'肯德基 南投埔里餐廳',description:' 545南投縣埔里鎮中正路340號'},
     {id: 4, title:'藝鍋物-埔里店',description:' 545南投縣埔里鎮中山路三段423號'},
@@ -11,6 +11,10 @@ export const DUMMY_DATA =[
     {id: 10, title:'第十家餐廳',description:'545南投縣埔里鎮第十家餐廳的地址'},
     {id: 11, title:'第十一家餐廳',description:'545南投縣埔里鎮第十一家餐廳的地址'},
     {id: 12, title:'第十二家餐廳',description:'545南投縣埔里鎮第十二家餐廳的地址'},
-
-
 ]
+export const SearchRestaurant = (query) => {
+    const searchTerm = query.toLowerCase();
+    return DUMMY_DATA.filter(restaurant =>
+      restaurant.title.toLowerCase().includes(searchTerm)
+    );
+  };

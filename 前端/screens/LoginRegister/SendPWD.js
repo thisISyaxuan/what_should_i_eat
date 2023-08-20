@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { globalStyles } from '../../styles/global';
 
 const SendPWD = ({navigation}) => {
   return (
@@ -18,10 +19,10 @@ const SendPWD = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={[styles.button, styles.returnButton]} onPress={() => navigation.navigate('ForgotPWD')}>
+        <TouchableOpacity style={globalStyles.YellowBtn} onPress={() => navigation.navigate('ForgotPWD')}>
           <Text style={styles.buttonText}>返回</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.sendButton]}>
+        <TouchableOpacity style={globalStyles.GreenBtn}>
           <Text style={styles.buttonText}>傳送驗證碼</Text>
         </TouchableOpacity>
       </View>

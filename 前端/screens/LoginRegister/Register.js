@@ -2,7 +2,7 @@ import { StyleSheet, Text, View ,TextInput} from "react-native";
 import { SafeAreaView ,TouchableOpacity,Button,TouchableWithoutFeedback,Keyboard} from "react-native";
 import { globalStyles } from '../../styles/global';
 import { useState } from "react";
-import Login from "./Login";
+import { Switch } from "react-native-gesture-handler";
 export default function Register({navigation}) {
   const [username, setUsername] = useState('');
   const [gender, setGender] = useState(1);
@@ -12,6 +12,11 @@ export default function Register({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [verify_password, setverify_Password] = useState('');
+  const [isChecked, setIsChecked] = useState(true);
+
+  const handleSwitchToggle = () => {
+    setIsChecked(!isChecked);
+  };
   const handleGenderSelection = (selectedGender) => {
     if (selectedGender === '男生') {
       setGender(1);
@@ -19,37 +24,41 @@ export default function Register({navigation}) {
       setGender(0);
     }
   };
-  const handleRegister = () => {
-    const data = {
-      username: username,
-      gender: gender,
-      birthday: birthday,
-      phone_number: phone_number,
-      address: address,
-      email: email,
-      password: password,
-      verify_password:verify_password
-    };
-
-    // 使用fetch或axios進行POST請求，將data送至後端API
-    fetch('http://192.168.0.3:8000/api/Register/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'//用jsont傳
-      },
-      body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(responseData => {
+  const handleRegister = async () => {
+    try {
+      const data = {
+        username: username,
+        gender: gender,
+        birthday: birthday,
+        phone_number: phone_number,
+        address: address,
+        email: email,
+        password: password,
+        verify_password: verify_password
+      };
+  
+      // 使用fetch或axios進行POST請求，將data送至後端API
+      const response = await fetch('http://192.168.0.2:8000/api/Register/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'//用json傳
+        },
+        body: JSON.stringify(data)
+      });
+  
+      const responseData = await response.json();
+      
       // 處理後端回傳的資料
-      console.log(responseData);
-      // 導航到Login畫面
-      navigation.navigate('Login');
-    })
-    .catch(error => {
-      console.error(error);
-    });
-    
+      if (responseData.success === true) {
+        // 導航到其他畫面
+        navigation.navigate('Login'); // 假設是導航到主頁面
+      } else {
+        // 如果success為false，可能是註冊失敗，做相應處理
+        console.log('註冊失敗');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
@@ -108,11 +117,24 @@ export default function Register({navigation}) {
             placeholder='確認密碼:'
             onChangeText={text => setverify_Password(text)}
           />
+        <View style={styles.agree}>
+        <Switch value={isChecked}
+                onValueChange={handleSwitchToggle}
+                trackColor={{ false: 'gray', true: '#338168' }} //顏色
+                thumbColor={isChecked ? 'white' : 'white'} // 圓圈顏色
+                style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }} //大小
+        />
+        <Text>我同意</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('隱私政策與使用條款')}>
+          <Text style={styles.linkb}>隱私政策與使用條款</Text>
+        </TouchableOpacity>
+      </View>
+
     <View style={globalStyles.Btn}>
-      <TouchableOpacity style={globalStyles.GreenBtn} onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity style={globalStyles.YellowBtn} onPress={() => navigation.navigate('Login')}>
         <Text style={globalStyles.BtnText}>返回</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={globalStyles.RedBtn} onPress={handleRegister}>
+      <TouchableOpacity style={globalStyles.GreenBtn} onPress={handleRegister} disabled={!isChecked}>
         <Text style={globalStyles.BtnText}>註冊</Text>
       </TouchableOpacity>
     </View>
@@ -131,6 +153,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  agree:{
+    flexDirection: 'row',
+    padding:15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  linkb:{
+    color:'blue',
+    textDecorationLine: 'underline',
+  },
   h2text:{
     justifyContent: 'center',
     alignItems: 'center',
@@ -146,8 +178,6 @@ const styles = StyleSheet.create({
   },
   Btn: {
     flexDirection: 'row',
-    //justifyContent: 'flex-end',
-    //alignItems: 'center',
   },
   button: {
     padding: 8,

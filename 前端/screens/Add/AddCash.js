@@ -1,83 +1,150 @@
+//第13行userToken註解拿掉
+//第55行註解拿掉
+//第67行改api
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {StyleSheet, Text,TextInput, View,TouchableOpacity,Modal,SafeAreaView,TouchableWithoutFeedback,Keyboard} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Slider from '@react-native-community/slider';
 import { globalStyles } from '../../styles/global';
-import React, {useState} from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { NavigationContainer } from '@react-navigation/native';
-
+import { DUMMY_DATA } from '../../data/dummy';
+import { Feather } from '@expo/vector-icons';
+import SearchFilter from '../../component/SearchFilter';
 
 export default function AddCash() {
+  // const {userToken} = screenProps;//user的token
+  const[senddate,setdate] = useState("");
+  const [currentDate, setCurrentDate] = useState("");
+  const [Class, SetClass] = useState(0);
   const [Price, SetPrice] = useState("");
-  const [Name, SetName] = useState("");
-  const [Class, SetClass] = useState("");
-  const [Rating, SetRating] = useState("");
+  const [Rating, SetRating] = useState(5.0);
+  const [MyText, SetMyText] = useState("");
+  const [Input,SetInput] = useState('');
+
+  useEffect(() => {//當前時間
+    const now = new Date();// 獲取當前時間
+    const formattedDate = `${now.getFullYear()} 年 ${now.getMonth() + 1} 月 ${now.getDate()} 日 ${getDayOfWeek(now.getDay())}`;
+    const senddate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
+    setCurrentDate(formattedDate);
+    setdate(senddate);
+  }, []);
+  const getDayOfWeek = (dayIndex) => {//顯示出來
+    const daysOfWeek = ['週日', '週一', '週二', '週三', '週四', '週五', '週六'];
+    return daysOfWeek[dayIndex];
+  };
+
+  const handleInputUpdate = (newInput) => {//每次改變輸入文字都要更新SetInput
+    SetInput(newInput);
+  };
+
+  const handleClassSelection = (selectedClass) => {//類別
+    if (selectedClass === '早餐') {
+      SetClass(0);
+    } else if (selectedClass === '午餐') {
+      SetClass(1);
+    }else if (selectedClass === '晚餐') {
+      SetClass(2);
+    }else if (selectedClass === '其他') {
+      SetClass(3);
+    }
+  }
+  const ClearAllData=() => {
+    SetClass(0);
+    SetPrice("");
+    SetRating(5.0);
+    SetMyText("");
+    SetInput("");
+  }
+  const handleAddMoney = async () => {//送出表單
+    
+        try {
+          const userToken = await AsyncStorage.getItem('userToken');
+          const data = {
+            ResName: Input,//店名
+            date: senddate,//日期
+            which_meal: Class,//類別(是數字0~3)
+            price: Price,//價錢
+            rating: Rating.toFixed(1),
+            my_text: MyText,//(備註)
+          };
+      
+          const response = await fetch('http://192.168.0.2:8000/account/cost/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Token ${userToken}`, // 添加 Token 到 Header
+            },
+            body: JSON.stringify(data),
+          });
+      
+          const responseData = await response.json();
+          console.log(responseData); // 處理後端回傳的資料
+        } catch (error) {
+          console.error('Error sending request:', error);
+        }
+        
+      
+  };
+
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
     <SafeAreaView style={styles.container}>
         <View>
-        <Text style={styles.title}>2023 年 7 月 1 日 週六</Text>
-
-      <View style={styles.input}>
-        <Text style={{fontSize:20, flex: 2}}>金額</Text>
-        <TextInput style={{fontSize:20, flex: 2, textAlign: 'right' }}
-          onChangeText={SetPrice}
-          value={Price}
-          placeholder='金額輸入'
-        />
-      </View>  
-
-      <View style={styles.input}>
-        <Text style={{fontSize:20, flex: 2}}>店家</Text>
-        <TextInput style={{fontSize:20, flex: 2, textAlign: 'right' }}
-          onChangeText={SetPrice}
-          value={Price}
-          placeholder='店家輸入'
-        />
-      </View>  
-
-      <View style={styles.input}>
-        <Text style={{fontSize:20, flex: 2}}>類別</Text>
-        <TextInput style={{fontSize:20, flex: 2, textAlign: 'right' }}
-          onChangeText={SetPrice}
-          value={Price}
-          placeholder='類別輸入'
-        />
-      </View>  
-
-      <View style={styles.input}>
-        <Text style={{fontSize:20, flex: 2}}>評價</Text>
-        <TextInput style={{fontSize:20, flex: 2, textAlign: 'right' }}
-          onChangeText={SetPrice}
-          value={Price}
-          placeholder='評價輸入'
-        />
-      </View>  
-
-      <TextInput style={{fontSize:20, alignSelf: 'flex-start'}}
-          onChangeText={SetPrice}
-          value={Price}
-          placeholder='寫點備註吧'
-        />
-
-      <View style={styles.bottom}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 20}}>
-        <TouchableOpacity style={styles.ButtonL}>
-          <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}}>
-            上傳照片
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.ButtonR}>
-          <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}}>
-            儲存
-          </Text>
-        </TouchableOpacity>
+          <View style={styles.title}><Text style={{fontSize:20}}>{currentDate}</Text></View>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+            <Feather name="search" size={20} color="black" style={{ marginLeft: 4,marginTop:10, marginRight: 4 }} />
+            <TextInput value={Input} onChangeText={(text) => SetInput(text)} style={styles.res} placeholder="請輸入完整店名"/>
+          </View>
+          {Input !== '' && <SearchFilter data={DUMMY_DATA} input={Input} SetInput={handleInputUpdate} />}
+             
+          <View style={styles.class}>
+              <TouchableOpacity style={[styles.button, Class === 0 && styles.activeButton]} onPress={() => handleClassSelection("早餐")}>
+              <Text style={[styles.buttonText, Class === '早餐' && styles.activeButtonText]}>早餐</Text></TouchableOpacity>
+              <TouchableOpacity style={[styles.button, Class === 1 && styles.activeButton]} onPress={() => handleClassSelection("午餐")}>
+              <Text style={[styles.buttonText, Class === '午餐' && styles.activeButtonText]}>午餐</Text></TouchableOpacity>
+              <TouchableOpacity style={[styles.button, Class === 2 && styles.activeButton]} onPress={() => handleClassSelection("晚餐")}>
+              <Text style={[styles.buttonText, Class === '晚餐' && styles.activeButtonText]}>晚餐</Text></TouchableOpacity>
+              <TouchableOpacity style={[styles.button, Class === 3 && styles.activeButton]} onPress={() => handleClassSelection("其他")}>
+              <Text style={[styles.buttonText, Class === '其他' && styles.activeButtonText]}>其他</Text></TouchableOpacity>
+          </View>
+          
+          <View style={styles.dollar}>
+            <Icon name="dollar" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}>  金額:  </Text>
+            <TextInput style={styles.dollarInput} onChangeText={SetPrice} value={Price} placeholder='金額輸入' keyboardType='numeric'/></View>
+              
+          <View style={styles.OO}><View style={styles.MyStar}>
+              <Icon name="star" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}> 評價:  </Text></View>
+          
+          <View style={styles.sliderContainer}>
+            <Slider
+              style={styles.slider}
+              minimumValue={0}
+              maximumValue={5}
+              step={0.1}
+              value={Rating}
+              onValueChange={value => SetRating(value)}
+              minimumTrackTintColor="#F6D58A" 
+              maximumTrackTintColor="gray" 
+              thumbTintColor="#F6D56E"/>
+            <Text style={styles.sliderValue}>{Rating.toFixed(1)} 顆星</Text>
+          </View>
         </View>
+        
+        <View style={styles.Textinput}>
+          <View style={styles.Textlabel}>
+            <Icon name="file-text" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}> 備註欄: </Text></View>
+            <TextInput style={styles.TextLine} onChangeText={SetMyText} value={MyText} placeholder='說點什麼吧!' multiline={true}/>
+        </View>  
+        
+        <View style={styles.bottom}>
+        <TouchableOpacity style={globalStyles.RedBtn} onPress={ClearAllData}><Text style={globalStyles.BtnText}>清空</Text></TouchableOpacity>
+        <TouchableOpacity style={globalStyles.GreenBtn} onPress={handleAddMoney}><Text style={globalStyles.BtnText}>儲存</Text></TouchableOpacity>
       </View>
-        </View>
+    </View>
     </SafeAreaView>
     </TouchableWithoutFeedback>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -87,39 +154,109 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
   },
-  title: {
-    borderBottomWidth:1, borderBottomColor:'gray',
-    textAlign: 'center',
-    width: '100%',
-    padding: 20,
-    fontSize: 20,
-  },
-  input: {
-    borderBottomWidth:1, borderBottomColor:'gray',
+  title:{
+    padding:10,
     alignItems: 'center',
-    justifyContent: 'space-between',
+  },
+  res:{
+    padding:10,
+    borderRadius: 50,
+    borderWidth:1,
+    alignItems: 'center',
+    marginBottom:10,
+    marginTop:20,
+    flex:1
+  },
+  class:{
+    padding:10,
+    justifyContent: 'center',
     flexDirection: 'row',
+  },
+  button: {
+    padding: 15,
+    borderRadius: 35,
+    borderWidth: 1,
+    borderColor: '#DAD9D6',
+    backgroundColor: '#EFEEEC',
+    marginRight: 10,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: 'black',
+  },
+  activeButton: {
+    backgroundColor: '#F6D58A',
+    borderColor: '#F6D58A',
+  },
+  activeButtonText: {
+    color: 'white',
+  },
+  dollar:{
+    padding:10,
+    height: 80,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  dollarInput:{
+    borderBottomWidth:1, 
+    borderBottomColor:'#EFEEEC',
+    padding:10,
+    fontSize: 20,
+    width: 150,
+  },
+  OO:{
+    padding:10,
     height: 50,
-  },  
-  bottom: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom:20,
+  },
+  MyStar: {
+    flexDirection: 'row',
+    flex:1,
+  },
+  sliderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex:3,
+  },
+  slider: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignContent: 'space-between'
+    height: 40,
   },
-  ButtonL: {
-    justifyContent: 'center',
-    padding: 10,
-    width: '45%',
-    height: 60,
-    backgroundColor: '#338168',
-    borderRadius: 20
+  sliderValue: {
+    textAlign: 'center',
+    marginTop: 5,
+    fontSize: 14,
   },
-  ButtonR: {
-    justifyContent: 'center',
-    padding: 10,
-    width: '45%',
-    height: 60,
-    borderRadius: 20,
-    backgroundColor: '#C13E27',
-  }
+  Textinput: {
+    padding:10,
+    borderTopWidth:1, 
+    borderBottomWidth:1, 
+    borderTopColor:'#EFEEEC',
+    borderBottomColor:'#EFEEEC',
+    flexDirection: 'column',
+    height: 250,
+  }, 
+  Textlabel:{
+    flexDirection: 'row',
+    marginBottom:20,
+  },
+  TextLine:{
+    fontSize:20, 
+    flex: 2, 
+    height:50,
+    padding:10,
+  },
+  bottom: {
+    marginBottom:10,
+    flexDirection: 'row',
+    justifyContent: 'space-between', 
+    padding: 20
+  },
+  clearButton: {
+    backgroundColor: 'lightblue',
+    padding: 5,
+    borderRadius: 5,
+  },
 });

@@ -7,32 +7,23 @@ export default function Myacc() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={[styles.rowContainer]}>
-        <View style={styles.circle}><Image
-                style={{width:100,resizeMode:'contain'}}
-                source={require("../../assets/images/logos/selfie.png")}/></View>
-                
-                
-        <View>
-          <Text >用戶名稱</Text>
-          <Text >Email</Text>
+        <View style={styles.circle}>
+          <Image style={styles.pic} source={require("../../assets/images/baby/baby0/90.png")}/>
         </View>
+        <View><Text >用戶名稱</Text><Text >Email</Text></View>
       </View>
+
       <View style={styles.m}>
         <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("我的脂肪幣")}>
-          <Text style={globalStyles.TextSize}>我的脂肪幣</Text>
-        </TouchableOpacity>
+          <Text style={globalStyles.TextSize}>我的脂肪幣</Text></TouchableOpacity>
         <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("我的收藏")}>
-          <Text style={globalStyles.TextSize}>已收藏的餐廳</Text>
-        </TouchableOpacity>
+          <Text style={globalStyles.TextSize}>已收藏的餐廳</Text></TouchableOpacity>
         <TouchableOpacity style={[styles.infoCol]}>
-          <Text style={globalStyles.TextSize}>瀏覽紀錄</Text>
-        </TouchableOpacity>
+          <Text style={globalStyles.TextSize}>瀏覽紀錄</Text></TouchableOpacity>
         <TouchableOpacity style={[styles.infoCol]}>
-          <Text style={globalStyles.TextSize}>變更密碼</Text>
-        </TouchableOpacity>
+          <Text style={globalStyles.TextSize}>變更密碼</Text></TouchableOpacity>
         <TouchableOpacity style={[globalStyles.Gocenter, styles.infoCol]}>
-          <Text style={[styles.logOutBtn]}>登出 </Text>
-        </TouchableOpacity>
+          <Text style={[styles.logOutBtn]}>登出 </Text></TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -66,6 +57,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
+  },
+  pic:{
+    width:92,
+    height:92,
+    resizeMode:'contain',
   },
   infoCol: {
     marginBottom: 5,
