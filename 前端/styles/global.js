@@ -19,7 +19,7 @@ export const globalStyles = StyleSheet.create({
         borderColor:'#777',
         padding:8,
         margin:10,
-        width:250,
+        width:200,
     },
   Btn: {//包圍綠跟紅的框框按鈕
       flexDirection: 'row',
@@ -34,14 +34,6 @@ export const globalStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-  YellowBtn:{//黃色的按鈕
-      backgroundColor: '#E5B45A',
-      paddingHorizontal: 30,
-      paddingVertical: 10,
-      borderRadius: 40,
-      justifyContent: 'center',
-      alignItems: 'center',
-  },
   GreenBtn:{//綠色的按鈕
     backgroundColor: '#338168',
     paddingHorizontal: 30,
@@ -52,13 +44,9 @@ export const globalStyles = StyleSheet.create({
   },
   BtnText:{//按鈕文字樣式
         color: 'white',
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: 'bold',
   },
-  BtnBlackText:{//按鈕文字樣式
-    fontSize: 16,
-    fontWeight: 'bold',
-},
   separator: {//分隔線
     height: 1,
     width: '100%',

@@ -6,14 +6,13 @@ export default function Home() {
   return (
     <SafeAreaView style={styles.container}>
     <TouchableOpacity style={styles.btn}>
-        <Image style={{ width: 35, height:35 }} source={require('../../assets/images/coin.png')}/>
+        <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/coin.png')}/>
         <Text>899</Text>
     </TouchableOpacity>
     <TouchableOpacity style={styles.btn2} onPress={() => navigation.navigate("限時翻倍")}>
-        <Image style={{ width: 50, height: 50 }} source={require('../../assets/images/dice.png')}/>
         <Text>限時獎勵</Text>
     </TouchableOpacity>
-    <TouchableOpacity style={styles.collect} onPress={() => navigation.navigate("精靈圖鑑")}>
+    <TouchableOpacity style={styles.collect}>
        <Image style={{ width: 50, height: 50 }} source={require('../../assets/images/babybook.png')}/>
         <Text>精靈圖鑑</Text>
     </TouchableOpacity>
@@ -39,6 +38,9 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     borderRadius: 50,
+    /*borderWidth: 1,
+    borderColor: '#777',
+    backgroundColor:'#fcc',*/
     marginRight: 10,
     position: 'absolute',
     bottom: 0,
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   btn:{
-    //flexDirection:'row',
+    borderWidth: 1,
     position: 'absolute',
     top: 10,
     left: 10,
@@ -57,6 +59,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   btn2:{
+    borderWidth: 1,
     position: 'absolute',
     top: 100,
     left: 10,
@@ -66,6 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   collect:{
+    borderWidth: 1,
     position: 'absolute',
     top: 10,
     right: 10,

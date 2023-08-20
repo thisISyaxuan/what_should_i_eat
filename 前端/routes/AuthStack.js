@@ -7,7 +7,6 @@ import Register from '../screens/LoginRegister/Register';
 import 'react-native-gesture-handler';
 import ButtomTabStack from './ButtomTabStack';
 import SearchRes from '../screens/Home/Search';
-import Privacy from '../screens/LoginRegister/Privacy';
 
 const Stack = createStackNavigator();
 
@@ -19,18 +18,6 @@ const AuthStack = () => (
         <Stack.Screen name="ForgotPWD" component={ForgotPWD} options={{headerShown: false}}/>
         <Stack.Screen name="SendPWD" component={SendPWD} options={{headerShown: false}}/>
         <Stack.Screen name="Register" component={Register} options={{headerShown:false}}/>
-        <Stack.Screen name="隱私政策與使用條款" component={Privacy} options={{
-                            headerShown: true,
-                            headerStyle: {
-                                backgroundColor: 'gray',
-                            },
-                            headerBackTitle: ' ',
-                            headerBackTitleStyle: {
-                                color: 'black', 
-                                fontSize: 16,
-                            },
-                            headerTintColor: 'black'
-                            }}/>
         <Stack.Screen name="ButtomTabStack" component={ButtomTabStack} 
                       options={{headerShown:false}}/>
     </Stack.Navigator>

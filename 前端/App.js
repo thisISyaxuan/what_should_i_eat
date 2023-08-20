@@ -1,18 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import AuthStack from "./routes/AuthStack";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useState } from "react";
 
-export default function App({navigation}) {
-  const [userToken, setUserToken] = useState(null);
-  
+const Tab = createMaterialTopTabNavigator();
 
+export default function App() {
   return (
-    <NavigationContainer>
-      <AuthStack screenProps={{userToken}} />
-    </NavigationContainer>
+      <AuthStack />
   );
 }
 

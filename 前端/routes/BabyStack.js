@@ -9,7 +9,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import SearchRes from '../screens/Home/Search';
 import Errorfb from '../screens/Home/ErrorfeedBack';
 import timelimit from '../screens/Baby/timelimit';
-import BabyCollect from '../screens/Baby/BabyCollect';
 const Stack = createStackNavigator();
 const BabyStack = () => (
   <NavigationContainer independent={true}>
@@ -22,19 +21,6 @@ const BabyStack = () => (
                         headerLeft: null,
                         }} />
         <Stack.Screen name="限時翻倍" component={timelimit} 
-                        options={{
-                            headerShown: true,
-                            headerStyle: {
-                                backgroundColor: '#f6d58a',
-                            },
-                            headerBackTitle: ' ',
-                            headerBackTitleStyle: {
-                                color: 'black', 
-                                fontSize: 16,
-                            },
-                            headerTintColor: 'black'
-                            }} />
-        <Stack.Screen name="精靈圖鑑" component={BabyCollect} 
                         options={{
                             headerShown: true,
                             headerStyle: {

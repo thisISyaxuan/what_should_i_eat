@@ -7,7 +7,7 @@ const Timelimit = () => {
     <View style={styles.container}>
       <TouchableOpacity style={styles.goBackButton}>
       </TouchableOpacity>
-      <Image style={styles.image} source={require('../../assets/images/dice.png')}/>
+      <Image style={styles.image} source={require('../../assets/images/babybook.png')}/>
       <Text style={styles.description}>
         於以下三時段進行用餐紀錄
         {'\n'}

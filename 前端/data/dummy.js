@@ -11,10 +11,6 @@ export const DUMMY_DATA =[
     {id: 10, title:'第十家餐廳',description:'545南投縣埔里鎮第十家餐廳的地址'},
     {id: 11, title:'第十一家餐廳',description:'545南投縣埔里鎮第十一家餐廳的地址'},
     {id: 12, title:'第十二家餐廳',description:'545南投縣埔里鎮第十二家餐廳的地址'},
+
+
 ]
-export const SearchRestaurant = (query) => {
-    const searchTerm = query.toLowerCase();
-    return DUMMY_DATA.filter(restaurant =>
-      restaurant.title.toLowerCase().includes(searchTerm)
-    );
-  };

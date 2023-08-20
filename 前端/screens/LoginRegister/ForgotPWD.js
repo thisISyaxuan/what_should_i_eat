@@ -38,7 +38,7 @@ export default function ForgotPWD({navigation}) {
       <Text>{'\n'}</Text>
       
       <View style={globalStyles.Btn}>
-      <TouchableOpacity style={globalStyles.YellowBtn} onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity style={globalStyles.RedBtn} onPress={() => navigation.navigate('Login')}>
         <Text style={globalStyles.BtnText}>返回</Text>
       </TouchableOpacity>
       <TouchableOpacity style={globalStyles.GreenBtn} onPress={() => navigation.navigate('SendPWD')}>
@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
   registerButton: {
-    padding:10,
     alignSelf: 'center',
   },
   registerButtonText: {
