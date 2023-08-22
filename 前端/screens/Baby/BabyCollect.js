@@ -1,22 +1,28 @@
+// 引入React和React Native相關的元件和函式庫
 import React from 'react';
 import { View, StyleSheet, Image, FlatList,Text} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { images } from '../../data/dummyImage';
 import { TouchableOpacity } from 'react-native';
-const BabyCollect = () => {
-    const navigation = useNavigation();
-    const renderItem = ({ item }) => (
+
+// 定義名為BabyCollect的函式組件
+const BabyCollect = () => { 
+    const navigation = useNavigation(); // 使用React Navigation的導航功能
+        // 定義一個用於渲染列表項目的函式
+        const renderItem = ({ item }) => (
         <View style={styles.circle}>
+            {/* 圖片按鈕 */}
             <TouchableOpacity style={styles.image}>
               <Image style={styles.pic} source={item} />
             </TouchableOpacity>
-
+            {/* 圖片下方文字-顯示金幣數量的區域 */}
             <View  style={styles.money}>
               <Image style={styles.icon} source={require('../../assets/images/coin.png')}/>
               <Text> 30</Text></View>
         </View>
     );
 
+    // 返回組件的JSX內容
     return (
         <View style={styles.container}>
             <FlatList
@@ -31,6 +37,7 @@ const BabyCollect = () => {
     );
 };
 
+// 定義組件中使用的樣式
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -89,4 +96,5 @@ const styles = StyleSheet.create({
     },
 });
 
+// 導出該組件供其他組件使用
 export default BabyCollect;

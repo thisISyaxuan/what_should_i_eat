@@ -1,13 +1,20 @@
+// 引入React和React Native相關的元件和函式庫
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native"; // 引入React Navigation的導航功能
+
+// 定義名為Timelimit的函式組件
 const Timelimit = () => {
-    const navigation = useNavigation();
+    const navigation = useNavigation(); // 使用React Navigation的導航功能
+
     return (
     <View style={styles.container}>
+      {/* 返回按鈕 */}
       <TouchableOpacity style={styles.goBackButton}>
       </TouchableOpacity>
+      {/* 顯示骰子圖片 */}
       <Image style={styles.image} source={require('../../assets/images/dice.png')}/>
+      {/* 顯示說明文字 */}
       <Text style={styles.description}>
         於以下三時段進行用餐紀錄
         {'\n'}
@@ -26,6 +33,7 @@ const Timelimit = () => {
   );
 };
 
+// 定義組件中使用的樣式
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -70,4 +78,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// 導出該組件供其他組件使用
 export default Timelimit;
