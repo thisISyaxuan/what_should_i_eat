@@ -2,14 +2,15 @@
 import React from 'react';
 import { View, StyleSheet, Image, FlatList,Text} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
-import { images } from '../../data/dummyImage';
+import { images } from '../../data/babyImage';
+import { baby_DATA } from '../../data/baby';
 import { TouchableOpacity } from 'react-native';
 
 // 定義名為BabyCollect的函式組件
 const BabyCollect = () => { 
     const navigation = useNavigation(); // 使用React Navigation的導航功能
         // 定義一個用於渲染列表項目的函式
-        const renderItem = ({ item }) => (
+        const renderItem = ({ item,index }) => (
         <View style={styles.circle}>
             {/* 圖片按鈕 */}
             <TouchableOpacity style={styles.image}>
@@ -18,7 +19,7 @@ const BabyCollect = () => {
             {/* 圖片下方文字-顯示金幣數量的區域 */}
             <View  style={styles.money}>
               <Image style={styles.icon} source={require('../../assets/images/coin.png')}/>
-              <Text> 30</Text></View>
+              <Text> {baby_DATA[index].price}</Text></View>
         </View>
     );
 

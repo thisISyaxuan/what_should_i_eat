@@ -7,13 +7,13 @@ import { useNavigation } from "@react-navigation/native";
 import { Switch } from 'react-native-gesture-handler';
 
 const SearchRes = () => {
-  const [selectedSortOptions, setSelectedSortOptions] = useState(['距離近到遠']);
-  const handleSortOptionToggle = (option) => {
-    if (selectedSortOptions.includes(option)) {
-      setSelectedSortOptions(selectedSortOptions.filter(item => item !== option));
-    } else {
-      setSelectedSortOptions([...selectedSortOptions, option]);
-    }
+  const [distanceSortOptions, setdistanceSortOptions] = useState(true);
+  const [selectedSortOptions, setSelectedSortOptions] = useState(true);
+  const handleDisSortOptionToggle = () => {
+    setdistanceSortOptions(!distanceSortOptions)
+  };
+  const handleSortOptionToggle = () => {
+    setSelectedSortOptions(!selectedSortOptions)
   };
 
   const [isOpen, setIsOpen] = useState('全部');
@@ -28,8 +28,8 @@ const SearchRes = () => {
         <View style={styles.isOpenButtonsContainer}>
           <View style={styles.switcho}>
             <Switch
-              value={selectedSortOptions.includes('距離近到遠')}
-              onValueChange={() => handleSortOptionToggle('距離近到遠')}
+              value={distanceSortOptions}
+              onValueChange={() => handleDisSortOptionToggle()}
               trackColor={{ false: 'gray', true: '#338168' }} //顏色
               style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
             />
@@ -38,8 +38,8 @@ const SearchRes = () => {
           
           <View style={styles.switcho}>
             <Switch
-              value={selectedSortOptions.includes('評分高到低')}
-              onValueChange={() => handleSortOptionToggle('評分高到低')}
+              value={selectedSortOptions}
+              onValueChange={() => handleSortOptionToggle()}
               trackColor={{ false: 'gray', true: '#338168' }} //顏色
               style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
             />
