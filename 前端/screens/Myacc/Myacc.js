@@ -21,7 +21,7 @@ export default function Myacc() {
           });
           const responseData = await response.json();
           setUserData({
-            name: responseData.name,
+            name: responseData.username,
             email: responseData.email
           });
         }else{
