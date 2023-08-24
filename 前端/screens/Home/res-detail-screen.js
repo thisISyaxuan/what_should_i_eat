@@ -9,14 +9,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default ResInfo = ({navigation}) =>{
     const route = useRoute()
-    const {eventId,title,description} = route.params
+    const {id,title,description} = route.params
+    const {rating, dis, myphone} = { 'rating': 5.0, 'dis': 1, 'myphone': '0988776551' }
     return(
-        /*
-        <View style={styles.container}>
-            <View style={styles.screen }>
-            <Text style={{fontSize:23}}>{title}</Text>
-            <Text style={{fontSize:20}}>{description}</Text>
-        </View>*/
         <View style={styles.container}>
         <View style={styles.title}>
             
@@ -49,16 +44,16 @@ export default ResInfo = ({navigation}) =>{
                 <Text style={{fontSize:18}}>營業中 11:00~21:00</Text>
             </View>
             
-            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>評分:</Text>
-            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>距離:</Text>
-            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>電話:</Text>
+            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>評分:{rating}</Text>
+            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>距離:{dis}</Text>
+            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>電話:{myphone}</Text>
             <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>地址:{description}</Text>
         </View> 
 
         <View style={styles.bottom}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 10, top: -20}}>
             <TouchableOpacity style={styles.ButtonR}>
-                <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}} onPress={() => navigation.navigate("錯誤回報")}>錯誤回報</Text>
+                <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}} onPress={() => navigation.navigate("錯誤回報",{id,title,description,myphone})}>錯誤回報</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.ButtonL}>
                 <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}} onPress={() => navigation.navigate("菜單")}>查看菜單</Text>

@@ -2,15 +2,44 @@ import {StyleSheet, Text,Image, View,SafeAreaView,TouchableOpacity} from 'react-
 import { globalStyles } from '../../styles/global';
 import { useNavigation } from "@react-navigation/native";
 import Login from '../LoginRegister/Login';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect,useState } from 'react';
 export default function Myacc() {
   const navigation = useNavigation();
+  const [userData,setUserData] = useState({name:'還沒抓到',email:'我是電子郵件'});
+  useEffect(() => {//初始化，先傳Token過去，等後端回傳json檔後，存入userData裡
+    const fetchUserData = async () => {
+      try {
+        const userToken = await AsyncStorage.getItem('userToken');
+        if (userToken) {
+          const response = await fetch('http://192.168.0.2:8000/api/MyAcc/', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Token ${userToken}`, // 添加 Token 到 Header
+            },
+          });
+          const responseData = await response.json();
+          setUserData({
+            name: responseData.name,
+            email: responseData.email
+          });
+        }else{
+          console.log('抓不到token')
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+    fetchUserData();
+  },[]);
   return (
     <SafeAreaView style={styles.container}>
       <View style={[styles.rowContainer]}>
         <View style={styles.circle}>
           <Image style={styles.pic} source={require("../../assets/images/baby/baby0/90.png")}/>
         </View>
-        <View><Text >用戶名稱</Text><Text >Email</Text></View>
+        <View><Text >{userData.name}</Text><Text >{userData.email}</Text></View>
       </View>
 
       <View style={styles.m}>

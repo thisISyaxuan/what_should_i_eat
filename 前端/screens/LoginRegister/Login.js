@@ -1,13 +1,28 @@
 //第74行 onPress={handleLogin()}
 //第16行註解拿掉
-import { startTransition, useState } from "react";
+import { startTransition, useState,useEffect } from "react";
 import { StyleSheet, TextInput, Text, View ,SafeAreaView ,TouchableOpacity,TouchableWithoutFeedback,Keyboard,Button} from "react-native";
 import { globalStyles } from '../../styles/global';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function Login({navigation}) {
   const [username,setUsername] = useState('');
   const [password,setPassword] = useState('');
-  const [userToken, setUserToken] = useState(null);
+  useEffect(() => {
+    checkTokenAndNavigate();
+  }, []);
+
+  const checkTokenAndNavigate = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      if (token) {
+        navigation.navigate('ButtomTabStack');
+      }else{
+        console.log('nono');
+      }
+    } catch (error) {
+      console.error('Error checking token:', error);
+    }
+  };
 
   const handleLogin = () => {
     const data = {
@@ -30,9 +45,6 @@ export default function Login({navigation}) {
       if (responseData.success === true) {
         AsyncStorage.setItem('userToken', responseData.token)
         .then(() => {
-          // 儲存成功後的處理
-          setUserToken(responseData.token); // 設置用户 token
-
           // 導航到其他畫面，同时將 token 作為參數傳遞
           navigation.navigate('ButtomTabStack', { userToken: responseData.token });
         })

@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 export default EventItem = ({id,title,description}) => {
     const navigation = useNavigation()
     return (
-        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("resInfo",{eventId: id,title,description})}>
+        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("resInfo",{id,title,description})}>
           <View style={styles.rowContainer}>
             <View style={styles.pic}><Text>pic</Text></View>
             <View style={styles.cardContent}>

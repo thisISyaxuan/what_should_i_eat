@@ -1,36 +1,34 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet,TouchableWithoutFeedback,Keyboard } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
-import { Picker } from '@react-native-picker/picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRoute } from "@react-navigation/native";
+import { globalStyles } from '../../styles/global';
 const Errorfb = () => {
+  const route = useRoute()
+  const {id,title,description,myphone} = route.params
   const [restaurant, setRestaurant] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
+  const [phone, setPhone] = useState(myphone);
+  const [address, setAddress] = useState(description);
   const [businessHours, setBusinessHours] = useState('');
   const [menuFile, setMenuFile] = useState('');
   const [otherInfo, setOtherInfo] = useState('');
   const handleSubmit = () => {
     console.log('表單送出');
   };
+  const ClearALL = () => {
+    console.log('全部清空');
+    setPhone('');
+    setAddress('');
+    setBusinessHours('');
+  };
   const navigation = useNavigation();
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
       <SafeAreaView style={styles.container}>
-      <View style={styles.row}>
+      <View style={styles.rowfirst}>
         <Text style={styles.label}>店家名稱</Text>
-        <Picker
-          style={styles.dropdown}
-          selectedValue={restaurant}
-          onValueChange={(itemValue) => setRestaurant(itemValue)}
-        >
-          <Picker.Item label="請選擇" value="" />
-          <Picker.Item label="餐廳A" value="餐廳A" />
-          <Picker.Item label="餐廳B" value="餐廳B" />
-          <Picker.Item label="餐廳C" value="餐廳C" />
-          <Picker.Item label="餐廳D" value="餐廳D" />
-          <Picker.Item label="餐廳E" value="餐廳E" />
-        </Picker>
+        <View style={styles.dropdown}><Text>{title}</Text></View>
       </View>
       <View style={styles.row}>
         <Text style={styles.label}>電話</Text>
@@ -87,9 +85,14 @@ const Errorfb = () => {
           />
         </View>
       </View>
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={[styles.buttonText, { color: 'white' }]}>送出</Text>
+      <View style={globalStyles.Btn}>
+      <TouchableOpacity style={[globalStyles.YellowBtn,{paddingHorizontal: 50}]} onPress={ClearALL}>
+        <Text style={[styles.buttonText, { color: 'white' }]}>清空</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={[globalStyles.GreenBtn,{paddingHorizontal: 50}]} onPress={handleSubmit}>
+        <Text style={[styles.buttonText, { color: 'white' }]}>提交</Text>
+      </TouchableOpacity>
+      </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -97,6 +100,7 @@ const Errorfb = () => {
 
 const styles = StyleSheet.create({
   container: {
+    //backgroundColor:'pink',
     flex: 1,
     padding: 20,
   },
@@ -106,8 +110,15 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   row: {
+    //borderWidth:1,
     flexDirection: 'column',
     marginBottom: 20,
+  },
+  rowfirst: {
+    //borderWidth:1,
+    flexDirection: 'column',
+    marginTop: -40,
+    marginBottom:20,
   },
   label: {
     fontSize: 14,
@@ -117,6 +128,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   dropdown: {
+    alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 1,
     borderColor: 'gray',
     borderRadius: 5,
@@ -141,7 +154,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   submitButton: {
-    backgroundColor: '#F6D58A',
+    backgroundColor: '#E5B45A',
     borderRadius: 5,
     padding: 10,
     alignItems: 'center',

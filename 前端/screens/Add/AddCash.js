@@ -12,7 +12,6 @@ import { Feather } from '@expo/vector-icons';
 import SearchFilter from '../../component/SearchFilter';
 
 export default function AddCash() {
-  // const {userToken} = screenProps;//user的token
   const[senddate,setdate] = useState("");
   const [currentDate, setCurrentDate] = useState("");
   const [Class, SetClass] = useState(0);
