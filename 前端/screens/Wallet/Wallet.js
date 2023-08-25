@@ -31,8 +31,8 @@ export default function Wallet() {
         <Text style={styles.textty}>{item.which_meal}</Text>
       </View>
       <View style={styles.square}>
-        <Text style={[styles.textsquare, { fontWeight: 'bold' }]}>{item.resname}</Text>
-        <Text>{item.rating}顆星</Text>
+        <Text style={[styles.textsquare, { fontWeight: 'bold' }]}>{item.ResName}</Text>
+        <Text>{item.rating}顆星 | {item.my_text}</Text>
       </View>
       <View style={styles.money}>
         <Text style={styles.textMoney}>$ {item.price}</Text>
