@@ -5,16 +5,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FlatList } from 'react-native-gesture-handler';
 
 export default function Wallet() {
-  
-  const resd = {
-    "data": [
-      {"cid": 1, "resname": "蘇嬤嬤湯圓", "which_meal": 0, "price": 70, "rating": 4.1},
-      {"cid": 2, "resname": "大仁湯包湯餃", "which_meal": 1, "price": 80, "rating": 5.0},
-      {"cid": 3, "resname": "麥當勞", "which_meal": 2, "price": 90, "rating": 4.5}
-    ],
-    "total": {"total": 240}
-  };
-
   const currentDate = new Date();
   const formattedDate = currentDate.toISOString().split('T')[0];
   const [selected, setSelected] = useState(formattedDate);//一開始為當下時間
