@@ -22,4 +22,4 @@ class Rlabel(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'rlabel'
+        db_table = '1_rlabel'

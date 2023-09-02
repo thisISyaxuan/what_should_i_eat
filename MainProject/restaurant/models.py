@@ -26,4 +26,4 @@ class Restaurant(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'restaurant'
+        db_table = '1_restaurant'

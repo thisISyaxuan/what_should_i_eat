@@ -14,4 +14,4 @@ class CostDetail(models.Model):
     my_text = models.TextField(blank=True, null=True)
 
     class Meta:
-        db_table = 'cost_detail'
+        db_table = '1_cost_detail'
