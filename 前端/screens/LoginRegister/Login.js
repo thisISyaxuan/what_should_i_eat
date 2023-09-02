@@ -1,5 +1,5 @@
-//第74行 onPress={handleLogin()}
-//第16行註解拿掉
+//第90行 onPress={handleLogin()}
+//第33行
 import { startTransition, useState,useEffect } from "react";
 import { StyleSheet, TextInput, Text, View ,SafeAreaView ,TouchableOpacity,TouchableWithoutFeedback,Keyboard,Button} from "react-native";
 import { globalStyles } from '../../styles/global';
