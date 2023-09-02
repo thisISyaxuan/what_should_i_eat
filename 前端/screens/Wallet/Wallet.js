@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     alignContent:'center',
     justifyContent:'center',
     backgroundColor:'green',
-    borderRadius:'50%',
+    borderRadius:50,
     padding:10,
   },
   square:{
