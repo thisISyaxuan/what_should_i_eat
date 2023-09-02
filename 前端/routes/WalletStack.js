@@ -6,7 +6,6 @@ import ResInfo from '../screens/Home/res-detail-screen';
 import 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import PieChartMoney from '../screens/Wallet/Piechart';
-import MyCompo from '../screens/Wallet/test';
 import { TouchableOpacity } from 'react-native';
 const Stack = createStackNavigator();
 const WalletStack = () => (
@@ -25,7 +24,7 @@ const WalletStack = () => (
                           </TouchableOpacity>
                         ),
                         })} />
-    <Stack.Screen name="月支出" component={MyCompo} 
+    <Stack.Screen name="月支出" component={PieChartMoney} 
                       options={{
                         headerShown: true,
                         headerStyle: {
@@ -37,13 +36,6 @@ const WalletStack = () => (
                             fontSize: 16,
                         },
                         headerTintColor: 'black'
-                        }} />
-    <Stack.Screen name="我的圖表" component={PieChartMoney} 
-                      options={{
-                        headerStyle: {
-                        backgroundColor: '#f6d58a',
-                        },
-                        headerLeft: null,
                         }} />
           
           
