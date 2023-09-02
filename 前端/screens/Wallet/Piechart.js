@@ -37,7 +37,7 @@ const PiechartMoney = () => {
           year: year,
           month:month
         };
-        const response = await fetch('http://192.168.0.2:8000/api/test/', {
+        const response = await fetch('http://10.1.1.22:8000/account/cost_record_month/', {
           method: 'POST',
           headers: {
             Authorization: `Token ${userToken}`,
@@ -46,11 +46,10 @@ const PiechartMoney = () => {
           body: JSON.stringify(data),
         });
         const responseData = await response.json();
-        setTestData(responseData);
+        setTestData(responseData.data);
       } else {
         console.log('找不到token');
         setTestData(testDatanew);
-        
       }
     } catch (error) {
       console.error('Error fetching date data:', error);
