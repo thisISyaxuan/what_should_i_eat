@@ -1,4 +1,5 @@
-//39行,改網址
+//40行,改網址
+//npx expo install @react-native-async-storage/async-storage@1.17.11
 import { Picker } from '@react-native-picker/picker';
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text,TouchableOpacity, Modal, FlatList} from 'react-native';
