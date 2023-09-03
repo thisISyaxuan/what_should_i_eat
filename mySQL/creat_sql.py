@@ -309,10 +309,10 @@ def main():
     # 建表
     # create_mysql_table("1_new_rlabel", "rID", "FLOAT", 0)
     # create_mysql_table("1_user_like", "uID", "FLOAT", 0)
-    new_rlabel(pd.read_excel("restaurant.xlsx", sheet_name="info_ft_label"))
-    # for i in range(1,21):
-    #     add_user(i)
-    # check()
+    # new_rlabel(pd.read_excel("restaurant.xlsx", sheet_name="info_ft_label"))
+    for i in range(1,21):
+        add_user(i)
+    check()
 
     # 建立表
     # 1_uID_restaurant 黑名單 喜歡 

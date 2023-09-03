@@ -1,14 +1,10 @@
-# requirement
-# ------------------------------------
-# pip install pandas
-# pip install pymysql
-# ------------------------------------
 import pandas as pd
 import pymysql
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from numpy import dot
 from numpy.linalg import norm
+import datetime
 
 # 連線資料庫
 db = pymysql.connect(host='localhost', port=3306, user='root', passwd='', db='what_should_i_eat')
@@ -33,21 +29,69 @@ def get_pd(tabel_name, index, uID):
     # print(result)
     return result
 
-def RecommenderInit(uID, recommend_num):
-    user_like = get_pd('user_like', 'uID', uID)
-    new_rLabel = get_pd('new_rlabel', 'rID', "NULL")
+def selectCount(tabel_name):
+    sql = f"SELECT COUNT(*) FROM {tabel_name}"
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    return result[0][0]
+
+def GoFilter(Restaurant, TimeFilter, MealFilter, LableFilter, NewRLabel):
+    # 營業時間
+    if (TimeFilter):
+        Restaurant = checkTime(Restaurant)
+    # 正餐
+    if (MealFilter == 1):
+        Restaurant = Restaurant[Restaurant['meal_or_not'] == 1]
+    if (MealFilter == 0):
+        Restaurant = Restaurant[Restaurant['meal_or_not'] == 0]
+    # 類別
+    if (LableFilter != '全部'):
+        for rID in Restaurant:
+            if ((NewRLabel.loc[rID, LableFilter] == 0) and (rID in Restaurant.index)):
+                Restaurant = Restaurant.drop(rID)
+    return Restaurant
+
+def checkTime(Restaurant):
+    date = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun']
+    day_of_week = datetime.datetime.today().weekday()
+    currentTime = datetime.datetime.now().time()
+    for index, row in Restaurant.iterrows():
+        rID = index
+        # print(rID)
+        RestaurantTime = row[date[day_of_week]].split(';')
+        openCheck = [False] * len(RestaurantTime)
+        # print(RestaurantTime)
+        for index,eachTime in enumerate(RestaurantTime):
+            eachTime = eachTime.strip().split('~')
+            # print(eachTime)
+            if (eachTime != ['']):
+                start_time = datetime.time(int(eachTime[0].split(':')[0]), int(eachTime[0].split(':')[1][0]), int(eachTime[0].split(':')[1][1]))
+                # print(eachTime[0].split(':')[0])
+                # print(eachTime[0].split(':')[1][0])
+                # print(eachTime[0].split(':')[1][1])
+                end_time = datetime.time(int(eachTime[1].split(':')[0]), int(eachTime[1].split(':')[1][0]), int(eachTime[1].split(':')[1][1]))
+                if (start_time <= currentTime <= end_time):
+                    openCheck[index] = True
+                else:
+                    openCheck[index] = False
+        # print(openCheck)
+        if (True not in openCheck):
+            Restaurant = Restaurant.drop(index=rID)
+    return Restaurant
+
+def RecommenderInit(uID, recommend_num, UserLike, NewRLabel):
     # 餘弦算相似度
-    SimilarityMatrix = cosine_similarity(user_like.values, new_rLabel.values)
-    SimilarityMatrix = pd.DataFrame(SimilarityMatrix, index=user_like.index, columns=new_rLabel.index)
+    SimilarityMatrix = cosine_similarity(UserLike.values, NewRLabel.values)
+    SimilarityMatrix = pd.DataFrame(SimilarityMatrix, index=UserLike.index, columns=NewRLabel.index)
     result = get_the_most_similar_res(uID, SimilarityMatrix, recommend_num)
     return result
 
-def RecommenderContent(uID, recommend_num):
-    NewRLabel = get_pd('new_rlabel', 'rID', "NULL")
-    CostDetail = get_pd('cost_detail', 'cID', "NULL")
+def RecommenderContent(uID, recommend_num, NewRLabel, CostDetail):
     # user vector 
     resRating = pd.merge(CostDetail[["uID", "rID"]], NewRLabel, on='rID')
+    # print(resRating)
     resRating.drop(['rID'], axis=1, inplace=True)
+    # print(resRating)
     user_vec = resRating.groupby("uID").mean()
     # 餘弦算相似度
     SimilarityMatrix = cosine_similarity(user_vec.values, NewRLabel.values)
@@ -63,10 +107,9 @@ def get_the_most_similar_res(uID, SimilarityMatrix, recommend_num):
     result = (list(SimilarityMatrix.columns[SortedIndex]))
     return result
 
-def RecommenderUserBasedCollaborativeFiltering(uID, SimilarUsers_num, recommend_num):
-    new_rlabel = get_pd('new_rlabel', "NULL", "NULL")
-    CostDetail = get_pd('cost_detail', 'cID', "NULL")
-    resRating = pd.merge(CostDetail[["uID", "rID", "rating"]], new_rlabel, on='rID')
+
+def RecommenderUserBasedCollaborativeFiltering(uID, SimilarUsers_num, recommend_num, NewRLabel, CostDetail):
+    resRating = pd.merge(CostDetail[["uID", "rID", "rating"]], NewRLabel, on='rID')
     # Calculate the similarity between the user and other users
     similarities = []
     user_ids = []
@@ -78,6 +121,7 @@ def RecommenderUserBasedCollaborativeFiltering(uID, SimilarUsers_num, recommend_
             sim = 0
         else:
             # 尚未測試
+            print('hello')
             sim = cal_similarity_for_res_ratings(uID, other_user, common_res, resRating)
         similarities.append(sim)
         user_ids.append(other_user)
@@ -116,29 +160,68 @@ def recommend(uID, similar_users, recommend_num, df):
     top_ratings = average_ratings.sort_values(by="rating",ascending=False).iloc[:recommend_num]
     return top_ratings.index.tolist()
 
-def GoPrint(MyResult, RatingSort):
-    restaurant = get_pd('restaurant', "rID", "NULL")
+def GoMerge(init, content, filtering):
+    score = [0 for x in range(max(init))]
+    tempResult = {}
+    result = []
+    # print(len(score))
+    recommend = [init, content, filtering]
+    for aList in recommend:
+        # print(aList)
+        for point, restaurant in enumerate(aList):
+            score[restaurant-1] += point
+    afterSorted = sorted(score)
+    for restaurant, point in enumerate(afterSorted):
+        if (point != 0):
+            # rID rScore
+            tempResult[score.index(point)+1] = point
+    for key, value in tempResult.items():
+        result.append(key)
+    return result
+
+def GoSorted(RecommendResult, DistanceSort, RatingSort, Restaurant):
+    # 距離
+    # 評分
+    result = RecommendResult
     if (RatingSort):
-        temp_restaurant = restaurant.loc[restaurant.index.isin(MyResult)]
-        sorted_restaurant = temp_restaurant.sort_values(by="rMap_Score", ascending=False)
-        # print(sorted_restaurant[['rID', 'rMap_Score']])
-        MyResult = sorted_restaurant.index.tolist()
-    # print(MyResult)
-    for i in range(len(MyResult)):
-        print(f"{'{: 4}'.format(int(MyResult[i]))} {'{: 0.2f}'.format(float(restaurant.loc[MyResult[i]]['rMap_Score']))} {restaurant.loc[MyResult[i]]['rName']}")
+        # temp_sorted = RecommendResult.sort_values(by="rMap_Score", ascending=False)
+        # result = temp_sorted.index.tolist()
+        
+        # sorted_Restaurant = Restaurant.loc[RecommendResult]
+        # sorted_rScore = sorted_Restaurant['rMap_Score'].tolist()
+        
+        # (sorted_rScore)
+        print('coding...')
+    return result
 
 def main():
-    # uID 欲推薦的餐廳數
-    init = RecommenderInit(1, 5)
-    content = RecommenderContent(1, 5)
-    # uID 欲比較的使用者人數 欲推薦的餐廳數
-    filtering = RecommenderUserBasedCollaborativeFiltering(1, 10, 5)
-    all_result = set(init + content + filtering)
-    print("sorted")
-    GoPrint(list(all_result), True)
-    print("---------------------------------------")
-    print("not sort")
-    GoPrint(list(all_result), False)
+    uID = 6
+    Restaurant = get_pd('1_restaurant', "rID", "NULL")
+    NewRLabel = get_pd('1_new_rlabel', 'rID', "NULL")
+    UserLike = get_pd('1_user_like', 'uID', uID)
+    CostDetail = get_pd('1_cost_detail', 'cID', "NULL")
+    uNum = selectCount('1_user_info')
+    
+    # 過濾 -> 推薦 -> 排序 -> output
+    # GoFilter(Restaurant, TimeFilter, MealFilter, LableFilter, NewRLabel)
+    FilterResult = GoFilter(Restaurant, False, 1, '全部', NewRLabel)
+    
+    # 如果這個人沒有記帳紀錄
+    if (True not in list(CostDetail['uID'] != uID)):
+        # uID, recommend_num, UserLike, NewRLabel
+        RecommenderResult = RecommenderInit(uID, len(FilterResult), UserLike, NewRLabel)
+    else:
+        init = RecommenderInit(uID, len(FilterResult), UserLike, NewRLabel)
+        content = RecommenderContent(uID, len(FilterResult), NewRLabel, CostDetail)
+        filtering = RecommenderUserBasedCollaborativeFiltering(uID, uNum, len(FilterResult), NewRLabel, CostDetail)
+        # (init)
+        # print(content)
+        # print(filtering)
+        RecommenderResult = GoMerge(init, content, filtering)
+    
+    FinalResult = GoSorted(RecommenderResult, False, False, Restaurant)
+    print(FinalResult)
+    
     db.close
 
 if __name__ == '__main__':
