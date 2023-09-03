@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from .serializers import CostSerializer
 from restaurant.models import Restaurant
 
-
 class cost_detail(generics.GenericAPIView):
     serializer_class = CostSerializer
     def post(self, request, *args, **kwargs):
