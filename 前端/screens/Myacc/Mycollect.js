@@ -1,30 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import Swiper from 'react-native-swiper';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 const screenWidth = Dimensions.get('window').width;
 
 const Tab = createMaterialTopTabNavigator();
-
-const LightIndicators = () => {
-    return (
-        <View style={styles.lightContainer}>
-            <View style={styles.lightWrapper}>
-                <View style={styles.greenLight}></View>
-                <Text>營業中</Text>
-            </View>
-            <View style={styles.lightWrapper}>
-                <View style={styles.yellowLight}></View>
-                <Text>一小時內打烊</Text>
-            </View>
-            <View style={styles.lightWrapper}>
-                <View style={styles.redLight}></View>
-                <Text>已打烊</Text>
-            </View>
-        </View>
-    );
-};
 
 export default function Mycollect() {
     return (
@@ -39,7 +20,6 @@ export default function Mycollect() {
 const RatingScreen = () => {
     return (
         <View style={styles.container}>
-            <LightIndicators />
             <ShopInfoCard />
             <ShopInfoCard />
         </View>
@@ -49,7 +29,6 @@ const RatingScreen = () => {
 const DistanceScreen = () => {
     return (
         <View style={styles.container}>
-            <LightIndicators />
             <ShopInfoCard />
             <ShopInfoCard />
         </View>
@@ -59,22 +38,29 @@ const DistanceScreen = () => {
 const NewArrivalsScreen = () => {
     return (
         <View style={styles.container}>
-            <LightIndicators />
             <ShopInfoCard />
             <ShopInfoCard />
         </View>
     );
 };
 
+const LightIndicator = ({ color, label }) => (
+    <View style={[styles.lightWrapper, { alignItems: 'center' }]}>
+        <View style={[styles.light, { backgroundColor: color }]}></View>
+        <Text>{label}</Text>
+    </View>
+);
+
 const ShopInfoCard = () => {
     return (
         <View style={styles.card}>
             <View style={styles.cardLeft}>
                 <View style={styles.cardRow}>
-                    <View style={styles.greenLight}></View>
-                    <Text style={{ ...styles.cardText, fontWeight: 'bold' }}>店名</Text>
+                    <LightIndicator color="green" label="營業中" />
+                    <Text style={{ ...styles.cardText, fontWeight: 'bold', marginLeft: 10 }}>店名</Text>
                 </View>
                 <View style={styles.cardRow}>
+                    <Image source={require('../../assets/images/start.png')} style={styles.starIcon} />
                     <Text style={styles.cardText}>4.3</Text>
                     <Text style={styles.cardText}>(100)</Text>
                 </View>
@@ -102,13 +88,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#f4f4f4',
         paddingTop: '4%',
     },
-    lightContainer: {
+    lightWrapper: {
         flexDirection: 'row',
-        marginBottom: 10,
-        width: screenWidth * 0.8,
-        paddingLeft: '4%',
+        alignItems: 'center',
+        marginRight: 10,
     },
-    // ... Other styles
+    light: {
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+        marginRight: 5,
+    },
     card: {
         width: screenWidth * 0.8,
         height: 150,
@@ -124,7 +114,29 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingLeft: '4%',
     },
+    cardRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    starIcon: {
+        width: 20,
+        height: 20,
+        marginRight: 5,
+    },
+    cardText: {
+        fontSize: 14,
+        marginRight: 5,
+    },
+    cardRight: {
+        width: '50%',
+    },
+    shopImage: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 10,
+    },
 });
+
 
 
 
