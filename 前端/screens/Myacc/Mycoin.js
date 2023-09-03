@@ -19,10 +19,17 @@ export default function TodayTasks() {
           <Icon name="arrow-back" size={24} color="#000000" />
         </TouchableOpacity>
 
-        <Text style={styles.title}>今日任務</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>任務清單</Text>
+        </View>
 
-        {/* Replace with your coin icon */}
-        <Icon name="coin" size={24} color="#000000" />
+        <View style={styles.coinContainer}>
+          <Image
+            source={require("../../assets/images/coin.png")}
+            style={{ width: 24, height: 24, marginRight: 5 }}
+          />
+          <Text style={styles.coinText}>899</Text>
+        </View>
       </View>
 
       <Tab.Navigator
@@ -108,15 +115,24 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#FFFACD",
   },
-  scrollView: {
-    flex: 1,
-    width: "100%", // 100% 螢幕寬度
-  },
   backButton: {
     padding: 10,
   },
+  titleContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   title: {
     fontSize: 20,
+  },
+  coinContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  coinText: {
+    fontSize: 16,
   },
   tabContainer: {
     flex: 1,
@@ -154,9 +170,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     alignSelf: "center", // 將錢幣數字靠右對齊
   },
-  
 });
-
 
 
 
