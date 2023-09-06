@@ -24,42 +24,7 @@ export default function Register({navigation}) {
       setGender(0);
     }
   };
-  const handleRegister = async () => {
-    try {
-      const data = {
-        username: username,
-        gender: gender,
-        birthday: birthday,
-        phone_number: phone_number,
-        address: address,
-        email: email,
-        password: password,
-        verify_password: verify_password
-      };
   
-      // 使用fetch或axios進行POST請求，將data送至後端API
-      const response = await fetch('http://192.168.0.2:8000/api/Register/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'//用json傳
-        },
-        body: JSON.stringify(data)
-      });
-  
-      const responseData = await response.json();
-      
-      // 處理後端回傳的資料
-      if (responseData.success === true) {
-        // 導航到其他畫面
-        navigation.navigate('Login'); // 假設是導航到主頁面
-      } else {
-        // 如果success為false，可能是註冊失敗，做相應處理
-        console.log('註冊失敗');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
       <SafeAreaView style={styles.container}>
@@ -131,11 +96,11 @@ export default function Register({navigation}) {
       </View>
 
     <View style={globalStyles.Btn}>
-      <TouchableOpacity style={globalStyles.YellowBtn} onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity style={globalStyles.YellowBtn} onPress={() => navigation.navigate('AuthStack')}>
         <Text style={globalStyles.BtnText}>返回</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={globalStyles.GreenBtn} onPress={handleRegister} disabled={!isChecked}>
-        <Text style={globalStyles.BtnText}>註冊</Text>
+      <TouchableOpacity style={globalStyles.GreenBtn} onPress={() => navigation.navigate('喜好勾選')} disabled={!isChecked}>
+        <Text style={globalStyles.BtnText}>下一頁</Text>
       </TouchableOpacity>
     </View>
 
