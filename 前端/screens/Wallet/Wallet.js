@@ -10,6 +10,10 @@ export default function Wallet() {
   const [selected, setSelected] = useState(formattedDate);//一開始為當下時間
   const [dateData, setDateData] = useState([]);//依日期對應的記帳資訊
   const [total, setTotal] = useState(0);//總金額
+  const initial = {"data": [{"cid": 1, "price": 70, "rating": 4.1, "ResName": "蘇嬤嬤湯圓", "which_meal": 3,"my_text":"好累=..= "}, 
+                            {"cid": 2, "price": 80, "rating": 5, "ResName": "大仁鍋貼", "which_meal": 1}, 
+                            {"cid": 3, "price": 90, "rating": 4.5, "ResName": "麥當勞", "which_meal": 2}], 
+                            "total": {"total": 240}}
 
   useEffect(() => {
     fetchDateData(selected); // 初始化時取得當天數據
@@ -17,8 +21,15 @@ export default function Wallet() {
 
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.costdetail}>
-      <View style={styles.circle}>
-        <Text style={styles.textty}>{item.which_meal}</Text>
+      <View style={[{borderBottomWidth:1,flexDirection:'row',borderBottomColor:"#C0C0C0"}]}>
+      <View style={[styles.circle,{backgroundColor: item.which_meal === 0 ? '#415CA4'
+                                                  : item.which_meal === 1 ? '#FFB755'
+                                                  : item.which_meal === 2 ? '#338168'
+                                                  : item.which_meal === 3 ? '#E2E2E2'
+                                                  : 'gray', }]}>
+      <Text style={styles.textty}>
+        {item.which_meal === 0 ? '早餐' : item.which_meal === 1 ? '午餐' : item.which_meal === 2 ? '晚餐' : item.which_meal === 3 ? '其他' : ''}
+      </Text>
       </View>
       <View style={styles.square}>
         <Text style={[styles.textsquare, { fontWeight: 'bold' }]}>{item.ResName}</Text>
@@ -26,6 +37,7 @@ export default function Wallet() {
       </View>
       <View style={styles.money}>
         <Text style={styles.textMoney}>$ {item.price}</Text>
+      </View>
       </View>
     </TouchableOpacity>
   );
@@ -49,7 +61,9 @@ export default function Wallet() {
         setDateData(responseData.data);
         setTotal(responseData.total.total);
       } else {
-        console.log('找不到token');
+        console.log('Wallet找不到token');
+        setDateData(initial.data);
+        setTotal(initial.total.total);
       }
     } catch (error) {
       console.error('Error fetching date data:', error);
@@ -67,12 +81,13 @@ export default function Wallet() {
           [selected]: { selected: true, disableTouchEvent: true, selectedDotColor: 'orange' },
         }}
       />
+      <Text style={[{fontSize:16},{margin:5}]}>今日總支出: ${total}</Text>
       <FlatList
         data={dateData}
         renderItem={renderItem}
         keyExtractor={(item) => item.cid.toString()}
       />
-      <Text>總支出: ${total}</Text>
+      
     </SafeAreaView>
   );
 }
@@ -92,15 +107,15 @@ const styles = StyleSheet.create({
   },
   costdetail:{
     backgroundColor:'white',
-    flexDirection:'row',
+    //flexDirection:'row',
     padding:10,
+    
   },
   circle:{
-    width:40,
+    width:'16%',
     height:40,
     alignContent:'center',
     justifyContent:'center',
-    backgroundColor:'green',
     borderRadius:50,
     padding:10,
   },
@@ -113,7 +128,6 @@ const styles = StyleSheet.create({
     padding:10,
     flex:2,
     justifyContent: 'center'
-    //alignContent:'flex-end',
   },
   textty:{
     fontSize:20,

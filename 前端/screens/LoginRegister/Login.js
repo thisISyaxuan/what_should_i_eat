@@ -1,9 +1,9 @@
-//第90行 onPress={handleLogin()}
-//第33行
+//第42行 註解掉
 import { startTransition, useState,useEffect } from "react";
 import { StyleSheet, TextInput, Text, View ,SafeAreaView ,TouchableOpacity,TouchableWithoutFeedback,Keyboard,Button} from "react-native";
 import { globalStyles } from '../../styles/global';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 export default function Login({navigation}) {
   const [username,setUsername] = useState('');
   const [password,setPassword] = useState('');
@@ -17,7 +17,7 @@ export default function Login({navigation}) {
       if (token) {
         navigation.navigate('ButtomTabStack');
       }else{
-        console.log('nono');
+        console.log('login介面沒抓到token');
       }
     } catch (error) {
       console.error('Error checking token:', error);
@@ -25,41 +25,53 @@ export default function Login({navigation}) {
   };
 
   const handleLogin = () => {
+    if (username === '') {
+      Alert.alert('提示', '請輸入帳號!');
+      return;
+    } else if (password === '') {
+      Alert.alert('提示', '請輸入密碼!');
+      return;
+    }
+  
     const data = {
       username: username,
       password: password
     };
-    // 使用fetch axios進行POST請求，將data送至後端API
-    fetch('http://192.168.0.2:8000/api/Login/', {//改成api連結
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(responseData => {
-      // 處理後端回傳的資料
-      console.log(responseData);
-      // 導航到其他畫面
-      if (responseData.success === true) {
-        AsyncStorage.setItem('userToken', responseData.token)
-        .then(() => {
-          // 導航到其他畫面，同时將 token 作為參數傳遞
-          navigation.navigate('ButtomTabStack', { userToken: responseData.token });
+  
+    try {
+      navigation.navigate('ButtomTabStack');
+      fetch('http://192.168.0.2:8000/api/Login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(responseData => {
+          if (responseData.success === true) {
+            AsyncStorage.setItem('userToken', responseData.token)
+              .then(() => {
+                navigation.navigate('ButtomTabStack', { userToken: responseData.token });
+              })
+              .catch(error => {
+                console.error('Error saving token:', error);
+                Alert.alert('儲存token失敗!');
+              });
+          } else {
+            Alert.alert('註冊失敗');
+          }
         })
         .catch(error => {
-          console.error('Error saving token:', error);
+          console.error(error);
+          Alert.alert('你是不是連結沒改','資料傳至後端失敗!');
         });
-      } else {
-        // 如果success為false，可能是登入失敗，做相應處理
-        console.log('登入失敗');
-      }
-    })
-    .catch(error => {
+    } catch (error) {
       console.error(error);
-    });
+      Alert.alert('沒進到try');
+    }
   };
+  
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
     <SafeAreaView style={styles.container}>
@@ -87,7 +99,7 @@ export default function Login({navigation}) {
       <TouchableOpacity style={globalStyles.YellowBtn} onPress={() => navigation.navigate('RegisterStack')}>
         <Text style={globalStyles.BtnText}>註冊</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={globalStyles.GreenBtn} onPress={/*handleLogin}*/() => navigation.navigate('ButtomTabStack')}>
+      <TouchableOpacity style={globalStyles.GreenBtn} onPress={handleLogin}>
         <Text style={globalStyles.BtnText}>登入</Text>
       </TouchableOpacity>
       </View>

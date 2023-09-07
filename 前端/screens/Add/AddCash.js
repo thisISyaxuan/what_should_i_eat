@@ -2,7 +2,7 @@
 //第55行註解拿掉
 //第67行改api
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {StyleSheet, Text,TextInput, View,TouchableOpacity,Modal,SafeAreaView,TouchableWithoutFeedback,Keyboard} from 'react-native';
+import {StyleSheet, Text,TextInput, View,TouchableOpacity,Modal,SafeAreaView,TouchableWithoutFeedback,Keyboard, Alert} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Slider from '@react-native-community/slider';
@@ -55,8 +55,14 @@ export default function AddCash() {
     SetInput("");
   }
   const handleAddMoney = async () => {//送出表單
-    
         try {
+          if (Price === "") {
+            Alert.alert('提示', '請輸入金額!');
+            return;
+          } else if (Input === '') {
+            Alert.alert('提示', '請輸入正確的店家名稱');
+            return;
+          }
           const userToken = await AsyncStorage.getItem('userToken');
           const data = {
             ResName: Input,//店名
@@ -116,15 +122,9 @@ export default function AddCash() {
           
           <View style={styles.sliderContainer}>
             <Slider
-              style={styles.slider}
-              minimumValue={0}
-              maximumValue={5}
-              step={0.1}
-              value={Rating}
+              style={styles.slider} minimumValue={0} maximumValue={5} step={0.1} value={Rating}
               onValueChange={value => SetRating(value)}
-              minimumTrackTintColor="#F6D58A" 
-              maximumTrackTintColor="gray" 
-              thumbTintColor="#F6D56E"/>
+              minimumTrackTintColor="#F6D58A" maximumTrackTintColor="gray" thumbTintColor="#F6D56E"/>
             <Text style={styles.sliderValue}>{Rating.toFixed(1)} 顆星</Text>
           </View>
         </View>

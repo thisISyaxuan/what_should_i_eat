@@ -9,9 +9,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const PiechartMoney = () => {
   const mealColors = {
     'breakfast': '#415CA4',//藍
-    'lunch': '#E2E2E2',//淺白
+    'lunch': '#FFB755',//淺白
     'dinner': '#6e9277',//綠
-    'others': '#FFB755',//黃
+    'others': '#E2E2E2',//黃
   };
   const mealTranslation = {
     breakfast: '早餐',
@@ -73,18 +73,18 @@ const PiechartMoney = () => {
   const radius = 70;
   const circleCircumference = 2 * Math.PI * radius;
   const total = selectTest.reduce((sum, item) => {return sum + Object.values(item).reduce((mealSum, value) => mealSum + value, 0);}, 0);
+  const avg = parseFloat((total/30).toFixed(2));
   let currentAngle = 10;
 
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <View style={[{alignItems:'center',marginTop:-30,padding:10,}]}>
-        <Text style={styles.label}>{selectedYear}年,{selectedMonth}月</Text>
+        <Text style={[{fontWeight:'700',fontSize:26}]}>{selectedYear}年,{selectedMonth}月</Text>
         </View>
-
-      
       <View style={styles.graph}>
-      {total === 0 ? (<View style={styles.noDataTextContainer}><Text style={styles.noDataText}>總支出: 0 元 </Text></View>) : (
+        <View style={styles.outgraphWrapper}>
+      {total === 0 ? (<View style={styles.noDataTextContainer}><Text style={styles.noDataText}>無圖表資訊 </Text></View>) : (
           <View style={styles.graphWrapper}>
              <Svg height="160" width="160" viewBox="0 0 180 180">
                 <G rotation={-90} originX="90" originY="90">
@@ -93,6 +93,7 @@ const PiechartMoney = () => {
                 const percentage = (value / total) * 100;
                 const strokeDashoffset = circleCircumference - (circleCircumference * percentage) / 100;
                 const angle = (value / total) * 360;
+                
                 const circleStyle = {
                 cx: '50%',
                 cy: '50%',
@@ -111,8 +112,9 @@ const PiechartMoney = () => {
               </G>
             </Svg>
             <Text style={styles.label}>${total}</Text>
+          </View>)}
+          <Text style={styles.labelavg}>平均每天消費:{avg} 元</Text>
           </View>
-          )}
 
           <View style={styles.detail}>
             {selectTest.length > 0 &&Object.keys(selectTest[0]).map((meal, index) => (
@@ -227,16 +229,24 @@ const styles = StyleSheet.create({
     padding:20,
   },
   graphWrapper: {
-    flex:5,
-    padding:20,
+    justifyContent:'center',
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  outgraphWrapper:{
+    flex:5,
+    //padding:5,
   },
   label: {
     position: 'absolute',
-    textAlign: 'center',
+    textAlign:'center',
     fontWeight: '700',
-    fontSize: 24,
+    fontSize: 16,
+  },
+  labelavg: {
+    //position: 'absolute',
+    paddingTop:10,
+    fontWeight: '700',
+    fontSize: 16,
   },
   button: {
     padding: 5,
