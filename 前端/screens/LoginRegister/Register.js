@@ -14,6 +14,11 @@ export default function Register({navigation}) {
   const [verify_password, setverify_Password] = useState('');
   const [isChecked, setIsChecked] = useState(true);
 
+  const handle = () => {
+    console.log('123')
+    console.log({username},{gender},{birthday},{phone_number},{address},{email},{password},{verify_password})
+    //{"username": "帳號"} {"gender": 0} {"birthday": "2000-01-01"} {"phone_number": "0912345678"} {"address": "地址"} {"email": "電子郵件"} {"password": "密碼"} {"verify_password": "確認密碼"}
+  }
   const handleSwitchToggle = () => {
     setIsChecked(!isChecked);
   };
@@ -61,6 +66,7 @@ export default function Register({navigation}) {
             style={globalStyles.input}
             placeholder='手機:'
             onChangeText={text => setPhone(text)}
+            keyboardType='numeric'
           />
           <TextInput 
             style={globalStyles.input}
@@ -99,7 +105,20 @@ export default function Register({navigation}) {
       <TouchableOpacity style={globalStyles.YellowBtn} onPress={() => navigation.navigate('AuthStack')}>
         <Text style={globalStyles.BtnText}>返回</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={globalStyles.GreenBtn} onPress={() => navigation.navigate('喜好勾選')} disabled={!isChecked}>
+      <TouchableOpacity style={globalStyles.GreenBtn} 
+                        onPress={() => {
+                          navigation.navigate('喜好勾選', {
+                            username,
+                            gender,
+                            birthday,
+                            phone_number,
+                            address,
+                            email,
+                            password,
+                            verify_password,
+                          });
+                        }}
+                        disabled={!isChecked}>
         <Text style={globalStyles.BtnText}>下一頁</Text>
       </TouchableOpacity>
     </View>

@@ -19,8 +19,6 @@ export const images = [
    { image: require('../assets/images/label/甜點.png'), label: '甜點' },
    { image: require('../assets/images/label/鹹點.png'), label: '鹹點' },
    { image: require('../assets/images/label/湯品.png'), label: '湯品' },
-
-
    { image: require('../assets/images/label/滷味.png'), label: '滷味' },
    { image: require('../assets/images/label/炸物.png'), label: '炸物' },
    { image: require('../assets/images/label/烤物.png'), label: '烤物' },
@@ -28,6 +26,6 @@ export const images = [
    { image: require('../assets/images/label/健康餐.png'), label: '健康餐' },
    { image: require('../assets/images/label/無菜單料理.png'), label: '無菜單料理' },
    { image: require('../assets/images/label/寵物餐廳.png'), label: '寵物餐廳' },
-    /*{ image: require('../assets/images/label/酒.png'), label: '酒' },*/
-    { image: require('../assets/images/label/吃到飽餐廳.png'), label: '吃到飽餐廳' },
+   { image: require('../assets/images/label/酒.png'), label: '酒' },
+   { image: require('../assets/images/label/吃到飽餐廳.png'), label: '吃到飽餐廳' },
   ];

@@ -1,66 +1,113 @@
-// 引入React和React Native相關的元件和函式庫
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Image, FlatList,Text} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { images } from '../../data/labelImage';
 import { TouchableOpacity } from 'react-native';
 import { globalStyles } from '../../styles/global';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRoute } from "@react-navigation/native";//參數傳遞
+import { Alert } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// 定義名為BabyCollect的函式組件
 const FavLabel = () => { 
-    const navigation = useNavigation(); // 使用React Navigation的導航功能
-        // 定義一個用於渲染列表項目的函式
-        const renderItem = ({ item,index }) => (
-        <View style={styles.circle}>
-            {/* 圖片按鈕 */}
-            <TouchableOpacity style={styles.image}>
-              <Image style={styles.pic} source={item.image} />
-            </TouchableOpacity>
-            {/* 圖片下方文字-顯示金幣數量的區域 */}
-            <View  style={styles.money}>
-              <Text style={[{color:'white',}]}>{item.label}</Text></View>
-        </View>
-    );
+    const navigation = useNavigation();
+    const route = useRoute()
+    const { username, gender, birthday, phone_number, address, email, password, verify_password, } = route.params;
+    const [preferences, setPreferences] = useState([]);
 
+    const togglePreference = (label) => {
+      // preference切換
+      const isExisting = preferences.includes(label);
+      if (isExisting) {
+        setPreferences(preferences.filter((item) => item !== label));
+      } else {
+        setPreferences([...preferences, label]);
+      }
+    };
+
+    const renderItem = ({ item,index }) => {
+      const isSelected = preferences.includes(item.label);
+      return(
+        <View style={styles.circle}>
+          <TouchableOpacity style={styles.image} onPress={() => togglePreference(item.label)}>
+            <Image style={styles.pic} source={item.image} />
+
+            {isSelected && (
+          <View style={styles.overlay}>
+            <Image
+              source={require('../../assets/images/checked.png')}
+              style={styles.overlayImage}
+            />
+          </View>
+        )}
+          </TouchableOpacity>
+          <View  style={styles.money}>
+            <Text style={[{color:'white',}]}>{item.label}</Text></View>
+        </View>
+      )
+      
+    };
     const handleRegister = async () => {
         try {
-          const data = {
-            username: username,
-            gender: gender,
-            birthday: birthday,
-            phone_number: phone_number,
-            address: address,
-            email: email,
-            password: password,
-            verify_password: verify_password
-          };
-      
-          // 使用fetch或axios進行POST請求，將data送至後端API
-          const response = await fetch('http://192.168.0.2:8000/api/Register/', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'//用json傳
-            },
-            body: JSON.stringify(data)
-          });
-      
-          const responseData = await response.json();
-          
-          // 處理後端回傳的資料
-          if (responseData.success === true) {
-            // 導航到其他畫面
-            navigation.navigate('Login'); // 假設是導航到主頁面
-          } else {
-            // 如果success為false，可能是註冊失敗，做相應處理
-            console.log('註冊失敗');
+          const token = await AsyncStorage.getItem('userToken');
+          if (token) {
+            const data = {
+              username: username,
+              gender: gender,
+              birthday: birthday,
+              phone_number: phone_number,
+              address: address,
+              email: email,
+              password: password,
+              verify_password: verify_password,
+              preferences:preferences,
+            };
+            const response = await fetch('http://192.168.0.2:8000/api/Register/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'//用json傳
+              },
+              body: JSON.stringify(data)
+            });
+            const responseData = await response.json();
+            if (responseData.success === true) {
+              Alert.alert('註冊成功', '重新登入以開始體驗!', [
+                {
+                  text: 'OK',
+                  onPress: () => {
+                    //navigation.navigate('Login');
+                  },
+                },
+              ]);
+            } else {
+              Alert.alert('註冊失敗', '發生錯誤，請重新註冊!', [
+                {
+                  text: 'OK',
+                  onPress: () => {
+                    navigation.navigate('Register');
+                  },
+                },
+              ]);
+            }
+          }else{
+            const data = {
+              username: username,
+              gender: gender,
+              birthday: birthday,
+              phone_number: phone_number,
+              address: address,
+              email: email,
+              password: password,
+              verify_password: verify_password,
+              preferences:preferences,
+            };
+            console.log(data);
           }
         } catch (error) {
           console.error('Error:', error);
         }
       };
 
-    // 返回組件的JSX內容
     return (
         <View style={styles.container}>
             <View style={styles.hone}>
@@ -73,7 +120,7 @@ const FavLabel = () => {
                 contentContainerStyle={styles.listContainer}
                 style={styles.flatlist}
             />
-            <TouchableOpacity style={[styles.but]} onPress={handleRegister}>
+            <TouchableOpacity style={[styles.but]} onPress={handleRegister} disabled={preferences.length < 5}>
             <Text style={[{color:'#174441',fontSize:20,fontWeight:'bold'}]}>提交</Text>
             </TouchableOpacity>
             </View>
@@ -81,7 +128,6 @@ const FavLabel = () => {
     );
 };
 
-// 定義組件中使用的樣式
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -128,6 +174,19 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         padding:5,
         backgroundColor: '#F6D58A',
+    },
+    overlay: {
+      position: 'absolute', // 使用绝对定位将叠加图片放在圆圈上方
+      top: 5, // 控制叠加图片的位置，可以根据需要微调
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      height: '100%',
+    },
+    overlayImage: {
+      width: '100%', // 根据需要的尺寸调整
+      height: '100%', // 根据需要的尺寸调整
+      opacity: 0.7, // 控制叠加图片的透明度
     },
     money:{
         marginTop: 'auto',
