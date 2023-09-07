@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect,useState } from 'react';
 export default function Myacc() {
   const navigation = useNavigation();
-  const [userData,setUserData] = useState({name:'還沒抓到',email:'我是電子郵件'});
+  const [userData,setUserData] = useState({name:'用戶名稱',email:'email@gmail.com'});
   useEffect(() => {//初始化，先傳Token過去，等後端回傳json檔後，存入userData裡
     const fetchUserData = async () => {
       try {

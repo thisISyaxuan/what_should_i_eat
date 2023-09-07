@@ -10,10 +10,9 @@ export default function Wallet() {
   const [selected, setSelected] = useState(formattedDate);//一開始為當下時間
   const [dateData, setDateData] = useState([]);//依日期對應的記帳資訊
   const [total, setTotal] = useState(0);//總金額
-  const initial = {"data": [{"cid": 1, "price": 70, "rating": 4.1, "ResName": "蘇嬤嬤湯圓", "which_meal": 3,"my_text":"好累=..= "}, 
-                            {"cid": 2, "price": 80, "rating": 5, "ResName": "大仁鍋貼", "which_meal": 1}, 
-                            {"cid": 3, "price": 90, "rating": 4.5, "ResName": "麥當勞", "which_meal": 2}], 
-                            "total": {"total": 240}}
+  const initial = {"data": [ /*{"cid": 1, "price": 70, "rating": 4.1, "ResName": "蘇嬤嬤湯圓", "which_meal": 3,"my_text":"好累=..= "}, {"cid": 2, "price": 80, "rating": 5, "ResName": "大仁鍋貼", "which_meal": 1}, 
+                            {"cid": 3, "price": 90, "rating": 4.5, "ResName": "麥當勞", "which_meal": 2} */], 
+                            "total": {"total": 0}}
 
   useEffect(() => {
     fetchDateData(selected); // 初始化時取得當天數據
@@ -62,7 +61,7 @@ export default function Wallet() {
         setTotal(responseData.total.total);
       } else {
         console.log('Wallet找不到token');
-        setDateData(initial.data);
+        setDateData(initial.data);//之後可註解掉
         setTotal(initial.total.total);
       }
     } catch (error) {
