@@ -5,13 +5,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69c4b26f-c0b9-4dfa-95f2-f7df9354c943" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MainProject/baby/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainProject/MainProject/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/MainProject/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainProject/MainProject/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/MainProject/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/cost/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/cost/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/cost/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/cost/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/restaurant/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/user/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/baby/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/baby/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/cost/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/costDetail/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/cost/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/cost/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/cost/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/cost/migrations/0002_alter_costdetail_price_alter_costdetail_rating.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/cost/migrations/0003_alter_costdetail_table.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/cost/migrations/0004_alter_costdetail_options.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/cost/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/cost/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/cost/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/costDetail/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/cost/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/cost/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/cost/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/user/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/user/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/user/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/user/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/user/migrations/0002_alter_user_info_table.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/user/migrations/0003_alter_user_info_options.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/user/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/user/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/user/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userInfo/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/user/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/user/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userInfo/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/user/views.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +42,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -35,7 +60,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/xampp/htdocs/what_should_i_eat",
+    "last_opened_file_path": "D:/xampp/htdocs/what_should_i_eat/MainProject/userInfo",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -43,6 +68,15 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\xampp\htdocs\what_should_i_eat\MainProject\userInfo" />
+      <recent name="D:\xampp\htdocs\what_should_i_eat\MainProject\costDetail" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\xampp\htdocs\what_should_i_eat\MainProject\costDetail" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

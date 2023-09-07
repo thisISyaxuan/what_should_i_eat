@@ -4,6 +4,7 @@ from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import UidBaby
+from django.db.models import Q
 
 class baby(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
@@ -11,14 +12,15 @@ class baby(generics.GenericAPIView):
         user = request.user
         if user.is_authenticated:
             user_id = user.id
-            allBaby = UidBaby._meta.get_fields()
-            babyID = [field.name for field in allBaby]
-            user_baby = list(UidBaby.objects.filter(uID=user_id))
-            for id in user_baby:
-                user_baby_filtered = user_baby.filter(id=1).values()
+            result = UidBaby.objects.filter(uid=user_id).values()
+            result = result[0]
+            result = [key for key, value in result.items() if value == 1]
+            result = [int(item.split('_')[1]) for item in result]
+            # print(type(result[0]))
+            print(result)
             return Response({
                 # 前端名稱
-                'success': True
+                'success': result
             })
         return Response({
             'success': False
