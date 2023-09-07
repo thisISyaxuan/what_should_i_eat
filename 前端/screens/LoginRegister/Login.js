@@ -1,4 +1,4 @@
-//第42行 註解掉
+//第42 43行 註解掉
 import { startTransition, useState,useEffect } from "react";
 import { StyleSheet, TextInput, Text, View ,SafeAreaView ,TouchableOpacity,TouchableWithoutFeedback,Keyboard,Button} from "react-native";
 import { globalStyles } from '../../styles/global';
@@ -40,6 +40,7 @@ export default function Login({navigation}) {
   
     try {
       navigation.navigate('ButtomTabStack');
+      return;
       fetch('http://192.168.0.2:8000/api/Login/', {
         method: 'POST',
         headers: {
