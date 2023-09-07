@@ -49,6 +49,10 @@ const FavLabel = () => {
     };
     const handleRegister = async () => {
         try {
+          if (preferences.length < 5) {
+            Alert.alert('提示', '請至少勾選五個類別!');
+            return;
+          }
           const token = await AsyncStorage.getItem('userToken');
           if (token) {
             const data = {
@@ -90,6 +94,7 @@ const FavLabel = () => {
               ]);
             }
           }else{
+            //測試用，可以刪掉
             const data = {
               username: username,
               gender: gender,
@@ -120,7 +125,7 @@ const FavLabel = () => {
                 contentContainerStyle={styles.listContainer}
                 style={styles.flatlist}
             />
-            <TouchableOpacity style={[styles.but]} onPress={handleRegister} disabled={preferences.length < 5}>
+            <TouchableOpacity style={[styles.but]} onPress={handleRegister}>
             <Text style={[{color:'#174441',fontSize:20,fontWeight:'bold'}]}>提交</Text>
             </TouchableOpacity>
             </View>

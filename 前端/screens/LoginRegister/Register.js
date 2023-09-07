@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View ,TextInput} from "react-native";
+import { StyleSheet, Text, View ,TextInput, Alert} from "react-native";
 import { SafeAreaView ,TouchableOpacity,Button,TouchableWithoutFeedback,Keyboard} from "react-native";
 import { globalStyles } from '../../styles/global';
 import { useState } from "react";
@@ -14,11 +14,6 @@ export default function Register({navigation}) {
   const [verify_password, setverify_Password] = useState('');
   const [isChecked, setIsChecked] = useState(true);
 
-  const handle = () => {
-    console.log('123')
-    console.log({username},{gender},{birthday},{phone_number},{address},{email},{password},{verify_password})
-    //{"username": "帳號"} {"gender": 0} {"birthday": "2000-01-01"} {"phone_number": "0912345678"} {"address": "地址"} {"email": "電子郵件"} {"password": "密碼"} {"verify_password": "確認密碼"}
-  }
   const handleSwitchToggle = () => {
     setIsChecked(!isChecked);
   };
@@ -28,6 +23,24 @@ export default function Register({navigation}) {
     } else if (selectedGender === '女生') {
       setGender(0);
     }
+  };
+  const handleRegister = async () => {
+      if (username === '' || birthday === '' || phone_number === '' || address === '' || email === '') {
+        Alert.alert('提示', '欄位不可留白!');
+        return;
+      } else if (password === '' || verify_password === '') {
+        Alert.alert('提示', '密碼和確認密碼都需要輸入!');
+        return;
+      } else if (password !== verify_password) {
+        Alert.alert('提示', '密碼和確認密碼不一致!');
+        return;
+      } else if (!isChecked) {
+        Alert.alert('提示', '需同意隱私政策與使用條款方可註冊!');
+        return;
+      } else {
+        navigation.navigate('喜好勾選', { username, gender, birthday, phone_number, address, email, password, verify_password,
+        });
+      }
   };
   
   return (
@@ -105,20 +118,7 @@ export default function Register({navigation}) {
       <TouchableOpacity style={globalStyles.YellowBtn} onPress={() => navigation.navigate('AuthStack')}>
         <Text style={globalStyles.BtnText}>返回</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={globalStyles.GreenBtn} 
-                        onPress={() => {
-                          navigation.navigate('喜好勾選', {
-                            username,
-                            gender,
-                            birthday,
-                            phone_number,
-                            address,
-                            email,
-                            password,
-                            verify_password,
-                          });
-                        }}
-                        disabled={!isChecked}>
+      <TouchableOpacity style={globalStyles.GreenBtn} onPress={handleRegister}>
         <Text style={globalStyles.BtnText}>下一頁</Text>
       </TouchableOpacity>
     </View>

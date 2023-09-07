@@ -6,7 +6,6 @@ import { View, StyleSheet, Text,TouchableOpacity, Modal, FlatList} from 'react-n
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { G, Circle } from 'react-native-svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Alert } from 'react-native';
 const PiechartMoney = () => {
   const mealColors = {
     'breakfast': '#415CA4',//藍
@@ -26,7 +25,7 @@ const PiechartMoney = () => {
   const [selectTest,setTestData] = useState([]);// 後端回傳的資料
   //測試用資料
   const testDatanew = [
-    { 'breakfast': 341, 'lunch': 100, 'dinner': 272, 'others': 188 }
+    { 'breakfast': 0, 'lunch': 0, 'dinner': 0, 'others': 0 }
   ];
 
   const fetchChartData = async (year, month) => {
@@ -48,7 +47,7 @@ const PiechartMoney = () => {
         const responseData = await response.json();
         setTestData(responseData.data);
       } else {
-        console.log('找不到token');
+        console.log('Piechart找不到token');
         setTestData(testDatanew);
       }
     } catch (error) {
@@ -57,7 +56,6 @@ const PiechartMoney = () => {
   };
 
   const handlePress = () => {
-    //Alert.alert('已送出');
     fetchChartData(selectedYear, selectedMonth);
   };
 
@@ -83,8 +81,10 @@ const PiechartMoney = () => {
         <View style={[{alignItems:'center',marginTop:-30,padding:10,}]}>
         <Text style={styles.label}>{selectedYear}年,{selectedMonth}月</Text>
         </View>
-      <View style={styles.graph}>
 
+      
+      <View style={styles.graph}>
+      {total === 0 ? (<View style={styles.noDataTextContainer}><Text style={styles.noDataText}>總支出: 0 元 </Text></View>) : (
           <View style={styles.graphWrapper}>
              <Svg height="160" width="160" viewBox="0 0 180 180">
                 <G rotation={-90} originX="90" originY="90">
@@ -112,6 +112,7 @@ const PiechartMoney = () => {
             </Svg>
             <Text style={styles.label}>${total}</Text>
           </View>
+          )}
 
           <View style={styles.detail}>
             {selectTest.length > 0 &&Object.keys(selectTest[0]).map((meal, index) => (
@@ -122,18 +123,20 @@ const PiechartMoney = () => {
             ))}
           </View>
       </View>
+      
 
       <View style={styles.text}>
         {selectTest.length > 0 &&Object.keys(selectTest[0]).map((meal, index) => {
           const value = selectTest[0][meal]; // 獲取每餐的值
-          const percentage = (value / total) * 100;
+          const percentage = parseFloat((value / total) * 100).toFixed(2);
           return (
             <View key={index} style={[styles.costDetail,{justifyContent: 'space-between'}]}>
               <View style={[{flexDirection:'row',alignItems:'center'}]}>
                 <View style={[styles.square, { backgroundColor: mealColors[meal] }]} />
                 <Text style={[{ fontSize: 20,marginLeft: 10, }]}>{mealTranslation[meal]}</Text>
               </View>
-              <Text style={[{ fontSize: 20}]}>{percentage.toFixed(2)}%</Text>
+              <Text style={[{ fontSize: 20}]}>{isNaN(percentage) ? '0.00 % ' : percentage + '%'}</Text>
+              
               <Text style={[{ fontSize: 20}]}>{value}元</Text>
             </View>
         );})}
@@ -236,14 +239,25 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   button: {
-    padding: 5, // 設定按鈕的內邊距
+    padding: 5,
     width:80,
   },
   buttontext: {
-    color: '#415CA4', // 設定按鈕文字的顏色
-    textAlign: 'center', // 文字置中
+    color: '#415CA4',
+    textAlign: 'center',
     fontSize:22,
-    
+  },
+  noDataText: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: 20,
+    fontWeight: 'bold',
+  },
+  noDataTextContainer:{
+    flex:5,
+    padding:20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
