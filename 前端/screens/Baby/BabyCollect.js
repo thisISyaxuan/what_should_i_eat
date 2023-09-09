@@ -44,9 +44,9 @@ const BabyCollect = () => {
         <View style={styles.circle}>
             <TouchableOpacity style={styles.image}>
                 <Image style={styles.pic} source={item} />
-                {/* 如果該精靈不在已擁有列表中，則加上灰色蒙板 */}
+                {/* 如果該精靈不在已擁有列表中，則加上正圓形的灰色蒙板 */}
                 {!ownedBabies.includes(baby_DATA[index].id) && 
-                    <View style={[StyleSheet.absoluteFill, {backgroundColor: 'rgba(0,0,0,0.7)'}]} />}
+                    <View style={[styles.mask]} />}
             </TouchableOpacity>
             <View style={styles.money}>
                 <Image style={styles.icon} source={require('../../assets/images/coin.png')}/>
@@ -101,6 +101,15 @@ const styles = StyleSheet.create({
         alignItems: 'center', 
         justifyContent: 'center',
         padding: 5,
+    },
+    mask: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        borderRadius: 60 // 設定為與image的borderRadius相同
     },
     money: {
         marginTop: 'auto',
