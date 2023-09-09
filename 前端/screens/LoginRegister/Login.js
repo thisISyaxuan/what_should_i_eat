@@ -39,9 +39,9 @@ export default function Login({navigation}) {
     };
   
     try {
-      navigation.navigate('ButtomTabStack');
-      return;
-      fetch('http://192.168.0.2:8000/api/Login/', {
+//      navigation.navigate('ButtomTabStack');
+//      return;
+      fetch('http://192.168.79.12:8000/api/Login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -50,6 +50,7 @@ export default function Login({navigation}) {
       })
         .then(response => response.json())
         .then(responseData => {
+        console.log(responseData)
           if (responseData.success === true) {
             AsyncStorage.setItem('userToken', responseData.token)
               .then(() => {

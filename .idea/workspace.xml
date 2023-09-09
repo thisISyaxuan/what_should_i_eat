@@ -5,17 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69c4b26f-c0b9-4dfa-95f2-f7df9354c943" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MainProject/favoritesRList/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MainProject/restaurant/recommender.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MainProject/restaurant/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainProject/MainProject/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/MainProject/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/MainProject/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/MainProject/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainProject/baby/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/baby/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/costDetail/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/costDetail/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/restaurant/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/restaurant/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userInfo/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userInfo/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/前端/screens/Baby/BabyCollect.js" beforeDir="false" afterPath="$PROJECT_DIR$/前端/screens/Baby/BabyCollect.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/前端/screens/LoginRegister/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/前端/screens/LoginRegister/Login.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

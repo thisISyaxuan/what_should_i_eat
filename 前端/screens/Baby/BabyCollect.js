@@ -14,16 +14,19 @@ const BabyCollect = () => {
             try {
                 const token = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
                 if (token) {
+                    console.log(token)
                     // 使用token發送請求到後端取得使用者數據(使用實際API連結)
-                    fetch('https:', {
+                    fetch('http://192.168.79.12:8000/baby/baby/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}` // 使用Bearer token方式進行認證，根據您的後端來調整
+                            'Authorization': `Token ${token}` // 使用Bearer token方式進行認證，根據您的後端來調整
                         },
                     })
                     .then(response => response.json())
                     .then(data => {
+                        // data = {"ownedBabies": [1,2]}
+                        console.log(data.ownedBabies);
                         setOwnedBabies(data.ownedBabies); // 從後端取得的已擁有精靈id列表
                     })
                     .catch((error) => {
@@ -44,9 +47,9 @@ const BabyCollect = () => {
         <View style={styles.circle}>
             <TouchableOpacity style={styles.image}>
                 <Image style={styles.pic} source={item} />
-                {/* 如果該精靈不在已擁有列表中，則加上灰色蒙板 */}
-                {!ownedBabies.includes(baby_DATA[index].id) && 
-                    <View style={[StyleSheet.absoluteFill, {backgroundColor: 'rgba(0,0,0,0.7)'}]} />}
+                {/* 如果該精靈不在已擁有列表中，則加上正圓形的灰色蒙板 */}
+                {!ownedBabies.includes(baby_DATA[index].id) &&
+                    <View style={[styles.mask]} />}
             </TouchableOpacity>
             <View style={styles.money}>
                 <Image style={styles.icon} source={require('../../assets/images/coin.png')}/>
@@ -84,13 +87,13 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
         marginBottom: 10,
-        alignItems: 'center', 
+        alignItems: 'center',
     },
     circle: {
         flexDirection: 'column',
         width: '33%',
         height: 140,
-        alignItems: 'center', 
+        alignItems: 'center',
     },
     image: {
         borderWidth: 1,
@@ -98,16 +101,25 @@ const styles = StyleSheet.create({
         width: '90%',
         aspectRatio: 1,
         borderRadius: 60,
-        alignItems: 'center', 
+        alignItems: 'center',
         justifyContent: 'center',
         padding: 5,
+    },
+    mask: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        borderRadius: 60 // 設定為與image的borderRadius相同
     },
     money: {
         marginTop: 'auto',
         flexDirection: 'row',
         padding: 5,
         width: '60%',
-        alignItems: 'center', 
+        alignItems: 'center',
         justifyContent: 'center',
     },
     icon: {

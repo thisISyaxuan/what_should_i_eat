@@ -9,6 +9,8 @@ class baby(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         updated_request = request.data
         user = request.user
+        print(user)
+        print(user.is_authenticated)
         if user.is_authenticated:
             user_id = user.id
             result = UidBaby.objects.filter(uid=user_id).values()
@@ -19,8 +21,8 @@ class baby(generics.GenericAPIView):
             print(result)
             return Response({
                 # 前端名稱
-                'success': result
+                'ownedBabies': result
             })
         return Response({
-            'success': False
+            'ownedBabies': False
         })
