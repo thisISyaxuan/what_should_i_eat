@@ -5,35 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69c4b26f-c0b9-4dfa-95f2-f7df9354c943" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/MainProject/favoritesRList/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MainProject/restaurant/recommender.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MainProject/restaurant/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainProject/MainProject/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/MainProject/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainProject/MainProject/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/MainProject/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainProject/baby/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/baby/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/cost/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/costDetail/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/cost/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/cost/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/cost/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/cost/migrations/0002_alter_costdetail_price_alter_costdetail_rating.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/cost/migrations/0003_alter_costdetail_table.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/cost/migrations/0004_alter_costdetail_options.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/cost/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/cost/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/cost/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/costDetail/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/cost/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/cost/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/cost/views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/user/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/user/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/user/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/user/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/user/migrations/0002_alter_user_info_table.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/user/migrations/0003_alter_user_info_options.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/user/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/user/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/user/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userInfo/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/user/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/user/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userInfo/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/user/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/costDetail/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/costDetail/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/restaurant/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/restaurant/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +42,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/xampp/htdocs/what_should_i_eat/MainProject/userInfo",
+    "last_opened_file_path": "D:/xampp/htdocs/what_should_i_eat/MainProject/restaurant",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -70,12 +52,41 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\xampp\htdocs\what_should_i_eat\MainProject\restaurant" />
       <recent name="D:\xampp\htdocs\what_should_i_eat\MainProject\userInfo" />
       <recent name="D:\xampp\htdocs\what_should_i_eat\MainProject\costDetail" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\xampp\htdocs\what_should_i_eat\MainProject\costDetail" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="recommender" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="what_should_i_eat" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MainProject/restaurant" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MainProject/restaurant/recommender.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.recommender" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -105,5 +116,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MainProject/MainProject/settings.py</url>
+          <line>12</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

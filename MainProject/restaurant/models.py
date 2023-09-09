@@ -9,7 +9,7 @@ from django.db import models
 
 
 class Restaurant(models.Model):
-    rid = models.IntegerField(db_column='rID')  # Field name made lowercase.
+    rid = models.IntegerField(db_column='rID', primary_key=True)  # Field name made lowercase.
     rname = models.TextField(db_column='rName')  # Field name made lowercase.
     rmap_score = models.CharField(db_column='rMap_Score', max_length=10)  # Field name made lowercase.
     rphone = models.TextField(db_column='rPhone')  # Field name made lowercase.
