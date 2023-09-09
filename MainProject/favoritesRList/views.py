@@ -3,23 +3,25 @@ from knox.models import AuthToken
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import UidBaby
+from .models import UidRestaurant
 
-class baby(generics.GenericAPIView):
+class FRList(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         updated_request = request.data
         user = request.user
         if user.is_authenticated:
             user_id = user.id
-            result = UidBaby.objects.filter(uid=user_id).values()
+            result = UidRestaurant.objects.filter(uid=user_id).values()
             result = result[0]
-            result = [key for key, value in result.items() if value == 1]
-            result = [int(item.split('_')[1]) for item in result]
-            # print(type(result[0]))
-            print(result)
+            like = [key for key, value in result.items() if value == 1]
+            unlike = [key for key, value in result.items() if value == -1]
+            # like = like[1:]
+            # unlike = unlike[1:]
+            like = [int(item.split('_')[1]) for item in like]
+            unlike = [int(item.split('_')[1]) for item in unlike]
             return Response({
                 # 前端名稱
-                'success': result
+                'success': [like, unlike]
             })
         return Response({
             'success': False
