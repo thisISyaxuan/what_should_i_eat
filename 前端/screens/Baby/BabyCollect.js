@@ -48,7 +48,11 @@ const BabyCollect = () => {
             <TouchableOpacity style={styles.image}>
                 <Image style={styles.pic} source={item} />
                 {/* 如果該精靈不在已擁有列表中，則加上正圓形的灰色蒙板 */}
+<<<<<<< HEAD
                 {!ownedBabies.includes(baby_DATA[index].id) &&
+=======
+                {!ownedBabies.includes(baby_DATA[index].id) && 
+>>>>>>> origin/main
                     <View style={[styles.mask]} />}
             </TouchableOpacity>
             <View style={styles.money}>

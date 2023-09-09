@@ -1,53 +1,54 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import Slider from '@react-native-community/slider';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from "@react-navigation/native";
-import { Switch } from 'react-native-gesture-handler';
 
 const SearchRes = () => {
-  const [distanceSortOptions, setdistanceSortOptions] = useState(true);
-  const [selectedSortOptions, setSelectedSortOptions] = useState(true);
-  const handleDisSortOptionToggle = () => {
-    setdistanceSortOptions(!distanceSortOptions)
-  };
-  const handleSortOptionToggle = () => {
-    setSelectedSortOptions(!selectedSortOptions)
-  };
-
+  const [sortOption, setSortOption] = useState('系統推薦');
   const [isOpen, setIsOpen] = useState('全部');
   const [isMeal, setIsMeal] = useState('正餐');
   const [category, setCategory] = useState('全部');
-  const navigation = useNavigation();
+
+  // 新增重置到預設選項的功能
+  const resetToDefault = () => {
+    setSortOption('系統推薦');
+    setIsOpen('全部');
+    setIsMeal('正餐');
+    setCategory('全部');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.optionContainer}>
-        <Text style={styles.optionTitle}>排序方式</Text>
-        <View style={styles.isOpenButtonsContainer}>
-          <View style={styles.switcho}>
-            <Switch
-              value={distanceSortOptions}
-              onValueChange={() => handleDisSortOptionToggle()}
-              trackColor={{ false: 'gray', true: '#338168' }} //顏色
-              style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-            />
-            <Text style={styles.sortButtonText}> 距離近到遠</Text>
-          </View>
-          
-          <View style={styles.switcho}>
-            <Switch
-              value={selectedSortOptions}
-              onValueChange={() => handleSortOptionToggle()}
-              trackColor={{ false: 'gray', true: '#338168' }} //顏色
-              style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-            />
-            <Text style={styles.sortButtonText}> 評分高到低</Text>
-          </View>
-        </View>
-        </View>
+    <View style={styles.header}>
+        <Text style={{fontSize: 18}}>搜尋選項</Text>
+        <TouchableOpacity onPress={resetToDefault} style={styles.defaultButton}>
+          <Text style={styles.defaultButtonText}>預設</Text>
+        </TouchableOpacity>
+      </View>
 
+      <View style={styles.optionContainer}>
+      <Text style={styles.optionTitle}>排序方式</Text>
+      <View style={styles.sortButtonsContainer}>
+        <TouchableOpacity
+          style={[styles.sortButton, sortOption === '系統推薦' ? styles.activeSortButton : null]}
+          onPress={() => setSortOption('系統推薦')}
+        >
+          <Text style={[styles.sortButtonText, sortOption === '系統推薦' ? styles.activeSortButtonText : null]}>系統推薦</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.sortButton, sortOption === '距離近到遠' ? styles.activeSortButton : null]}
+          onPress={() => setSortOption('距離近到遠')}
+        >
+          <Text style={[styles.sortButtonText, sortOption === '距離近到遠' ? styles.activeSortButtonText : null]}>距離近到遠</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.sortButton, sortOption === '評分高到低' ? styles.activeSortButton : null]}
+          onPress={() => setSortOption('評分高到低')}
+        >
+          <Text style={[styles.sortButtonText, sortOption === '評分高到低' ? styles.activeSortButtonText : null]}>評分高到低</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
 
       <View style={styles.optionContainer}>
         <Text style={styles.optionTitle}>營業時間</Text>
@@ -66,19 +67,25 @@ const SearchRes = () => {
           </TouchableOpacity>
         </View>
       </View>
+
       <View style={styles.optionContainer}>
         <Text style={styles.optionTitle}>餐點</Text>
         <View style={styles.isMealButtonsContainer}>
           <TouchableOpacity
             style={[styles.isMealButton, isMeal === '正餐' ? styles.activeIsMealButton : null]}
-            onPress={() => setIsMeal('正餐')}>
-            <Text style={[styles.isMealButtonText, isMeal === '正餐' ? styles.activeIsMealButtonText : null]}>正餐</Text></TouchableOpacity>
+            onPress={() => setIsMeal('正餐')}
+          >
+            <Text style={[styles.isMealButtonText, isMeal === '正餐' ? styles.activeIsMealButtonText : null]}>正餐</Text>
+          </TouchableOpacity>
           <TouchableOpacity
             style={[styles.isMealButton, isMeal === '非正餐' ? styles.activeIsMealButton : null]}
-            onPress={() => setIsMeal('非正餐')}>
-            <Text style={[styles.isMealButtonText, isMeal === '非正餐' ? styles.activeIsMealButtonText : null]}>非正餐</Text></TouchableOpacity>
+            onPress={() => setIsMeal('非正餐')}
+          >
+            <Text style={[styles.isMealButtonText, isMeal === '非正餐' ? styles.activeIsMealButtonText : null]}>非正餐</Text>
+          </TouchableOpacity>
         </View>
       </View>
+
       <View style={styles.optionContainer}>
         <Text style={styles.optionTitle}>類別</Text>
         <View style={styles.pickerContainer}>
@@ -86,13 +93,15 @@ const SearchRes = () => {
             selectedValue={category}
             onValueChange={value => setCategory(value)}
             mode="dropdown"
-            style={styles.picker}>
+            style={styles.picker}
+          >
             {['全部', '飲料', '早餐', '中式', '炸物', '便當', '蛋餅', '麵', '咖啡'].map(option => (
               <Picker.Item key={option} label={option} value={option} />
             ))}
           </Picker>
         </View>
       </View>
+
       <TouchableOpacity style={styles.searchButton}>
         <Text style={styles.buttonText}>搜尋</Text>
       </TouchableOpacity>
@@ -103,109 +112,117 @@ const SearchRes = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 16,
+    backgroundColor: '#fff',
   },
-  switcho:{
+  header: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    padding:10,
-
+    marginBottom: 20,
+  },
+  defaultButton: {
+    padding: 8,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 20,
+    backgroundColor: '#F6D58A',  // 淺黃色背景
+  },
+  defaultButtonText: {
+    color: '#333',  // 深灰色文字
+  },
+  resetText: {
+    fontSize: 16,
+    color: '#F6D58A',
   },
   optionContainer: {
     marginBottom: 20,
   },
   optionTitle: {
     fontSize: 16,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   sortButtonsContainer: {
     flexDirection: 'row',
-    marginBottom: 10,
+    justifyContent: 'space-between',
   },
   sortButton: {
     flex: 1,
-    padding: 10,
-    marginRight: 10,
-    borderRadius: 5,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#ddd',
     borderWidth: 1,
-    borderColor: 'gray',
   },
   activeSortButton: {
     backgroundColor: '#F6D58A',
   },
   sortButtonText: {
-    color: 'black',
-    fontSize: 16,
-    textAlign: 'center',
+    fontSize: 14,
   },
   activeSortButtonText: {
-    color: 'white',
+    color: '#fff',
   },
   isOpenButtonsContainer: {
     flexDirection: 'row',
-    marginBottom: 10,
+    justifyContent: 'space-between',
   },
   isOpenButton: {
     flex: 1,
-    padding: 10,
-    marginRight: 10,
-    borderRadius: 5,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#ddd',
     borderWidth: 1,
-    borderColor: 'gray',
   },
   activeIsOpenButton: {
     backgroundColor: '#F6D58A',
   },
   isOpenButtonText: {
-    color: 'black',
-    fontSize: 16,
-    textAlign: 'center',
+    fontSize: 14,
   },
   activeIsOpenButtonText: {
-    color: 'white',
+    color: '#fff',
   },
   isMealButtonsContainer: {
     flexDirection: 'row',
-    marginBottom: 10,
+    justifyContent: 'space-between',
   },
   isMealButton: {
     flex: 1,
-    padding: 10,
-    marginRight: 10,
-    borderRadius: 5,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#ddd',
     borderWidth: 1,
-    borderColor: 'gray',
   },
   activeIsMealButton: {
     backgroundColor: '#F6D58A',
   },
   isMealButtonText: {
-    color: 'black',
-    fontSize: 16,
-    textAlign: 'center',
+    fontSize: 14,
   },
   activeIsMealButtonText: {
-    color: 'white',
+    color: '#fff',
   },
   pickerContainer: {
     borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
+    borderColor: '#ddd',
   },
   picker: {
-    height: 40,
-    color: 'black',
+    height: 50,
+    width: '100%',
   },
   searchButton: {
+    padding: 14,
     backgroundColor: '#F6D58A',
-    borderRadius: 5,
-    padding: 10,
-    alignItems: 'center',
     justifyContent: 'center',
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
+    alignItems: 'center',
+    borderRadius: 8,
+  },
+  buttonText: {
+    fontSize: 16,
+    color: '#fff',
   },
 });
 
