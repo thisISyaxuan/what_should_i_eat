@@ -2,20 +2,43 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import axios from 'axios';
 
 const SearchRes = () => {
   const [sortOption, setSortOption] = useState('系統推薦');
   const [isOpen, setIsOpen] = useState('全部');
-  const [isMeal, setIsMeal] = useState('正餐');
+  const [isMeal, setIsMeal] = useState('全部');
   const [category, setCategory] = useState('全部');
 
   // 新增重置到預設選項的功能
   const resetToDefault = () => {
-    setSortOption('系統推薦');
-    setIsOpen('全部');
-    setIsMeal('正餐');
-    setCategory('全部');
+    setSortOption('系統推薦');  // 修改預設排序方式為距離近到遠
+    setIsOpen('全部');  // 營業時間預設為全部
+    setIsMeal('全部');  // 餐點預設為全部
+    setCategory('全部'); // 類別預設為全部
   };
+
+
+  const searchRestaurants = async () => {
+    try {
+      const dataToSend = {
+        TimeFilter: isOpen === '營業中',
+        MealFilter: isMeal === '全部' ? -1 : (isMeal === '正餐' ? 1 : 0),
+        LabelFilter: category,
+        DistanceSort: sortOption === '距離近到遠',
+        RatingSort: sortOption === '評分高到低'
+      };
+
+      const response = await api.post('API連結', dataToSend); 
+
+      if (response.data.message === '成功') {
+        setRestaurants(response.data.restaurants); // 數據在 response.data.restaurants 裡
+      } else {
+      }
+    } catch (error) {
+      console.error("API 呼叫錯誤", error);
+    }
+  };  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -69,38 +92,48 @@ const SearchRes = () => {
       </View>
 
       <View style={styles.optionContainer}>
-        <Text style={styles.optionTitle}>餐點</Text>
-        <View style={styles.isMealButtonsContainer}>
-          <TouchableOpacity
-            style={[styles.isMealButton, isMeal === '正餐' ? styles.activeIsMealButton : null]}
-            onPress={() => setIsMeal('正餐')}
-          >
-            <Text style={[styles.isMealButtonText, isMeal === '正餐' ? styles.activeIsMealButtonText : null]}>正餐</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.isMealButton, isMeal === '非正餐' ? styles.activeIsMealButton : null]}
-            onPress={() => setIsMeal('非正餐')}
-          >
-            <Text style={[styles.isMealButtonText, isMeal === '非正餐' ? styles.activeIsMealButtonText : null]}>非正餐</Text>
-          </TouchableOpacity>
-        </View>
+      <Text style={styles.optionTitle}>餐點</Text>
+      <View style={styles.isMealButtonsContainer}>
+        <TouchableOpacity
+          style={[styles.isMealButton, isMeal === '全部' ? styles.activeIsMealButton : null]}
+          onPress={() => setIsMeal('全部')}
+        >
+          <Text style={[styles.isMealButtonText, isMeal === '全部' ? styles.activeIsMealButtonText : null]}>全部</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.isMealButton, isMeal === '正餐' ? styles.activeIsMealButton : null]}
+          onPress={() => setIsMeal('正餐')}
+        >
+          <Text style={[styles.isMealButtonText, isMeal === '正餐' ? styles.activeIsMealButtonText : null]}>正餐</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.isMealButton, isMeal === '非正餐' ? styles.activeIsMealButton : null]}
+          onPress={() => setIsMeal('非正餐')}
+        >
+          <Text style={[styles.isMealButtonText, isMeal === '非正餐' ? styles.activeIsMealButtonText : null]}>非正餐</Text>
+        </TouchableOpacity>
       </View>
+    </View>
 
-      <View style={styles.optionContainer}>
-        <Text style={styles.optionTitle}>類別</Text>
-        <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={category}
-            onValueChange={value => setCategory(value)}
-            mode="dropdown"
-            style={styles.picker}
-          >
-            {['全部', '飲料', '早餐', '中式', '炸物', '便當', '蛋餅', '麵', '咖啡'].map(option => (
-              <Picker.Item key={option} label={option} value={option} />
-            ))}
-          </Picker>
-        </View>
+    <View style={styles.optionContainer}>
+      <Text style={styles.optionTitle}>類別</Text>
+      <View style={styles.pickerContainer}>
+        <Picker
+          selectedValue={category}
+          onValueChange={value => setCategory(value)}
+          mode="dropdown"
+          style={styles.picker}
+        >
+          {[
+            '全部', '米食', '麵食', '中式', '西式', '日式', '越式', '美式', '客家料理', '泰式', '韓式', '港式', 
+            '速食', '素食', '早餐', '冰品', '飲料', '咖啡', '甜點', '鹹點', '湯品', '滷味', '炸物', '烤物', '鍋物', 
+            '健康餐', '無菜單料理', '寵物餐廳', '酒', '吃到飽餐廳'
+          ].map(option => (
+            <Picker.Item key={option} label={option} value={option} />
+          ))}
+        </Picker>
       </View>
+    </View>
 
       <TouchableOpacity style={styles.searchButton}>
         <Text style={styles.buttonText}>搜尋</Text>

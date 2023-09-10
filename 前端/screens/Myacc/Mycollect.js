@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import Swiper from 'react-native-swiper';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -18,53 +19,101 @@ export default function Mycollect() {
 }
 
 const RatingScreen = () => {
+    const [restaurants, setRestaurants] = useState([]);
+    useEffect(() => {
+        fetchRestaurants("rating");
+    }, []);
+
+    const fetchRestaurants = async (type) => {
+        try {
+            const token = await AsyncStorage.getItem('userToken');
+            if (token) {
+                console.log(token);
+                // 使用token發送請求到後端取得使用者數據
+                fetch(`YOUR_BACKEND_API_ENDPOINT/${type}`, { // 使用實際API連結
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${token}` // 使用Token進行認證
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const transformedData = Object.keys(data).map(rid => ({
+                        id: rid,
+                        name: data[rid].rName,
+                        mapScore: data[rid].rMap_Score,
+                        phone: data[rid].rPhone,
+                        address: data[rid].rAddress
+                    }));
+                    setRestaurants(transformedData);
+                })
+                .catch(error => {
+                    console.error('獲取餐廳詳細資訊錯誤:', error);
+                });
+            } else {
+                console.log('未獲取到Token');
+            }
+        } catch (error) {
+            console.error('獲取Token錯誤:', error);
+        }
+    };
+
     return (
         <View style={styles.container}>
-            <ShopInfoCard />
-            <ShopInfoCard />
+            {restaurants.map(restaurant => (
+                <ShopInfoCard key={restaurant.id} data={restaurant} />
+            ))}
         </View>
     );
 };
 
 const DistanceScreen = () => {
+    const [restaurants, setRestaurants] = useState([]);
+    useEffect(() => {
+        fetchRestaurants("distance");
+    }, []);
+
+    const fetchRestaurants = async (type) => {
+        // 同上的 fetchRestaurants 的內容，只是資料排序/篩選方式可能有所不同
+    };
+
     return (
         <View style={styles.container}>
-            <ShopInfoCard />
-            <ShopInfoCard />
+            {restaurants.map(restaurant => (
+                <ShopInfoCard key={restaurant.id} data={restaurant} />
+            ))}
         </View>
     );
 };
 
 const NewArrivalsScreen = () => {
+    const [restaurants, setRestaurants] = useState([]);
+    useEffect(() => {
+        fetchRestaurants("newArrivals");
+    }, []);
+
+    const fetchRestaurants = async (type) => {
+        // 同上的 fetchRestaurants 的內容，只是資料排序/篩選方式可能有所不同
+    };
+
     return (
         <View style={styles.container}>
-            <ShopInfoCard />
-            <ShopInfoCard />
+            {restaurants.map(restaurant => (
+                <ShopInfoCard key={restaurant.id} data={restaurant} />
+            ))}
         </View>
     );
 };
 
-const LightIndicator = ({ color, label }) => (
-    <View style={[styles.lightWrapper, { alignItems: 'center' }]}>
-        <View style={[styles.light, { backgroundColor: color }]}></View>
-        <Text>{label}</Text>
-    </View>
-);
-
-const ShopInfoCard = () => {
+const ShopInfoCard = ({ data }) => {
     return (
         <View style={styles.card}>
             <View style={styles.cardLeft}>
-                <View style={styles.cardRow}>
-                    <LightIndicator color="green" label="營業中" />
-                    <Text style={{ ...styles.cardText, fontWeight: 'bold', marginLeft: 10 }}>店名</Text>
-                </View>
-                <View style={styles.cardRow}>
-                    <Image source={require('../../assets/images/start.png')} style={styles.starIcon} />
-                    <Text style={styles.cardText}>4.3</Text>
-                    <Text style={styles.cardText}>(100)</Text>
-                </View>
-                <Text style={styles.cardText}>距離 4.1 km</Text>
+                <Text>{data.name}</Text>
+                <Text>{data.mapScore}</Text>
+                <Text>{data.phone}</Text>
+                <Text>{data.address}</Text>
             </View>
             <View style={styles.cardRight}>
                 <Swiper
@@ -72,9 +121,9 @@ const ShopInfoCard = () => {
                     showsPagination={true}
                     paginationStyle={{ bottom: 0 }}
                 >
-                    <Image style={styles.shopImage} source={require('../../assets/images/storeexample.png')} />
-                    <Image style={styles.shopImage} source={require('../../assets/images/storeexample2.png')} />
-                    <Image style={styles.shopImage} source={require('../../assets/images/storeexample3.png')} />
+                    {data.images && data.images.map((image, index) => (
+                        <Image key={index} style={styles.shopImage} source={{ uri: image }} />
+                    ))}
                 </Swiper>
             </View>
         </View>
@@ -87,17 +136,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#f4f4f4',
         paddingTop: '4%',
-    },
-    lightWrapper: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginRight: 10,
-    },
-    light: {
-        width: 10,
-        height: 10,
-        borderRadius: 5,
-        marginRight: 5,
     },
     card: {
         width: screenWidth * 0.8,
@@ -113,19 +151,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'space-between',
         paddingLeft: '4%',
-    },
-    cardRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    starIcon: {
-        width: 20,
-        height: 20,
-        marginRight: 5,
-    },
-    cardText: {
-        fontSize: 14,
-        marginRight: 5,
     },
     cardRight: {
         width: '50%',

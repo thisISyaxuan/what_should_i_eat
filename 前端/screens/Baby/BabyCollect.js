@@ -7,27 +7,24 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const BabyCollect = () => { 
     const navigation = useNavigation();
-    const [ownedBabies, setOwnedBabies] = useState([]); // 使用useState來保存用戶已擁有的精靈id列表
+    const [ownedBabies, setOwnedBabies] = useState([]); 
 
     useEffect(() => {
         const fetchOwnedBabies = async () => {
             try {
-                const token = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
+                const token = await AsyncStorage.getItem('userToken'); 
                 if (token) {
-                    console.log(token)
-                    // 使用token發送請求到後端取得使用者數據(使用實際API連結)
                     fetch('http://192.168.79.12:8000/baby/baby/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Token ${token}` // 使用Bearer token方式進行認證，根據您的後端來調整
+                            'Authorization': `Token ${token}`
                         },
                     })
                     .then(response => response.json())
                     .then(data => {
-                        // data = {"ownedBabies": [1,2]}
-                        console.log(data.ownedBabies);
-                        setOwnedBabies(data.ownedBabies); // 從後端取得的已擁有精靈id列表
+                        //data = {"ownedBabies":[1,2]}
+                        setOwnedBabies(data.ownedBabies); 
                     })
                     .catch((error) => {
                         console.error('獲取數據出錯:', error);
@@ -40,7 +37,7 @@ const BabyCollect = () => {
             }
         };
 
-        fetchOwnedBabies(); // 執行上面的函數
+        fetchOwnedBabies(); 
     }, []);
 
     const renderItem = ({ item, index }) => (
@@ -48,17 +45,16 @@ const BabyCollect = () => {
             <TouchableOpacity style={styles.image}>
                 <Image style={styles.pic} source={item} />
                 {/* 如果該精靈不在已擁有列表中，則加上正圓形的灰色蒙板 */}
-<<<<<<< HEAD
-                {!ownedBabies.includes(baby_DATA[index].id) &&
-=======
                 {!ownedBabies.includes(baby_DATA[index].id) && 
->>>>>>> origin/main
                     <View style={[styles.mask]} />}
             </TouchableOpacity>
-            <View style={styles.money}>
-                <Image style={styles.icon} source={require('../../assets/images/coin.png')}/>
-                <Text> {baby_DATA[index].price}</Text>
-            </View>
+            {/* 若該精靈不在已擁有列表中，則顯示金幣和價格 */}
+            {!ownedBabies.includes(baby_DATA[index].id) && (
+                <View style={styles.money}>
+                    <Image style={styles.icon} source={require('../../assets/images/coin.png')}/>
+                    <Text> {baby_DATA[index].price}</Text>
+                </View>
+            )}
         </View>
     );
 
@@ -76,7 +72,6 @@ const BabyCollect = () => {
     );
 };
 
-// 樣式部分維持不變
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -88,10 +83,6 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         justifyContent: 'space-between',
         padding: 5,
-    },
-    itemContainer: {
-        marginBottom: 10,
-        alignItems: 'center',
     },
     circle: {
         flexDirection: 'column',
@@ -116,7 +107,7 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
         backgroundColor: 'rgba(0,0,0,0.7)',
-        borderRadius: 60 // 設定為與image的borderRadius相同
+        borderRadius: 60 
     },
     money: {
         marginTop: 'auto',
