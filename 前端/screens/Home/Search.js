@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import axios from 'axios';
 
 const SearchRes = () => {
   const [sortOption, setSortOption] = useState('系統推薦');
