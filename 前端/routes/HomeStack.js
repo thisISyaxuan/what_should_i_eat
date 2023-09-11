@@ -8,6 +8,7 @@ import Vegatablelist from '../screens/Home/vegatablelist';
 import 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SearchRes from '../screens/Home/Search';
+//import Test from '../screens/Home/Test';
 import Errorfb from '../screens/Home/ErrorfeedBack';
 import Mycollect from '../screens/Myacc/Mycollect';
 const Stack = createStackNavigator();
@@ -15,6 +16,7 @@ const Stack = createStackNavigator();
 const HomeStack = () => (
   <NavigationContainer independent={true}>
     <Stack.Navigator>
+    
         <Stack.Screen name="餐廳探索" component={Home} 
                       options={({ navigation }) => ({
                         headerStyle: {
