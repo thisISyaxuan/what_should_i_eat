@@ -6,19 +6,30 @@ import SendPWD from '../screens/LoginRegister/SendPWD';
 import 'react-native-gesture-handler';
 import ButtomTabStack from './ButtomTabStack';
 import Privacy from '../screens/LoginRegister/Privacy';
-import RegisterStack from './RegisterStack';
+import Register from '../screens/LoginRegister/Register';
+import FavLabel from '../screens/LoginRegister/favLabel';
 
 const Stack = createStackNavigator();
 
 const AuthStack = () => (
   <NavigationContainer independent={true}>
-    <Stack.Navigator>
+    <Stack.Navigator name="AuthStack">
         <Stack.Screen name="Login" component={Login} 
                       options={{headerShown: false}} />
-        <Stack.Screen name="ForgotPWD" component={ForgotPWD} options={{headerShown: false}}/>
-        <Stack.Screen name="SendPWD" component={SendPWD} options={{headerShown: false}}/>
-        <Stack.Screen name="RegisterStack" component={RegisterStack} 
-                      options={{headerShown:false}}/>
+        <Stack.Screen name="Register" component={Register} options={{headerShown: false}}/>
+        <Stack.Screen name="喜好勾選" component={FavLabel} 
+                        options={{
+                          headerStyle: {
+                          backgroundColor: '#f6d58a',
+                          },
+                          headerBackTitle: ' ',
+                          headerBackTitleStyle: {
+                              color: 'black', 
+                              fontSize: 16,
+                          },
+                          headerTintColor: 'black',
+                          }}
+        />
         <Stack.Screen name="隱私政策與使用條款" component={Privacy} options={{
                             headerShown: true,
                             headerStyle: {
@@ -31,6 +42,8 @@ const AuthStack = () => (
                             },
                             headerTintColor: 'black'
                             }}/>
+        <Stack.Screen name="ForgotPWD" component={ForgotPWD} options={{headerShown: false}}/>
+        <Stack.Screen name="SendPWD" component={SendPWD} options={{headerShown: false}}/>
         <Stack.Screen name="ButtomTabStack" component={ButtomTabStack} 
                       options={{headerShown:false}}/>
     </Stack.Navigator>

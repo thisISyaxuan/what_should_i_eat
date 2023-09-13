@@ -51,7 +51,7 @@ export default function Myacc() {
           <Text style={globalStyles.TextSize}>瀏覽紀錄</Text></TouchableOpacity>
         <TouchableOpacity style={[styles.infoCol]}>
           <Text style={globalStyles.TextSize}>變更密碼</Text></TouchableOpacity>
-        <TouchableOpacity style={[globalStyles.Gocenter, styles.infoCol]}>
+        <TouchableOpacity style={[globalStyles.Gocenter, styles.infoCol]} /*onPress={() => navigation.navigate('')}*/>
           <Text style={[styles.logOutBtn]}>登出 </Text></TouchableOpacity>
       </View>
     </SafeAreaView>

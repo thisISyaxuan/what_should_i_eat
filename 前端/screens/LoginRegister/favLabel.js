@@ -9,8 +9,7 @@ import { useRoute } from "@react-navigation/native";//參數傳遞
 import { Alert } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const FavLabel = () => { 
-    const navigation = useNavigation();
+const FavLabel = ({navigation}) => { 
     const route = useRoute()
     const { username, gender, birthday, phone_number, address, email, password, verify_password, } = route.params;
     const [preferences, setPreferences] = useState([]);
@@ -79,7 +78,7 @@ const FavLabel = () => {
                 {
                   text: 'OK',
                   onPress: () => {
-                    //navigation.navigate('Login');
+                    navigation.navigate('Login');
                   },
                 },
               ]);
@@ -107,6 +106,14 @@ const FavLabel = () => {
               preferences:preferences,
             };
             console.log(data);
+            Alert.alert('註冊成功', '重新登入以開始體驗!', [
+              {
+                text: 'OK',
+                onPress: () => {
+                  navigation.navigate('Login');
+                },
+              },
+            ]);
           }
         } catch (error) {
           console.error('Error:', error);

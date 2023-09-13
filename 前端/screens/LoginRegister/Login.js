@@ -98,7 +98,7 @@ export default function Login({navigation}) {
       <Text>{'\n'}</Text>
 
       <View style={globalStyles.Btn}>
-      <TouchableOpacity style={globalStyles.YellowBtn} onPress={() => navigation.navigate('RegisterStack')}>
+      <TouchableOpacity style={globalStyles.YellowBtn} onPress={() => navigation.navigate('Register')}>
         <Text style={globalStyles.BtnText}>註冊</Text>
       </TouchableOpacity>
       <TouchableOpacity style={globalStyles.GreenBtn} onPress={handleLogin}>

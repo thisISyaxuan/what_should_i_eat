@@ -3,6 +3,7 @@ import { SafeAreaView ,TouchableOpacity,Button,TouchableWithoutFeedback,Keyboard
 import { globalStyles } from '../../styles/global';
 import { useState } from "react";
 import { Switch } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 export default function Register({navigation}) {
   const [username, setUsername] = useState('');
   const [gender, setGender] = useState(1);
@@ -13,6 +14,7 @@ export default function Register({navigation}) {
   const [password, setPassword] = useState('');
   const [verify_password, setverify_Password] = useState('');
   const [isChecked, setIsChecked] = useState(true);
+  //const navigation = useNavigation();
 
   const handleSwitchToggle = () => {
     setIsChecked(!isChecked);
@@ -115,7 +117,7 @@ export default function Register({navigation}) {
       </View>
 
     <View style={globalStyles.Btn}>
-      <TouchableOpacity style={globalStyles.YellowBtn} onPress={() => navigation.navigate('AuthStack')}>
+      <TouchableOpacity style={globalStyles.YellowBtn} onPress={() => navigation.navigate('Login')}>
         <Text style={globalStyles.BtnText}>返回</Text>
       </TouchableOpacity>
       <TouchableOpacity style={globalStyles.GreenBtn} onPress={handleRegister}>
