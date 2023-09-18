@@ -5,8 +5,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import UidRestaurant
 
-class FRList(generics.GenericAPIView):
+class myLikeRestaurant(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
+        print(request.data)
         updated_request = request.data
         user = request.user
         if user.is_authenticated:

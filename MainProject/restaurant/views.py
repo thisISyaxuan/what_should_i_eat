@@ -7,6 +7,7 @@ from .models import Restaurant
 from . import recommender
 class recommend(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
+        print(request.data)
         updated_request = request.data
         user = request.user
         if user.is_authenticated:
@@ -21,7 +22,8 @@ class recommend(generics.GenericAPIView):
                     result_dict[i] = result_dict[i][0]
                     result_dict[i] = {key: result_dict[i][key] for key in result_dict[i] if key not in keys_to_delete}
                     if result_dict[i]:
-                        print(result_dict[i])
+                        continue
+                        # print(result_dict[i])
                     else:
                         print(f"Restaurant with rid {i} not found in the database.")
             except Exception as e:

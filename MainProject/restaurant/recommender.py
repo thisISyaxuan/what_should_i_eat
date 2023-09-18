@@ -54,9 +54,9 @@ def GoFilter(Restaurant, TimeFilter, MealFilter, LabelFilter, NewRLabel):
     # 類別
     if (LabelFilter != '全部'):
         # print(len(Restaurant), '!=全部')
-        for rID in Restaurant:
-            if ((NewRLabel.loc[rID, LabelFilter] == 0) and (rID in Restaurant.index)):
-                Restaurant = Restaurant.drop(rID)
+        for index in Restaurant.index:
+            if (NewRLabel.loc[index, LabelFilter] == 0):
+                Restaurant = Restaurant.drop(index)
     # print(len(Restaurant))
     return Restaurant
 
@@ -88,6 +88,7 @@ def checkTime(Restaurant):
                     openCheck[index] = False
         # print(openCheck)
         if (True not in openCheck):
+            # print(rID)
             Restaurant = Restaurant.drop(index=rID)
     return Restaurant
 

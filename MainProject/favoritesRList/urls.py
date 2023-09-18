@@ -10,5 +10,5 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     # path('',include(router.urls)),
-    path('FRList/', views.FRList.as_view()),
+    path('favorite/', views.myLikeRestaurant.as_view()),
 ]

@@ -25,5 +25,5 @@ urlpatterns = [
     path('account/',include('costDetail.urls')),
     path('baby/',include('baby.urls')),
     path('recommend/',include('restaurant.urls')),
-    path('FRList/',include('favoritesRList.urls'))
+    path('favorite/',include('favoritesRList.urls')),
 ]
