@@ -10,7 +10,6 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 @api_view(['POST'])
 def get_user_data(request):
     print(request.data)
-    # print(request.data)
     user = request.user
     # print(user)
     if user.is_authenticated:
