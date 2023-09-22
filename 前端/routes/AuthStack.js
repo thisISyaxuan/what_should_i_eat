@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import Test from '../screens/LoginRegister/Test';
 import Login from '../screens/LoginRegister/Login';
 import ForgotPWD from '../screens/LoginRegister/ForgotPWD';
 import SendPWD from '../screens/LoginRegister/SendPWD';
