@@ -98,6 +98,33 @@ def checkTime(Restaurant):
     Restaurant = Restaurant.drop(date, axis=1)
     return Restaurant
 
+def checkDistance(userPos, Restaurant):
+    Restaurant.insert(Restaurant.shape[1], 'distance', 0.1111)
+    # [lat, lng]
+    for rID, row in Restaurant.iterrows():
+        # 測試
+        resPos = [23.968, 120.959]
+        # resPos = [Restaurant.loc[rID, 'lat'], Restaurant.loc[rID, 'lng']]
+        # print(type(userPos[1]), type(resPos[1]))
+        theta = userPos[1]-resPos[1]
+        distance = 60 * 1.1515 * rad2deg(
+            arccos(
+                (sin(deg2rad(userPos[0])) * sin(deg2rad(resPos[0]))) + 
+                (cos(deg2rad(userPos[0])) * cos(deg2rad(resPos[0])) * cos(deg2rad(theta)))
+            )
+        )
+        Restaurant.loc[rID, 'distance'] = round(distance * 1.609344, 2)
+        # print(Restaurant.loc[rID, 'distance'])
+    return Restaurant
+
+def rad2deg(radians):
+    degrees = radians * 180 / pi
+    return degrees
+
+def deg2rad(degrees):
+    radians = degrees * pi / 180
+    return radians
+
 def GoFilter(Restaurant, TimeFilter, MealFilter, LabelFilter, NewRLabel):
     # 營業時間
     if (TimeFilter):
@@ -147,7 +174,6 @@ def get_the_most_similar_res(uID, SimilarityMatrix):
     SortedIndex = np.argsort(user_like)[::-1]
     result = (list(SimilarityMatrix.columns[SortedIndex]))
     return result
-
 
 def RecommenderUserBasedCollaborativeFiltering(uID, SimilarUsers_num, NewRLabel, CostDetail):
     resRating = pd.merge(CostDetail[["uID", "rID", "rating"]], NewRLabel, on='rID')
@@ -221,44 +247,6 @@ def GoMerge(init, content, filtering):
         result.append(key)
     return result
 
-def GoSorted(FilterResult, userPos, RatingSort):
-    result = []
-    if (len(userPos) == 2):
-        FilterResult.insert(FilterResult.shape[1], 'distance', 0)
-        tempResult = getDistance(userPos, FilterResult)
-        print(tempResult)
-        result = tempResult.sort_values(by="distance", ascending=True)
-    if (RatingSort):
-        result = FilterResult.sort_values(by="rMap_Score", ascending=False)
-    # 要轉成 list
-    return result
-
-def getDistance(userPos, Restaurant):
-    # [lat, lng]
-    for rID, row in Restaurant.iterrows():
-        # 測試
-        resPos = [23.9680205, 120.9595776]
-        # resPos = [Restaurant.loc[rID, 'lat'], Restaurant.loc[rID, 'lng']]
-        # print(resPos)
-        theta = userPos[1] - resPos[1]    
-        distance = 60 * 1.1515 * rad2deg(
-            arccos(
-                (sin(deg2rad(userPos[0])) * sin(deg2rad(resPos[0]))) + 
-                (cos(deg2rad(userPos[0])) * cos(deg2rad(resPos[0])) * cos(deg2rad(theta)))
-            )
-        )
-        Restaurant.loc[rID, 'distance'] = round(distance * 1.609344, 2)
-        # print(Restaurant.loc[rID, 'distance'])
-    return Restaurant
-
-def rad2deg(radians):
-    degrees = radians * 180 / pi
-    return degrees
-
-def deg2rad(degrees):
-    radians = degrees * pi / 180
-    return radians
-
 def transDataFrame(FilterResult, ListResult):
     result = FilterResult.drop(FilterResult.index)
     for rID in ListResult:
@@ -266,15 +254,21 @@ def transDataFrame(FilterResult, ListResult):
             result.loc[rID] = FilterResult.loc[rID]
     return result
 
-def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, RatingSort):
+def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, RatingSort):
 # def main():
 #     uID = 2
 #     TimeFilter = True
 #     MealFilter = 0
 #     LabelFilter = '全部'
-#     userPos = []
+#     userPos = [23.96656, 120.96586]    # [lat, lng]
+#     DistancSort = False
 #     RatingSort = False
-    print(uID, TimeFilter, MealFilter, LabelFilter, userPos, RatingSort)
+#     print(type(userPos), userPos)
+    userPos = userPos.split(',')
+    userPos[0] = float(userPos[0].split('[')[1])
+    userPos[1] = float(userPos[1].split(']')[0])
+    # print(type(userPos), userPos)
+    print(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, RatingSort)
     Restaurant = get_pd('1_restaurant', "rID", "NULL")
     NewRLabel = get_pd('1_new_rlabel', 'rID', "NULL")
     UserLike = get_pd('1_user_like', 'uID', uID)
@@ -283,22 +277,30 @@ def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, RatingSort):
     db.close
 
     Restaurant = checkTime(Restaurant)
-    
-    # 過濾 -> 推薦 or 排序 -> output
-    
-    # 過濾
+
+    Restaurant = checkDistance(userPos, Restaurant)
+
+    TimeFilter = False
+    MealFilter = 0
+    LabelFilter = '全部'
     if ((TimeFilter==False) and (MealFilter==-1) and (LabelFilter=='全部')): # 初始值
         FilterResult = Restaurant
     else:
         FilterResult = GoFilter(Restaurant, TimeFilter, MealFilter, LabelFilter, NewRLabel)
+    # print(FilterResult)
 
-    # 排序s
-    # [lat, lng]
-    # userPos = [23.96656, 120.9658673]
-    # userPose = []
-    if (len(userPos)==2 or RatingSort):
-        DFresult = GoSorted(FilterResult, userPos, RatingSort)
-    # 推薦
+    # 過濾完之後
+    # 如果排序
+        # 排序 -> output
+    # 如果不排序
+        # 推薦 -> output
+
+    DistanceSort = False
+    RatingSort = False
+    if (DistanceSort):
+        DFresult = FilterResult.sort_values(by="distance", ascending=True)
+    elif (RatingSort):
+        DFresult = FilterResult.sort_values(by="rMap_Score", ascending=False)
     else:
         # 如果這個人沒有記帳紀錄
         if (True not in list(CostDetail['uID'] != uID)):
@@ -314,8 +316,9 @@ def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, RatingSort):
             ListResult = GoMerge(init, content, filtering)
         DFresult = transDataFrame(FilterResult, ListResult)
     DFresult = DFresult.drop(['all_label', 'meal_or_not', 'rLat', 'rLng'], axis=1)
+    DFresult['rID'] = DFresult.index
     # print(DFresult)
     return DFresult
 
-
-# if __name__ == '__maic
+# if __name__ == '__main__':
+#     main()

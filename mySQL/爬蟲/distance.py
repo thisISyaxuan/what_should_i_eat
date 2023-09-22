@@ -24,7 +24,10 @@ def go_crawler(info): # rid, 店名, URL(地址)
     # wb.save('crawler.xlsx')
     wb = openpyxl.load_workbook('crawler.xlsx')
     sheet = wb['Sheet']
-    index = 208
+    # 415
+    # 423
+    # 433
+    index = 470
     for aR in info[index:]:
         # if (aR[0] == 4):
         # sheet[f"A{index}"] = aR[0]
