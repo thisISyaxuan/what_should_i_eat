@@ -2,15 +2,20 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import * as Location from 'expo-location';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SearchRes = () => {
+  //const { userPos } = route.params;
   const [sortOption, setSortOption] = useState('系統推薦');
-  const [isOpen, setIsOpen] = useState('全部');
-  const [isMeal, setIsMeal] = useState('全部');
-  const [category, setCategory] = useState('全部');
-
-  // 新增重置到預設選項的功能
-  const resetToDefault = () => {
+  const [isOpen, setIsOpen] = useState('全部');//TimeFilter 是否營業
+  const [isMeal, setIsMeal] = useState('全部');//MealFilter 全部、正餐、非正餐
+  const [category, setCategory] = useState('全部');//labelFilter
+  const [distance, setDistanceSort] = useState(false);//DistanceSort
+  const [rating, setRatingSort] = useState(false);//Rating Sort
+  //userPos
+  
+  const resetToDefault = () => {//預設按鈕
     setSortOption('系統推薦');  // 修改預設排序方式為距離近到遠
     setIsOpen('全部');  // 營業時間預設為全部
     setIsMeal('全部');  // 餐點預設為全部
@@ -24,19 +29,21 @@ const SearchRes = () => {
         TimeFilter: isOpen === '營業中',
         MealFilter: isMeal === '全部' ? -1 : (isMeal === '正餐' ? 1 : 0),
         LabelFilter: category,
-        DistanceSort: sortOption === '距離近到遠',
-        RatingSort: sortOption === '評分高到低'
+        //userPos:userPos,
+        DistanceSort: distance,
+        RatingSort: rating
       };
-
-      const response = await api.post('API連結', dataToSend); 
-
+      console.log(dataToSend);
+      //const response = await api.post('API連結', dataToSend); 
+      /*
       if (response.data.message === '成功') {
         setRestaurants(response.data.restaurants); // 數據在 response.data.restaurants 裡
       } else {
-      }
+      }*/
     } catch (error) {
       console.error("API 呼叫錯誤", error);
     }
+    
   };  
 
   return (
@@ -53,19 +60,31 @@ const SearchRes = () => {
       <View style={styles.sortButtonsContainer}>
         <TouchableOpacity
           style={[styles.sortButton, sortOption === '系統推薦' ? styles.activeSortButton : null]}
-          onPress={() => setSortOption('系統推薦')}
+          onPress={() => {
+            setSortOption('系統推薦');
+            setDistanceSort(false); // 重置排序狀態
+            setRatingSort(false);
+          }}
         >
           <Text style={[styles.sortButtonText, sortOption === '系統推薦' ? styles.activeSortButtonText : null]}>系統推薦</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.sortButton, sortOption === '距離近到遠' ? styles.activeSortButton : null]}
-          onPress={() => setSortOption('距離近到遠')}
+          onPress={() => {
+            setSortOption('距離近到遠');
+            setDistanceSort(true); // 設定為距離排序
+            setRatingSort(false);  // 重置評分排序
+          }}
         >
           <Text style={[styles.sortButtonText, sortOption === '距離近到遠' ? styles.activeSortButtonText : null]}>距離近到遠</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.sortButton, sortOption === '評分高到低' ? styles.activeSortButton : null]}
-          onPress={() => setSortOption('評分高到低')}
+          onPress={() => {
+            setSortOption('評分高到低');
+            setDistanceSort(false); // 重置距離排序
+            setRatingSort(true);   // 設定為評分排序
+          }}
         >
           <Text style={[styles.sortButtonText, sortOption === '評分高到低' ? styles.activeSortButtonText : null]}>評分高到低</Text>
         </TouchableOpacity>
@@ -134,7 +153,8 @@ const SearchRes = () => {
       </View>
     </View>
 
-      <TouchableOpacity style={styles.searchButton}>
+      <TouchableOpacity style={styles.searchButton}
+                        onPress={searchRestaurants}>
         <Text style={styles.buttonText}>搜尋</Text>
       </TouchableOpacity>
     </SafeAreaView>

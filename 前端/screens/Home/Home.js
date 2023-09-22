@@ -1,17 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import EventList from '../../component/event-list';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import * as Location from 'expo-location';
 export default function Home() {
     const navigation = useNavigation();
-  
-    // 定義一個State來保存餐廳資料
+    const route = useRoute();
     const [restaurants, setRestaurants] = useState([]);
+    const [location, setLocation] = useState(null);
+    const [userPos,setuserPos] = useState([23.963801572121646, 120.96477655705154]);
 
     useEffect(() => {
+        const checkLocationPermission = async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+              console.log('定位權限未被授予');
+            }else{
+                console.log('抓到了');
+                const location = await Location.getCurrentPositionAsync({});
+                //console.log('緯度:', location.coords.latitude);
+                //console.log('經度:', location.coords.longitude);
+                //setLocation(location);
+                setuserPos([location.coords.latitude,location.coords.longitude]);
+                //console.log(userPos);
+            }
+          };
+
         const fetchRestaurants = async () => {
             try {
                 const token = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
@@ -47,9 +63,17 @@ export default function Home() {
                 console.error('Error fetching token:', error);
             }
         };
-
+        checkLocationPermission();
         fetchRestaurants(); // 執行上面的函數
     }, []);
+
+    useEffect(() => {
+        // 在 userPos 更新後執行相關操作
+        console.log('userPos 已更新:', userPos);
+        // 可以在這裡執行其他需要在 userPos 更新後執行的操作
+        //AsyncStorage.setItem('userPos', userPos);
+        //console.log(AsyncStorage.getItem('userPos'));
+    }, [userPos]);
 
     return (
         <View style={styles.container}>
