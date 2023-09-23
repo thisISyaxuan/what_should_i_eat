@@ -5,8 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Location from 'expo-location';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
-const SearchRes = () => {
+const SearchRes = ({navigation}) => {
   //const { userPos } = route.params;
   const [sortOption, setSortOption] = useState('系統推薦');
   const [isOpen, setIsOpen] = useState('全部');//TimeFilter 是否營業
@@ -15,8 +14,8 @@ const SearchRes = () => {
   const [distance, setDistanceSort] = useState(false);//DistanceSort
   const [rating, setRatingSort] = useState(false);//Rating Sort
   const [userPos,setuserPos] = useState([23.01,120.01]);
-
-  const resdata = {
+  
+  /*const resdata = {
     "success": {
         "rName": ["古記素食烘焙","守匠日式甜點專賣",],
         "rMap_Score": [3.7,4.9,],
@@ -26,7 +25,7 @@ const SearchRes = () => {
         "distance": [0.65,0.65,],
         "rID": [174,237,]
     }
-}
+  }*/
   
   const resetToDefault = () => {//按下預設按鈕
     setSortOption('系統推薦');  // 修改預設排序方式為距離近到遠
@@ -44,7 +43,6 @@ const SearchRes = () => {
           console.log('沒開啟定位');
         }else{
             const location = await Location.getCurrentPositionAsync({});
-            console.log('抓到了');
             setuserPos([location.coords.latitude,location.coords.longitude]);//存經緯度
         }
       };
@@ -73,23 +71,21 @@ const SearchRes = () => {
         },
         body: JSON.stringify(data),
       });
-      const responseData = await response.json();//後端回傳資料是(resdata)
-      console.log(responseData); // 處理後端回傳的資料
-      /* 假設後端回傳的資料如下*/
+      const responseData = await response.json();//後端回傳資料
+      console.log(responseData); 
+      /* 假設後端回傳的資料在responseData*/
       //把資料傳到餐廳探索
-
-      
+      navigation.navigate('餐廳探索',{responseData});
       }else{
       console.log('抓不到token')
+      
       const dataToSend = {
         TimeFilter: isOpen === '營業中' ? true : false,
         MealFilter: isMeal === '全部' ? -1 : (isMeal === '正餐' ? 1 : 0),
-        LabelFilter: category,
-        userPos:userPos,
-        DistanceSort: distance,
-        RatingSort: rating
-      };
+        LabelFilter: category,userPos:userPos,DistanceSort: distance,RatingSort: rating };
       console.log(dataToSend);
+      navigation.navigate('餐廳探索',{dataToSend});
+      
       }
     } catch (error) {
       console.error('Error sending request:', error);

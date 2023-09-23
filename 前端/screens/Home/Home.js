@@ -7,7 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from 'expo-location';
 import { Back_Test_DATA } from "../../data/backtestdata";
 
-export default function Home() {
+export default function Home({data}) {
     const navigation = useNavigation();
     const route = useRoute();
     const [restaurants, setRestaurants] = useState(["第一家","第二家"]);
@@ -15,12 +15,18 @@ export default function Home() {
     const [userPos,setuserPos] = useState([23.963801572121646, 120.96477655705154]);
 
     useEffect(() => {
+        if (data){
+            console.log("有抓到1122335");
+            console.log(data);
+        }else
+        {
+            console.log("沒抓到");
         const checkLocationPermission = async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
               console.log('定位權限未被授予');
             }else{
-                console.log('抓到了');
+                //console.log('抓到了');
                 const location = await Location.getCurrentPositionAsync({});
                 //console.log('緯度:', location.coords.latitude);
                 //console.log('經度:', location.coords.longitude);
@@ -67,14 +73,14 @@ export default function Home() {
         };
         checkLocationPermission();
         fetchRestaurants(); // 執行上面的函數
+        
+            
+    }
+
     }, []);
 
     useEffect(() => {
-        // 在 userPos 更新後執行相關操作
         console.log('userPos 已更新:', userPos);
-        // 可以在這裡執行其他需要在 userPos 更新後執行的操作
-        //AsyncStorage.setItem('userPos', userPos);
-        //console.log(AsyncStorage.getItem('userPos'));
     }, [userPos]);
 
     return (

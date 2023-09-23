@@ -1,13 +1,16 @@
 import { Text,View,FlatList, RefreshControl } from "react-native"
-import { DUMMY_DATA } from "../data/dummy"
-
 import EventItem from "./event-item"
 
 export default EventList =({data}) => {
   const datalist = data.success;
-  console.log("測試資料:",datalist);
     const renderItem =({item,index}) =>{
-        return <EventItem rID={item} rName={datalist.rName[index]} rAddress={datalist.rAddress[index]}/>
+        return <EventItem rID={item} 
+                          rName={datalist.rName[index]} 
+                          rMap_Score={datalist.rMap_Score[index]}
+                          rPhone={datalist.rPhone[index]}
+                          rAddress={datalist.rAddress[index]}
+                          open={datalist.open[index]}
+                          distance={datalist.distance[index]}/>
     }
     return (
         <View>
