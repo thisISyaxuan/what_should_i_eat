@@ -5,10 +5,12 @@ import EventList from '../../component/event-list';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from 'expo-location';
+import { Back_Test_DATA } from "../../data/backtestdata";
+
 export default function Home() {
     const navigation = useNavigation();
     const route = useRoute();
-    const [restaurants, setRestaurants] = useState([]);
+    const [restaurants, setRestaurants] = useState(["第一家","第二家"]);
     const [location, setLocation] = useState(null);
     const [userPos,setuserPos] = useState([23.963801572121646, 120.96477655705154]);
 
@@ -78,10 +80,7 @@ export default function Home() {
     return (
         <View style={styles.container}>
             {/* 將餐廳資料傳給EventList組件 */}
-            <EventList data={restaurants}/>
-            <TouchableOpacity onPress={() => navigation.navigate('SearchRes')}>
-                <Ionicons name="menu-outline" size={24} color="black" style={{ marginLeft: 10 }} />
-            </TouchableOpacity>
+            <EventList data={Back_Test_DATA}/>
         </View>
     );
 }
