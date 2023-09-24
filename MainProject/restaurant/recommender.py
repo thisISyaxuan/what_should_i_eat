@@ -264,9 +264,9 @@ def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, Rating
 #     DistancSort = False
 #     RatingSort = False
 #     print(type(userPos), userPos)
-    userPos = userPos.split(',')
-    userPos[0] = float(userPos[0].split('[')[1])
-    userPos[1] = float(userPos[1].split(']')[0])
+#     userPos = userPos.split(',')
+#     userPos[0] = float(userPos[0].split('[')[1])
+#     userPos[1] = float(userPos[1].split(']')[0])
     # print(type(userPos), userPos)
     print(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, RatingSort)
     Restaurant = get_pd('1_restaurant', "rID", "NULL")
@@ -275,6 +275,7 @@ def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, Rating
     CostDetail = get_pd('1_cost_detail', 'cID', "NULL")
     uNum = selectCount('1_user_info')
     db.close
+    print('close')
 
     Restaurant = checkTime(Restaurant)
 

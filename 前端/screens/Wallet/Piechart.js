@@ -44,6 +44,7 @@ const PiechartMoney = () => {
           },
           body: JSON.stringify(data),
         });
+        console,log('success')
         const responseData = await response.json();
         setTestData(responseData.data);
       } else {

@@ -4,7 +4,6 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import EventList from '../../component/event-list';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from 'expo-location';
-import { Back_Test_DATA } from "../../data/backtestdata";
 
 export default function Home() {
     const navigation = useNavigation();
@@ -28,8 +27,10 @@ export default function Home() {
             };
             const fetchRestaurants = async () => {//傳給後端資料
                 try {
-                    const token = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
-                    if (token) {
+                    const userToken = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
+                    console.log(userToken)
+                    if (userToken) {
+                        console.log('OK')
                         const data = {//預設值傳給後端
                             TimeFilter: true,
                             MealFilter: 0,
@@ -38,19 +39,21 @@ export default function Home() {
                             DistanceSort: false,
                             RatingSort: false
                           };
-                          fetch('http://192.168.79.12:8000/api/Home/', {//改他
-                            method: 'POST',
-                            headers: {
-                              'Content-Type': 'application/json',
-                              Authorization: `Token ${userToken}`,
-                            },
-                            body: JSON.stringify(data)
-                          })
-                            .then(response => response.json())
-                            .then(responseData => {//後端回傳的資料
-
-                            console.log(responseData)
-                            })
+                        console.log(data)
+                        fetch('http://172.20.10.2:8000/recommend/restaurant/', {//改他
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Token ${userToken}`,
+                          },
+                           body: JSON.stringify(data)
+                        })
+                        .then(response => response.json())
+                        .then(responseData => {//後端回傳的資料
+                        // console.log(responseData.success)
+                        const data = responseData.success;
+                        console.log(data)
+                        })
                     .catch((error) => {
                         console.error('獲取數據出錯:', error);
                     });

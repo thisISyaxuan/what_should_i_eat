@@ -65,7 +65,7 @@ const SearchRes = ({navigation}) => {
         };
         console.log(data);
 
-        const response = await fetch('http://192.168.0.2:8000/api/Searchapi/', {//改連結
+        const response = await fetch('http://172.20.10.2:8000/recommend/restaurant/', {//改連結
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
