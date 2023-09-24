@@ -2,14 +2,18 @@ from django.shortcuts import render
 from knox.models import AuthToken
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
-from .serializers import RegisterSerializer,UserSerializer
+from .serializers import RegisterSerializer,UserSerializer,UserLikeSerializer
 from rest_framework.response import Response
 from rest_framework.authtoken.serializers import AuthTokenSerializer
-
+from userLike import label_convert
+from userLike.models import UserLike
+from .models import UserInfo
+from baby.models import UidBaby
 
 @api_view(['POST'])
 def get_user_data(request):
     print(request.data)
+    # print(request.data)
     user = request.user
     # print(user)
     if user.is_authenticated:
@@ -44,7 +48,7 @@ class login_api(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         _, token = AuthToken.objects.create(user)
-        print(user, token)
+        print(token)
         return Response({
             'success':True,
             'token': token
@@ -55,13 +59,32 @@ class register_api(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        # print(request.data)
         serializer.is_valid(raise_exception=True)
         serializer.validate(attrs=request.data)  # 判斷密碼是否相同
         serializer2 = UserSerializer(data=request.data)
         serializer2.is_valid()
+        print(request.data["preferences"])
+        big_label = request.data["preferences"]
+        small_label = []
+        label = {}
+
+        for i in range(len(big_label)):
+            small_label = small_label+label_convert.get(big_label[i])
+
+        for i in range(len(small_label)):
+            label[small_label[i]] = 1 #小標籤評分
+
+
+        serializer3 = UserLikeSerializer(data=label)
+        serializer3.is_valid()
+        serializer3.save()
+
         serializer2.save()
-        user = serializer.save()
+        serializer.save()
+
+        serializer4 = UidBaby.objects.create(number_1=1)
+        serializer4.save()
+
         return Response({
             'success':True
         })
