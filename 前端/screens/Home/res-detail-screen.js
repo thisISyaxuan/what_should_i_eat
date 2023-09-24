@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default ResInfo = ({navigation}) =>{
     const route = useRoute()
-    const {rID,rName,rMap_Score,rPhone,rAddress,open,distance} = route.params
+    const {rName,rMap_Score,rPhone,rAddress,open,distance,rID} = route.params
     return(
         <View style={styles.container}>
         <View style={styles.title}>

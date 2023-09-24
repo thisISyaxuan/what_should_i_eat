@@ -1,3 +1,5 @@
+//68行改連結
+
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
@@ -75,20 +77,23 @@ const SearchRes = ({navigation}) => {
       console.log(responseData); 
       /* 假設後端回傳的資料在responseData*/
       //把資料傳到餐廳探索
-      navigation.navigate('餐廳探索',{responseData});
+      navigation.navigate('餐廳探索',{data : responseData});
       }else{
       console.log('抓不到token')
-      
-      const dataToSend = {
+      /*
+      const dataToSend = {//要傳給後端的資料
         TimeFilter: isOpen === '營業中' ? true : false,
         MealFilter: isMeal === '全部' ? -1 : (isMeal === '正餐' ? 1 : 0),
-        LabelFilter: category,userPos:userPos,DistanceSort: distance,RatingSort: rating };
-      console.log(dataToSend);
-      navigation.navigate('餐廳探索',{dataToSend});
-      
+        LabelFilter: category,
+        userPos:userPos,
+        DistanceSort: distance,
+        RatingSort: rating
+      };
+      navigation.navigate('餐廳探索',{data: {success: dataToSend}});
+      */
       }
     } catch (error) {
-      console.error('Error sending request:', error);
+      console.error('Search Error sending request:', error);
     }
     }
 

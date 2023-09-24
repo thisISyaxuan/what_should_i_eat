@@ -1,92 +1,74 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet} from 'react-native';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import EventList from '../../component/event-list';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from 'expo-location';
 import { Back_Test_DATA } from "../../data/backtestdata";
 
-export default function Home({data}) {
+export default function Home() {
     const navigation = useNavigation();
     const route = useRoute();
-    const [restaurants, setRestaurants] = useState(["第一家","第二家"]);
-    const [location, setLocation] = useState(null);
+    const data = route.params && route.params.data ? route.params.data : { success: 2 };
     const [userPos,setuserPos] = useState([23.963801572121646, 120.96477655705154]);
 
     useEffect(() => {
-        if (data){
-            console.log("有抓到1122335");
-            console.log(data);
-        }else
-        {
-            console.log("沒抓到");
-        const checkLocationPermission = async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-              console.log('定位權限未被授予');
-            }else{
-                //console.log('抓到了');
-                const location = await Location.getCurrentPositionAsync({});
-                //console.log('緯度:', location.coords.latitude);
-                //console.log('經度:', location.coords.longitude);
-                //setLocation(location);
-                setuserPos([location.coords.latitude,location.coords.longitude]);
-                //console.log(userPos);
-            }
-          };
+        if (data.success != 2){//從篩選條件返回的參數
+            console.log(data);// {success:{"DistanceSort": false, "LabelFilter": "麵食", "MealFilter": -1, "RatingSort": true, "TimeFilter": true, "userPos": [23.01, 120.01]}}
+        }else{
+            //從其他頁面進來的
+            const checkLocationPermission = async () => {//先檢查定位有沒有被開啟
+                let { status } = await Location.requestForegroundPermissionsAsync();
+                if (status !== 'granted') {
+                  console.log('定位權限未被授予');
+                }else{
+                    const location = await Location.getCurrentPositionAsync({});//抓經緯
+                    setuserPos([location.coords.latitude,location.coords.longitude]);
+                }
+            };
+            const fetchRestaurants = async () => {//傳給後端資料
+                try {
+                    const token = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
+                    if (token) {
+                        const data = {//預設值傳給後端
+                            TimeFilter: true,
+                            MealFilter: 0,
+                            LabelFilter: "全部",
+                            userPos:userPos,
+                            DistanceSort: false,
+                            RatingSort: false
+                          };
+                          fetch('http://192.168.79.12:8000/api/Home/', {//改他
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                              Authorization: `Token ${userToken}`,
+                            },
+                            body: JSON.stringify(data)
+                          })
+                            .then(response => response.json())
+                            .then(responseData => {//後端回傳的資料
 
-        const fetchRestaurants = async () => {
-            try {
-                const token = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
-                if (token) {
-                    console.log(token);
-                    // 使用token發送請求到後端取得使用者數據
-                    fetch('YOUR_API_ENDPOINT_HERE', {  // 使用實際API連結
-                        method: 'POST',  
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Token ${token}`  // 使用Token進行認證
-                        },
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        // 將資料從物件格式轉換為陣列格式
-                        const restaurantArray = Object.keys(data).map(rid => ({
-                            rid: rid, // 餐廳ID
-                            rName: data[rid].rName,
-                            rMap_Score: data[rid].rMap_Score,
-                            rPhone: data[rid].rPhone,
-                            rAddress: data[rid].rAddress
-                        }));
-                        setRestaurants(restaurantArray);
-                    })
+                            console.log(responseData)
+                            })
                     .catch((error) => {
                         console.error('獲取數據出錯:', error);
                     });
-                } else {
-                    console.log('未能取得token');
+                    } else {
+                        console.log('Home抓不到token');
+                    }
+                } catch (error) {
+                    console.error('Home Error sending request:', error);
                 }
-            } catch (error) {
-                console.error('Error fetching token:', error);
-            }
-        };
+            };
         checkLocationPermission();
         fetchRestaurants(); // 執行上面的函數
-        
-            
     }
-
-    }, []);
-
-    useEffect(() => {
-        console.log('userPos 已更新:', userPos);
-    }, [userPos]);
-
+    }, [data]);
     return (
         <View style={styles.container}>
             {/* 將餐廳資料傳給EventList組件 */}
-            <EventList data={Back_Test_DATA}/>
+            <EventList data={data}/>
         </View>
     );
 }

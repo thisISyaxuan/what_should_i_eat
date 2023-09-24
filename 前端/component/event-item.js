@@ -2,10 +2,10 @@ import { useNavigation } from "@react-navigation/native";
 import {StyleSheet,TouchableOpacity,Text,View} from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default EventItem = ({rID,rName,rMap_Score,rPhone,rAddress,open,distance}) => {
+export default EventItem = ({rName,rMap_Score,rPhone,rAddress,open,distance,rID,}) => {
     const navigation = useNavigation()
     return (
-        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("resInfo",{rID,rName,rMap_Score,rPhone,rAddress,open,distance})}>
+        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("resInfo",{rName,rMap_Score,rPhone,rAddress,open,distance,rID})}>
           <View style={styles.rowContainer}>
             <View style={styles.pic}><Text>pic</Text></View>
             <View style={styles.cardContent}>
