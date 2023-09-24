@@ -26,3 +26,33 @@ class baby(generics.GenericAPIView):
         return Response({
             'ownedBabies': False
         })
+class buy_baby(generics.GenericAPIView):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        # 數字不能當id
+        baby_id = request.data('baby_id')
+        with open('./price/price.txt') as f:
+            total_baby_price = f.readline().split(',')
+        total_baby_price = np.array(total_baby_price)
+        baby_price = int(total_baby_price[baby_id-1])
+        if user.is_authenticated:
+            user_id = user.id
+            user_money = UserInfo.objects.filter(uid = user_id).values()[8]
+            if user_money < baby_price:
+                return Response({
+                    'success':False
+                })
+            else:
+                # update user_info money
+                money = user_money - baby_price
+                update_user_info = UserInfo.objects.get(uid=user_id)
+                update_user_info.money = money
+                update_user_info.save()
+
+                # update UidBaby column
+                data = {baby_id:1}
+                UidBaby.objects.filter(uid = user_id).update(**data)
+
+                return Response({
+                    'success':True
+                })
