@@ -8,8 +8,7 @@ import * as Location from 'expo-location';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SearchRes = ({navigation}) => {
-  //const { userPos } = route.params;
-  const [sortOption, setSortOption] = useState('系統推薦');
+  const [sortOption, setSortOption] = useState('系統推薦'); //初始值
   const [isOpen, setIsOpen] = useState('全部');//TimeFilter 是否營業
   const [isMeal, setIsMeal] = useState('全部');//MealFilter 全部、正餐、非正餐
   const [category, setCategory] = useState('全部');//labelFilter
@@ -17,23 +16,33 @@ const SearchRes = ({navigation}) => {
   const [rating, setRatingSort] = useState(false);//Rating Sort
   const [userPos,setuserPos] = useState([23.01,120.01]);
   
-  /*const resdata = {
+  const resdata1 = {
     "success": {
-        "rName": ["古記素食烘焙","守匠日式甜點專賣",],
+        "rName": ["在沒有合的情況下測試的第一家餐廳","在沒有合的情況下測試的第二家餐廳","第3"],
+        "rMap_Score": [3.7,4.9,5.0],
+        "rPhone": ["0492998417","0492991771","01236547998"],
+        "rAddress": ["545南投縣埔里鎮南盛街112號","545南投縣埔里鎮慈恩街15號","blablabla"],
+        "open": [-1,-1,0],
+        "distance": [0.65,0.65,0.68],
+        "rID": [174,237,654]
+    }
+  }
+
+  const resdata2 = {//現在後端的資料是這個
+        "rName": ["在沒有合的情況下測試的第一家餐廳","在沒有合的情況下測試的第二家餐廳",],
         "rMap_Score": [3.7,4.9,],
         "rPhone": ["0492998417","0492991771",],
         "rAddress": ["545南投縣埔里鎮南盛街112號","545南投縣埔里鎮慈恩街15號",],
         "open": [-1,-1,],
         "distance": [0.65,0.65,],
         "rID": [174,237,]
-    }
-  }*/
+  }
   
   const resetToDefault = () => {//按下預設按鈕
-    setSortOption('系統推薦');  // 修改預設排序方式為距離近到遠
-    setIsOpen('全部');  // 營業時間預設為全部
-    setIsMeal('全部');  // 餐點預設為全部
-    setCategory('全部'); // 類別預設為全部
+    setSortOption('系統推薦');
+    setIsOpen('全部');
+    setIsMeal('全部');
+    setCategory('全部');
     setDistanceSort(false);
     setRatingSort(false);
   };
@@ -44,8 +53,8 @@ const SearchRes = ({navigation}) => {
         if (status !== 'granted') {
           console.log('沒開啟定位');
         }else{
-            const location = await Location.getCurrentPositionAsync({});
-            setuserPos([location.coords.latitude,location.coords.longitude]);//存經緯度
+            //const location = await Location.getCurrentPositionAsync({});
+            //setuserPos([location.coords.latitude,location.coords.longitude]);//存經緯度
         }
       };
     checkLocationPermission();
@@ -55,16 +64,18 @@ const SearchRes = ({navigation}) => {
     try {
       const userToken = await AsyncStorage.getItem('userToken');//先抓token
       if (userToken) {
+        //等待抓取定位完成
+        const location = await Location.getCurrentPositionAsync({});
+        const currentUserPos = [location.coords.latitude, location.coords.longitude];
         const data = {//要傳給後端的資料
           TimeFilter: isOpen === '營業中' ? true : false,
           MealFilter: isMeal === '全部' ? -1 : (isMeal === '正餐' ? 1 : 0),
           LabelFilter: category,
-          userPos:userPos,
+          userPos:currentUserPos,
           DistanceSort: distance,
           RatingSort: rating
         };
-        console.log(data);
-
+        //console.log("篩選條件頁面按下搜尋後。設的參數為:",data);
         const response = await fetch('http://172.20.10.2:8000/recommend/restaurant/', {//改連結
         method: 'POST',
         headers: {
@@ -74,23 +85,13 @@ const SearchRes = ({navigation}) => {
         body: JSON.stringify(data),
       });
       const responseData = await response.json();//後端回傳資料
-      console.log(responseData); 
-      /* 假設後端回傳的資料在responseData*/
+      console.log("後端回傳的responseData為:",responseData); 
       //把資料傳到餐廳探索
-      navigation.navigate('餐廳探索',{data : responseData});
+      navigation.navigate('餐廳探索',{data : responseData});//{"DistanceSort": false, "LabelFilter": "米食", "MealFilter": 0, "RatingSort": false, "TimeFilter": true, "userPos": [23.01, 120.01]}
       }else{
-      console.log('抓不到token')
-      /*
-      const dataToSend = {//要傳給後端的資料
-        TimeFilter: isOpen === '營業中' ? true : false,
-        MealFilter: isMeal === '全部' ? -1 : (isMeal === '正餐' ? 1 : 0),
-        LabelFilter: category,
-        userPos:userPos,
-        DistanceSort: distance,
-        RatingSort: rating
-      };
-      navigation.navigate('餐廳探索',{data: {success: dataToSend}});
-      */
+      //console.log('抓不到token')
+      //console.log("我是Search，我現在要導到餐廳探索了")
+      navigation.navigate('餐廳探索',{data: resdata2});//{"distance": [0.65, 0.65], "open":...
       }
     } catch (error) {
       console.error('Search Error sending request:', error);

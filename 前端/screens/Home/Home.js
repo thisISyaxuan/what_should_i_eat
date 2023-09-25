@@ -4,34 +4,42 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import EventList from '../../component/event-list';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from 'expo-location';
+import {Back_Test_Data} from '../../data/backtestdata';
+
 
 export default function Home() {
     const navigation = useNavigation();
     const route = useRoute();
     const data = route.params && route.params.data ? route.params.data : { success: 2 };
     const [userPos,setuserPos] = useState([23.963801572121646, 120.96477655705154]);
+    const [dataLoaded,setDataLoaded] = useState(false);//追蹤資料有沒有都抓取成功了
 
     useEffect(() => {
         if (data.success != 2){//從篩選條件返回的參數
-            console.log(data);// {success:{"DistanceSort": false, "LabelFilter": "麵食", "MealFilter": -1, "RatingSort": true, "TimeFilter": true, "userPos": [23.01, 120.01]}}
+            console.log("我是Home,剛剛在篩選條件頁面得到參數:",data);// {"DistanceSort": false, "LabelFilter": "麵食", "MealFilter": -1, "RatingSort": true, "TimeFilter": true, "userPos": [23.01, 120.01]}}
+            setDataLoaded(true);
         }else{
+            console.log("我是Home,從其他頁面過來的")
             //從其他頁面進來的
             const checkLocationPermission = async () => {//先檢查定位有沒有被開啟
                 let { status } = await Location.requestForegroundPermissionsAsync();
                 if (status !== 'granted') {
                   console.log('定位權限未被授予');
                 }else{
-                    const location = await Location.getCurrentPositionAsync({});//抓經緯
-                    setuserPos([location.coords.latitude,location.coords.longitude]);
+                    //const location = await Location.getCurrentPositionAsync({});//抓經緯
+                    //setuserPos([location.coords.latitude,location.coords.longitude]);
                 }
             };
             const fetchRestaurants = async () => {//傳給後端資料
                 try {
                     const userToken = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
-                    console.log(userToken)
+                    //console.log(userToken)
                     if (userToken) {
-                        console.log('OK')
-                        const data = {//預設值傳給後端
+                        //抓完token抓定位
+                        const location = await Location.getCurrentPositionAsync({});//抓經緯
+                        setuserPos([location.coords.latitude,location.coords.longitude]);
+                        //console.log('OK')
+                        const requestdata = {//預設值傳給後端
                             TimeFilter: true,
                             MealFilter: 0,
                             LabelFilter: "全部",
@@ -39,24 +47,27 @@ export default function Home() {
                             DistanceSort: false,
                             RatingSort: false
                           };
-                        console.log(data)
-                        fetch('http://172.20.10.2:8000/recommend/restaurant/', {//改他
-                          method: 'POST',
-                          headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Token ${userToken}`,
-                          },
-                           body: JSON.stringify(data)
-                        })
-                        .then(response => response.json())
-                        .then(responseData => {//後端回傳的資料
-                        // console.log(responseData.success)
-                        const data = responseData.success;
-                        console.log(data)
-                        })
-                    .catch((error) => {
-                        console.error('獲取數據出錯:', error);
-                    });
+                        console.log("這是我要傳給後端的資料:",requestdata)
+
+                        const response = await fetch('http://172.20.10.2:8000/recommend/restaurant/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Token ${userToken}`,
+                            },
+                            body: JSON.stringify(requestdata)
+                        });
+                        
+                        if (response.ok) {
+                            const responseData = await response.json();//把後端回傳的資料放在responsData
+                            console.log(responseData);//原本是寫responseData.success，但我覺得沒success，所以拿掉了
+                            data = responseData;//我覺得這裡可能有錯
+                            //如果data不能被改寫，我要怎麼把全域變數設為回傳資料的值，然後傳給EventList勒...
+                            setDataLoaded(true);// 在這裡設定資料載入完成的狀態
+                            //const data = responseData.success;
+                        } else {
+                            console.error('後端回傳發生錯誤嗚嗚嗚', response.status);
+                        }
                     } else {
                         console.log('Home抓不到token');
                     }
@@ -70,12 +81,11 @@ export default function Home() {
     }, [data]);
     return (
         <View style={styles.container}>
-            {/* 將餐廳資料傳給EventList組件 */}
-            <EventList data={data}/>
+            {/* 將餐廳資料傳給EventList組件  data=上大括號data下大括號  */}
+            {dataLoaded ? <EventList data={data} /> : null}
         </View>
     );
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,

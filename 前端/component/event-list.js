@@ -1,8 +1,10 @@
 import { Text,View,FlatList, RefreshControl } from "react-native"
 import EventItem from "./event-item"
-
+import { useRoute } from "@react-navigation/native";
 export default EventList =({data}) => {
-  const datalist = data.success;
+  //console.log("我是Eventlist，收到資料為data:",data);
+  const datalist = data;
+  //console.log("我是Eventlist，收到資料為datalist:",datalist);
     const renderItem =({item,index}) =>{
         return <EventItem rID={item} 
                           rName={datalist.rName[index]} 

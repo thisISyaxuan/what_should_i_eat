@@ -5,6 +5,7 @@ import { ScrollView, TextInput, TouchableOpacity} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
+//import { images } from '../../data/menu';
 
 
 export default ResInfo = ({navigation}) =>{
@@ -12,33 +13,25 @@ export default ResInfo = ({navigation}) =>{
     const {rName,rMap_Score,rPhone,rAddress,open,distance,rID} = route.params
     return(
         <View style={styles.container}>
-        <View style={styles.title}>
-            
+            <View style={styles.title}>
             <Text style={{flex: 6,textAlign: 'right', fontSize:25}}>{rName}</Text>
-            <View style={{flex:3, alignItems: 'flex-end'}}>
-                <Icon name="heart" size={30} />
-            </View>
+            <View style={{flex:3, alignItems: 'flex-end'}}><Icon name="heart" size={30} /></View>
             </View>
 
             <ScrollView horizontal showsVerticalScrollIndicator={false} style={{borderTopWidth:0.5, borderTopColor:'gray', borderBottomWidth:1, borderBottomColor:'gray', }}>
-            
             <View style={{width: 275, height: 250, margin: 7, borderWidth: 1,justifyContent: 'center', alignItems: 'center'}}>
-                <Text>plc</Text>
-            </View>
-
+                <Text>plc</Text></View>
             <View style={{width: 275, height: 250, margin: 7, borderWidth: 1,justifyContent: 'center', alignItems: 'center'}}>
-                <Text>plc</Text>
-            </View>
-        </ScrollView>
+                <Text>plc</Text></View>
+            </ScrollView>
     
         <View style={styles.output}>
+
             <View style={{flexDirection: 'row', top: -10, height: 50, flex: 2}}>
                 <View style={{ justifyContent: 'center', margin: 7 }}>
-                    <Icon name="circle" size={10} color={'green'} />
-                </View>
-                <Text style={{fontSize:18}}>營業中 11:00~21:00</Text>
+                    <Icon name="circle" size={10} color={open === -1 ? 'red' : 'green' }/></View>
+                <Text style={{fontSize:18}}>{open === -1 ? '現在打烊喔' : '營業中'}</Text>
             </View>
-            
             <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>評分:{rMap_Score}</Text>
             <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>距離:{distance}</Text>
             <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>電話:{rPhone}</Text>
@@ -51,7 +44,7 @@ export default ResInfo = ({navigation}) =>{
                 <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}} onPress={() => navigation.navigate("錯誤回報")}>錯誤回報</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.ButtonL}>
-                <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}} onPress={() => navigation.navigate("菜單")}>查看菜單</Text>
+                <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}}>我是按鈕</Text>
             </TouchableOpacity>
             </View>
         </View>
