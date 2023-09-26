@@ -3,9 +3,8 @@ import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import Swiper from 'react-native-swiper';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import EventList from '../../component/event-list';
 const screenWidth = Dimensions.get('window').width;
-
 const Tab = createMaterialTopTabNavigator();
 
 export default function Mycollect() {
@@ -13,31 +12,40 @@ export default function Mycollect() {
         <Tab.Navigator>
             <Tab.Screen name="評分(高-低)" component={RatingScreen} />
             <Tab.Screen name="距離(近-遠)" component={DistanceScreen} />
-            <Tab.Screen name="待嘗鮮" component={NewArrivalsScreen} />
         </Tab.Navigator>
     );
 }
 
 const RatingScreen = () => {
     const [restaurants, setRestaurants] = useState([]);
+    const [dataLoaded,setDataLoaded] = useState(false);//追蹤資料有沒有都抓取成功了
     useEffect(() => {
         fetchRestaurants("rating");
     }, []);
 
+    const resdata2 = {//現在後端的資料是這個
+        "rName": ["在沒有合的情況下測試的第一家餐廳","在沒有合的情況下測試的第二家餐廳",],
+        "rMap_Score": [3.7,4.9,],
+        "rPhone": ["0492998417","0492991771",],
+        "rAddress": ["545南投縣埔里鎮南盛街112號","545南投縣埔里鎮慈恩街15號",],
+        "open": [-1,-1,],
+        "distance": [0.65,0.65,],
+        "rID": [174,237,]
+  }
+
     const fetchRestaurants = async (type) => {
         try {
-            const token = await AsyncStorage.getItem('userToken');
+            const token = await AsyncStorage.getItem('userToken');//抓token
             if (token) {
-                console.log(token);
-                // 使用token發送請求到後端取得使用者數據
-                fetch(`YOUR_BACKEND_API_ENDPOINT/${type}`, { // 使用實際API連結
-                    method: 'GET',
+                fetch(`YOUR_BACKEND_API_ENDPOINT/${type}`, { //改他
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Token ${token}` // 使用Token進行認證
                     },
                 })
                 .then(response => response.json())
+                /*
                 .then(data => {
                     const transformedData = Object.keys(data).map(rid => ({
                         id: rid,
@@ -47,24 +55,27 @@ const RatingScreen = () => {
                         address: data[rid].rAddress
                     }));
                     setRestaurants(transformedData);
+                    setDataLoaded(true);
                 })
+                */
                 .catch(error => {
                     console.error('獲取餐廳詳細資訊錯誤:', error);
                 });
             } else {
-                console.log('未獲取到Token');
+                //console.log('Mycollect未獲取到Token');
+                setDataLoaded(true);
             }
         } catch (error) {
-            console.error('獲取Token錯誤:', error);
+            console.error('你是不是連結沒改(我是Mycollect)', error);
         }
     };
 
     return (
         <View style={styles.container}>
-            {restaurants.map(restaurant => (
-                <ShopInfoCard key={restaurant.id} data={restaurant} />
-            ))}
+            {/* 將餐廳資料傳給EventList組件 */}
+            {dataLoaded ? <EventList data={resdata2} /> : null}
         </View>
+        
     );
 };
 
@@ -80,55 +91,10 @@ const DistanceScreen = () => {
 
     return (
         <View style={styles.container}>
-            {restaurants.map(restaurant => (
-                <ShopInfoCard key={restaurant.id} data={restaurant} />
-            ))}
         </View>
     );
 };
 
-const NewArrivalsScreen = () => {
-    const [restaurants, setRestaurants] = useState([]);
-    useEffect(() => {
-        fetchRestaurants("newArrivals");
-    }, []);
-
-    const fetchRestaurants = async (type) => {
-        // 同上的 fetchRestaurants 的內容，只是資料排序/篩選方式可能有所不同
-    };
-
-    return (
-        <View style={styles.container}>
-            {restaurants.map(restaurant => (
-                <ShopInfoCard key={restaurant.id} data={restaurant} />
-            ))}
-        </View>
-    );
-};
-
-const ShopInfoCard = ({ data }) => {
-    return (
-        <View style={styles.card}>
-            <View style={styles.cardLeft}>
-                <Text>{data.name}</Text>
-                <Text>{data.mapScore}</Text>
-                <Text>{data.phone}</Text>
-                <Text>{data.address}</Text>
-            </View>
-            <View style={styles.cardRight}>
-                <Swiper
-                    style={{ height: '100%' }}
-                    showsPagination={true}
-                    paginationStyle={{ bottom: 0 }}
-                >
-                    {data.images && data.images.map((image, index) => (
-                        <Image key={index} style={styles.shopImage} source={{ uri: image }} />
-                    ))}
-                </Swiper>
-            </View>
-        </View>
-    );
-};
 
 const styles = StyleSheet.create({
     container: {
@@ -171,12 +137,11 @@ const styles = StyleSheet.create({
 
 
 /*
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from "react-native";
-import Swiper from 'react-native-swiper';
-import Icon from "react-native-vector-icons/Ionicons";
-import { useNavigation } from "@react-navigation/native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+<View style={styles.container}>
+            {restaurants.map(restaurant => (
+                <ShopInfoCard key={restaurant.id} data={restaurant} />
+            ))}
+        </View>
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -333,33 +298,5 @@ const styles = StyleSheet.create({
 });
 
 
-*/
-
-
-
-
-
-/*
-import { useNavigation } from "@react-navigation/native";
-import { useRoute } from "@react-navigation/native";
-import { View,Text,StyleSheet } from "react-native";
-
-export default function Mycollect() {
-    const navigation = useNavigation();
-    return (
-      <View style={styles.container}>
-        <Text>Mycollect screen</Text>
-      </View>
-    );
-  };
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#F5F5F5',
-      },
-      text:{
-        fontSize:50,
-      }
-});
 */
 
