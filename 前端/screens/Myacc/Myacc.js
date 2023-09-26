@@ -44,7 +44,7 @@ export default function Myacc() {
 
       <View style={styles.m}>
         <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("我的脂肪幣")}>
-          <Text style={globalStyles.TextSize}>我的脂肪幣</Text></TouchableOpacity>
+          <Text style={globalStyles.TextSize}>完成任務賺幣</Text></TouchableOpacity>
         <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("我的收藏")}>
           <Text style={globalStyles.TextSize}>已收藏的餐廳</Text></TouchableOpacity>
         <TouchableOpacity style={[styles.infoCol]}>
