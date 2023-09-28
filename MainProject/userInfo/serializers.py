@@ -69,3 +69,15 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+class UserLikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserLike
+        fields = '__all__'
+
+
+    def create(self,validated_data):
+        print('val',validated_data)
+        user_like = UserLike.objects.create(
+            **validated_data
+        )
+        return user_like
