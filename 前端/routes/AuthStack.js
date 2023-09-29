@@ -34,7 +34,7 @@ const AuthStack = () => (
         <Stack.Screen name="隱私政策與使用條款" component={Privacy} options={{
                             headerShown: true,
                             headerStyle: {
-                                backgroundColor: 'gray',
+                                backgroundColor: '#C0C0C0',
                             },
                             headerBackTitle: ' ',
                             headerBackTitleStyle: {
