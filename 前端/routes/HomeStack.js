@@ -3,11 +3,11 @@ import { View, SafeAreaView, TouchableOpacity, Text, Image, StyleSheet } from 'r
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import Home from '../screens/Home/Home';
-import ResInfo from '../screens/Home/res-detail-screen';
 import Vegatablelist from '../screens/Home/vegatablelist';
 import 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SearchRes from '../screens/Home/Search';
+import ResInfo from '../screens/Home/res-detail-screen';
 //import Test from '../screens/Home/Test';
 import Errorfb from '../screens/Home/ErrorfeedBack';
 import Mycollect from '../screens/Myacc/Mycollect';
@@ -85,7 +85,7 @@ const HomeStack = () => (
                         },
                         headerTintColor: 'black'
                         }} />
-                        <Stack.Screen name="餐廳資訊" component={ResInfo} 
+        <Stack.Screen name="餐廳資訊" component={ResInfo} 
                       options={{
                         headerShown: true,
                         headerStyle: {

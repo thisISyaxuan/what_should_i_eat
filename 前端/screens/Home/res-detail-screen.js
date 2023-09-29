@@ -11,7 +11,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default ResInfo = ({navigation}) =>{
     const route = useRoute()
-    const {rName,rMap_Score,rPhone,rAddress,open,distance,rID} = route.params
+    const {rName,rMap_Score,rPhone,rAddress,open,opentwo,distance,rID} = route.params
     return(
         <View style={styles.container}>
             <View style={styles.title}>
@@ -48,6 +48,7 @@ export default ResInfo = ({navigation}) =>{
     rPhone: rPhone,
     rAddress: rAddress,
     open: open,
+    opentwo:opentwo,
     distance: distance,
     rID: rID,
   })}>錯誤回報</Text>
