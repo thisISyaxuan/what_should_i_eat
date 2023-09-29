@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { G, Circle } from 'react-native-svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const PiechartMoney = () => {
+  const [isPickerVisible, setIsPickerVisible] = useState(false);
   const mealColors = {
     'breakfast': '#415CA4',//藍
     'lunch': '#FFB755',//淺白
@@ -25,7 +26,7 @@ const PiechartMoney = () => {
   const [selectTest,setTestData] = useState([]);// 後端回傳的資料
   //測試用資料
   const testDatanew = [
-    { 'breakfast': 0, 'lunch': 0, 'dinner': 0, 'others': 0 }
+    { 'breakfast': 341, 'lunch': 100, 'dinner': 272, 'others': 188 }
   ];
 
   const fetchChartData = async (year, month) => {
@@ -44,7 +45,7 @@ const PiechartMoney = () => {
           },
           body: JSON.stringify(data),
         });
-        console,log('success')
+        console.log('success')
         const responseData = await response.json();
         setTestData(responseData.data);
       } else {
@@ -57,7 +58,11 @@ const PiechartMoney = () => {
   };
 
   const handlePress = () => {
+    setIsPickerVisible(false);
     fetchChartData(selectedYear, selectedMonth);
+  };
+  const togglePickerVisibility = () => {
+    setIsPickerVisible(!isPickerVisible);
   };
 
   useEffect(() => {
@@ -81,7 +86,9 @@ const PiechartMoney = () => {
     <SafeAreaView style={styles.container}>
       <View>
         <View style={[{alignItems:'center',marginTop:-30,padding:10,}]}>
-        <Text style={[{fontWeight:'700',fontSize:26}]}>{selectedYear}年,{selectedMonth}月</Text>
+            <TouchableOpacity onPress={togglePickerVisibility}>
+                <Text style={[{fontWeight:'700',fontSize:26}]}>{selectedYear}年,{selectedMonth}月</Text>
+            </TouchableOpacity>
         </View>
       <View style={styles.graph}>
         <View style={styles.outgraphWrapper}>
@@ -145,15 +152,16 @@ const PiechartMoney = () => {
         );})}
       </View>
 
-      <View style={[{ alignItems: 'flex-end',}]}>
-      <TouchableOpacity onPress={handlePress}>
+      {isPickerVisible && (
+      <TouchableOpacity style={[{ alignItems: 'flex-end',}]} onPress={handlePress}>
         <View style={styles.button}>
           <Text style={styles.buttontext}>完成</Text>
         </View>
       </TouchableOpacity>
-      </View>
-
+      )}
+      {isPickerVisible && (
       <View>
+        
         <View style={styles.selectone}>
           <Picker
             selectedValue={selectedYear}
@@ -184,7 +192,10 @@ const PiechartMoney = () => {
           ))}
           </Picker>
         </View>
+
+
       </View>
+      )}
     
     </View>
     </SafeAreaView>
