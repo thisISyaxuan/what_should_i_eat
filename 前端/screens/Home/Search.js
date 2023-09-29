@@ -1,13 +1,15 @@
 //68行改連結
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Location from 'expo-location';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SearchRes = ({navigation}) => {
+  const [isPickerVisible,setIsPickerVisible] = useState(false);
+  const [selectedValue,setSelectedValue] = useState('請選擇類別');
   const [sortOption, setSortOption] = useState('系統推薦'); //初始值
   const [isOpen, setIsOpen] = useState('全部');//TimeFilter 是否營業
   const [isMeal, setIsMeal] = useState('全部');//MealFilter 全部、正餐、非正餐
@@ -16,28 +18,28 @@ const SearchRes = ({navigation}) => {
   const [rating, setRatingSort] = useState(false);//Rating Sort
   const [userPos,setuserPos] = useState([23.01,120.01]);
   
-  const resdata1 = {
+  const resdata1 = {//現在後端的資料是這個
     "success": {
-        "rName": ["叮叮風味健康餐盒","中山壽司","原住民冰店","阿胖師便當","不良鍋燒專門店","堪吉郎（埔里店）",
-        "298快餐","埔里美食 蔡家 排肉飯",],
-        "rMap_Score": [5.0,5.0,5.0,5.0,4.9,4.9,4.9,4.9,],
-        "rPhone": ["0910532789","0492990160","0928072795","0988042919","0492423606","0937242704","0960684957","0976026355",],
-        "rAddress": ["54543南投縣埔里鎮北環路36號","545南投縣埔里鎮中山路二段312號","545南投縣埔里鎮隆生路96之15號","545南投縣埔里鎮中山路二段229號","545南投縣埔里鎮中正路367號","545南投縣埔里鎮慈恩街10號","545南投縣埔里鎮中山路二段316號1樓","54555南投縣埔里鎮西安路一段87號",],
-        "open": [-1,-1,0,-1,-1,0,-1,-1,],
-        "opentwo": [-1,-1,-1,-1,],
-        "distance": [0.65,0.65,0.68,0.72,0.73,0.75,0.86,0.86,],
-        "rID": [174,237,654,7,28,32,148,152,]
+      "rName": ["叮叮風味健康餐盒","中山壽司","原住民冰店","阿胖師便當","不良鍋燒專門店","堪吉郎（埔里店）",
+      "298快餐","埔里美食 蔡家 排肉飯",],
+      "rMap_Score": [5.0,5.0,5.0,5.0,4.9,4.9,4.9,4.9,],
+      "rPhone": ["0910532789","0492990160","0928072795","0988042919","0492423606","0937242704","0960684957","0976026355",],
+      "rAddress": ["54543南投縣埔里鎮北環路36號","545南投縣埔里鎮中山路二段312號","545南投縣埔里鎮隆生路96之15號","545南投縣埔里鎮中山路二段229號","545南投縣埔里鎮中正路367號","545南投縣埔里鎮慈恩街10號","545南投縣埔里鎮中山路二段316號1樓","54555南投縣埔里鎮西安路一段87號",],
+      "open": [1,1,1,1,-1,-1,-1,-1,],
+      "collect": [1,1,1,1,0,0,0,0],
+      "distance": [0.65,0.65,0.68,0.72,0.73,0.75,0.86,0.86,],
+      "rID": [174,237,654,7,28,32,148,152,]
     }
   }
 
-  const resdata2 = {//現在後端的資料是這個
+  const resdata2 = {
     "rName": ["叮叮風味健康餐盒","中山壽司","原住民冰店","阿胖師便當","不良鍋燒專門店","堪吉郎（埔里店）",
         "298快餐","埔里美食 蔡家 排肉飯",],
         "rMap_Score": [5.0,5.0,5.0,5.0,4.9,4.9,4.9,4.9,],
         "rPhone": ["0910532789","0492990160","0928072795","0988042919","0492423606","0937242704","0960684957","0976026355",],
         "rAddress": ["54543南投縣埔里鎮北環路36號","545南投縣埔里鎮中山路二段312號","545南投縣埔里鎮隆生路96之15號","545南投縣埔里鎮中山路二段229號","545南投縣埔里鎮中正路367號","545南投縣埔里鎮慈恩街10號","545南投縣埔里鎮中山路二段316號1樓","54555南投縣埔里鎮西安路一段87號",],
-        "open": [0,-1,0,-1,-1,0,-1,-1,],
-        "opentwo": [0,-1,-1,-1,0,0,0,0],
+        "open": [1,1,1,1,-1,-1,-1,-1,],
+        "collect": [1,1,1,1,0,0,0,0],
         "distance": [0.65,0.65,0.68,0.72,0.73,0.75,0.86,0.86,],
         "rID": [174,237,654,7,28,32,148,152,]
   }
@@ -50,61 +52,65 @@ const SearchRes = ({navigation}) => {
     setDistanceSort(false);
     setRatingSort(false);
   };
-
   useEffect(() => {//初始化
-    const checkLocationPermission = async () => {//定位功能有沒有被啟用
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          console.log('沒開啟定位');
-        }else{
-            //const location = await Location.getCurrentPositionAsync({});
-            //setuserPos([location.coords.latitude,location.coords.longitude]);//存經緯度
-        }
-      };
     checkLocationPermission();
-}, []);
+  }, []);
 
-  const searchRestaurants = async () => {//按下搜尋按鈕
-    try {
-      const userToken = await AsyncStorage.getItem('userToken');//先抓token
-      if (userToken) {
-        //等待抓取定位完成
-        const location = await Location.getCurrentPositionAsync({});
-        const currentUserPos = [location.coords.latitude, location.coords.longitude];
-        const data = {//要傳給後端的資料
-          TimeFilter: isOpen === '營業中' ? true : false,
-          MealFilter: isMeal === '全部' ? -1 : (isMeal === '正餐' ? 1 : 0),
-          LabelFilter: category,
-          userPos:currentUserPos,
-          DistanceSort: distance,
-          RatingSort: rating
-        };
-        //console.log("篩選條件頁面按下搜尋後。設的參數為:",data);
-        const response = await fetch('http://172.20.10.2:8000/recommend/restaurant/', {//改連結
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Token ${userToken}`, // 添加 Token 到 Header
-        },
-        body: JSON.stringify(data),
-      });
-      const responseData = await response.json();//後端回傳資料
-      console.log("後端回傳的responseData為:",responseData); 
-      //把資料傳到餐廳探索
-      navigation.navigate('餐廳探索',{data : responseData});//{"DistanceSort": false, "LabelFilter": "米食", "MealFilter": 0, "RatingSort": false, "TimeFilter": true, "userPos": [23.01, 120.01]}
-      }else{
-      //console.log('抓不到token')
-      //console.log("我是Search，我現在要導到餐廳探索了")
-      navigation.navigate('餐廳探索',{data: resdata2});//{"distance": [0.65, 0.65], "open":...
+  const checkLocationPermission = async () => {//定位功能有沒有被啟用
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('沒開啟定位');
       }
-    } catch (error) {
-      console.error('Search Error sending request:', error);
+  };
+  const searchRestaurants = async () => {//按下搜尋按鈕
+    if(selectedValue==='請選擇類別'){
+      Alert.alert('請選擇欲搜索之類別')
+    }else{
+      try {
+        const userToken = await AsyncStorage.getItem('userToken');//先抓token
+        if (userToken) {
+          const location = await Location.getCurrentPositionAsync({});
+          const currentUserPos = [location.coords.latitude, location.coords.longitude];
+          const data = {//要傳給後端的資料
+            TimeFilter: isOpen === '營業中' ? true : false,
+            MealFilter: isMeal === '全部' ? -1 : (isMeal === '正餐' ? 1 : 0),
+            LabelFilter: selectedValue,
+            userPos:currentUserPos,
+            DistanceSort: distance,
+            RatingSort: rating
+          };
+          const response = await fetch('http://172.20.10.2:8000/recommend/restaurant/', {//改連結
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${userToken}`,
+          },
+          body: JSON.stringify(data),
+        });
+        const responseData = await response.json();//後端回傳資料
+        console.log("後端回傳的responseData為:",responseData); 
+        navigation.navigate('餐廳探索',{data : responseData});//把資料傳到餐廳探索
+        }else{
+        navigation.navigate('餐廳探索',{data: resdata1});
+        }
+      } catch (error) {
+        console.error('Search Error sending request:', error);
+      }
     }
     }
+
+  const showPicker = () =>{
+    setIsPickerVisible(true);
+  };
+  const hidePicker = () =>{
+    setIsPickerVisible(false);
+  }
+  const handleValueChange =(value) => {
+    setSelectedValue(value);
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-      
     <View style={styles.header}>
         <Text style={{fontSize: 18}}>    </Text>
         <TouchableOpacity onPress={resetToDefault} style={styles.defaultButton}>
@@ -181,22 +187,36 @@ const SearchRes = ({navigation}) => {
 
     <View style={styles.optionContainer}>
       <Text style={styles.optionTitle}>類別</Text>
-      <View style={styles.pickerContainer}>
+      <TouchableOpacity style={styles.pickerContainer} onPress={showPicker}>
+        <Text>{selectedValue}</Text>
+      </TouchableOpacity>
+      
+      <Text>  </Text>
+      {isPickerVisible && (
+        <View style={[styles.pickerview,{flexDirection:'row',justifyContent:'space-between',backgroundColor:'#EFEFF3'}]}>
+        <TouchableOpacity style={{alignItems:'flex-start',padding:5,}} onPress={hidePicker}>
+            <Text style={{color:'black',padding:3}}>取消</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{alignItems:'flex-end',padding:5,}} onPress={hidePicker}>
+            <Text style={{color:'black',padding:3}}>完成</Text>
+        </TouchableOpacity>
+        </View> 
+        )}
+
+      {isPickerVisible && (
         <Picker
-          selectedValue={category}
-          onValueChange={value => setCategory(value)}
-          mode="dropdown"
-          style={styles.picker}
+          selectedValue={selectedValue}//category
+          onValueChange={handleValueChange}
+          style={{backgroundColor:'#EFEFF3'}}
         >
-          {[
-            '全部', '米食', '麵食', '中式', '西式', '日式', '越式', '美式', '客家料理', '泰式', '韓式', '港式', 
+          {['全部', '米食', '麵食', '中式', '西式', '日式', '越式', '美式', '客家料理', '泰式', '韓式', '港式', 
             '速食', '素食', '早餐', '冰品', '飲料', '咖啡', '甜點', '鹹點', '湯品', '滷味', '炸物', '烤物', '鍋物', 
-            '健康餐', '無菜單料理', '寵物餐廳', '酒', '吃到飽餐廳'
-          ].map(option => (
+            '健康餐', '無菜單料理', '寵物餐廳', '酒', '吃到飽餐廳'].map(option => (
             <Picker.Item key={option} label={option} value={option} />
           ))}
         </Picker>
-      </View>
+      )}
+
     </View>
     <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end' }}>
     {/* 右側的內容 */}
@@ -312,11 +332,6 @@ const styles = StyleSheet.create({
   activeIsMealButtonText: {
     color: '#fff',
   },
-  pickerContainer: {
-    borderWidth: 1,
-    borderColor: '#C0C0C0',
-    borderRadius:10,
-  },
   picker: {
     height: 50,
     width: '100%',
@@ -327,12 +342,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
-    
-    
   },
   buttonText: {
     fontSize: 16,
     color: '#fff',
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: '#C0C0C0',
+    borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    height: 50,
+  },
+  pickerview: {
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#C0C0C0',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
   },
 });
 
