@@ -20,10 +20,11 @@ export default EventItem = ({rName,rMap_Score,rPhone,rAddress,open,distance,rID,
 const styles = StyleSheet.create({
     card: {
       borderWidth:1,
-      borderColor:'#c5c5c5',
+      borderColor:'white',//#c5c5c5
       borderRadius:10,
       marginVertical:5,
-      padding:30,
+      padding:20,
+      backgroundColor:'white',
     },
     pic: {
       borderWidth:1,
@@ -40,11 +41,12 @@ const styles = StyleSheet.create({
     },
     cardContent: {
       marginLeft: 10,
+      width:"75%",
     },
     restitle:{
       fontSize:23,
       fontWeight:"bold",
       marginBottom:15,
-      width:260,
+      width:"75%",
     },
   });
