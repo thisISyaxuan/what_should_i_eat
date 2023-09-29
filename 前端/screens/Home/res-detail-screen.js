@@ -10,7 +10,7 @@ import { useState } from "react";
 
 export default ResInfo = ({navigation}) =>{
     const route = useRoute()
-    const {rName,rMap_Score,rPhone,rAddress,open,collect,distance,rID} = route.params
+    const {rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID} = route.params
     const [isCollected, setIsCollected] = useState(collect);
 
     const toggleCollect = () => {
@@ -70,7 +70,7 @@ export default ResInfo = ({navigation}) =>{
         <View style={styles.bottom}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 10, top: -20}}>
             <TouchableOpacity style={styles.ButtonR}>
-                <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}} onPress={() => navigation.navigate("錯誤回報", {rName,rMap_Score,rPhone,rAddress,open,collect,distance,rID})}>錯誤回報</Text>
+                <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}} onPress={() => navigation.navigate("錯誤回報", {rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID})}>錯誤回報</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.ButtonL}>
                 <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}}>造訪店家</Text>

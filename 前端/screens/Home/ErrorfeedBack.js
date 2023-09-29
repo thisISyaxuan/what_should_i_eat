@@ -7,7 +7,7 @@ import { globalStyles } from '../../styles/global';
 import { Alert } from 'react-native';
 const Errorfb = () => {
   const route = useRoute()
-  const {rName,rMap_Score,rPhone,rAddress,open,collect,distance,rID} = route.params
+  const {rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID} = route.params
   const [phone, setPhone] = useState(rPhone);
   const [address, setAddress] = useState(rAddress);
   const [businessHours, setBusinessHours] = useState('');

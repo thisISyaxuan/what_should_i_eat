@@ -10,7 +10,8 @@ export default EventList =({data}) => {
                           rAddress={datalist.rAddress[index]}
                           open={datalist.open[index]}
                           collect={datalist.collect[index]}
-                          distance={datalist.distance[index]}/>
+                          distance={datalist.distance[index]}
+                          labelID={datalist.labelID[index]}/>
     }
     return (
         <View style={{ paddingLeft: 16,paddingRight:16,paddingTop:16, }}>

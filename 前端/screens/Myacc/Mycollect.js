@@ -27,7 +27,8 @@ const RatingScreen = () => {
           "open": [1,1,1,],
           "collect": [1,1,1,],
           "distance": [0.65,0.65,0.68,],
-          "rID": [174,237,654,]
+          "rID": [174,237,654,],
+          "labelID":[1,2,3,4,5,6,7,8],
         }
       }
     const [lastSentPos, setLastSentPos] = useState([0,0]);
@@ -93,7 +94,8 @@ const DistanceScreen = () => {
           "open": [1,1,1,1,-1,-1,-1,-1,],
           "collect": [1,1,1,1,0,0,0,0],
           "distance": [0.65,0.65,0.68,0.72,0.73,0.75,0.86,0.86,],
-          "rID": [174,237,654,7,28,32,148,152,]
+          "rID": [174,237,654,7,28,32,148,152,],
+          "labelID":[1,2,3,4,5,6,7,8],
         }
       }
     const [lastSentPos, setLastSentPos] = useState([0,0]);

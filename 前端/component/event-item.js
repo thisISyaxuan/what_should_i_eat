@@ -3,7 +3,7 @@ import {StyleSheet,TouchableOpacity,Text,View} from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState } from "react";
-export default EventItem = ({rName,rMap_Score,rPhone,rAddress,open,collect,distance,rID,}) => {
+export default EventItem = ({rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID}) => {
     const navigation = useNavigation()
     return (
         <View style={styles.card}>
@@ -11,7 +11,7 @@ export default EventItem = ({rName,rMap_Score,rPhone,rAddress,open,collect,dista
             <View style={styles.pic}><Text>     </Text></View>
             <View>
                 <View style={[styles.rowContainer,{width:"90%"}]}>
-                    <TouchableOpacity style={styles.cardContent} onPress={() => navigation.navigate("餐廳資訊",{rName,rMap_Score,rPhone,rAddress,open,collect,distance,rID})}>
+                    <TouchableOpacity style={styles.cardContent} onPress={() => navigation.navigate("餐廳資訊",{rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID})}>
                         <Text style={[styles.restitle]}>{rName}</Text>
                         <View style={styles.rowContainer}><Icon name="circle" size={10} color={open === -1 ? 'red' : 'green'} /><Text style={{ fontSize: 14 }}>{open === -1 ? '  已打烊' : '  營業中'}</Text></View>
                     </TouchableOpacity>
