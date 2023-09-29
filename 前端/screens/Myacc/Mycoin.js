@@ -12,23 +12,7 @@ export default function TodayTasks() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.backButton}
-        >
-          <Icon name="arrow-back" size={24} color="#000000" />
-        </TouchableOpacity>
-
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>任務清單</Text>
-        </View>
-
         <View style={styles.coinContainer}>
-          <Image
-            source={require("../../assets/images/coin.png")}
-            style={{ width: 24, height: 24, marginRight: 5 }}
-          />
-          <Text style={styles.coinText}>899</Text>
         </View>
       </View>
 
@@ -38,7 +22,7 @@ export default function TodayTasks() {
             fontSize: 16,
           },
           tabBarStyle: {
-            backgroundColor: "#FFFACD",
+            backgroundColor: "white",
           },
         }}
       >
@@ -68,11 +52,10 @@ const TaskCard = ({ title, coins }) => {
 const DailyTasksScreen = () => {
   return (
     <ScrollView contentContainerStyle={styles.tabContainer}>
-      <TaskCard title="今日簽到" coins={5} />
-      <TaskCard title="尋找餐廳" coins={5} />
-      <TaskCard title="瀏覽推薦餐廳" coins={10} />
+      <TaskCard title="今日簽到" coins={10} />
       <TaskCard title="紀錄用餐消費" coins={10} />
-      <TaskCard title="完成今日所有任務" coins={10} />
+      <TaskCard title="購買三隻精靈" coins={30} />
+      <TaskCard title="完成今日所有任務" coins={50} />
     </ScrollView>
   );
 };
@@ -96,7 +79,6 @@ const MonthlyTasksScreen = () => {
 const SpecialTasksScreen = () => {
   return (
     <ScrollView contentContainerStyle={styles.tabContainer}>
-      <TaskCard title="完成滿意度調查" coins={30} />
       <TaskCard title="累積記帳100次" coins={50} />
       <TaskCard title="錯誤資訊回報成功" coins={50} />
     </ScrollView>
@@ -112,7 +94,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 20,
     backgroundColor: "#FFFACD",
   },
   backButton: {

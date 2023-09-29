@@ -12,10 +12,11 @@ export default EventList =({data}) => {
                           rPhone={datalist.rPhone[index]}
                           rAddress={datalist.rAddress[index]}
                           open={datalist.open[index]}
+                          opentwo={datalist.opentwo[index]}
                           distance={datalist.distance[index]}/>
     }
     return (
-        <View>
+        <View style={{ paddingLeft: 16,paddingRight:16,paddingTop:16, }}>
             <FlatList 
               data={datalist.rID}
               keyExtractor={item=> item.toString()}
