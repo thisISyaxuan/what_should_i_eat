@@ -8,7 +8,7 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from userLike import label_convert
 from userLike.models import UserLike
 from .models import UserInfo
-from baby.models import UidBaby
+from baby.models import UserBaby
 
 @api_view(['POST'])
 def get_user_data(request):
@@ -82,8 +82,10 @@ class register_api(generics.GenericAPIView):
         serializer2.save()
         serializer.save()
 
-        serializer4 = UidBaby.objects.create(number_1=1)
-        serializer4.save()
+        # userInfo/views.py
+        # 軒: 9/30 user_baby 資料表改過後尚未調整
+        # serializer4 = UserBaby.objects.create(number_1=1)
+        # serializer4.save()
 
         return Response({
             'success':True
