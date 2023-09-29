@@ -10,17 +10,18 @@ export default function Baby() {
     <ImageBackground source={require('../../assets/images/Background.jpg')} style={styles.container}>
       <TouchableOpacity style={styles.btn}>
         <Image style={{ width: 35, height: 35 }} source={require('../../assets/images/coin.png')} />
-        <Text>899</Text>
+        <Text>800</Text>
       </TouchableOpacity>
       
-      <TouchableOpacity style={styles.timeli} onPress={() => navigation.navigate("限時翻倍")}>
-        <Image style={{ width: 50, height: 50 }} source={require('../../assets/images/dice.png')} />
-        <Text>限時獎勵</Text>
-      </TouchableOpacity>
       
       <TouchableOpacity style={styles.collect} onPress={() => navigation.navigate("精靈圖鑑")}>
         <Image style={{ width: 50, height: 50 }} source={require('../../assets/images/babybook.png')} />
         <Text>精靈圖鑑</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.collecttwo} onPress={() => navigation.navigate("任務清單")}>
+        <Image style={{ width: 50, height: 50 }} source={require('../../assets/todolist.png')} />
+        <Text>任務清單</Text>
       </TouchableOpacity>
       
       <View style={styles.circle}>
@@ -72,7 +73,16 @@ const styles = StyleSheet.create({
   },
   collect: {
     position: 'absolute',
-    top:50,
+    top:180,
+    right: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  collecttwo: {
+    position: 'absolute',
+    top:280,
     right: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,

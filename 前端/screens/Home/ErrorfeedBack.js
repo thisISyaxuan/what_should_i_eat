@@ -6,11 +6,12 @@ import { useRoute } from "@react-navigation/native";
 import { globalStyles } from '../../styles/global';
 const Errorfb = () => {
   const route = useRoute()
-  const {id,title,description,myphone} = route.params
-  const [restaurant, setRestaurant] = useState('');
-  const [phone, setPhone] = useState(myphone);
-  const [address, setAddress] = useState(description);
-  const [businessHours, setBusinessHours] = useState('');
+  const {rName,rMap_Score,rPhone,rAddress,open,distance,rID} = route.params
+  console.log("123",rName);
+  const [restaurant, setRestaurant] = useState(rName);
+  const [phone, setPhone] = useState(rPhone);
+  const [address, setAddress] = useState(rAddress);
+  const [businessHours, setBusinessHours] = useState(open);
   const [menuFile, setMenuFile] = useState('');
   const [otherInfo, setOtherInfo] = useState('');
   const handleSubmit = () => {
@@ -28,11 +29,11 @@ const Errorfb = () => {
       <SafeAreaView style={styles.container}>
       <View style={styles.rowfirst}>
         <Text style={styles.label}>店家名稱</Text>
-        <View style={styles.dropdown}><Text>{title}</Text></View>
+        <View style={styles.dropdown}><Text>{rName}</Text></View>
       </View>
       <View style={styles.row}>
         <Text style={styles.label}>電話</Text>
-        <View style={[styles.inputContainer, { borderColor: '#F6D58A' }]}>
+        <View style={[styles.inputContainer]}>
           <TextInput
             style={styles.input}
             value={phone}
@@ -44,7 +45,7 @@ const Errorfb = () => {
       </View>
       <View style={styles.row}>
         <Text style={styles.label}>地址</Text>
-        <View style={[styles.inputContainer, { borderColor: '#F6D58A' }]}>
+        <View style={[styles.inputContainer]}>
           <TextInput
             style={styles.input}
             value={address}
@@ -56,7 +57,7 @@ const Errorfb = () => {
       </View>
       <View style={styles.row}>
         <Text style={styles.label}>營業時間</Text>
-        <View style={[styles.inputContainer, { borderColor: '#F6D58A' }]}>
+        <View style={[styles.inputContainer]}>
           <TextInput
             style={styles.input}
             value={businessHours}
@@ -66,15 +67,16 @@ const Errorfb = () => {
           />
         </View>
       </View>
-      <View style={styles.row}>
-        <Text style={styles.label}>菜單更新</Text>
+      <Text style={styles.label}>菜單更新</Text>
+      <View style={styles.rowfile}>
+        
         <TouchableOpacity style={styles.fileButton}>
           <Text style={[styles.buttonText, { color: 'white' }]}>選擇檔案</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.row}>
         <Text style={styles.label}>其他資訊</Text>
-        <View style={[styles.inputContainer, { borderColor: '#F6D58A', height: 4 * 40 }]}>
+        <View style={[styles.inputContainer, {height: 4 * 40 }]}>
           <TextInput
             style={styles.input}
             value={otherInfo}
@@ -111,8 +113,14 @@ const styles = StyleSheet.create({
   },
   row: {
     //borderWidth:1,
-    flexDirection: 'column',
+    //flexDirection: 'row',
     marginBottom: 20,
+    //alignItems: 'center',
+  },
+  rowfile:{
+    //flexDirection: 'row',
+    marginBottom: 20,
+    alignItems:'center',
   },
   rowfirst: {
     //borderWidth:1,
@@ -122,6 +130,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
+    
   },
   subtitle: {
     fontSize: 12,
@@ -141,28 +150,19 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: 'center',
     paddingHorizontal: 10,
+    borderColor:'#C0C0C0',
   },
   input: {
     flex: 1,
     color: 'black',
   },
   fileButton: {
-    backgroundColor: 'green',
-    borderRadius: 5,
+    backgroundColor: '#338168',
+    borderRadius: 50,
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  submitButton: {
-    backgroundColor: '#E5B45A',
-    borderRadius: 5,
-    padding: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
+    width:"30%",
   },
 });
 

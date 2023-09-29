@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
-import { View,Text,StyleSheet } from "react-native";
+import { View,Text,StyleSheet,Image } from "react-native";
 import { ScrollView, TextInput, TouchableOpacity} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 //import { images } from '../../data/menu';
 
 
@@ -14,15 +15,15 @@ export default ResInfo = ({navigation}) =>{
     return(
         <View style={styles.container}>
             <View style={styles.title}>
-            <Text style={{flex: 6,textAlign: 'right', fontSize:25}}>{rName}</Text>
-            <View style={{flex:3, alignItems: 'flex-end'}}><Icon name="heart" size={30} /></View>
+            <Text style={{flex: 6,textAlign: 'right', fontSize:25,fontWeight:"bold"}}>{rName}</Text>
+            <View style={{flex:3, alignItems: 'flex-end'}}><Ionicons name="heart" size={50} color={'red'}/></View>
             </View>
 
             <ScrollView horizontal showsVerticalScrollIndicator={false} style={{borderTopWidth:0.5, borderTopColor:'gray', borderBottomWidth:1, borderBottomColor:'gray', }}>
             <View style={{width: 275, height: 250, margin: 7, borderWidth: 1,justifyContent: 'center', alignItems: 'center'}}>
-                <Text>plc</Text></View>
+                <Image source={require('../../assets/images/restaurant/30-1.jpeg')} style={{ width: '100%', height: '100%' }} /></View>
             <View style={{width: 275, height: 250, margin: 7, borderWidth: 1,justifyContent: 'center', alignItems: 'center'}}>
-                <Text>plc</Text></View>
+            <Image source={require('../../assets/images/restaurant/30-2.jpg')} style={{ width: '100%', height: '100%' }} /></View>
             </ScrollView>
     
         <View style={styles.output}>
@@ -32,19 +33,27 @@ export default ResInfo = ({navigation}) =>{
                     <Icon name="circle" size={10} color={open === -1 ? 'red' : 'green' }/></View>
                 <Text style={{fontSize:18}}>{open === -1 ? '現在打烊喔' : '營業中'}</Text>
             </View>
-            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>評分:{rMap_Score}</Text>
-            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>距離:{distance}</Text>
-            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>電話:{rPhone}</Text>
-            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>地址:{rAddress}</Text>
+            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>評分: {rMap_Score} 顆星</Text>
+            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>距離: {distance}km</Text>
+            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>電話: {rPhone}</Text>
+            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>地址: {rAddress}</Text>
         </View> 
 
         <View style={styles.bottom}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 10, top: -20}}>
             <TouchableOpacity style={styles.ButtonR}>
-                <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}} onPress={() => navigation.navigate("錯誤回報")}>錯誤回報</Text>
+                <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}} onPress={() => navigation.navigate("錯誤回報", {
+    rName: rName,
+    rMap_Score: rMap_Score,
+    rPhone: rPhone,
+    rAddress: rAddress,
+    open: open,
+    distance: distance,
+    rID: rID,
+  })}>錯誤回報</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.ButtonL}>
-                <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}}>我是按鈕</Text>
+                <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}}>造訪店家</Text>
             </TouchableOpacity>
             </View>
         </View>
@@ -72,6 +81,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 20,
         fontSize: 25,
+        alignItems:"center",
       },
       output: {
         top: 20,
