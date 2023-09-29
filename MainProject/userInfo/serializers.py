@@ -1,6 +1,7 @@
 from rest_framework import serializers, validators
 from .models import UserInfo
 from django.contrib.auth.models import User
+from userLike.models import UserLike
 
 
 class RegisterSerializer(serializers.ModelSerializer):
