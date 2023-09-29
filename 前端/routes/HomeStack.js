@@ -44,9 +44,6 @@ const HomeStack = () => (
                               fontSize: 16,
                           },
                           headerTintColor: 'black',
-                          headerRight: () => (
-                            <TouchableOpacity color="black" style={{ marginRight: 18 }}><Text style={{ fontSize: 18 }}>預設</Text></TouchableOpacity>
-                          ),
                           }}
         />
         <Stack.Screen name="錯誤回報" component={Errorfb} 
@@ -88,7 +85,7 @@ const HomeStack = () => (
                         },
                         headerTintColor: 'black'
                         }} />
-                        <Stack.Screen name="resInfo" component={ResInfo} 
+                        <Stack.Screen name="餐廳資訊" component={ResInfo} 
                       options={{
                         headerShown: true,
                         headerStyle: {
