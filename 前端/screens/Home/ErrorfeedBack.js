@@ -4,24 +4,25 @@ import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute } from "@react-navigation/native";
 import { globalStyles } from '../../styles/global';
+import { Alert } from 'react-native';
 const Errorfb = () => {
   const route = useRoute()
-  const {rName,rMap_Score,rPhone,rAddress,open,distance,rID} = route.params
-  console.log("123",rName);
-  const [restaurant, setRestaurant] = useState(rName);
+  const {rName,rMap_Score,rPhone,rAddress,open,collect,distance,rID} = route.params
   const [phone, setPhone] = useState(rPhone);
   const [address, setAddress] = useState(rAddress);
-  const [businessHours, setBusinessHours] = useState(open);
+  const [businessHours, setBusinessHours] = useState('');
   const [menuFile, setMenuFile] = useState('');
   const [otherInfo, setOtherInfo] = useState('');
   const handleSubmit = () => {
-    console.log('表單送出');
+    Alert.alert('提交成功!');
+    navigation.goBack();
   };
   const ClearALL = () => {
     console.log('全部清空');
-    setPhone('');
-    setAddress('');
+    setPhone(rPhone);
+    setAddress(rAddress);
     setBusinessHours('');
+    setOtherInfo('');
   };
   const navigation = useNavigation();
   return (
@@ -38,6 +39,7 @@ const Errorfb = () => {
             style={styles.input}
             value={phone}
             onChangeText={text => setPhone(text)}
+            keyboardType='numeric'
             placeholder="請輸入更正資訊，無則免填"
             textAlignVertical="center" // 讓文字垂直置中
           />
@@ -89,7 +91,7 @@ const Errorfb = () => {
       </View>
       <View style={globalStyles.Btn}>
       <TouchableOpacity style={[globalStyles.YellowBtn,{paddingHorizontal: 50}]} onPress={ClearALL}>
-        <Text style={[styles.buttonText, { color: 'white' }]}>清空</Text>
+        <Text style={[styles.buttonText, { color: 'white' }]}>恢復</Text>
       </TouchableOpacity>
       <TouchableOpacity style={[globalStyles.GreenBtn,{paddingHorizontal: 50}]} onPress={handleSubmit}>
         <Text style={[styles.buttonText, { color: 'white' }]}>提交</Text>
@@ -102,7 +104,6 @@ const Errorfb = () => {
 
 const styles = StyleSheet.create({
   container: {
-    //backgroundColor:'pink',
     flex: 1,
     padding: 20,
   },
@@ -112,18 +113,13 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   row: {
-    //borderWidth:1,
-    //flexDirection: 'row',
     marginBottom: 20,
-    //alignItems: 'center',
   },
   rowfile:{
-    //flexDirection: 'row',
     marginBottom: 20,
     alignItems:'center',
   },
   rowfirst: {
-    //borderWidth:1,
     flexDirection: 'column',
     marginTop: -40,
     marginBottom:20,
