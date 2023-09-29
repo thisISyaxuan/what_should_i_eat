@@ -41,7 +41,7 @@ const FavLabel = ({navigation}) => {
         )}
           </TouchableOpacity>
           <View  style={styles.money}>
-            <Text style={[{color:'white',}]}>{item.label}</Text></View>
+            <Text style={[{color:'black',}]}>{item.label}</Text></View>
         </View>
       )
       
@@ -123,7 +123,7 @@ const FavLabel = ({navigation}) => {
     return (
         <View style={styles.container}>
             <View style={styles.hone}>
-                <Text style={[{color:'white',fontSize:20,fontWeight:'bold',padding:10}]}>再多選幾個你喜歡的餐飲類別</Text>
+                <Text style={[{color:'black',fontSize:20,fontWeight:'bold',padding:10}]}>再多選幾個你喜歡的餐飲類別</Text>
             <FlatList
                 data={images}
                 renderItem={renderItem}
@@ -133,7 +133,7 @@ const FavLabel = ({navigation}) => {
                 style={styles.flatlist}
             />
             <TouchableOpacity style={[styles.but]} onPress={handleRegister}>
-            <Text style={[{color:'#174441',fontSize:20,fontWeight:'bold'}]}>提交</Text>
+            <Text style={[{color:'white',fontSize:20,fontWeight:'bold'}]}>提交</Text>
             </TouchableOpacity>
             </View>
         </View>
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 10,
-        backgroundColor: '#174441',
+        backgroundColor: '#EBEAE9',//#174441
     },
     hone:{
         flex: 1,
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
         flex: 5,
     },
     but:{
-        backgroundColor: 'white',
+        backgroundColor: '#174441',
         paddingHorizontal: 30,
         paddingVertical: 10,
         borderRadius: 40,

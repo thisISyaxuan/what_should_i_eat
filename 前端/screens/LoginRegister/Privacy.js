@@ -8,7 +8,7 @@ const Privacy = () => {
     return (
         
     <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>歡迎使用XXX App!</Text>
+        <Text style={styles.title}>歡迎使用!</Text>
         <View>
         
         <ScrollView>
@@ -20,7 +20,7 @@ const Privacy = () => {
         {'\n'}通過註冊並使用本App，您表示您已閱讀、理解並同意遵守本條款中所述的所有條款和條件。如果您不同意這些條款，請不要註冊或使用本App。{'\n'}</Text>
         <Text style={styles.boldText}>2. 收集的資訊</Text>
         <Text style={styles.description}>
-        {'\n'}當您註冊使用本App時，我們可能會收集以下類型的資訊：
+        {'\n'}當您註冊使用本App時，我們會收集以下類型的資訊：
         {'\n'}{'\n'}(1.)個人資訊： {'\n'}包括但不限於您的姓名、電子郵件地址、聯絡資訊等，以便我們建立您的帳戶並聯繫您。
         {'\n'}{'\n'}(2.)使用資訊： {'\n'}包括但不限於您在本App上的活動、搜索、瀏覽紀錄、評分和點評等，這些資訊將被用於生成個性化的美食推薦。
         {'\n'}{'\n'}(3.)設備資訊： {'\n'}包括但不限於您的設備型號、操作系統、瀏覽器類型等，以優化您的使用體驗。{'\n'}</Text>
