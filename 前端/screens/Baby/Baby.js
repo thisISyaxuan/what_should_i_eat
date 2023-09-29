@@ -68,8 +68,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    //borderWidth:2,
-    //borderRadius:50,
   },
   collect: {
     position: 'absolute',
