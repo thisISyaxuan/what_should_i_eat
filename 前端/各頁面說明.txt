@@ -26,4 +26,4 @@
 ///////
 
 1. npm i expo-location --force
-2. npm i @react-native-async-storage/async-storage
+2. npm i @react-native-async-storage/async-storage --force
