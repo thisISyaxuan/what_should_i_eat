@@ -99,14 +99,14 @@ def checkTime(Restaurant):
     return Restaurant
 
 def checkDistance(userPos, Restaurant):
-    Restaurant.insert(Restaurant.shape[1], 'distance', 0)
+    Restaurant.insert(Restaurant.shape[1], 'distance', 0.1111)
     # [lat, lng]
     for rID, row in Restaurant.iterrows():
         # 測試
-        resPos = [23.9680205, 120.9595776]
+        resPos = [23.968, 120.959]
         # resPos = [Restaurant.loc[rID, 'lat'], Restaurant.loc[rID, 'lng']]
-        # print(resPos)
-        theta = userPos[1] - resPos[1]    
+        # print(type(userPos[1]), type(resPos[1]))
+        theta = userPos[1]-resPos[1]
         distance = 60 * 1.1515 * rad2deg(
             arccos(
                 (sin(deg2rad(userPos[0])) * sin(deg2rad(resPos[0]))) + 
@@ -174,7 +174,6 @@ def get_the_most_similar_res(uID, SimilarityMatrix):
     SortedIndex = np.argsort(user_like)[::-1]
     result = (list(SimilarityMatrix.columns[SortedIndex]))
     return result
-
 
 def RecommenderUserBasedCollaborativeFiltering(uID, SimilarUsers_num, NewRLabel, CostDetail):
     resRating = pd.merge(CostDetail[["uID", "rID", "rating"]], NewRLabel, on='rID')
@@ -255,18 +254,25 @@ def transDataFrame(FilterResult, ListResult):
             result.loc[rID] = FilterResult.loc[rID]
     return result
 
+# def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, RatingSort):
 def main():
-    uID = 6
+    uID = 2
+    TimeFilter = True
+    MealFilter = 0
+    LabelFilter = '全部'
+    userPos = [23.96656, 120.96586]    # [lat, lng]
+    DistanceSort = False
+    RatingSort = False
+    # print(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, RatingSort)
     Restaurant = get_pd('1_restaurant', "rID", "NULL")
     NewRLabel = get_pd('1_new_rlabel', 'rID', "NULL")
     UserLike = get_pd('1_user_like', 'uID', uID)
     CostDetail = get_pd('1_cost_detail', 'cID', "NULL")
     uNum = selectCount('1_user_info')
     db.close
+    # print('close')
 
     Restaurant = checkTime(Restaurant)
-    # [lat, lng]
-    userPos = [23.96656, 120.96586]
     Restaurant = checkDistance(userPos, Restaurant)
 
     TimeFilter = False
@@ -306,7 +312,8 @@ def main():
         DFresult = transDataFrame(FilterResult, ListResult)
     DFresult = DFresult.drop(['all_label', 'meal_or_not', 'rLat', 'rLng'], axis=1)
     DFresult['rID'] = DFresult.index
-    print(DFresult)
+    # print(DFresult)
+    # return DFresult
 
 if __name__ == '__main__':
     main()

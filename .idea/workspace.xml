@@ -5,22 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69c4b26f-c0b9-4dfa-95f2-f7df9354c943" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/eat3.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/clone/clone.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/defaults/node_modules/clone/clone.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/safe-json-stringify/.idea/safe-json-stringify.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainProject/MainProject/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/MainProject/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/restaurant/recommender.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/recommender.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/restaurant/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/前端/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/前端/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/前端/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端/screens/Home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/前端/screens/Home/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端/screens/Home/Search.js" beforeDir="false" afterPath="$PROJECT_DIR$/前端/screens/Home/Search.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端/screens/LoginRegister/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/前端/screens/LoginRegister/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端/screens/Wallet/Piechart.js" beforeDir="false" afterPath="$PROJECT_DIR$/前端/screens/Wallet/Piechart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/MainProject/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/MainProject/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/favoritesRList/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/favoritesRList/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/favoritesRList/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/favoritesRList/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/favoritesRList/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/favoritesRList/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/favoritesRList/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/favoritesRList/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/favoritesRList/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/label/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/label/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/label/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/label/excel/restaurant.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/label/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/label/migrations/0002_alter_rlabel_table.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/label/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/label/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/label/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/label/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/label/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userInfo/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userInfo/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userInfo/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userInfo/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userInfo/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userInfo/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userInfo/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userInfo/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mySQL/recommender.py" beforeDir="false" afterPath="$PROJECT_DIR$/mySQL/recommender.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +64,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/xampp_8.0.28/htdocs/eat3",
+    "last_opened_file_path": "D:/xampp_8.0.28/htdocs/eat5",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",

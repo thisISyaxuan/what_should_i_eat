@@ -43,11 +43,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'knox',
     'userInfo',
-    'label',
     'costDetail',
     'restaurant',
     'baby',
-    'favoritesRList',
     'userLike',
 ]
 
