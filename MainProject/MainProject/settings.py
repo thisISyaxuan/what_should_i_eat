@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'restaurant',
     'baby',
     'favoritesRList',
+    'userLike',
 ]
 
 MIDDLEWARE = [
