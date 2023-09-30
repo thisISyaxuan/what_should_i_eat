@@ -117,6 +117,16 @@ def checkDistance(userPos, Restaurant):
         # print(Restaurant.loc[rID, 'distance'])
     return Restaurant
 
+def checkCollect(uID, Restaurant):
+    Restaurant.insert(Restaurant.shape[1], 'collect', 0)
+    sql = f"SELECT `rID` FROM `1_user_collectrest` WHERE uID = {uID}"
+    cursor.execute(sql)
+    result = cursor.fetchall() # tuple
+    collect = [item[0] for item in result]
+    for rID in collect:
+        Restaurant.loc[rID, 'collect'] = 1
+    return Restaurant
+
 def rad2deg(radians):
     degrees = radians * 180 / pi
     return degrees
@@ -254,6 +264,18 @@ def transDataFrame(FilterResult, ListResult):
             result.loc[rID] = FilterResult.loc[rID]
     return result
 
+def replaceAllLabel(Restaurant):
+    global labelDict
+    # print(Restaurant)
+    for rID, row in Restaurant.iterrows():
+        thisLabel = row['all_label'].split(",")[0]
+        for key, values in labelDict.items():
+            if (thisLabel in values):
+                Restaurant.loc[rID, 'all_label'] = key
+                continue
+    Restaurant = Restaurant.rename(columns={'all_label': 'BigLabel'})
+    return Restaurant
+
 def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, RatingSort):
 # def main():
 #     uID = 2
@@ -261,29 +283,29 @@ def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, Rating
 #     MealFilter = 0
 #     LabelFilter = '全部'
 #     userPos = [23.96656, 120.96586]    # [lat, lng]
-#     DistancSort = False
+#     DistanceSort = False
 #     RatingSort = False
-#     print(type(userPos), userPos)
-#     userPos = userPos.split(',')
-#     userPos[0] = float(userPos[0].split('[')[1])
-#     userPos[1] = float(userPos[1].split(']')[0])
-    # print(type(userPos), userPos)
+    # ----------------------
+    # 跟前端合的時候要註解
+    userPos = userPos.split(',')
+    userPos[0] = float(userPos[0].split('[')[1])
+    userPos[1] = float(userPos[1].split(']')[0])
+    # ----------------------
+
     print(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, RatingSort)
+
     Restaurant = get_pd('1_restaurant', "rID", "NULL")
     NewRLabel = get_pd('1_new_rlabel', 'rID', "NULL")
     UserLike = get_pd('1_user_like', 'uID', uID)
     CostDetail = get_pd('1_cost_detail', 'cID', "NULL")
     uNum = selectCount('1_user_info')
+
+    Restaurant = checkTime(Restaurant)
+    Restaurant = checkDistance(userPos, Restaurant)
+    Restaurant = checkCollect(uID, Restaurant)
     db.close
     print('close')
 
-    Restaurant = checkTime(Restaurant)
-
-    Restaurant = checkDistance(userPos, Restaurant)
-
-    TimeFilter = False
-    MealFilter = 0
-    LabelFilter = '全部'
     if ((TimeFilter==False) and (MealFilter==-1) and (LabelFilter=='全部')): # 初始值
         FilterResult = Restaurant
     else:
@@ -316,7 +338,8 @@ def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, Rating
             # print(filtering)
             ListResult = GoMerge(init, content, filtering)
         DFresult = transDataFrame(FilterResult, ListResult)
-    DFresult = DFresult.drop(['all_label', 'meal_or_not', 'rLat', 'rLng'], axis=1)
+    DFresult = DFresult.drop(['meal_or_not', 'rLat', 'rLng'], axis=1)
+    DFresult = replaceAllLabel(DFresult)
     DFresult['rID'] = DFresult.index
     # print(DFresult)
     return DFresult

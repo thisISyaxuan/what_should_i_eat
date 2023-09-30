@@ -10,5 +10,6 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     # path('',include(router.urls)),
-    path('restaurant/', views.recommend.as_view()),
+    path('recommend/', views.recommend.as_view()),
+    path('collect/', views.collect.as_view()),
 ]
