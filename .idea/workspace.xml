@@ -5,13 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69c4b26f-c0b9-4dfa-95f2-f7df9354c943" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MainProject/restaurant/select_collect.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MainProject/click/select_restaurant_info.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MainProject/click/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/MainProject/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/MainProject/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainProject/MainProject/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/MainProject/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainProject/restaurant/recommender.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/recommender.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainProject/restaurant/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainProject/restaurant/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mySQL/recommender.py" beforeDir="false" afterPath="$PROJECT_DIR$/mySQL/recommender.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/clone/clone.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/defaults/node_modules/clone/clone.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/safe-json-stringify/.idea/safe-json-stringify.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/前端/component/event-list.js" beforeDir="false" afterPath="$PROJECT_DIR$/前端/component/event-list.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/前端/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/前端/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/前端/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/前端/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/前端/screens/Home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/前端/screens/Home/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/前端/screens/Home/Search.js" beforeDir="false" afterPath="$PROJECT_DIR$/前端/screens/Home/Search.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/前端/screens/LoginRegister/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/前端/screens/LoginRegister/Login.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

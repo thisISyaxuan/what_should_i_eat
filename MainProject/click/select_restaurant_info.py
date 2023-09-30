@@ -1,9 +1,6 @@
 import pandas as pd
 import pymysql
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
 from numpy import dot, sin, cos, arccos, pi, round
-from numpy.linalg import norm
 import datetime
 
 # ------------
@@ -62,12 +59,6 @@ def get_pd(tabel_name, index, uID):
     # print(result)
     return result
 
-def selectCount(tabel_name):
-    sql = f"SELECT COUNT(*) FROM {tabel_name}"
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    return result[0][0]
-
 def checkTime(Restaurant):
     Restaurant.insert(Restaurant.shape[1], 'open', 0)
     date = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun']
@@ -109,7 +100,7 @@ def checkDistance(userPos, Restaurant):
         theta = userPos[1]-resPos[1]
         distance = 60 * 1.1515 * rad2deg(
             arccos(
-                (sin(deg2rad(userPos[0])) * sin(deg2rad(resPos[0]))) + 
+                (sin(deg2rad(userPos[0])) * sin(deg2rad(resPos[0]))) +
                 (cos(deg2rad(userPos[0])) * cos(deg2rad(resPos[0])) * cos(deg2rad(theta)))
             )
         )
@@ -135,135 +126,6 @@ def deg2rad(degrees):
     radians = degrees * pi / 180
     return radians
 
-def GoFilter(Restaurant, TimeFilter, MealFilter, LabelFilter, NewRLabel):
-    # 營業時間
-    if (TimeFilter):
-        Restaurant = Restaurant[Restaurant['open'] == 1]
-    # 正餐
-    # MealFilter = -1 => 不篩選
-    if (MealFilter == 1):
-        Restaurant = Restaurant[Restaurant['meal_or_not'] == 1]
-    if (MealFilter == 0):
-        Restaurant = Restaurant[Restaurant['meal_or_not'] == 0]
-    # 類別
-    if (LabelFilter != '全部'):
-        global labelDict
-        for rID, row in Restaurant.iterrows():
-            check = []
-            for label in labelDict[LabelFilter]:
-                if (NewRLabel.loc[rID, label] == 1):
-                    check.append(True)
-            if (len(check) == 0):
-                Restaurant = Restaurant.drop(rID)
-    return Restaurant
-
-def RecommenderInit(uID, UserLike, NewRLabel):
-    # 餘弦算相似度
-    SimilarityMatrix = cosine_similarity(UserLike.values, NewRLabel.values)
-    SimilarityMatrix = pd.DataFrame(SimilarityMatrix, index=UserLike.index, columns=NewRLabel.index)
-    result = get_the_most_similar_res(uID, SimilarityMatrix)
-    return result
-
-def RecommenderContent(uID, NewRLabel, CostDetail):
-    # user vector 
-    resRating = pd.merge(CostDetail[["uID", "rID"]], NewRLabel, on='rID')
-    # print(resRating)
-    resRating.drop(['rID'], axis=1, inplace=True)
-    # print(resRating)
-    user_vec = resRating.groupby("uID").mean()
-    # 餘弦算相似度
-    SimilarityMatrix = cosine_similarity(user_vec.values, NewRLabel.values)
-    SimilarityMatrix = pd.DataFrame(SimilarityMatrix, index=user_vec.index, columns=NewRLabel.index)
-    result = get_the_most_similar_res(uID, SimilarityMatrix)
-    return result
-
-def get_the_most_similar_res(uID, SimilarityMatrix):
-    # Get the most similar restaurant
-    # Find the top-n restaurant most similar to the user
-    user_like = SimilarityMatrix.loc[uID].values
-    SortedIndex = np.argsort(user_like)[::-1]
-    result = (list(SimilarityMatrix.columns[SortedIndex]))
-    return result
-
-def RecommenderUserBasedCollaborativeFiltering(uID, SimilarUsers_num, NewRLabel, CostDetail):
-    resRating = pd.merge(CostDetail[["uID", "rID", "rating"]], NewRLabel, on='rID')
-    # Calculate the similarity between the user and other users
-    similarities = []
-    user_ids = []
-    for other_user in resRating.uID.unique():
-        if other_user == uID:
-            continue
-        common_res = find_common_res(uID, other_user, resRating)
-        if (len(common_res) < 10):
-            sim = 0
-        else:
-            # 尚未測試
-            print('hello')
-            sim = cal_similarity_for_res_ratings(uID, other_user, common_res, resRating)
-        similarities.append(sim)
-        user_ids.append(other_user)
-    # Find top n similar users
-    similarities,user_ids = np.array(similarities),np.array(user_ids)
-    sorted_index = (np.argsort(similarities)[::-1][:SimilarUsers_num]).tolist()
-    most_similar_users = user_ids[sorted_index].tolist()
-    result = recommend(uID, most_similar_users, resRating)
-    return result
-
-def find_common_res(user1, user2, df):
-    # Find restaurant that both users have watched
-    s1 = set((df.loc[df["uID"] == user1, "rID"].values))
-    s2 = set((df.loc[df["uID"] == user2, "rID"].values))
-    # return 交集的元素
-    return s1.intersection(s2)
-
-def cal_similarity_for_res_ratings(user1, user2, res_id, df, method="cosine"):
-    # Calculate the similarity for res ratings between user1 and user2
-    u1 = df[df["uID"] == user1]
-    u2 = df[df["uID"] == user2]
-    vec1 = u1[u1.rID.isin(res_id)].sort_values(by="rID")["rating"].values
-    vec2 = u2[u2.rID.isin(res_id)].sort_values(by="rID")["rating"].values
-    # cosine
-    return dot(vec1, vec2) / (norm(vec1) * norm(vec2))
-
-def recommend(uID, similar_users, df):
-    # Find the restaurant the user hasn't seen and the similar users have seen.
-    seen_res = np.unique(df.loc[df["uID"] == uID, "rID"].values)
-    not_seen_res = df["rID"].isin(seen_res) == False
-    similar_res = df["uID"].isin(similar_users)
-    # 沒吃過且相似
-    not_seen_res_ratings = df[not_seen_res & similar_res][["rID", "rating"]]
-    # Find average ratings by the most similar users
-    average_ratings = not_seen_res_ratings.groupby("rID").mean()
-    top_ratings = average_ratings.sort_values(by="rating", ascending=False)
-    return top_ratings.index.tolist()
-
-def GoMerge(init, content, filtering):
-    # 綜合餐廳在三種結果中的排名
-    score = [0 for x in range(max(init))]
-    tempResult = {}
-    result = []
-    # print(len(score))
-    recommend = [init, content, filtering]
-    for aList in recommend:
-        # print(aList)
-        for point, restaurant in enumerate(aList):
-            score[restaurant - 1] += point
-    afterSorted = sorted(score)
-    for restaurant, point in enumerate(afterSorted):
-        if (point != 0):
-            # rID rScore
-            tempResult[score.index(point) + 1] = point
-    for key, value in tempResult.items():
-        result.append(key)
-    return result
-
-def transDataFrame(FilterResult, ListResult):
-    result = FilterResult.drop(FilterResult.index)
-    for rID in ListResult:
-        if rID in FilterResult.index:
-            result.loc[rID] = FilterResult.loc[rID]
-    return result
-
 def replaceAllLabel(Restaurant):
     global labelDict
     # print(Restaurant)
@@ -276,73 +138,27 @@ def replaceAllLabel(Restaurant):
     Restaurant = Restaurant.rename(columns={'all_label': 'BigLabel'})
     return Restaurant
 
-def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, RatingSort):
-# def main():
-#     uID = 2
-#     TimeFilter = True
-#     MealFilter = 0
-#     LabelFilter = '全部'
-#     userPos = [23.96656, 120.96586]    # [lat, lng]
-#     DistanceSort = False
-#     RatingSort = False
+def main(uID, userPos, click):
     # ----------------------
     # 跟前端合的時候要註解
-    # userPos = userPos.split(',')
-    # userPos[0] = float(userPos[0].split('[')[1])
-    # userPos[1] = float(userPos[1].split(']')[0])
+    print(userPos)
+    userPos = userPos.split(',')
+    userPos[0] = float(userPos[0].split('[')[1])
+    userPos[1] = float(userPos[1].split(']')[0])
     # ----------------------
-
-    print(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, RatingSort)
-
     Restaurant = get_pd('1_restaurant', "rID", "NULL")
-    NewRLabel = get_pd('1_new_rlabel', 'rID', "NULL")
-    UserLike = get_pd('1_user_like', 'uID', uID)
-    CostDetail = get_pd('1_cost_detail', 'cID', "NULL")
-    uNum = selectCount('1_user_info')
-
+    db.close
+    print('close')
     Restaurant = checkTime(Restaurant)
     Restaurant = checkDistance(userPos, Restaurant)
     Restaurant = checkCollect(uID, Restaurant)
-    db.close
-    print('close')
+    Restaurant = Restaurant.drop(['meal_or_not', 'rLat', 'rLng'], axis=1)
+    Restaurant = replaceAllLabel(Restaurant)
+    Restaurant['rID'] = Restaurant.index
+    Restaurant = Restaurant[Restaurant['collect'] == 1]
 
-    if ((TimeFilter==False) and (MealFilter==-1) and (LabelFilter=='全部')): # 初始值
-        FilterResult = Restaurant
-    else:
-        FilterResult = GoFilter(Restaurant, TimeFilter, MealFilter, LabelFilter, NewRLabel)
-    # print(FilterResult)
-
-    # 過濾完之後
-    # 如果排序
-        # 排序 -> output
-    # 如果不排序
-        # 推薦 -> output
-
-    DistanceSort = False
-    RatingSort = False
-    if (DistanceSort):
-        DFresult = FilterResult.sort_values(by="distance", ascending=True)
-    elif (RatingSort):
-        DFresult = FilterResult.sort_values(by="rMap_Score", ascending=False)
-    else:
-        # 如果這個人沒有記帳紀錄
-        if (True not in list(CostDetail['uID'] != uID)):
-            # uID, UserLike, NewRLabel
-            ListResult = RecommenderInit(uID, UserLike, NewRLabel)
-        else:
-            init = RecommenderInit(uID, UserLike, NewRLabel)
-            content = RecommenderContent(uID, NewRLabel, CostDetail)
-            filtering = RecommenderUserBasedCollaborativeFiltering(uID, uNum, NewRLabel, CostDetail)
-            # print(init)
-            # print(content)
-            # print(filtering)
-            ListResult = GoMerge(init, content, filtering)
-        DFresult = transDataFrame(FilterResult, ListResult)
-    DFresult = DFresult.drop(['meal_or_not', 'rLat', 'rLng'], axis=1)
-    DFresult = replaceAllLabel(DFresult)
-    DFresult['rID'] = DFresult.index
-    # print(DFresult)
-    return DFresult
-
-# if __name__ == '__main__':
-#     main()
+    result = pd.DataFrame(columns = Restaurant.columns)
+    print(result)
+    for rID in click:
+        result = result.append(Restaurant[Restaurant['rID'] == rID], ignore_index=True)
+    return result

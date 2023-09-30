@@ -24,4 +24,5 @@ urlpatterns = [
     path('account/',include('costDetail.urls')),
     path('baby/',include('baby.urls')),
     path('restaurant/',include('restaurant.urls')),
+    path('click/', include('click.urls')),
 ]

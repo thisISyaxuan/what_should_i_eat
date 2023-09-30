@@ -55,15 +55,15 @@ const SearchRes = ({navigation}) => {
     setRatingSort(false);
   };
   useEffect(() => {//初始化
-    checkLocationPermission();
+//    checkLocationPermission();
+      const checkLocationPermission = async () => {//定位功能有沒有被啟用
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
+            console.log('沒開啟定位');
+          }
+      };
   }, []);
 
-  const checkLocationPermission = async () => {//定位功能有沒有被啟用
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        console.log('沒開啟定位');
-      }
-  };
   const searchRestaurants = async () => {//按下搜尋按鈕
     if(selectedValue==='請選擇類別'){
       Alert.alert('請選擇欲搜索之類別')
@@ -81,7 +81,7 @@ const SearchRes = ({navigation}) => {
             DistanceSort: distance,
             RatingSort: rating
           };
-          const response = await fetch('http://172.20.10.2:8000/recommend/restaurant/', {//改連結
+          const response = await fetch('http://172.20.10.2:8000/restaurant/recommend/', {//改連結
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ const SearchRes = ({navigation}) => {
         });
         const responseData = await response.json();//後端回傳資料
         console.log("後端回傳的responseData為:",responseData); 
-        navigation.navigate('餐廳探索',{data : responseData});//把資料傳到餐廳探索
+        navigation.navigate('餐廳探索',{data : responseData.success});//把資料傳到餐廳探索
         }else{
         navigation.navigate('餐廳探索',{data: resdata1});
         }
