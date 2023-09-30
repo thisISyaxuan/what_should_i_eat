@@ -46,9 +46,25 @@ const RatingScreen = () => {
             if (token) {
                 const location = await Location.getCurrentPositionAsync({});//抓經緯
                 const newCoords = [location.coords.latitude, location.coords.longitude];//新的經緯
+                const [currentDateTime, setCurrentDateTime] = useState('');
+                
                 if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
                     setLastSentPos(newCoords);
-                    const requestdata = {rating:true,userPos:newCoords,};
+                    const currentDate = new Date();
+                    const year = currentDate.getFullYear();
+                    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // 月份從0開始，需要加1
+                    const day = String(currentDate.getDate()).padStart(2, '0');
+                    const hours = String(currentDate.getHours()).padStart(2, '0');
+                    const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+                    const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+                    const formattedDateTime = `${year}-${month}-${day}-${hours}-${minutes}-${seconds}`;
+                    setCurrentDateTime(formattedDateTime);
+
+                    const requestdata = {
+                        rating:true,
+                        userPos:newCoords,
+                        currentTime: currentDateTime,
+                    };
                     const response = await fetch('http://172.20.10.2:8000/recommend/mycollect/', {//改他
                         method: 'POST',
                         headers: {'Content-Type': 'application/json',Authorization: `Token ${token}`,},body: JSON.stringify(requestdata)
