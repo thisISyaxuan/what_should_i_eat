@@ -39,8 +39,8 @@ export default function Login({navigation}) {
     };
   
     try {
-      navigation.navigate('ButtomTabStack');
-      return;
+//      navigation.navigate('ButtomTabStack');
+//      return;
       fetch('http://172.20.10.2:8000/api/Login/', {
         method: 'POST',
         headers: {

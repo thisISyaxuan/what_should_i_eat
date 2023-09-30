@@ -25,7 +25,7 @@ class recommend(generics.GenericAPIView):
                 # rID 店名 時間 評分 距離 電話 地址
                 # {"success": {"rName": [], "rMa_Score": [], "rAddress": [], "open": []}}
                 # {"success": DataFrameResult}
-                'success': DataFrameResult.head(10)
+                'success': DataFrameResult
             })
         return Response({
             'success': False
