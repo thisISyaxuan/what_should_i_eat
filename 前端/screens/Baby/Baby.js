@@ -1,10 +1,14 @@
-import { StyleSheet, Text, View, Image,ImageBackground, SafeAreaView, TouchableOpacity } from 'react-native';
-import { globalStyles } from '../../styles/global'; // 引入全域樣式
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image, ImageBackground, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 
-// 定義Home函式組件
 export default function Baby() {
-  const navigation = useNavigation(); // 使用React Navigation的導航功能
+  const navigation = useNavigation();
+  const [hasSignedIn, setHasSignedIn] = useState(false); // 初始設置為未簽到
+
+  const handleSignIn = () => {
+    setHasSignedIn(true); // 當按下按鈕時，設置為已簽到
+  };
 
   return (
     <ImageBackground source={require('../../assets/images/Background.jpg')} style={styles.container}>
@@ -13,15 +17,18 @@ export default function Baby() {
         <Text>800</Text>
       </TouchableOpacity>
       
-      
       <TouchableOpacity style={styles.collect} onPress={() => navigation.navigate("精靈圖鑑")}>
         <Image style={{ width: 50, height: 50 }} source={require('../../assets/images/babybook.png')} />
         <Text>精靈圖鑑</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity style={styles.collecttwo} onPress={() => navigation.navigate("任務清單")}>
-        <Image style={{ width: 50, height: 50 }} source={require('../../assets/todolist.png')} />
-        <Text>任務清單</Text>
+      
+      <TouchableOpacity 
+        style={styles.signIn} 
+        onPress={handleSignIn} 
+        disabled={hasSignedIn}
+      >
+        <Image style={{ width: 50, height: 50, opacity: hasSignedIn ? 0.5 : 1 }} source={require('../../assets/todolist.png')} />
+        <Text>今日簽到</Text>
       </TouchableOpacity>
       
       <View style={styles.circle}>
@@ -53,17 +60,17 @@ const styles = StyleSheet.create({
   },
   btn: {
     position: 'absolute',
-    top: 10,
+    top: 30,
     left: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  timeli: {
+  signIn: {
     position: 'absolute',
-    top: 100,
-    left: 10,
+    top: 20,
+    right: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,
     alignItems: 'center',
@@ -71,7 +78,7 @@ const styles = StyleSheet.create({
   },
   collect: {
     position: 'absolute',
-    top:180,
+    top: 130,
     right: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -80,7 +87,7 @@ const styles = StyleSheet.create({
   },
   collecttwo: {
     position: 'absolute',
-    top:280,
+    top: 280,
     right: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,

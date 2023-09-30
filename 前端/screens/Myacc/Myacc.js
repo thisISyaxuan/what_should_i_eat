@@ -1,57 +1,82 @@
-import {StyleSheet, Text,Image, View,SafeAreaView,TouchableOpacity} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, Image, View, SafeAreaView, TouchableOpacity } from 'react-native';
 import { globalStyles } from '../../styles/global';
 import { useNavigation } from "@react-navigation/native";
-import Login from '../LoginRegister/Login';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect,useState } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
 export default function Myacc() {
-  const navigation = useNavigation();
-  const [userData,setUserData] = useState({name:'用戶1號',email:'userone@gmail.com'});
-  useEffect(() => {//初始化，先傳Token過去，等後端回傳json檔後，存入userData裡
-    const fetchUserData = async () => {
-      try {
-        const userToken = await AsyncStorage.getItem('userToken');
-        if (userToken) {
-          const response = await fetch('http://192.168.0.2:8000/api/MyAcc/', {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Token ${userToken}`, // 添加 Token 到 Header
-            },
-          });
-          const responseData = await response.json();
-          setUserData({
-            name: responseData.username,
-            email: responseData.email
-          });
-        }else{
-          console.log('抓不到token')
+    const navigation = useNavigation();
+    const [userData, setUserData] = useState({ name: '用戶1號', email: 'userone@gmail.com' });
+    const [avatarSource, setAvatarSource] = useState(require("../../assets/images/baby/baby0/90.png"));
+
+    const loadAvatar = async () => {
+        try {
+            const savedAvatar = await AsyncStorage.getItem('selectedAvatar');
+            if (savedAvatar) {
+                const avatar = JSON.parse(savedAvatar);
+                setAvatarSource({ uri: avatar.imageUri });
+            }
+        } catch (error) {
+            console.error('錯誤：加載選擇的頭像', error);
         }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
     };
-    fetchUserData();
-  },[]);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', loadAvatar); // 當屏幕獲得焦點時加載頭像
+        
+        const fetchUserData = async () => {
+            try {
+                const userToken = await AsyncStorage.getItem('userToken');
+                if (userToken) {
+                    const response = await fetch('http://192.168.0.2:8000/api/MyAcc/', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Token ${userToken}`,
+                        },
+                    });
+                    const responseData = await response.json();
+                    setUserData({
+                        name: responseData.username,
+                        email: responseData.email
+                    });
+                } else {
+                    console.log('抓不到token');
+                }
+            } catch (error) {
+                console.error('錯誤：獲取用戶數據', error);
+            }
+        };
+
+        loadAvatar(); // 初始加載頭像
+        fetchUserData(); // 初始加載用戶數據
+
+        return unsubscribe; // 清理訂閱
+    }, [navigation]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={[styles.rowContainer]}>
         <View style={styles.circle}>
-          <Image style={styles.pic} source={require("../../assets/images/baby/baby0/90.png")}/>
+          <Image style={styles.pic} source={avatarSource}/>
         </View>
-        <View><Text >{userData.name}</Text><Text >{userData.email}</Text></View>
+        <View>
+          <Text>{userData.name}</Text>
+          <Text>{userData.email}</Text>
+        </View>
       </View>
 
       <View style={styles.m}>
         <View style={[styles.OutCol]}>
-            <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("任務清單")}>
-            <Ionicons name="person-circle-outline" size={50} color={'#C0C0C0'}></Ionicons>
-            <Text style={globalStyles.TextSize}>個人資訊</Text></TouchableOpacity>
-            <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("任務清單")}>
-            <Ionicons name="megaphone-outline" size={50} color={'#C0C0C0'}></Ionicons>
-            <Text style={globalStyles.TextSize}>最新公告</Text></TouchableOpacity>
+          <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("任務清單")}>
+            <Ionicons name="person-circle-outline" size={50} color={'#C0C0C0'}/>
+            <Text style={globalStyles.TextSize}>個人資訊</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("任務清單")}>
+            <Ionicons name="megaphone-outline" size={50} color={'#C0C0C0'}/>
+            <Text style={globalStyles.TextSize}>最新公告</Text>
+          </TouchableOpacity>
         </View>
         
         <View style={[styles.OutCol]}>
@@ -82,7 +107,6 @@ export default function Myacc() {
     </SafeAreaView>
   );
 };
-
 
 
 const styles = StyleSheet.create({

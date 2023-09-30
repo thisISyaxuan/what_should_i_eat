@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Image, FlatList, Text, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, StyleSheet, Image, FlatList, Text, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { images } from '../../data/babyImage';
 import { baby_DATA } from '../../data/baby';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const BabyCollect = () => { 
+const BabyCollect = () => {
     const navigation = useNavigation();
-    const [ownedBabies, setOwnedBabies] = useState([]); 
+    const [ownedBabies, setOwnedBabies] = useState([baby_DATA[0].id, baby_DATA[1].id]); // 初始化时前两个为已购买
+    const [coins, setCoins] = useState(0);
 
     useEffect(() => {
-        const fetchOwnedBabies = async () => {
+        const fetchOwnedBabiesAndCoins = async () => {
             try {
-                const token = await AsyncStorage.getItem('userToken'); 
+                const token = await AsyncStorage.getItem('userToken');
                 if (token) {
                     fetch('http://192.168.79.12:8000/baby/baby/', {
                         method: 'POST',
@@ -21,14 +22,15 @@ const BabyCollect = () => {
                             'Authorization': `Token ${token}`
                         },
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        //data = {"ownedBabies":[1,2]}
-                        setOwnedBabies(data.ownedBabies); 
-                    })
-                    .catch((error) => {
-                        console.error('獲取數據出錯:', error);
-                    });
+                        .then(response => response.json())
+                        .then(data => {
+                            let updatedOwnedBabies = [...new Set([...data.ownedBabies, baby_DATA[0].id, baby_DATA[1].id])]; // 确保前两个宝宝总是被包含在ownedBabies中
+                            setOwnedBabies(updatedOwnedBabies);
+                            setCoins(data.coins);
+                        })
+                        .catch((error) => {
+                            console.error('獲取數據出錯:', error);
+                        });
                 } else {
                     console.log('未能取得token');
                 }
@@ -37,27 +39,79 @@ const BabyCollect = () => {
             }
         };
 
-        fetchOwnedBabies(); 
+        fetchOwnedBabiesAndCoins();
     }, []);
+
+    const changeAvatar = useCallback((baby) => {
+        Alert.alert(
+          '更換大頭貼',
+          `您確定要更換大頭貼為 ${baby.name} 嗎？`,
+          [
+            { text: '取消', style: 'cancel' },
+            {
+              text: '確認更換',
+              onPress: async () => {
+                try {
+                  await AsyncStorage.setItem('selectedAvatar', JSON.stringify(baby));
+                  navigation.navigate('Myacc'); // 導向到 Myacc 螢幕
+                } catch (error) {
+                  console.error('Error saving selected avatar: ', error);
+                }
+              },
+            },
+          ],
+        );
+      }, [navigation]);
+
+    const purchaseBaby = useCallback((baby) => {
+        if (coins < baby.price) {
+            Alert.alert('金幣不足', '您的金幣不足，無法購買！');
+            return;
+        }
+
+        Alert.alert(
+            '購買確認',
+            `您確定要花費 ${baby.price} 金幣購買 ${baby.name} 嗎？`,
+            [
+                { text: '取消', style: 'cancel' },
+                {
+                    text: '確認購買',
+                    onPress: () => {
+                        setCoins(prev => prev - baby.price);
+                        setOwnedBabies(prev => [...prev, baby.id]);
+                        // 這裡需要調用API來更新服務器端的數據，比如更新用戶的金幣數量和已擁有的精靈列表。
+                    },
+                },
+            ],
+        );
+    }, [coins]);
 
     const renderItem = ({ item, index }) => (
         <View style={styles.circle}>
-            <TouchableOpacity style={styles.image}>
+            <TouchableOpacity
+                style={styles.image}
+                onPress={() => {
+                    if(ownedBabies.includes(baby_DATA[index].id)){
+                        changeAvatar(baby_DATA[index])
+                    } else {
+                        purchaseBaby(baby_DATA[index]);
+                    }
+                }}
+            >
                 <Image style={styles.pic} source={item} />
-                {/* 如果該精靈不在已擁有列表中，則加上正圓形的灰色蒙板 */}
                 {!ownedBabies.includes(baby_DATA[index].id) && 
                     <View style={[styles.mask]} />}
             </TouchableOpacity>
-            {/* 若該精靈不在已擁有列表中，則顯示金幣和價格 */}
             {!ownedBabies.includes(baby_DATA[index].id) && (
                 <View style={styles.money}>
-                    <Image style={styles.icon} source={require('../../assets/images/coin.png')}/>
+                    <Image style={styles.icon} source={require('../../assets/images/coin.png')} />
                     <Text> {baby_DATA[index].price}</Text>
                 </View>
             )}
         </View>
     );
 
+    // 渲染
     return (
         <View style={styles.container}>
             <FlatList
@@ -107,7 +161,7 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
         backgroundColor: 'rgba(0,0,0,0.7)',
-        borderRadius: 60 
+        borderRadius: 60,
     },
     money: {
         marginTop: 'auto',
