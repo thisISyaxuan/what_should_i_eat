@@ -6,7 +6,6 @@ from .serializers import RegisterSerializer,UserSerializer,UserLikeSerializer
 from rest_framework.response import Response
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from userLike import label_convert
-from userLike.models import UserLike
 from .models import UserInfo
 from baby.models import UserBaby
 
@@ -15,14 +14,11 @@ def get_user_data(request):
     print(request.data)
     # print(request.data)
     user = request.user
-    # print(user)
     if user.is_authenticated:
         return Response({
-            'user_info': {
-                'id': user.id,
-                'username': user.username,
-                'email': user.email
-            }
+            'id': user.id,
+            'username': user.username,
+            'email': user.email
         })
     else:
         return Response({
@@ -82,11 +78,26 @@ class register_api(generics.GenericAPIView):
         serializer2.save()
         serializer.save()
 
-        # userInfo/views.py
-        # 軒: 9/30 user_baby 資料表改過後尚未調整
-        # serializer4 = UserBaby.objects.create(number_1=1)
-        # serializer4.save()
+        name = request.data['username']
+        uid = UserInfo.objects.filter(username=name).values()[0]['uid']
+        serializer4 = UserBaby.objects.create(uid=uid,babyid=1)
+        serializer4.save()
 
         return Response({
             'success':True
         })
+
+@api_view(['POST'])
+def get_user_money(request):
+    user = request.user
+    if user.is_authenticated:
+        uid = user.id
+        money = UserInfo.objects.filter(uid=uid).values()[0]['money']
+        return Response({
+            'coins':money
+        })
+    else:
+        return Response({
+            'error':'not authenticated'
+        },status = 400)
+
