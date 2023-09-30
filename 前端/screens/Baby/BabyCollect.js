@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const BabyCollect = () => {
     const navigation = useNavigation();
     const [ownedBabies, setOwnedBabies] = useState([baby_DATA[0].id, baby_DATA[1].id]); // 初始化时前两个为已购买
-    const [coins, setCoins] = useState(0);
+    const [coins, setCoins] = useState(100);
 
     useEffect(() => {
         const fetchOwnedBabiesAndCoins = async () => {
@@ -24,7 +24,7 @@ const BabyCollect = () => {
                     })
                         .then(response => response.json())
                         .then(data => {
-                            let updatedOwnedBabies = [...new Set([...data.ownedBabies, baby_DATA[0].id, baby_DATA[1].id])]; // 确保前两个宝宝总是被包含在ownedBabies中
+                            let updatedOwnedBabies = [...new Set([...data.ownedBabies, baby_DATA[0].id, baby_DATA[1].id])]; // 讓前兩個baby預設到ownedBabies中
                             setOwnedBabies(updatedOwnedBabies);
                             setCoins(data.coins);
                         })
@@ -63,23 +63,50 @@ const BabyCollect = () => {
         );
       }, [navigation]);
 
-    const purchaseBaby = useCallback((baby) => {
+      const purchaseBaby = useCallback(async (baby) => {
         if (coins < baby.price) {
             Alert.alert('金幣不足', '您的金幣不足，無法購買！');
             return;
         }
-
+    
         Alert.alert(
             '購買確認',
-            `您確定要花費 ${baby.price} 金幣購買 ${baby.name} 嗎？`,
+            `您確定要花費 ${baby.price} 金幣購買嗎？`, // ${baby.name} 
             [
                 { text: '取消', style: 'cancel' },
                 {
                     text: '確認購買',
-                    onPress: () => {
-                        setCoins(prev => prev - baby.price);
-                        setOwnedBabies(prev => [...prev, baby.id]);
-                        // 這裡需要調用API來更新服務器端的數據，比如更新用戶的金幣數量和已擁有的精靈列表。
+                    onPress: async () => {
+                        try {
+                            const token = await AsyncStorage.getItem('userToken');
+                            if (!token) {
+                                console.error('未能取得token');
+                                return;
+                            }
+    
+                            const response = await fetch('寫入後端購買API的URL', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Token ${token}`
+                                },
+                                body: JSON.stringify({
+                                    baby_Id: baby.id
+                                })
+                            });
+    
+                            if (!response.ok) {
+                                console.error('購買失敗，請檢查您的網絡連接或伺服器狀態');
+                                return;
+                            }
+    
+                            const data = await response.json();
+                            setCoins(data.coins);
+                            setOwnedBabies(data.ownedBabies);
+    
+                        } catch (error) {
+                            console.error('購買過程中出現錯誤:', error);
+                        }
                     },
                 },
             ],
