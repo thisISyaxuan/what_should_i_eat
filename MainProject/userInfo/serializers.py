@@ -3,7 +3,6 @@ from .models import UserInfo
 from django.contrib.auth.models import User
 from userLike.models import UserLike
 
-
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True,
@@ -13,7 +12,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserInfo
         fields = (
-        'uID', 'username', 'gender', 'birthday', 'phone_number', 'address', 'email', 'password', 'verify_password')
+        'username', 'gender', 'birthday', 'phone_number', 'address', 'email', 'password', 'verify_password')
 
         extra_kwargs = {
             "username": {
@@ -70,6 +69,7 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
 class UserLikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserLike
@@ -82,3 +82,4 @@ class UserLikeSerializer(serializers.ModelSerializer):
             **validated_data
         )
         return user_like
+
