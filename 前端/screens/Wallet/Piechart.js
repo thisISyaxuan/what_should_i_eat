@@ -37,7 +37,7 @@ const PiechartMoney = () => {
           year: year,
           month:month
         };
-        const response = await fetch('http://10.1.1.22:8000/account/cost_record_month/', {
+        const response = await fetch('http://172.20.10.2:8000/account/cost_record_month/', {
           method: 'POST',
           headers: {
             Authorization: `Token ${userToken}`,

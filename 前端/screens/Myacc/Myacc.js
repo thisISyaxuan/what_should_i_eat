@@ -29,7 +29,7 @@ export default function Myacc() {
             try {
                 const userToken = await AsyncStorage.getItem('userToken');
                 if (userToken) {
-                    const response = await fetch('http://10.1.1.22:8000/api/GetUser/', {
+                    const response = await fetch('http://172.20.10.2:8000/api/GetUser/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

@@ -48,7 +48,7 @@ export default function Wallet() {
         const data = {
           date: date,
         };
-        const response = await fetch('http://192.168.0.2:8000/api/getCostDetail/', {
+        const response = await fetch('http://172.20.10.2:8000/api/getCostDetail/', {
           method: 'POST',
           headers: {
             Authorization: `Token ${userToken}`,

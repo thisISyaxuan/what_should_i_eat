@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'restaurant',
     'baby',
     'userLike',
-    'collect',
     'click',
 ]
 
