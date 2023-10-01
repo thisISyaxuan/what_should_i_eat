@@ -11,4 +11,5 @@ router = routers.DefaultRouter()
 urlpatterns = [
     # path('',include(router.urls)),
     path('baby/', views.baby.as_view()),
+    path('buy_baby',views.buy_baby.as_view())
 ]

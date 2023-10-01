@@ -6,18 +6,44 @@
   <component name="ChangeListManager">
     <list default="true" id="69c4b26f-c0b9-4dfa-95f2-f7df9354c943" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/MainProject/asgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/MainProject/asgi.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainProject/MainProject/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/MainProject/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/MainProject/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/MainProject/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/MainProject/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/MainProject/wsgi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/baby/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/baby/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/costDetail/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/costDetail/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/costDetail/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/costDetail/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/costDetail/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/costDetail/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/costDetail/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/costDetail/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/costDetail/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/costDetail/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/costDetail/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/costDetail/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/costDetail/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/costDetail/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/costDetail/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/costDetail/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/manage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/restaurant/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/restaurant/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/restaurant/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/restaurant/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/restaurant/recommender.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/recommender.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/restaurant/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/restaurant/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainProject/restaurant/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/restaurant/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userInfo/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userInfo/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userInfo/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userInfo/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userInfo/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userInfo/migrations/0001_initial.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainProject/userInfo/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userInfo/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/前端/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/前端/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/前端/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端/screens/Add/AddCash.js" beforeDir="false" afterPath="$PROJECT_DIR$/前端/screens/Add/AddCash.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端/screens/Baby/BabyCollect.js" beforeDir="false" afterPath="$PROJECT_DIR$/前端/screens/Baby/BabyCollect.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端/screens/LoginRegister/favLabel.js" beforeDir="false" afterPath="$PROJECT_DIR$/前端/screens/LoginRegister/favLabel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端/screens/Myacc/Myacc.js" beforeDir="false" afterPath="$PROJECT_DIR$/前端/screens/Myacc/Myacc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端/screens/Wallet/Piechart.js" beforeDir="false" afterPath="$PROJECT_DIR$/前端/screens/Wallet/Piechart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端/screens/Wallet/Wallet.js" beforeDir="false" afterPath="$PROJECT_DIR$/前端/screens/Wallet/Wallet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userInfo/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userInfo/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userInfo/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userInfo/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userInfo/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userInfo/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userInfo/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userInfo/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userLike/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userLike/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userLike/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userLike/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userLike/label_convert.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userLike/label_convert.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userLike/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userLike/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userLike/migrations/0002_rename_虱目魚_userlike_虱目魚焿.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userLike/migrations/0002_rename_虱目魚_userlike_虱目魚焿.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userLike/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userLike/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userLike/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userLike/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainProject/userLike/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainProject/userLike/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,6 +153,11 @@
           <url>file://$PROJECT_DIR$/MainProject/MainProject/settings.py</url>
           <line>12</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MainProject/userInfo/views.py</url>
+          <line>12</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

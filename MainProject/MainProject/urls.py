@@ -21,8 +21,9 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('userInfo.urls')),
+    path('labels/',include('label.urls')),
     path('account/',include('costDetail.urls')),
     path('baby/',include('baby.urls')),
-    path('restaurant/',include('restaurant.urls')),
-    path('click/', include('click.urls')),
+    path('recommend/',include('restaurant.urls')),
+    path('FRList/',include('favoritesRList.urls'))
 ]

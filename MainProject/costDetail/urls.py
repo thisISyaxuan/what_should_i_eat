@@ -11,4 +11,6 @@ router = routers.DefaultRouter()
 urlpatterns = [
     # path('',include(router.urls)),
     path('cost/', views.cost_detail.as_view()),
+    path('cost_record/', views.cost_record),
+    path('cost_record_month/', views.cost_record_month)
 ]

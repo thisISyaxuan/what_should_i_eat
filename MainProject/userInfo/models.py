@@ -18,9 +18,9 @@ class UserInfo(models.Model):
     email = models.CharField(max_length=50)
     password = models.CharField(max_length=20)
     verify_password = models.CharField(max_length=20)
-    money = models.IntegerField(null=False)
+    money = models.IntegerField(default=100)
     sign = models.DateField(blank=True, null=False)
-    skin = models.IntegerField()
+    skin = models.IntegerField(default=1)
 
     class Meta:
         managed = False
