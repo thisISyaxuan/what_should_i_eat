@@ -2,7 +2,7 @@ from rest_framework import serializers, validators
 from .models import UserInfo
 from django.contrib.auth.models import User
 from userLike.models import UserLike
-
+import datetime
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True,
@@ -52,6 +52,9 @@ class RegisterSerializer(serializers.ModelSerializer):
             email=email,
             password=password,
             verify_password=verify_password,
+            money=100,
+            sign=datetime.datetime.now() - datetime.timedelta(days=1),
+            skin=1
         )
         return user
 
