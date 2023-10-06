@@ -52,40 +52,45 @@ class login_api(generics.GenericAPIView):
 # Create your views here.
 class register_api(generics.GenericAPIView):
     serializer_class = RegisterSerializer
-
     def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.validate(attrs=request.data)  # 判斷密碼是否相同
-        serializer2 = UserSerializer(data=request.data)
-        serializer2.is_valid()
-        print(request.data["preferences"])
-        big_label = request.data["preferences"]
-        small_label = []
-        label = {}
+        try:
+            print("got a register post")
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.validate(attrs=request.data)  # 判斷密碼是否相同
+            serializer2 = UserSerializer(data=request.data)
+            serializer2.is_valid()
+            print(request.data["preferences"])
+            big_label = request.data["preferences"]
+            small_label = []
+            label = {}
 
-        for i in range(len(big_label)):
-            small_label = small_label+label_convert.get(big_label[i])
+            for i in range(len(big_label)):
+                small_label = small_label+label_convert.get(big_label[i])
 
-        for i in range(len(small_label)):
-            label[small_label[i]] = 1 #小標籤評分
+            for i in range(len(small_label)):
+                label[small_label[i]] = 1 #小標籤評分
 
+            serializer3 = UserLikeSerializer(data=label)
+            serializer3.is_valid()
+            serializer3.save()
 
-        serializer3 = UserLikeSerializer(data=label)
-        serializer3.is_valid()
-        serializer3.save()
+            serializer2.save()
+            serializer.save()
 
-        serializer2.save()
-        serializer.save()
+            name = request.data['username']
+            uid = UserInfo.objects.filter(username=name).values()[0]['uid']
+            serializer4 = UserBaby.objects.create(uid=uid,babyid=1)
+            serializer4.save()
 
-        name = request.data['username']
-        uid = UserInfo.objects.filter(username=name).values()[0]['uid']
-        serializer4 = UserBaby.objects.create(uid=uid,babyid=1)
-        serializer4.save()
-
-        return Response({
-            'success':True
-        })
+            return Response({
+                'success':True
+            })
+        except Exception as e:
+            print(e)
+            return Response({
+                'success':False
+            })
 
 @api_view(['POST'])
 def get_user_money(request):
@@ -100,4 +105,3 @@ def get_user_money(request):
         return Response({
             'error':'not authenticated'
         },status = 400)
-

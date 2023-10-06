@@ -15,7 +15,7 @@ const BabyCollect = () => {
             try {
                 const token = await AsyncStorage.getItem('userToken');
                 if (token) {
-                    fetch('http://172.20.10.2:8000/baby/baby/', {
+                    fetch('http://192.168.1.109:8000/baby/baby/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

@@ -65,7 +65,7 @@ const RatingScreen = () => {
                         userPos:newCoords,
                         currentTime: currentDateTime,
                     };
-                    const response = await fetch('http://172.20.10.2:8000/recommend/mycollect/', {//改他
+                    const response = await fetch('http://192.168.1.109:8000/recommend/mycollect/', {//改他
                         method: 'POST',
                         headers: {'Content-Type': 'application/json',Authorization: `Token ${token}`,},body: JSON.stringify(requestdata)
                     });

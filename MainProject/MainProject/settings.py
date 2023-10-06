@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-uy+!t4^_ybsqy3%kk%lvfz&)!clufl8gp07=0+_j56#(#r6e_^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.1.1.22','10.72.23.55','127.0.0.1','192.168.0.2', '172.20.10.2']
+ALLOWED_HOSTS = ['10.1.1.22','10.72.23.55','127.0.0.1','192.168.0.2', '172.20.10.2', '192.168.1.109']
 
 
 # Application definition
@@ -42,12 +42,10 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'knox',
-    'userInfo',
-    'label',
+    'baby',
     'costDetail',
     'restaurant',
-    'baby',
-    'favoritesRList',
+    'userInfo',
     'userLike',
 ]
 

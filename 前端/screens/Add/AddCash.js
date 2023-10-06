@@ -73,7 +73,7 @@ export default function AddCash() {
             my_text: MyText,//(備註)
           };
       
-          const response = await fetch('http://172.20.10.2:8000/account/cost/', {
+          const response = await fetch('http://192.168.1.109:8000/account/cost/', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

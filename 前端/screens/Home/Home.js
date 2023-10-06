@@ -63,7 +63,7 @@ export default function Home() {
     //                        currentTime: currentDateTime,
                         };
                         //console.log("這是我要傳給後端的資料:",requestdata)
-                        const response = await fetch('http://172.20.10.2:8000/restaurant/recommend/', {
+                        const response = await fetch('http://192.168.1.109:8000/restaurant/recommend/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
