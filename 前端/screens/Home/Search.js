@@ -55,7 +55,7 @@ const SearchRes = ({navigation}) => {
     setRatingSort(false);
   };
   useEffect(() => {//初始化
-//    checkLocationPermission();
+//      checkLocationPermission();
       const checkLocationPermission = async () => {//定位功能有沒有被啟用
           let { status } = await Location.requestForegroundPermissionsAsync();
           if (status !== 'granted') {
@@ -70,6 +70,8 @@ const SearchRes = ({navigation}) => {
     }else{
       try {
         const userToken = await AsyncStorage.getItem('userToken');//先抓token
+        console.log("我在第73行")
+        console.log(userToken)
         if (userToken) {
           const location = await Location.getCurrentPositionAsync({});
           const currentUserPos = [location.coords.latitude, location.coords.longitude];

@@ -13,7 +13,8 @@ export default function Login({navigation}) {
 
   const checkTokenAndNavigate = async () => {
     try {
-      const token = await AsyncStorage.getItem('userToken');
+      await AsyncStorage.removeItem('userToken');
+//      const token = await AsyncStorage.getItem('userToken');
       if (token) {
         navigation.navigate('ButtomTabStack');
       }else{
@@ -39,8 +40,8 @@ export default function Login({navigation}) {
     };
   
     try {
-//      navigation.navigate('ButtomTabStack');
-//      return;
+      // navigation.navigate('ButtomTabStack');
+      // return;
       fetch('http://192.168.1.109:8000/api/Login/', {
         method: 'POST',
         headers: {
@@ -73,7 +74,7 @@ export default function Login({navigation}) {
       Alert.alert('沒進到try');
     }
   };
-  
+
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
     <SafeAreaView style={styles.container}>
@@ -81,12 +82,12 @@ export default function Login({navigation}) {
       <View style={styles.content}>
       <Text style={styles.h2text}> 歡迎使用! </Text>
 
-      <TextInput 
+      <TextInput
         style={globalStyles.input}
         placeholder='帳號:'
         onChangeText={text => setUsername(text)}
         />
-      <TextInput 
+      <TextInput
         style={globalStyles.input}
         placeholder='密碼:'
         secureTextEntry={true}
