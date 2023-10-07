@@ -7,9 +7,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const BabyCollect = () => {
     const navigation = useNavigation();
-    const [ownedBabies, setOwnedBabies] = useState([baby_DATA[0].id]); 
+    const [ownedBabies, setOwnedBabies] = useState([baby_DATA[0].id]);
     const [coins, setCoins] = useState(0);
-
 
     useEffect(() => {
         const fetchOwnedBabiesAndCoins = async () => {
@@ -23,15 +22,15 @@ const BabyCollect = () => {
                             'Authorization': `Token ${token}`
                         },
                     })
-                        .then(response => response.json())
-                        .then(data => {
-                            let updatedOwnedBabies = [...new Set([...data.ownedBabies, baby_DATA[0].id])]; // 讓第一個baby預設到ownedBabies中
-                            setOwnedBabies(updatedOwnedBabies);
-                            setCoins(data.coins);
-                        })
-                        .catch((error) => {
-                            console.error('獲取數據出錯:', error);
-                        });
+                    .then(response => response.json())
+                    .then(data => {
+                        let updatedOwnedBabies = [...new Set([...data.ownedBabies, baby_DATA[0].id])];
+                        setOwnedBabies(updatedOwnedBabies);
+                        setCoins(data.coins);
+                    })
+                    .catch((error) => {
+                        console.error('獲取數據出錯:', error);
+                    });
                 } else {
                     console.log('未能取得token');
                 }
@@ -41,7 +40,11 @@ const BabyCollect = () => {
         };
 
         fetchOwnedBabiesAndCoins();
-    }, []);
+
+        const unsubscribe = navigation.addListener('focus', fetchOwnedBabiesAndCoins);
+        
+        return unsubscribe;
+    }, [navigation]);
 
     const changeAvatar = useCallback((baby) => {
         Alert.alert(
@@ -54,7 +57,7 @@ const BabyCollect = () => {
               onPress: async () => {
                 try {
                   await AsyncStorage.setItem('selectedAvatar', JSON.stringify(baby));
-                  navigation.navigate('Myacc'); // 導向到 Myacc 螢幕
+                  navigation.navigate('Myacc');
                 } catch (error) {
                   console.error('Error saving selected avatar: ', error);
                 }
@@ -62,17 +65,17 @@ const BabyCollect = () => {
             },
           ],
         );
-      }, [navigation]);
+    }, [navigation]);
 
-      const purchaseBaby = useCallback(async (baby) => {
+    const purchaseBaby = useCallback(async (baby) => {
         if (coins < baby.price) {
             Alert.alert('金幣不足', '您的金幣不足，無法購買！');
             return;
         }
-    
+
         Alert.alert(
             '購買確認',
-            `您確定要花費 ${baby.price} 金幣購買嗎？`, 
+            `您確定要花費 ${baby.price} 金幣購買嗎？`,
             [
                 { text: '取消', style: 'cancel' },
                 {
@@ -84,7 +87,7 @@ const BabyCollect = () => {
                                 console.error('未能取得token');
                                 return;
                             }
-    
+
                             const response = await fetch('寫入後端購買API的URL', {
                                 method: 'POST',
                                 headers: {
@@ -95,14 +98,14 @@ const BabyCollect = () => {
                                     baby_Id: baby.id
                                 })
                             });
-    
+
                             if (!response.ok) {
                                 console.error('購買失敗，請檢查您的網絡連接或伺服器狀態');
                                 return;
                             }
-    
+
                             const data = await response.json();
-                            setCoins(data.coins);
+                            setCoins(prevCoins => prevCoins - baby.price);
                             if (data.success) {
                                 let newOwnedBabies = [...ownedBabies, baby.id];
                                 setOwnedBabies(newOwnedBabies);
@@ -110,7 +113,7 @@ const BabyCollect = () => {
                             } else {
                                 Alert.alert('購買失敗', '您的金幣不足，請獲得更多金幣後再試。');
                             }
-    
+
                         } catch (error) {
                             console.error('購買過程中出現錯誤:', error);
                         }
