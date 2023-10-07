@@ -18,7 +18,7 @@ export default function Baby() {
                     return;
                 }
 
-                const response = await fetch('寫入後端金幣API的URL', {
+                const response = await fetch('http://192.168.0.22:8000/api/get_user_money/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export default function Baby() {
         fetchUserData();
 
         const focusListener = navigation.addListener('focus', fetchUserData);
-    
+
         return () => {
             focusListener.remove();
         };
@@ -228,5 +228,3 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
   },
 });
-
-
