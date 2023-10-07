@@ -41,6 +41,12 @@ export default function Baby() {
         };
 
         fetchUserData();
+
+        const focusListener = navigation.addListener('focus', fetchUserData);
+    
+        return () => {
+            focusListener.remove();
+        };
     }, []);
 
     const showFloatingCoin = () => {
