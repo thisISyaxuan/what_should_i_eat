@@ -47,67 +47,56 @@ const FavLabel = ({navigation}) => {
       
     };
     const handleRegister = async () => {
-        try {
-            if (preferences.length < 5) {
+            try {
+              if (preferences.length < 5) {
                 Alert.alert('提示', '請至少勾選五個類別!');
                 return;
-            }
-            const token = await AsyncStorage.getItem('userToken');
-            console.log(token)
-            if (token) {
-                const data = {
-                    username: username,
-                    gender: gender,
-                    birthday: birthday,
-                    phone_number: phone_number,
-                    address: address,
-                    email: email,
-                    password: password,
-                    verify_password: verify_password,
-                    preferences:preferences,
-                };
-                const response = await fetch('http://192.168.1.109:8000/api/Register/', {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json'//用json傳
-                    },
-                    body: JSON.stringify(data)
-                });
-                const responseData = await response.json();
-                if (responseData.success === true) {
-                    Alert.alert('註冊成功', '重新登入以開始體驗!', [
-                        {
-                            text: 'OK',
-                            onPress: () => {
-                              navigation.navigate('Login');
-                            },
-                        },
-                    ]);
-                }else{
-                    Alert.alert('註冊失敗', '發生錯誤，請重新註冊!', [
-                    {
-                        text: 'OK',
-                        onPress: () => {
-                            navigation.navigate('Register');
-                        },
-                    },
-                    ]);
-                }
-            }else{
-                Alert.alert('if(token)', '發生錯誤', [
-                    {
-                        text: 'OK',
-                        onPress: () => {
-                            navigation.navigate('Register');
-                        },
-                    },
-                ]);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
+              }
 
+
+              const data = {
+                username: username,
+                gender: gender,
+                birthday: birthday,
+                phone_number: phone_number,
+                address: address,
+                email: email,
+                password: password,
+                verify_password: verify_password,
+                preferences:preferences,
+              };
+              const response = await fetch('http://192.168.1.109:8000/api/Register/', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'//用json傳
+                },
+                body: JSON.stringify(data)
+              });
+              const responseData = await response.json();
+              if (responseData.success === true) {
+                Alert.alert('註冊成功', '重新登入以開始體驗!', [
+                  {
+                    text: 'OK',
+                    onPress: () => {
+                      navigation.navigate('Login');
+                    },
+                  },
+                ]);
+              } else {
+                Alert.alert('註冊失敗', '發生錯誤，請重新註冊!', [
+                  {
+                    text: 'OK',
+                    onPress: () => {
+                      navigation.navigate('Register');
+                    },
+                  },
+                ]);
+              }
+
+            } catch (error) {
+              console.error('Error:', error);
+            }
+          };
     return (
         <View style={styles.container}>
             <View style={styles.hone}>
