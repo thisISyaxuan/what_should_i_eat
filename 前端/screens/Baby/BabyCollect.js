@@ -7,15 +7,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const BabyCollect = () => {
     const navigation = useNavigation();
-    const [ownedBabies, setOwnedBabies] = useState([baby_DATA[0].id, baby_DATA[1].id]); // 初始化时前两个为已购买
-    const [coins, setCoins] = useState(100);
+    const [ownedBabies, setOwnedBabies] = useState([baby_DATA[0].id]); 
+    const [coins, setCoins] = useState(0);
+
 
     useEffect(() => {
         const fetchOwnedBabiesAndCoins = async () => {
             try {
                 const token = await AsyncStorage.getItem('userToken');
                 if (token) {
-                    fetch('http://192.168.1.109:8000/baby/baby/', {
+                    fetch('http://192.168.79.12:8000/baby/baby/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -24,7 +25,7 @@ const BabyCollect = () => {
                     })
                         .then(response => response.json())
                         .then(data => {
-                            let updatedOwnedBabies = [...new Set([...data.ownedBabies, baby_DATA[0].id, baby_DATA[1].id])]; // 讓前兩個baby預設到ownedBabies中
+                            let updatedOwnedBabies = [...new Set([...data.ownedBabies, baby_DATA[0].id])]; // 讓第一個baby預設到ownedBabies中
                             setOwnedBabies(updatedOwnedBabies);
                             setCoins(data.coins);
                         })
@@ -45,7 +46,7 @@ const BabyCollect = () => {
     const changeAvatar = useCallback((baby) => {
         Alert.alert(
           '更換大頭貼',
-          `您確定要更換大頭貼為 ${baby.name} 嗎？`,
+          `您確定要更換該大頭貼嗎？`,
           [
             { text: '取消', style: 'cancel' },
             {
@@ -71,7 +72,7 @@ const BabyCollect = () => {
     
         Alert.alert(
             '購買確認',
-            `您確定要花費 ${baby.price} 金幣購買嗎？`, // ${baby.name} 
+            `您確定要花費 ${baby.price} 金幣購買嗎？`, 
             [
                 { text: '取消', style: 'cancel' },
                 {
@@ -102,7 +103,13 @@ const BabyCollect = () => {
     
                             const data = await response.json();
                             setCoins(data.coins);
-                            setOwnedBabies(data.ownedBabies);
+                            if (data.success) {
+                                let newOwnedBabies = [...ownedBabies, baby.id];
+                                setOwnedBabies(newOwnedBabies);
+                                Alert.alert('購買成功', `您已成功購買此項目，目前餘額為 ${data.coins} 金幣。`);
+                            } else {
+                                Alert.alert('購買失敗', '您的金幣不足，請獲得更多金幣後再試。');
+                            }
     
                         } catch (error) {
                             console.error('購買過程中出現錯誤:', error);
@@ -111,7 +118,7 @@ const BabyCollect = () => {
                 },
             ],
         );
-    }, [coins]);
+    }, [coins, ownedBabies]);
 
     const renderItem = ({ item, index }) => (
         <View style={styles.circle}>
@@ -138,9 +145,13 @@ const BabyCollect = () => {
         </View>
     );
 
-    // 渲染
     return (
         <View style={styles.container}>
+            <View style={styles.coinsContainer}>
+                <Image style={styles.coinIcon} source={require('../../assets/images/coin.png')} />
+                <Text style={styles.coinsText}>金幣: {coins}</Text>
+            </View>
+            
             <FlatList
                 data={images}
                 renderItem={renderItem}
@@ -158,6 +169,13 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         backgroundColor: 'white',
+        justifyContent: 'center',
+    },
+    coinsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 15,
+        alignSelf: 'center',
     },
     flatlist: {},
     listContainer: {
@@ -211,6 +229,15 @@ const styles = StyleSheet.create({
         marginTop: 5,
         fontSize: 12,
         color: 'gray',
+    },
+    coinIcon: {
+        width: 24,
+        height: 24,
+        marginRight: 8,
+    },
+    coinsText: {
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 });
 
