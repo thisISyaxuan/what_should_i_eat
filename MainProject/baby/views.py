@@ -14,18 +14,21 @@ class baby(generics.GenericAPIView):
         if user.is_authenticated:
             user_id = user.id
             select = UserBaby.objects.filter(uid=user_id).values()
+            user_money = UserInfo.objects.filter(uid=user_id).values()[0]['money']
             myBaby = []
             for item in select:
                 myBaby.append(item['babyid'])
             print(myBaby)
             return Response({
                 # 前端名稱
-                'ownedBabies': myBaby
+                'ownedBabies': myBaby,
+                'coins':user_money
             })
         return Response({
             'ownedBabies': False
         })
 class buy_baby(generics.GenericAPIView):
+    serializer_class = UserBaby
     def post(self, request, *args, **kwargs):
         user = request.user
         baby_id = request.data['baby_Id']
