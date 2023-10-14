@@ -8,35 +8,63 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from userLike import label_convert
 from .models import UserInfo
 from baby.models import UserBaby
-
+import datetime
+@api_view(['POST'])
+def user_sign(request):
+    user = request.user
+    if user.is_authenticated:
+        username = user.username
+        user_info = UserInfo.objects.filter(username=username).values()[0]
+        money = user_info['money']
+        date1 = user_info['sign']
+        date2 = datetime.datetime.now()
+        date1 = datetime.datetime.strptime(date1, "%Y-%m-%d %H:%M:%S")
+        if date1.date() != date2.date():
+            user_info.sign = date2
+            user_info.money = money + 100 # 簽到加的金額
+            user_info.save()
+            return Response({
+                'success':True,
+                'money':money + 100 # 簽到加的金額
+            })
+        else:
+            return Response({
+                'success':False,
+                'money':money
+            })
+@api_view(['POST'])
+def user_skin(request):
+    user = request.user
+    if user.is_authenticated:
+        username = user.username
+        u = UserInfo.objects.filter(username=username)
+        u.skin = request.data['skin']
+        u.save()
+        return Response({
+            'success':True
+        })
+    return Response({
+        'success':False
+    })
 @api_view(['POST'])
 def get_user_data(request):
     print(request.data)
     # print(request.data)
     user = request.user
     if user.is_authenticated:
+        username = user.username
+        skin = UserInfo.objects.filter(username=username).values()[0]['skin']
         return Response({
             'id': user.id,
             'username': user.username,
-            'email': user.email
+            'email': user.email,
+            'skin':skin
         })
     else:
         return Response({
             'error':'not authenticated'
         },status = 400)
-# @api_view(['POST'])
-# def login_api(request):
-#     serializer = AuthTokenSerializer(data=request.data)
-#     serializer.is_valid(raise_exception=True)
-#     user = serializer.validated_data['user']
-#     _, token = AuthToken.objects.create(user)
-#
-#     return Response({
-#         'user_info': {
-#             'username': user.username,
-#         },
-#         'token': token
-#     })
+
 class login_api(generics.GenericAPIView):
     serializer_class = AuthTokenSerializer
     def post(self, request, *args, **kwargs):
@@ -52,45 +80,41 @@ class login_api(generics.GenericAPIView):
 # Create your views here.
 class register_api(generics.GenericAPIView):
     serializer_class = RegisterSerializer
+
     def post(self, request, *args, **kwargs):
-        try:
-            print("got a register post")
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.validate(attrs=request.data)  # 判斷密碼是否相同
-            serializer2 = UserSerializer(data=request.data)
-            serializer2.is_valid()
-            print(request.data["preferences"])
-            big_label = request.data["preferences"]
-            small_label = []
-            label = {}
+        print(request.data)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.validate(attrs=request.data)  # 判斷密碼是否相同
+        serializer2 = UserSerializer(data=request.data)
+        serializer2.is_valid()
+        print(request.data["preferences"])
+        big_label = request.data["preferences"]
+        small_label = []
+        label = {}
 
-            for i in range(len(big_label)):
-                small_label = small_label+label_convert.get(big_label[i])
+        for i in range(len(big_label)):
+            small_label = small_label+label_convert.get(big_label[i])
 
-            for i in range(len(small_label)):
-                label[small_label[i]] = 1 #小標籤評分
+        for i in range(len(small_label)):
+            label[small_label[i]] = 1 # 小標籤評分
 
-            serializer3 = UserLikeSerializer(data=label)
-            serializer3.is_valid()
-            serializer3.save()
 
-            serializer2.save()
-            serializer.save()
+        serializer3 = UserLikeSerializer(data=label)
+        serializer3.is_valid()
+        serializer3.save()
 
-            name = request.data['username']
-            uid = UserInfo.objects.filter(username=name).values()[0]['uid']
-            serializer4 = UserBaby.objects.create(uid=uid,babyid=1)
-            serializer4.save()
+        serializer2.save()
+        serializer.save()
 
-            return Response({
-                'success':True
-            })
-        except Exception as e:
-            print(e)
-            return Response({
-                'success':False
-            })
+        name = request.data['username']
+        uid = UserInfo.objects.filter(username=name).values()[0]['uid']
+        serializer4 = UserBaby.objects.create(uid=uid,babyid=1)
+        serializer4.save()
+
+        return Response({
+            'success':True
+        })
 
 @api_view(['POST'])
 def get_user_money(request):
@@ -105,3 +129,4 @@ def get_user_money(request):
         return Response({
             'error':'not authenticated'
         },status = 400)
+
