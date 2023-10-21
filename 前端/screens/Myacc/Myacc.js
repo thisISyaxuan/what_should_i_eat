@@ -35,7 +35,7 @@ export default function Myacc() {
 
                 // 檢查API回應中是否有大頭貼的編號，如果有，設置avatarSource
                 if (responseData.avatarId) {
-                    const imagePath = `../../assets/images/baby/${responseData.avatarId}.png`;
+                    const imagePath = `../../assets/images/baby/all/${responseData.avatarId}.png`;
                     setAvatarSource(require(imagePath));
                 }
             } else {
