@@ -40,8 +40,10 @@ export default function Myacc() {
                       2:require("../../assets/images/baby/all/2.png")
                     }
                     
-                    setAvatarSource(images[responseData.avatarId]);
-                }
+                    // 加入隨機查詢參數以避免圖像緩存
+                    const imageUri = images[responseData.avatarId] + "?timestamp=" + new Date().getTime();
+                    setAvatarSource({ uri: imageUri });
+                  }
             } else {
                 console.log('抓不到token');
             }
@@ -59,6 +61,7 @@ export default function Myacc() {
     <SafeAreaView style={styles.container}>
       <View style={[styles.rowContainer]}>
         <View style={styles.circle}>
+          {/* 使用URI來加載圖片 */}
           <Image style={styles.pic} source={avatarSource}/>
         </View>
         <View>
