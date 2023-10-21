@@ -20,9 +20,10 @@ def user_sign(request):
         date2 = datetime.datetime.now()
         date1 = datetime.datetime.strptime(date1, "%Y-%m-%d %H:%M:%S")
         if date1.date() != date2.date():
-            user_info.sign = date2
-            user_info.money = money + 100 # 簽到加的金額
-            user_info.save()
+            u = UserInfo.objects.get(username=username)
+            u.sign = date2
+            u.money = money + 100 # 簽到加的金額
+            u.save()
             return Response({
                 'success':True,
                 'money':money + 100 # 簽到加的金額
@@ -35,10 +36,11 @@ def user_sign(request):
 @api_view(['POST'])
 def user_skin(request):
     user = request.user
+    print(request.data)
     if user.is_authenticated:
         username = user.username
-        u = UserInfo.objects.filter(username=username)
-        u.skin = request.data['skin']
+        u = UserInfo.objects.get(username=username)
+        u.skin = request.data['baby_image_id']
         u.save()
         return Response({
             'success':True
@@ -49,7 +51,6 @@ def user_skin(request):
 @api_view(['POST'])
 def get_user_data(request):
     print(request.data)
-    # print(request.data)
     user = request.user
     if user.is_authenticated:
         username = user.username
@@ -58,7 +59,7 @@ def get_user_data(request):
             'id': user.id,
             'username': user.username,
             'email': user.email,
-            'skin':skin
+            'avatarId':skin
         })
     else:
         return Response({
