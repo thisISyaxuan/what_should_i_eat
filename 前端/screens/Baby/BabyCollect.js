@@ -71,8 +71,8 @@ const BabyCollect = () => {
                       'Authorization': `Token ${token}`
                     },
                     body: JSON.stringify({
-                      baby_image: baby.imagePath,  // 假設baby物件有imagePath屬性
-                      baby_name: baby.name         // 假設baby物件有name屬性
+                      baby_image_id: baby.id,  // 修改成使用baby的id
+                      baby_name: baby.name    // 假設baby物件有name屬性
                     })
                   });
     

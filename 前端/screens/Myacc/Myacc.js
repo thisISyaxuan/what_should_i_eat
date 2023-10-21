@@ -11,43 +11,44 @@ export default function Myacc() {
   const [avatarSource, setAvatarSource] = useState(require("../../assets/images/baby/baby0/90.png"));
 
   useEffect(() => {
-      const unsubscribe = navigation.addListener('focus', () => {
-          // 當頁面獲得焦點時重新加載數據
-          fetchUserData();
-      });
+    const unsubscribe = navigation.addListener('focus', () => {
+        // 當頁面獲得焦點時重新加載數據
+        fetchUserData();
+    });
 
-      const fetchUserData = async () => {
-          try {
-              const userToken = await AsyncStorage.getItem('userToken');
-              if (userToken) {
-                  const response = await fetch('http://192.168.0.22:8000/api/GetUser/', {
-                      method: 'GET',
-                      headers: {
-                          'Content-Type': 'application/json',
-                          Authorization: `Token ${userToken}`,
-                      },
-                  });
-                  const responseData = await response.json();
-                  setUserData({
-                      name: responseData.username,
-                      email: responseData.email
-                  });
+    const fetchUserData = async () => {
+        try {
+            const userToken = await AsyncStorage.getItem('userToken');
+            if (userToken) {
+                const response = await fetch('http://192.168.0.22:8000/api/GetUser/', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Token ${userToken}`,
+                    },
+                });
+                const responseData = await response.json();
+                setUserData({
+                    name: responseData.username,
+                    email: responseData.email
+                });
 
-                  // 檢查API回應中是否有大頭貼的路徑，如果有，設置avatarSource
-                  if (responseData.avatarPath) {
-                      setAvatarSource({ uri: responseData.avatarPath });
-                  }
-              } else {
-                  console.log('抓不到token');
-              }
-          } catch (error) {
-              console.error('錯誤：獲取用戶數據', error);
-          }
-      };
+                // 檢查API回應中是否有大頭貼的編號，如果有，設置avatarSource
+                if (responseData.avatarId) {
+                    const imagePath = `../../assets/images/baby/${responseData.avatarId}.png`;
+                    setAvatarSource(require(imagePath));
+                }
+            } else {
+                console.log('抓不到token');
+            }
+        } catch (error) {
+            console.error('錯誤：獲取用戶數據', error);
+        }
+    };
 
-      fetchUserData(); // 初始加載用戶數據
+    fetchUserData(); // 初始加載用戶數據
 
-      return unsubscribe; // 清理訂閱
+    return unsubscribe; // 清理訂閱
   }, [navigation]);
 
   return (
