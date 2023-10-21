@@ -7,7 +7,7 @@ export default function Baby() {
     const navigation = useNavigation();
     const [hasSignedIn, setHasSignedIn] = useState(false);
     const [coins, setCoins] = useState(null);
-    const [fadeAnim] = useState(new Animated.Value(0));  // 初始化為透明
+    const [fadeAnim] = useState(new Animated.Value(0));
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -49,16 +49,13 @@ export default function Baby() {
         };
     }, []);
 
-    const showFloatingCoin = () => {
-        // 顯示動畫
+    const showFloatingCoin = (coinsDifference) => {
         Animated.timing(fadeAnim, {
             toValue: 1,
             duration: 1000,
             useNativeDriver: true,
         }).start(() => {
-            // 持續10秒
             setTimeout(() => {
-                // 淡出動畫
                 Animated.timing(fadeAnim, {
                     toValue: 0,
                     duration: 1000,
@@ -90,14 +87,19 @@ export default function Baby() {
             }
 
             const data = await response.json();
-            setCoins(data.coins);
-            setHasSignedIn(true);
-            showFloatingCoin();
+            if (data.success) {
+                const coinsDifference = data.coins - coins;
+                setCoins(data.coins);
+                setHasSignedIn(true);
+                showFloatingCoin(coinsDifference);
+            } else {
+                console.error('簽到失敗');
+            }
 
         } catch (error) {
             console.error('簽到過程中出現錯誤:', error);
         }
-    }, [fadeAnim]);
+    }, [fadeAnim, coins]);
 
     return (
         <ImageBackground
@@ -158,73 +160,64 @@ export default function Baby() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F5F5F5',
-      paddingHorizontal: 20,
-      paddingTop: 20,
-  },
-  circle: {
-      width: 300,
-      height: 300,
-      borderRadius: 50,
-      marginRight: 10,
-      position: 'absolute',
-      bottom: 0,
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginBottom: 50,
-  },
-  btn: {
-      position: 'absolute',
-      top: 30,
-      left: 10,
-      paddingHorizontal: 20,
-      paddingVertical: 10,
-      flexDirection: 'row',
-      alignItems: 'center',
-  },
-  signIn: {
-    position: 'absolute',
-    top: 20,
-    right: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  collect: {
-    position: 'absolute',
-    top: 130,
-    right: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  collecttwo: {
-    position: 'absolute',
-    top: 280,
-    right: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  floatingCoin: {
-      position: 'absolute',
-      top: '40%',
-      left: '40%',
-      backgroundColor: 'gold',
-      borderRadius: 20,
-      padding: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
-  },
-  coinText: {
-      color: 'white',
-      fontWeight: 'bold',
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5F5F5',
+        paddingHorizontal: 20,
+        paddingTop: 20,
+    },
+    circle: {
+        width: 300,
+        height: 300,
+        borderRadius: 50,
+        marginRight: 10,
+        position: 'absolute',
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 50,
+    },
+    btn: {
+        position: 'absolute',
+        top: 30,
+        left: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    signIn: {
+        position: 'absolute',
+        top: 20,
+        right: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    collect: {
+        position: 'absolute',
+        top: 130,
+        right: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    floatingCoin: {
+        position: 'absolute',
+        top: '40%',
+        left: '40%',
+        backgroundColor: 'gold',
+        borderRadius: 20,
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    coinText: {
+        color: 'white',
+        fontWeight: 'bold',
+    },
 });
