@@ -59,10 +59,34 @@ const BabyCollect = () => {
               text: '確認更換',
               onPress: async () => {
                 try {
-                  await AsyncStorage.setItem('selectedAvatar', JSON.stringify(baby));
-                  navigation.navigate('Myacc'); // 導向到 Myacc 螢幕
+                  const token = await AsyncStorage.getItem('userToken');
+                  if (!token) {
+                    throw new Error('未能取得token');
+                  }
+    
+                  const response = await fetch('大頭貼API', { // 請填寫正確的後端接口
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': `Token ${token}`
+                    },
+                    body: JSON.stringify({
+                      baby_image: baby.imagePath,  // 假設baby物件有imagePath屬性
+                      baby_name: baby.name         // 假設baby物件有name屬性
+                    })
+                  });
+    
+                  const data = await response.json();
+    
+                  if (data.success) {
+                    // 顯示綠色圓圈代碼 (依照您的設計方式，這裡只是一個例子)
+                    Alert.alert('成功', '已成功更換大頭貼！');
+                  } else {
+                    Alert.alert('失敗', '更換大頭貼失敗，請稍後再試。');
+                  }
                 } catch (error) {
-                  console.error('Error saving selected avatar: ', error);
+                  console.error('Error changing avatar:', error);
+                  Alert.alert('錯誤', '更換大頭貼失敗，請稍後再試。');
                 }
               },
             },
@@ -129,7 +153,7 @@ const BabyCollect = () => {
     const renderItem = ({ item, index }) => (
         <View style={styles.circle}>
             <TouchableOpacity
-                style={styles.image}
+                style={[styles.image, ownedBabies.includes(baby_DATA[index].id) ? styles.greenCircle : null]}  // 使用greenCircle樣式顯示綠色圓圈
                 onPress={() => {
                     if(ownedBabies.includes(baby_DATA[index].id)){
                         changeAvatar(baby_DATA[index])
@@ -213,6 +237,10 @@ const styles = StyleSheet.create({
         bottom: 0,
         backgroundColor: 'rgba(0,0,0,0.7)',
         borderRadius: 60,
+    },
+    greenCircle: {  // 定義綠色圓圈的樣式
+        borderColor: 'green',
+        borderWidth: 3,
     },
     money: {
         marginTop: 'auto',
