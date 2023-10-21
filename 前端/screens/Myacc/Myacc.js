@@ -6,54 +6,49 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function Myacc() {
-    const navigation = useNavigation();
-    const [userData, setUserData] = useState({ name: '用戶1號', email: 'userone@gmail.com' });
-    const [avatarSource, setAvatarSource] = useState(require("../../assets/images/baby/baby0/90.png"));
+  const navigation = useNavigation();
+  const [userData, setUserData] = useState({ name: '用戶1號', email: 'userone@gmail.com' });
+  const [avatarSource, setAvatarSource] = useState(require("../../assets/images/baby/baby0/90.png"));
 
-    const loadAvatar = async () => {
-        try {
-            const savedAvatar = await AsyncStorage.getItem('selectedAvatar');
-            if (savedAvatar) {
-                const avatar = JSON.parse(savedAvatar);
-                setAvatarSource({ uri: avatar.imageUri });
-            }
-        } catch (error) {
-            console.error('錯誤：加載選擇的頭像', error);
-        }
-    };
+  useEffect(() => {
+      const unsubscribe = navigation.addListener('focus', () => {
+          // 當頁面獲得焦點時重新加載數據
+          fetchUserData();
+      });
 
-    useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', loadAvatar); // 當屏幕獲得焦點時加載頭像
-        
-        const fetchUserData = async () => {
-            try {
-                const userToken = await AsyncStorage.getItem('userToken');
-                if (userToken) {
-                    const response = await fetch('http://192.168.0.22:8000/api/GetUser/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Token ${userToken}`,
-                        },
-                    });
-                    const responseData = await response.json();
-                    setUserData({
-                        name: responseData.username,
-                        email: responseData.email
-                    });
-                } else {
-                    console.log('抓不到token');
-                }
-            } catch (error) {
-                console.error('錯誤：獲取用戶數據', error);
-            }
-        };
+      const fetchUserData = async () => {
+          try {
+              const userToken = await AsyncStorage.getItem('userToken');
+              if (userToken) {
+                  const response = await fetch('http://192.168.0.22:8000/api/GetUser/', {
+                      method: 'GET',
+                      headers: {
+                          'Content-Type': 'application/json',
+                          Authorization: `Token ${userToken}`,
+                      },
+                  });
+                  const responseData = await response.json();
+                  setUserData({
+                      name: responseData.username,
+                      email: responseData.email
+                  });
 
-        loadAvatar(); // 初始加載頭像
-        fetchUserData(); // 初始加載用戶數據
+                  // 檢查API回應中是否有大頭貼的路徑，如果有，設置avatarSource
+                  if (responseData.avatarPath) {
+                      setAvatarSource({ uri: responseData.avatarPath });
+                  }
+              } else {
+                  console.log('抓不到token');
+              }
+          } catch (error) {
+              console.error('錯誤：獲取用戶數據', error);
+          }
+      };
 
-        return unsubscribe; // 清理訂閱
-    }, [navigation]);
+      fetchUserData(); // 初始加載用戶數據
+
+      return unsubscribe; // 清理訂閱
+  }, [navigation]);
 
   return (
     <SafeAreaView style={styles.container}>
