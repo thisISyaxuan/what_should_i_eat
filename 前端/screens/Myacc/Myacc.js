@@ -20,8 +20,8 @@ export default function Myacc() {
         try {
             const userToken = await AsyncStorage.getItem('userToken');
             if (userToken) {
-                const response = await fetch('http://192.168.0.22:8000/api/GetUser/', {
-                    method: 'GET',
+                const response = await fetch('http://10.1.1.22:8000/api/GetUser/', {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Token ${userToken}`,
@@ -35,8 +35,12 @@ export default function Myacc() {
 
                 // 檢查API回應中是否有大頭貼的編號，如果有，設置avatarSource
                 if (responseData.avatarId) {
-                    const imagePath = `../../assets/images/baby/all/${responseData.avatarId}.png`;
-                    setAvatarSource(require(imagePath));
+                    const images = {
+                      1:require("../../assets/images/baby/all/1.png"),
+                      2:require("../../assets/images/baby/all/2.png")
+                    }
+                    
+                    setAvatarSource(images[responseData.avatarId]);
                 }
             } else {
                 console.log('抓不到token');
