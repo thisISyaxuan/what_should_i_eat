@@ -42,7 +42,7 @@ export default function Login({navigation}) {
     try {
       // navigation.navigate('ButtomTabStack');
       // return;
-      fetch('http://192.168.1.109:8000/api/Login/', {
+      fetch('http://172.20.10.2:8000/api/Login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

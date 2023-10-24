@@ -4,6 +4,7 @@ from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Restaurant
+from django.http import QueryDict
 from . import recommender
 class recommend(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
@@ -19,6 +20,7 @@ class recommend(generics.GenericAPIView):
             # uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, RatingSort
             # print(updated_request['userPos'][0])
             DataFrameResult = recommender.main(user.id, updated_request['TimeFilter'], updated_request['MealFilter'], updated_request['LabelFilter'], updated_request['userPos'], updated_request['DistanceSort'], updated_request['RatingSort'])
+            print("response head")
             print(DataFrameResult.head(10))
             return Response({
                 # 前端名稱

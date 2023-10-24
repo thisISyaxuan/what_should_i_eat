@@ -1,5 +1,4 @@
 //68行改連結
-
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
@@ -17,7 +16,7 @@ const SearchRes = ({navigation}) => {
   const [distance, setDistanceSort] = useState(false);//DistanceSort
   const [rating, setRatingSort] = useState(false);//Rating Sort
   const [userPos,setuserPos] = useState([23.01,120.01]);
-  
+
   const resdata1 = {//現在後端的資料是這個
     "success": {
       "rName": ["叮叮風味健康餐盒","中山壽司","原住民冰店","阿胖師便當","不良鍋燒專門店","堪吉郎（埔里店）",
@@ -54,15 +53,19 @@ const SearchRes = ({navigation}) => {
     setDistanceSort(false);
     setRatingSort(false);
   };
+
   useEffect(() => {//初始化
-//      checkLocationPermission();
-      const checkLocationPermission = async () => {//定位功能有沒有被啟用
-          let { status } = await Location.requestForegroundPermissionsAsync();
-          if (status !== 'granted') {
-            console.log('沒開啟定位');
-          }
+    const checkLocationPermission = async () => {//定位功能有沒有被啟用
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          console.log('沒開啟定位');
+        }else{
+            //const location = await Location.getCurrentPositionAsync({});
+            //setuserPos([location.coords.latitude,location.coords.longitude]);//存經緯度
+        }
       };
-  }, []);
+    checkLocationPermission();
+}, []);
 
   const searchRestaurants = async () => {//按下搜尋按鈕
     if(selectedValue==='請選擇類別'){
@@ -70,11 +73,11 @@ const SearchRes = ({navigation}) => {
     }else{
       try {
         const userToken = await AsyncStorage.getItem('userToken');//先抓token
-        console.log("我在第73行")
-        console.log(userToken)
+        console.log("我在第73行", userToken)
         if (userToken) {
-          const location = await Location.getCurrentPositionAsync({});
+          let location = await Location.getCurrentPositionAsync({});
           const currentUserPos = [location.coords.latitude, location.coords.longitude];
+          console.log("currentUserPos", currentUserPos)
           const data = {//要傳給後端的資料
             TimeFilter: isOpen === '營業中' ? true : false,
             MealFilter: isMeal === '全部' ? -1 : (isMeal === '正餐' ? 1 : 0),
@@ -83,7 +86,8 @@ const SearchRes = ({navigation}) => {
             DistanceSort: distance,
             RatingSort: rating
           };
-          const response = await fetch('http://192.168.1.109:8000/restaurant/recommend/', {//改連結
+          console.log(data)
+          const response = await fetch('http://172.20.10.2:8000/recommend/restaurant/', {//改連結
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -92,8 +96,8 @@ const SearchRes = ({navigation}) => {
           body: JSON.stringify(data),
         });
         const responseData = await response.json();//後端回傳資料
-        console.log("後端回傳的responseData為:",responseData); 
-        navigation.navigate('餐廳探索',{data : responseData.success});//把資料傳到餐廳探索
+        console.log("後端回傳的responseData為:",responseData);
+        navigation.navigate('餐廳探索',{data : responseData});//把資料傳到餐廳探索
         }else{
         navigation.navigate('餐廳探索',{data: resdata1});
         }
