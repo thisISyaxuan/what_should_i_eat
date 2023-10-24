@@ -27,7 +27,7 @@ def go_crawler(info): # rid, 店名, URL(地址)
     # 415
     # 423
     # 433
-    index = 470
+    index = 714
     for aR in info[index:]:
         # if (aR[0] == 4):
         # sheet[f"A{index}"] = aR[0]
@@ -50,24 +50,44 @@ def go_crawler(info): # rid, 店名, URL(地址)
         except Exception as error:
             print(error)
             break
-        t = random.choice([5, 6, 8, 10, 20, 11])
-        print(t)
-        time.sleep(t)
-        
+        if (index < 715):
+            t = random.choice([5, 6, 8, 10, 20, 11])
+            print(t)
+            time.sleep(t)
+        else:
+            break
+
 def transSTR(data):
     line = tuple(data.split(','))
     # print(line)
     lat, lng = float(line[2]), float(line[1])
     return [lat, lng]
 
+def sql():
+    wb = openpyxl.load_workbook('crawler.xlsx')
+    sheet = wb['Sheet']
+    rID = [cell.value for cell in sheet['A']]
+    rLat = [cell.value for cell in sheet['B']]
+    rLng = [cell.value for cell in sheet['C']]
+    for i in range(len(rID)):
+        try:
+            sql = f"UPDATE `1_restaurant` SET `rLat`={rLat[i]},`rLng`={rLng[i]} WHERE rID = {rID[i]}"
+            cursor.execute(sql)
+            db.commit()
+        except Exception as error:
+            print(error)
+
 def main():
     Restaurant = list(get_db('1_restaurant'))
-    for i in range(len(Restaurant)):
-        Restaurant[i] = list(Restaurant[i])
-        Restaurant[i][2] = "https://www.google.com/maps/place?q=" + Restaurant[i][2]
-        # if (i == 0):
-        #     print(Restaurant[i][2])
-    go_crawler(Restaurant)
+    # 爬蟲
+    # for i in range(len(Restaurant)):
+    #     Restaurant[i] = list(Restaurant[i])
+    #     Restaurant[i][2] = "https://www.google.com/maps/place?q=" + Restaurant[i][2]
+    #     # if (i == 0):
+    #     #     print(Restaurant[i][2])
+    # go_crawler(Restaurant)
+    # 寫資料庫
+    sql()
     db.close
 
 if __name__ == '__main__':
