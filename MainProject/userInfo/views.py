@@ -16,7 +16,7 @@ def user_sign(request):
         username = user.username
         user_info = UserInfo.objects.filter(username=username).values()[0]
         money = user_info['money']
-        date1 = user_info['sign']
+        date1 = user_info['sign'].strftime('%Y-%m-%d %H:%M:%S')
         date2 = datetime.datetime.now()
         date1 = datetime.datetime.strptime(date1, "%Y-%m-%d %H:%M:%S")
         if date1.date() != date2.date():
@@ -26,12 +26,12 @@ def user_sign(request):
             u.save()
             return Response({
                 'success':True,
-                'money':money + 100 # 簽到加的金額
+                'coins':money + 100 # 簽到加的金額
             })
         else:
             return Response({
                 'success':False,
-                'money':money
+                'coins':money
             })
 @api_view(['POST'])
 def user_skin(request):
@@ -50,7 +50,7 @@ def user_skin(request):
     })
 @api_view(['POST'])
 def get_user_data(request):
-    print(request.data)
+    print(request.data,"get_user_data")
     user = request.user
     if user.is_authenticated:
         username = user.username
