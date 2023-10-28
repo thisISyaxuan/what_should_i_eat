@@ -15,7 +15,7 @@ const BabyCollect = () => {
             try {
                 const token = await AsyncStorage.getItem('userToken');
                 if (token) {
-                    fetch('http://172.20.10.2:8000/baby/baby/', {
+                    fetch('http://10.1.1.22:8000/baby/baby/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -79,7 +79,8 @@ const BabyCollect = () => {
                   const data = await response.json();
     
                   if (data.success) {
-                    // 顯示綠色圓圈代碼 (依照您的設計方式，這裡只是一個例子)
+                    // Save the baby id to local storage as well
+                    await AsyncStorage.setItem('avatarId', baby.id.toString());
                     Alert.alert('成功', '已成功更換大頭貼！');
                   } else {
                     Alert.alert('失敗', '更換大頭貼失敗，請稍後再試。');
@@ -93,6 +94,7 @@ const BabyCollect = () => {
           ],
         );
       }, [navigation]);
+    
 
       const purchaseBaby = useCallback(async (baby) => {
         if (coins < baby.price) {
