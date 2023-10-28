@@ -3,12 +3,16 @@ import {StyleSheet,TouchableOpacity,Text,View} from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState } from "react";
+import {images} from '../data/labelImage'
 export default EventItem = ({rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID}) => {
     const navigation = useNavigation()
+    const imageObject = images.find(image => image.label === rLabel);
     return (
         <View style={styles.card}>
           <View style={styles.rowContainer}>
-            <View style={styles.pic}><Text>     </Text></View>
+            <View style={styles.pic}>
+              {imageObject && (<Image source={imageObject.image} style={{ width: 55, height: 55 }} />)}
+            </View>
             <View>
                 <View style={[styles.rowContainer,{width:"90%"}]}>
                     <TouchableOpacity style={styles.cardContent} onPress={() => navigation.navigate("餐廳資訊",{rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID})}>
