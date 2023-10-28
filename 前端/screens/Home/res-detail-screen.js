@@ -15,7 +15,7 @@ export default ResInfo = ({navigation}) =>{
     const {rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID} = route.params
     const [isCollected, setIsCollected] = useState(collect);
     const [modalVisible, setModalVisible] = useState(false);
-    const menuImg = imag.find(image => image.imgID === rID.toString());
+    const menuImg = imag.find(image => image.imgID === (rID+1).toString());
     
     const images = [//測試圖片
       {

@@ -1,12 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
-import {StyleSheet,TouchableOpacity,Text,View} from "react-native";
+import {StyleSheet,TouchableOpacity,Text,View, Image} from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState } from "react";
 import {images} from '../data/labelImage'
 export default EventItem = ({rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID}) => {
     const navigation = useNavigation()
-    const imageObject = images.find(image => image.label === rLabel);
+    const imageObject = images.find(image => image.label === labelID);
     return (
         <View style={styles.card}>
           <View style={styles.rowContainer}>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     pic: {
       borderWidth:1,
       borderRadius:10,
-      padding:30,
+      padding:10,
     },
     rowContainer: {
       flexDirection: 'row',
