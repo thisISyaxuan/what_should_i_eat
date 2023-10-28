@@ -1,4 +1,4 @@
-export const images = [
+export const imag = [
     { image: require('../assets/images/restaurant/2.jpg'), imgID:'2' },
     { image: require('../assets/images/restaurant/3.jpg'), imgID:'3' },
     { image: require('../assets/images/restaurant/5.jpg'), imgID:'5' },

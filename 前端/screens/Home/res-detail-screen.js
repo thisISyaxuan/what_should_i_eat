@@ -8,14 +8,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useState } from "react";
 import ImageView from "react-native-image-view";
-
-//import { images } from '../../data/menu';
+import { imag } from '../../data/menu';
 
 export default ResInfo = ({navigation}) =>{
     const route = useRoute()
     const {rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID} = route.params
     const [isCollected, setIsCollected] = useState(collect);
     const [modalVisible, setModalVisible] = useState(false);
+    const menuImg = imag.find(image => image.imgID === rID.toString());
     
     const images = [//測試圖片
       {
@@ -67,10 +67,11 @@ export default ResInfo = ({navigation}) =>{
                 <View style={{ borderTOPColor: 'gray', borderBottomWidth: 1 ,width:'100%'}}></View>
             <ScrollView horizontal showsVerticalScrollIndicator={false} style={{borderTopWidth:0.5, borderTopColor:'gray', borderBottomWidth:1, borderBottomColor:'gray', top:20}}>
               <View>
-                <TouchableOpacity style={{width: 250, height: 250, margin: 7,justifyContent: 'center', alignItems: 'center'}} onPress={() => setModalVisible(true)}>
-                <Image source={require('../../assets/images/restaurant/30.jpg')} style={{ width: 55, height: 55 }} />
-                {/*  <Text>暫無照片</Text>   */}
-                </TouchableOpacity>
+              <TouchableOpacity style={{ width: 250, height: 250, margin: 7, justifyContent: 'center', alignItems: 'center' }} onPress={() => setModalVisible(true)}>
+                {menuImg ? (
+                <Image source={menuImg.image} style={{ width: '100%', height: '100%' }} />
+                ) : (<Text>暫無照片</Text>)}
+              </TouchableOpacity>
               </View>
             </ScrollView>
 
