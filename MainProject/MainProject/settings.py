@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'restaurant',
     'userInfo',
     'userLike',
+    'click',
 ]
 
 MIDDLEWARE = [

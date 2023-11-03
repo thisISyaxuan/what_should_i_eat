@@ -5,21 +5,25 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState } from "react";
 import {images} from '../data/labelImage'
 import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export default EventItem = ({rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID}) => {
     const navigation = useNavigation()
     const imageObject = images.find(image => image.label === labelID);
     //點下去的話
     const ClickResName = async () => {
       try {
-        const userToken = AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
+        console.log('try 裡面')
+        const userToken = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
+        console.log('123')
         if (userToken) {//抓時間，token，rID
+          console.log('if ok')
           const currentDate = new Date();//先抓時間 格式為年-月-日-時-分-秒
           const formattedTime = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}-${currentDate.getHours()}-${currentDate.getMinutes()}-${currentDate.getSeconds()}`;
           const postdata = {
             Time:formattedTime,//裡面放當下時間
             rID:rID,//餐廳id
           };
-          const response = await fetch('http://172.20.10.2:8000/recommend/restaurant/', {
+          const response = await fetch('http://172.20.10.2:8000/click/rest/', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -38,6 +42,7 @@ export default EventItem = ({rID,rName,rMap_Score,rPhone,rAddress,open,collect,d
           console.log("抓不到token")
         }
       }catch{
+        console.log('43 行')
         console.log("發生錯誤，可能連結沒改")
       }
     }

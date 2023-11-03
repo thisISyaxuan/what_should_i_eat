@@ -1,6 +1,9 @@
 import pandas as pd
 import pymysql
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 from numpy import dot, sin, cos, arccos, pi, round
+from numpy.linalg import norm
 import datetime
 
 # ------------
@@ -108,6 +111,14 @@ def checkDistance(userPos, Restaurant):
         # print(Restaurant.loc[rID, 'distance'])
     return Restaurant
 
+def rad2deg(radians):
+    degrees = radians * 180 / pi
+    return degrees
+
+def deg2rad(degrees):
+    radians = degrees * pi / 180
+    return radians
+
 def checkCollect(uID, Restaurant):
     Restaurant.insert(Restaurant.shape[1], 'collect', 0)
     sql = f"SELECT `rID` FROM `1_user_collectrest` WHERE uID = {uID}"
@@ -117,14 +128,6 @@ def checkCollect(uID, Restaurant):
     for rID in collect:
         Restaurant.loc[rID, 'collect'] = 1
     return Restaurant
-
-def rad2deg(radians):
-    degrees = radians * 180 / pi
-    return degrees
-
-def deg2rad(degrees):
-    radians = degrees * pi / 180
-    return radians
 
 def replaceAllLabel(Restaurant):
     global labelDict
@@ -138,27 +141,43 @@ def replaceAllLabel(Restaurant):
     Restaurant = Restaurant.rename(columns={'all_label': 'BigLabel'})
     return Restaurant
 
-def main(uID, userPos, click):
-    # ----------------------
-    # 跟前端合的時候要註解
-    print(userPos)
-    userPos = userPos.split(',')
-    userPos[0] = float(userPos[0].split('[')[1])
-    userPos[1] = float(userPos[1].split(']')[0])
-    # ----------------------
-    Restaurant = get_pd('1_restaurant', "rID", "NULL")
+def filter_same_rID(rID):
+    # print(rID)
+    result = []
+    for index, value in enumerate(rID):
+        if value in result:
+            result.remove(result[result.index(value)])
+        result.append(value)
+    print(result)
+    return result[::-1]
+
+def main(uID, userPos):
+# def main():
+#     uID = 1
+#     userPos = [23.96656, 120.96586]
+
+    ThisUserClick = get_pd("1_user_click", "clickID", uID)
+    Restaurant = get_pd('1_restaurant', "NULL", "NULL")
+    NewRLabel = get_pd('1_new_rlabel', 'rID', "NULL")
     db.close
     print('close')
+
+    rID_list = filter_same_rID(ThisUserClick['rID'].tolist())
+    # print(rID_list)
+    Restaurant = Restaurant[Restaurant['rID'].isin(rID_list)]
+    Restaurant['order'] = Restaurant['rID'].apply(lambda x: rID_list.index(x))
+    Restaurant = Restaurant.sort_values(by='order').drop(columns=['order'])
+    # print(Restaurant)
+
     Restaurant = checkTime(Restaurant)
     Restaurant = checkDistance(userPos, Restaurant)
     Restaurant = checkCollect(uID, Restaurant)
-    Restaurant = Restaurant.drop(['meal_or_not', 'rLat', 'rLng'], axis=1)
-    Restaurant = replaceAllLabel(Restaurant)
-    Restaurant['rID'] = Restaurant.index
-    Restaurant = Restaurant[Restaurant['collect'] == 1]
 
-    result = pd.DataFrame(columns = Restaurant.columns)
-    print(result)
-    for rID in click:
-        result = result.append(Restaurant[Restaurant['rID'] == rID], ignore_index=True)
-    return result
+    # rName rMap_Score rPhone rAddress BigLabel open distance collect rID
+    Restaurant = replaceAllLabel(Restaurant)
+    Restaurant = Restaurant.drop(['meal_or_not', 'rLat', 'rLng'], axis=1)
+    print(Restaurant.rID)
+    return Restaurant
+
+# if __name__ == '__main__':
+#     main()

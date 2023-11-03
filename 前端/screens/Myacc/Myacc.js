@@ -20,7 +20,7 @@ export default function Myacc() {
           const userToken = await AsyncStorage.getItem('userToken');
           
           if (userToken) { 
-              const response = await fetch('http://10.1.1.22:8000/api/GetUser/', {
+              const response = await fetch('http://172.20.10.2:8000/api/GetUser/', {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json',
@@ -633,7 +633,7 @@ export default function Myacc() {
             <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("我的收藏")}>
             <Ionicons name="heart-circle-outline" size={50} color={'#C0C0C0'}></Ionicons>
             <Text style={globalStyles.TextSize}>我的收藏</Text></TouchableOpacity>
-            <TouchableOpacity style={[styles.infoCol]}>
+            <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("瀏覽紀錄")}>
             <Ionicons name="time-outline" size={50} color={'#C0C0C0'}></Ionicons>
             <Text style={globalStyles.TextSize}>瀏覽紀錄</Text></TouchableOpacity>
         </View>

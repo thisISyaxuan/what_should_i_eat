@@ -104,6 +104,7 @@ export default function Home() {
         console.log("重整");
         checkLocationPermission();
         fetchRestaurants();
+        console.log("?");
       };
 
 

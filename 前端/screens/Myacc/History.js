@@ -10,6 +10,7 @@ export default function MyHistory() {
       const [datacontent, setDatacontent] = useState();//傳給EventList的資料
   
     useEffect(() => {
+        console.log("點")
         checkLocationPermission();//檢查定位
         fetchRestaurants();
     }, []);
@@ -33,7 +34,7 @@ export default function MyHistory() {
                         userPos:newCoords,
                     };
                     console.log("這是我要傳給後端的資料:",requestdata)
-                    const response = await fetch('http://172.20.10.2:8000/recommend/restaurant/', {
+                    const response = await fetch('http://172.20.10.2:8000/click/show/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
         paddingTop: '4%',
     },
     card: {
-        width: screenWidth * 0.8,
+//        width: screenWidth * 0.8,
         height: 150,
         flexDirection: 'row',
         backgroundColor: 'white',

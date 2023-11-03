@@ -10,5 +10,6 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     # path('',include(router.urls)),
-    path('history/', views.history.as_view()),
+    path('rest/', views.click.as_view()),
+    path('show/', views.show.as_view()),
 ]

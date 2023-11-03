@@ -15,21 +15,9 @@ export default ResInfo = ({navigation}) =>{
     const {rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID} = route.params
     const [isCollected, setIsCollected] = useState(collect);
     const [modalVisible, setModalVisible] = useState(false);
-    const menuImg = imag.find(image => image.imgID === (rID+1).toString());
+    const menuImg = imag.find(image => image.imgID === (rID).toString());
     
-    const images = [//測試圖片
-      {
-        source: require('../../assets/images/restaurant/30-1.jpeg'),
-        title: '測試照片第一張',
-        width: 1522,
-        height: 1077,
-      },{
-        source: require('../../assets/images/restaurant/30-2.jpg'),
-        title: '測試照片第二張',
-        width: 1147,
-        height: 881,
-      }
-    ];
+    const images = [];
 
     const toggleCollect = () => {
       setIsCollected((prevCollected) => (prevCollected === 1 ? 0 : 1));
