@@ -4,7 +4,6 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import EventList from '../../component/event-list';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from 'expo-location';
-import {Back_Test_Data} from '../../data/backtestdata';
 
 export default function Home() {
     const navigation = useNavigation();
@@ -101,10 +100,17 @@ export default function Home() {
         }
     };
 
+    const handleRefresh = () => {
+        console.log("重整");
+        checkLocationPermission();
+        fetchRestaurants();
+      };
+
+
     return (
         <View style={styles.container}>
             {/* 將餐廳資料傳給EventList組件 */}
-            {dataLoaded ? <EventList data={datacontent} /> : null}
+            {dataLoaded ? <EventList data={datacontent} onRefresh={handleRefresh}/> : null}
         </View>
     );
 }

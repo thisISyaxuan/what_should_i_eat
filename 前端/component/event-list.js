@@ -1,10 +1,9 @@
 import {View,FlatList, RefreshControl } from "react-native"
 import EventItem from "./event-item"
-export default EventList =({data}) => {
-//  console.log(data)
+export default EventList =({data, onRefresh}) => {
+  
   const datalist = data;
-//  console.log("?????????????")
-//  console.log(datalist)
+  
     const renderItem =({item,index}) =>{
         return <EventItem rID={datalist.rID[index]}
                           rName={datalist.rName[index]} 
@@ -25,7 +24,7 @@ export default EventList =({data}) => {
               refreshControl={
                 <RefreshControl
                 refreshing={false}
-                onRefresh={()=> console.log('refreshing...')}
+                onRefresh={onRefresh}
                 />
               }
             />
