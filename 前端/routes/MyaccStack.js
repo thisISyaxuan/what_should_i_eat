@@ -7,6 +7,7 @@ import 'react-native-gesture-handler';
 
 import Mycollect from '../screens/Myacc/Mycollect';
 import Login from '../screens/LoginRegister/Login';
+import MyHistory from '../screens/Myacc/History';
 
 const Stack = createStackNavigator();
 const MyaccStack = () => (
@@ -24,6 +25,19 @@ const MyaccStack = () => (
                         />
         
         <Stack.Screen name="我的收藏" component={Mycollect} 
+                      options={{
+                        headerShown: true,
+                        headerStyle: {
+                            backgroundColor: '#f6d58a',
+                        },
+                        headerBackTitle: ' ',
+                        headerBackTitleStyle: {
+                            color: 'black', 
+                            fontSize: 16,
+                        },
+                        headerTintColor: 'black'
+                        }} />
+        <Stack.Screen name="瀏覽紀錄" component={MyHistory} 
                       options={{
                         headerShown: true,
                         headerStyle: {
