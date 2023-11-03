@@ -30,12 +30,7 @@ export default function MyHistory() {
                 if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
                     setLastSentPos(newCoords);
                     const requestdata = {//預設值傳給後端
-                        TimeFilter: false,
-                        MealFilter: -1,
-                        LabelFilter: "全部",
                         userPos:newCoords,
-                        DistanceSort: false,
-                        RatingSort: false
                     };
                     console.log("這是我要傳給後端的資料:",requestdata)
                     const response = await fetch('http://172.20.10.2:8000/recommend/restaurant/', {
