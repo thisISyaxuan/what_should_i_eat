@@ -7,18 +7,21 @@ import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Slider from '@react-native-community/slider';
 import { globalStyles } from '../../styles/global';
-import { DUMMY_DATA } from '../../data/dummy';
-import { Feather } from '@expo/vector-icons';
-import SearchFilter from '../../component/SearchFilter';
+import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 
-export default function AddCash() {
+export default function AddCashRes() {
+  const navigation = useNavigation()
   const[senddate,setdate] = useState("");
   const [currentDate, setCurrentDate] = useState("");
   const [Class, SetClass] = useState(0);
   const [Price, SetPrice] = useState("");
   const [Rating, SetRating] = useState(5.0);
+
   const [MyText, SetMyText] = useState("");
   const [Input,SetInput] = useState('');
+  const route = useRoute()
+  const {rName,rMap_Score,rPhone,rAddress,open,collect,distance,rID,rLabel} = route.params
 
   useEffect(() => {//當前時間
     const now = new Date();// 獲取當前時間
@@ -30,10 +33,6 @@ export default function AddCash() {
   const getDayOfWeek = (dayIndex) => {//顯示出來
     const daysOfWeek = ['週日', '週一', '週二', '週三', '週四', '週五', '週六'];
     return daysOfWeek[dayIndex];
-  };
-
-  const handleInputUpdate = (newInput) => {//每次改變輸入文字都要更新SetInput
-    SetInput(newInput);
   };
 
   const handleClassSelection = (selectedClass) => {//類別
@@ -59,9 +58,6 @@ export default function AddCash() {
           if (Price === "") {
             Alert.alert('提示', '請輸入金額!');
             return;
-          } else if (Input === '') {
-            Alert.alert('提示', '請輸入正確的店家名稱');
-            return;
           }
           const userToken = await AsyncStorage.getItem('userToken');
           const data = {
@@ -73,7 +69,7 @@ export default function AddCash() {
             my_text: MyText,//(備註)
           };
       
-          const response = await fetch('http://172.20.10.2:8000/account/cost/', {
+          const response = await fetch('http://192.168.0.2:8000/account/cost/', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -94,8 +90,6 @@ export default function AddCash() {
         } catch (error) {
           console.error('Error sending request:', error);
         }
-        
-      
   };
 
   return (
@@ -103,11 +97,10 @@ export default function AddCash() {
     <SafeAreaView style={styles.container}>
         <View>
           <View style={styles.title}><Text style={{fontSize:20}}>{currentDate}</Text></View>
-          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-            <Feather name="search" size={20} color="black" style={{ marginLeft: 4,marginTop:10, marginRight: 4 }} />
-            <TextInput value={Input} onChangeText={(text) => SetInput(text)} style={styles.res} placeholder="請輸入完整店名"/>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center',alignContent:'center',margin:20}}>
+            <Icon name="cutlery" size={20} color={'#C0C0C0'} style={{ marginLeft: 4,marginRight: 4 }} />
+            <Text style={{ fontSize:24,fontWeight:'bold'}}> {rName}</Text>
           </View>
-          {Input !== '' && <SearchFilter data={DUMMY_DATA} input={Input} SetInput={handleInputUpdate} />}
              
           <View style={styles.class}>
               <TouchableOpacity style={[styles.button, Class === 0 && styles.activeButton]} onPress={() => handleClassSelection("早餐")}>
