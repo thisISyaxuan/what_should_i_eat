@@ -104,7 +104,7 @@ export default ResInfo = ({navigation}) =>{
                 <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}} onPress={() => navigation.navigate("錯誤回報", {rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID})}>錯誤回報</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.ButtonL}>
-                <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}}>造訪店家</Text>
+                <Text style={{fontSize: 20, color: 'white', textAlign: 'center'}} onPress={() => navigation.navigate("造訪餐廳", {rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID})}>造訪店家</Text>
             </TouchableOpacity>
             </View>
         </View>

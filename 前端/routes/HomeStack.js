@@ -11,6 +11,7 @@ import ResInfo from '../screens/Home/res-detail-screen';
 //import Test from '../screens/Home/Test';
 import Errorfb from '../screens/Home/ErrorfeedBack';
 import Mycollect from '../screens/Myacc/Mycollect';
+import AddCashRes from '../screens/Add/AddCashRes';
 const Stack = createStackNavigator();
 
 const HomeStack = () => (
@@ -47,6 +48,19 @@ const HomeStack = () => (
                           }}
         />
         <Stack.Screen name="錯誤回報" component={Errorfb} 
+                      options={{
+                        headerShown: true,
+                        headerStyle: {
+                            backgroundColor: '#f6d58a',
+                        },
+                        headerBackTitle: ' ',
+                        headerBackTitleStyle: {
+                            color: 'black', 
+                            fontSize: 16,
+                        },
+                        headerTintColor: 'black'
+                        }} />
+        <Stack.Screen name="造訪餐廳" component={AddCashRes} 
                       options={{
                         headerShown: true,
                         headerStyle: {

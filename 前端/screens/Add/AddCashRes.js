@@ -21,7 +21,7 @@ export default function AddCashRes() {
   const [MyText, SetMyText] = useState("");
   const [Input,SetInput] = useState('');
   const route = useRoute()
-  const {rName,rMap_Score,rPhone,rAddress,open,collect,distance,rID,rLabel} = route.params
+  const {rName,rMap_Score,rPhone,rAddress,open,collect,distance,rID,labelID} = route.params
 
   useEffect(() => {//當前時間
     const now = new Date();// 獲取當前時間
