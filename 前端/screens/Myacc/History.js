@@ -3,6 +3,7 @@ import { View, Text, StyleSheet} from "react-native";
 import EventList from '../../component/event-list';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from 'expo-location';
+import { ActivityIndicator } from 'react-native';
 
 export default function MyHistory() {
       const [lastSentPos, setLastSentPos] = useState([0,0]);//經緯度
@@ -83,8 +84,10 @@ export default function MyHistory() {
 
     return (
         <View style={styles.container}>
-            {/* 將餐廳資料傳給EventList組件 */}
-            {dataLoaded ? <EventList data={datacontent} /> : null}
+            {dataLoaded ? 
+                (<EventList data={datacontent} />) : 
+                (<ActivityIndicator size="large" color="#0000ff" />)
+            }
         </View>
         
     );

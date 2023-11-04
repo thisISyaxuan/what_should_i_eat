@@ -9,6 +9,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useState } from "react";
 import ImageView from "react-native-image-view";
 import { imag } from '../../data/menu';
+import { Linking } from 'react-native';//超連結
+
 
 export default ResInfo = ({navigation}) =>{
     const route = useRoute()
@@ -45,7 +47,22 @@ export default ResInfo = ({navigation}) =>{
         console.error('res-detail-screen Error sending request:', error);
     }
     }
-
+    const openGoogleMaps = (address) => {
+      const formattedAddress = address.replace(' ', '+'); // 把地址中有空格的地方替換為+號以構建 Google 地圖 URL
+      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${formattedAddress}`;
+      Linking.openURL(mapUrl)
+        .then((result) => {
+          if (result) {
+            console.log('已打開 Google 地圖');
+          } else {
+            console.error('無法打開 Google 地圖');
+          }
+        })
+        .catch((error) => {
+          console.error('打開 Google 地圖時出錯：', error);
+          Alert("發生錯誤，請稍後再試一次");
+        });
+    };
     return(
         <View style={styles.container}>
             <View style={styles.title}>
@@ -83,7 +100,12 @@ export default ResInfo = ({navigation}) =>{
             <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>評分: {rMap_Score} 顆星</Text>
             <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>距離: {distance}km</Text>
             <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>電話: {rPhone}</Text>
-            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>地址: {rAddress}</Text>
+            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>
+              地址: 
+              <TouchableOpacity onPress={() => openGoogleMaps(rAddress)} style={{ textDecorationLine: 'underline', marginLeft: 5 }}>
+              {rAddress}
+              </TouchableOpacity>
+            </Text>
         </View> 
 
         <View style={styles.bottom}>

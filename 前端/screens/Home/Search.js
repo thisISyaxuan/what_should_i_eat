@@ -5,6 +5,7 @@ import { Picker } from '@react-native-picker/picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Location from 'expo-location';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ActivityIndicator } from 'react-native';//loading的圖示
 
 const SearchRes = ({navigation}) => {
   const [isPickerVisible,setIsPickerVisible] = useState(false);
@@ -16,6 +17,8 @@ const SearchRes = ({navigation}) => {
   const [distance, setDistanceSort] = useState(false);//DistanceSort
   const [rating, setRatingSort] = useState(false);//Rating Sort
   const [userPos,setuserPos] = useState([23.01,120.01]);
+  const [isLoading, setIsLoading] = useState(false);//等待的變數
+
 
   const resdata1 = {//現在後端的資料是這個
     "success": {
@@ -52,6 +55,7 @@ const SearchRes = ({navigation}) => {
     setCategory('全部');
     setDistanceSort(false);
     setRatingSort(false);
+    setSelectedValue('全部');
   };
 
   useEffect(() => {//初始化
@@ -68,6 +72,7 @@ const SearchRes = ({navigation}) => {
 }, []);
 
   const searchRestaurants = async () => {//按下搜尋按鈕
+    setIsLoading(true);
     if(selectedValue==='請選擇類別'){
       Alert.alert('請選擇欲搜索之類別')
     }else{
@@ -103,6 +108,8 @@ const SearchRes = ({navigation}) => {
         }
       } catch (error) {
         console.error('Search Error sending request:', error);
+      } finally {
+        setIsLoading(false); // 無論後端請求成功或失敗，都關閉 "Loading" 畫面
       }
     }
     }
@@ -227,10 +234,16 @@ const SearchRes = ({navigation}) => {
 
     </View>
     <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end' }}>
-    {/* 右側的內容 */}
-    <TouchableOpacity style={{ ...styles.searchButton}} onPress={searchRestaurants}>
+      
+    {isLoading ? (
+      <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+      <TouchableOpacity style={{ ...styles.searchButton}} onPress={searchRestaurants}>
       <Text style={styles.buttonText}>搜尋</Text>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    )}
+
+
   </View>
     </SafeAreaView>
   );

@@ -7,6 +7,7 @@ import {images} from '../data/labelImage'
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export default EventItem = ({rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID}) => {
+    const limitRName = rName.length > 20 ? rName.slice(0, 20) + '...' : rName;//字數大於20個字
     const navigation = useNavigation()
     const imageObject = images.find(image => image.label === labelID);
     //點下去的話
@@ -56,7 +57,7 @@ export default EventItem = ({rID,rName,rMap_Score,rPhone,rAddress,open,collect,d
             <View>
                 <View style={[styles.rowContainer,{width:"90%"}]}>
                     <TouchableOpacity style={styles.cardContent} onPress={ClickResName}>
-                        <Text style={[styles.restitle]}>{rName}</Text>
+                        <Text style={[styles.restitle]}>{limitRName}</Text>
                         <View style={styles.rowContainer}><Icon name="circle" size={10} color={open === -1 ? 'red' : 'green'} /><Text style={{ fontSize: 14 }}>{open === -1 ? '  已打烊' : '  營業中'}</Text></View>
                     </TouchableOpacity>
                 </View>
