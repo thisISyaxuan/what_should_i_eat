@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from 'expo-location';
+import EventList from '../../component/event-list';
 const screenWidth = Dimensions.get('window').width;
 const Tab = createMaterialTopTabNavigator();
 
@@ -16,24 +17,9 @@ export default function Mycollect() {
 }
 
 const RatingScreen = () => {
-
-    const resdata3 = {//現在後端的資料是這個
-        "success": {
-          "rName": ["堪吉郎（埔里店）",
-          "298快餐","埔里美食 蔡家 排肉飯",],
-          "rMap_Score": [5.0,5.0,5.0,],
-          "rPhone": ["0910532789","0492990160","0928072795",],
-          "rAddress": ["54543南投縣埔里鎮北環路36號","545南投縣埔里鎮中山路二段312號",],
-          "open": [1,1,1,],
-          "collect": [1,1,1,],
-          "distance": [0.65,0.65,0.68,],
-          "rID": [174,237,654,],
-          "labelID":[1,2,3,4,5,6,7,8],
-        }
-      }
     const [lastSentPos, setLastSentPos] = useState([0,0]);
     const [dataLoaded,setDataLoaded] = useState(false);//追蹤資料有沒有都抓取成功了
-    const [datacontent,setDatacontent] = useState(resdata3.success);//傳給EventList的資料
+    const [datacontent,setDatacontent] = useState();//傳給EventList的資料
 
     useEffect(() => {
         fetchRestaurants();
@@ -46,32 +32,20 @@ const RatingScreen = () => {
             if (token) {
                 const location = await Location.getCurrentPositionAsync({});//抓經緯
                 const newCoords = [location.coords.latitude, location.coords.longitude];//新的經緯
-                const [currentDateTime, setCurrentDateTime] = useState('');
                 
                 if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
                     setLastSentPos(newCoords);
-                    const currentDate = new Date();
-                    const year = currentDate.getFullYear();
-                    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // 月份從0開始，需要加1
-                    const day = String(currentDate.getDate()).padStart(2, '0');
-                    const hours = String(currentDate.getHours()).padStart(2, '0');
-                    const minutes = String(currentDate.getMinutes()).padStart(2, '0');
-                    const seconds = String(currentDate.getSeconds()).padStart(2, '0');
-                    const formattedDateTime = `${year}-${month}-${day}-${hours}-${minutes}-${seconds}`;
-                    setCurrentDateTime(formattedDateTime);
-
                     const requestdata = {
-                        rating:true,
+                        sorting:true,
                         userPos:newCoords,
-                        currentTime: currentDateTime,
                     };
                     const response = await fetch('http://172.20.10.2:8000/recommend/mycollect/', {//改他
                         method: 'POST',
-                        headers: {'Content-Type': 'application/json',Authorization: `Token ${token}`,},body: JSON.stringify(requestdata)
+                        headers: {'Content-Type': 'application/json',Authorization: `Token ${token}`,},
+                        body: JSON.stringify(requestdata)
                     });
                     if (response.ok) {
                         const responseData = await response.json();//把後端回傳的資料放在responsData
-                        console.log(responseData.success);
                         setDatacontent(responseData.success);
                         setDataLoaded(true);// 在這裡設定資料載入完成的狀態
                     } else {
@@ -82,11 +56,11 @@ const RatingScreen = () => {
                     
                 }
             } else {
-                //console.log('Mycollect未獲取到Token');
-                setDataLoaded(true);
+                console.log('Mycollect未獲取到Token');
+                //setDataLoaded(true);
             }
         } catch (error) {
-            console.error('你是不是連結沒改(我是Mycollect)', error);
+            console.error('你是不是連結沒改?我在Mycollect的第63行', error);
         }
     };
 
@@ -100,23 +74,9 @@ const RatingScreen = () => {
 };
 
 const DistanceScreen = () => {
-    const resdata3 = {//現在後端的資料是這個
-        "success": {
-          "rName": ["叮叮風味健康餐盒","中山壽司","原住民冰店","阿胖師便當","不良鍋燒專門店","堪吉郎（埔里店）",
-          "298快餐","埔里美食 蔡家 排肉飯",],
-          "rMap_Score": [5.0,5.0,5.0,5.0,4.9,4.9,4.9,4.9,],
-          "rPhone": ["0910532789","0492990160","0928072795","0988042919","0492423606","0937242704","0960684957","0976026355",],
-          "rAddress": ["54543南投縣埔里鎮北環路36號","545南投縣埔里鎮中山路二段312號","545南投縣埔里鎮隆生路96之15號","545南投縣埔里鎮中山路二段229號","545南投縣埔里鎮中正路367號","545南投縣埔里鎮慈恩街10號","545南投縣埔里鎮中山路二段316號1樓","54555南投縣埔里鎮西安路一段87號",],
-          "open": [1,1,1,1,-1,-1,-1,-1,],
-          "collect": [1,1,1,1,0,0,0,0],
-          "distance": [0.65,0.65,0.68,0.72,0.73,0.75,0.86,0.86,],
-          "rID": [174,237,654,7,28,32,148,152,],
-          "labelID":[1,2,3,4,5,6,7,8],
-        }
-      }
     const [lastSentPos, setLastSentPos] = useState([0,0]);
     const [dataLoaded,setDataLoaded] = useState(false);//追蹤資料有沒有都抓取成功了
-    const [datacontent,setDatacontent] = useState(resdata3.success);//傳給EventList的資料
+    const [datacontent,setDatacontent] = useState();//傳給EventList的資料
 
     useEffect(() => {
         fetchRestaurants();
@@ -129,31 +89,35 @@ const DistanceScreen = () => {
             if (token) {
                 const location = await Location.getCurrentPositionAsync({});//抓經緯
                 const newCoords = [location.coords.latitude, location.coords.longitude];//新的經緯
+                
                 if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
                     setLastSentPos(newCoords);
-                    const requestdata = {rating:false,userPos:newCoords,};
+                    const requestdata = {
+                        sorting:false,
+                        userPos:newCoords,
+                    };
                     const response = await fetch('http://172.20.10.2:8000/recommend/mycollect/', {//改他
                         method: 'POST',
-                        headers: {'Content-Type': 'application/json',Authorization: `Token ${token}`,},body: JSON.stringify(requestdata)
+                        headers: {'Content-Type': 'application/json',Authorization: `Token ${token}`,},
+                        body: JSON.stringify(requestdata)
                     });
                     if (response.ok) {
                         const responseData = await response.json();//把後端回傳的資料放在responsData
-                        console.log(responseData.success);
                         setDatacontent(responseData.success);
                         setDataLoaded(true);// 在這裡設定資料載入完成的狀態
-                        //const data = responseData.success;
                     } else {
                         console.error('我在Mycollect，後端回傳發生錯誤', response.status);
                     }
                 }else{
                     setDataLoaded(true); // 如果經度和緯度變化不超過0.001，則不發送請求
+                    
                 }
             } else {
-                //console.log('Mycollect未獲取到Token');
-                setDataLoaded(true);
+                console.log('Mycollect未獲取到Token');
+                //setDataLoaded(true);
             }
         } catch (error) {
-            console.error('你是不是連結沒改(我是Mycollect)', error);
+            console.error('你是不是連結沒改?我在Mycollect的第120行', error);
         }
     };
 

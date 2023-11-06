@@ -23,25 +23,28 @@ export default ResInfo = ({navigation}) =>{
 
     const toggleCollect = () => {
       setIsCollected((prevCollected) => (prevCollected === 1 ? 0 : 1));
-      sendcollectState();
+      sendcollectState();//傳token、rID給後端存起來
     };
     const sendcollectState = async () => {//傳token、rID、Collect
       try {
         const userToken = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
         if (userToken) {//抓完token抓定位
-                const requestdata = {rID:rID,collect:isCollected,};
-                const response = await fetch('http://172.20.10.2:8000/recommend/collect/', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json',Authorization: `Token ${userToken}`,},
-                    body: JSON.stringify(requestdata)
-                });
-                if (response.ok) {
-                  Alert.alert("已更新");
-              } else {
-                  console.error('更新收藏店家失敗', response.status);
-              }
+            const requestdata = {
+              rID:rID,
+              collect:isCollected,
+            };
+            const response = await fetch('http://172.20.10.2:8000/recommend/collect/', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json',Authorization: `Token ${userToken}`,},
+              body: JSON.stringify(requestdata)
+            });
+            if (response.ok) {
+              console.log("更新成功");
+            } else {
+              Alert.alert("更新收藏店家失敗");
+            }
         } else {
-          //console.log("你是不是連結媒改?我在res-detail-screen");
+          console.log("你是不是連結媒改?我在res-detail-screen的第44行");
         }
     } catch (error) {
         console.error('res-detail-screen Error sending request:', error);
