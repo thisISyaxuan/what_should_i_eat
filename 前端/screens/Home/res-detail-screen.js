@@ -9,7 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useState } from "react";
 import ImageView from "react-native-image-view";
 import { imag } from '../../data/menu';
-import { Linking } from 'react-native';//超連結
+import { Linking } from 'react-native'; //超連結
 
 
 export default ResInfo = ({navigation}) =>{
@@ -33,7 +33,7 @@ export default ResInfo = ({navigation}) =>{
               rID:rID,
               collect:isCollected,
             };
-            const response = await fetch('http://172.20.10.2:8000/recommend/collect/', {
+            const response = await fetch('http://172.20.10.2:8000/collect/rest/', {
               method: 'POST',
               headers: {'Content-Type': 'application/json',Authorization: `Token ${userToken}`,},
               body: JSON.stringify(requestdata)
@@ -106,7 +106,7 @@ export default ResInfo = ({navigation}) =>{
             <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>
               地址: 
               <TouchableOpacity onPress={() => openGoogleMaps(rAddress)} style={{ textDecorationLine: 'underline', marginLeft: 5 }}>
-              {rAddress}
+              <Text> {rAddress} </Text>
               </TouchableOpacity>
             </Text>
         </View> 

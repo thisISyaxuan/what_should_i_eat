@@ -16,15 +16,12 @@ export default function Mycollect() {
     );
 }
 
-const RatingScreen = () => {
+const RatingScreen = ({route}) => {
     const [lastSentPos, setLastSentPos] = useState([0,0]);
     const [dataLoaded,setDataLoaded] = useState(false);//追蹤資料有沒有都抓取成功了
     const [datacontent,setDatacontent] = useState();//傳給EventList的資料
 
-    useEffect(() => {
-        fetchRestaurants();
-    }, []);
-
+    useEffect(() => {     if (route.name === "評分(高-低)") {       fetchRestaurants();     }   }, [route]);
     
     const fetchRestaurants = async (type) => {//token,boolean,distance
         try {
@@ -39,7 +36,7 @@ const RatingScreen = () => {
                         sorting:true,
                         userPos:newCoords,
                     };
-                    const response = await fetch('http://172.20.10.2:8000/recommend/mycollect/', {//改他
+                    const response = await fetch('http://172.20.10.2:8000/collect/show/', {//改他
                         method: 'POST',
                         headers: {'Content-Type': 'application/json',Authorization: `Token ${token}`,},
                         body: JSON.stringify(requestdata)
@@ -73,14 +70,16 @@ const RatingScreen = () => {
     );
 };
 
-const DistanceScreen = () => {
+const DistanceScreen = ({route}) => {
     const [lastSentPos, setLastSentPos] = useState([0,0]);
     const [dataLoaded,setDataLoaded] = useState(false);//追蹤資料有沒有都抓取成功了
     const [datacontent,setDatacontent] = useState();//傳給EventList的資料
 
     useEffect(() => {
-        fetchRestaurants();
-    }, []);
+        if (route.name === "距離(近-遠)") {
+          fetchRestaurants();
+        }
+      }, [route]);
 
     
     const fetchRestaurants = async (type) => {//token,boolean,distance
@@ -96,7 +95,7 @@ const DistanceScreen = () => {
                         sorting:false,
                         userPos:newCoords,
                     };
-                    const response = await fetch('http://172.20.10.2:8000/recommend/mycollect/', {//改他
+                    const response = await fetch('http://172.20.10.2:8000/collect/show/', {//改他
                         method: 'POST',
                         headers: {'Content-Type': 'application/json',Authorization: `Token ${token}`,},
                         body: JSON.stringify(requestdata)
