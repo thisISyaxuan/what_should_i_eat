@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'userInfo',
     'userLike',
     'click',
+    'collectRest',
 ]
 
 MIDDLEWARE = [

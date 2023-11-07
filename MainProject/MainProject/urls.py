@@ -25,5 +25,6 @@ urlpatterns = [
     path('account/',include('costDetail.urls')),
     path('baby/',include('baby.urls')),
     path('recommend/',include('restaurant.urls')),
-    path('click/',include('click.urls'))
+    path('click/',include('click.urls')),
+    path('collect/', include('collectRest.urls')),
 ]
