@@ -13,6 +13,7 @@ from django.db.models import Sum
 class cost_detail(generics.GenericAPIView):
     serializer_class = CostSerializer
     def post(self, request, *args, **kwargs):
+        print(request.data)
         updated_request = request.data.copy()
         user = request.user
         if user.is_authenticated:
@@ -69,11 +70,17 @@ def cost_record_month(request):
             else:
                 other = other + month_detail[i]['price']
         # 忘記要哪種格式了
+        data = [{'breakfast':breakfast,'lunch':lunch,'dinner':dinner,'other':other}]
         return Response({
-            'breakfast':{'breakfast':breakfast},
-            'lunch':lunch,
-            'dinner':dinner,
-            'other':other,
+            # 'breakfast':{'breakfast':breakfast},
+            # 'lunch': {'lunch': lunch},
+            # 'dinner': {'dinner': dinner},
+            # 'other': {'other': other}
+            'data':data,
+            # 'breakfast':breakfast,
+            # 'lunch':lunch,
+            # 'dinner':dinner,
+            # 'other':other,
             'success': True
         })
     return Response({
