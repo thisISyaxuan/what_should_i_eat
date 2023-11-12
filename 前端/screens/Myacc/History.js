@@ -46,7 +46,8 @@ export default function MyHistory() {
                     if (response.ok) {
                         console.log("response.ok")
                         const responseData = await response.json();//把後端回傳的資料放在responsData
-                        console.log(responseData.success);
+                        console.log(responseData.success.rID);
+                        console.log(responseData.success.collect);
                         setDatacontent(responseData.success);
                         setDataLoaded(true);// 在這裡設定資料載入完成的狀態
                         //const data = responseData.success;

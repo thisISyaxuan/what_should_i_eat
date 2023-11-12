@@ -119,16 +119,6 @@ def deg2rad(degrees):
     radians = degrees * pi / 180
     return radians
 
-def checkCollect(uID, Restaurant):
-    Restaurant.insert(Restaurant.shape[1], 'collect', 0)
-    sql = f"SELECT `rID` FROM `1_user_collectrest` WHERE uID = {uID}"
-    cursor.execute(sql)
-    result = cursor.fetchall() # tuple
-    collect = [item[0] for item in result]
-    for rID in collect:
-        Restaurant.loc[rID, 'collect'] = 1
-    return Restaurant
-
 def replaceAllLabel(Restaurant):
     global labelDict
     # print(Restaurant)
@@ -146,13 +136,13 @@ def main(uID, userPos, sorting):
 #     uID = 1
 #     userPos = [23.96656, 120.96586]
 #     sorting = 0
-
-    collect = get_pd("1_user_collectrest", "collectID", uID)
     Restaurant = get_pd('1_restaurant', "NULL", "NULL")
     NewRLabel = get_pd('1_new_rlabel', 'rID', "NULL")
+    collect = get_pd("1_user_collectrest", "collectID", uID)
     db.close
     print('close')
 
+    # 過濾餐廳
     rID_list = collect['rID'].tolist()
     Restaurant = Restaurant[Restaurant['rID'].isin(rID_list)]
 
@@ -163,13 +153,13 @@ def main(uID, userPos, sorting):
     Restaurant = replaceAllLabel(Restaurant)
     Restaurant = Restaurant.drop(['meal_or_not', 'rLat', 'rLng'], axis=1)
     # print(Restaurant.rID)
-
+    Restaurant.insert(Restaurant.shape[1], 'collect', 1)
     if (sorting): # 評分
         Restaurant = Restaurant.sort_values(by="rMap_Score", ascending=False)
     else:  # 距離
         Restaurant = Restaurant.sort_values(by="distance", ascending=True)
 
-    # print(Restaurant)
+    # print(Restaurant.rID)
     return Restaurant
 
 # if __name__ == '__main__':

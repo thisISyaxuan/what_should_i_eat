@@ -7,7 +7,7 @@ import {images} from '../data/labelImage'
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export default EventItem = ({rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID}) => {
-    const limitRName = rName.length > 20 ? rName.slice(0, 20) + '...' : rName;//字數大於20個字
+    const limitRName = rName.length > 15 ? rName.slice(0, 15) + '...' : rName;//字數大於20個字
     const navigation = useNavigation()
     const imageObject = images.find(image => image.label === labelID);
     //點下去的話

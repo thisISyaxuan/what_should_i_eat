@@ -18,7 +18,7 @@ export default function Baby() {
                     return;
                 }
 
-                const response = await fetch('http://10.1.1.22:8000/api/get_user_money/', {
+                const response = await fetch('http://172.20.10.2:8000/api/get_user_money/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ export default function Baby() {
                 return;
             }
 
-            const response = await fetch('http://10.1.1.22:8000/api/get_user_sign/', {
+            const response = await fetch('http://172.20.10.2:8000/api/get_user_sign/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

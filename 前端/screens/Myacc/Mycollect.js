@@ -52,6 +52,7 @@ const RatingScreen = () => {
                     });
                     if (response.ok) {
                         const responseData = await response.json();//把後端回傳的資料放在responsData
+                        console.log(responseData)
                         setDatacontent(responseData.success);
                         setDataLoaded(true);// 在這裡設定資料載入完成的狀態
                     } else {
@@ -59,7 +60,6 @@ const RatingScreen = () => {
                     }
                 }else{
                     setDataLoaded(true); // 如果經度和緯度變化不超過0.001，則不發送請求
-                    
                 }
             } else {
                 console.log('Mycollect未獲取到Token');

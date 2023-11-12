@@ -65,7 +65,7 @@ const FavLabel = ({navigation}) => {
                 verify_password: verify_password,
                 preferences:preferences,
               };
-              const response = await fetch('http://192.168.1.109:8000/api/Register/', {
+              const response = await fetch('http://172.20.10.2:8000/api/Register/', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'//用json傳
