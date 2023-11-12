@@ -4,6 +4,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import EventList from '../../component/event-list';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from 'expo-location';
+import { ActivityIndicator } from 'react-native';//loading的圖示
 
 export default function Home() {
     const navigation = useNavigation();
@@ -15,16 +16,9 @@ export default function Home() {
 
     useEffect(() => {
         if (data.success != 2){//從篩選條件返回的參數
-            //console.log("我是Home,剛剛在篩選條件頁面得到參數:",data);// {"DistanceSort": false, "LabelFilter": "麵食", "MealFilter": -1, "RatingSort": true, "TimeFilter": true, "userPos": [23.01, 120.01]}}
-            console.log("home20");
-            console.log(data.success.rMap_Score);
-            console.log("home20");
-            console.log(data.success.rID);
-            console.log("home20");
             setDatacontent(data.success);
             setDataLoaded(true);
         }else{
-            //console.log("我是Home,從其他頁面過來的")
             //從其他頁面進來的
             checkLocationPermission();
             fetchRestaurants(); // 執行上面的函數
@@ -107,11 +101,14 @@ export default function Home() {
         console.log("?");
       };
 
-
     return (
         <View style={styles.container}>
-            {/* 將餐廳資料傳給EventList組件 */}
-            {dataLoaded ? <EventList data={datacontent} onRefresh={handleRefresh}/> : null}
+            <View style={styles.loadingContainer}>
+                {dataLoaded ? 
+                (<EventList data={datacontent} onRefresh={handleRefresh}/>) : 
+                (<ActivityIndicator size="large" color="#338168" />)
+                }
+            </View>
         </View>
     );
 }
@@ -119,6 +116,17 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F5F5F5',
+        position: 'relative', // 新增的屬性
+    },
+    loadingContainer: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 0.7)', // loading在一個半透明的背景上
     },
     text:{
         fontSize:50,

@@ -235,14 +235,15 @@ const SearchRes = ({navigation}) => {
     </View>
     <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end' }}>
       
-    {isLoading ? (
-      <ActivityIndicator size="large" color="#0000ff" />
-      ) : (
-      <TouchableOpacity style={{ ...styles.searchButton}} onPress={searchRestaurants}>
-      <Text style={styles.buttonText}>搜尋</Text>
-      </TouchableOpacity>
-    )}
-
+    <View style={styles.loadingContainer}>
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#338168" />
+        ) : (
+        <TouchableOpacity style={{ ...styles.searchButton}} onPress={searchRestaurants}>
+        <Text style={styles.buttonText}>搜尋</Text>
+        </TouchableOpacity>
+      )}
+    </View>  
 
   </View>
     </SafeAreaView>
@@ -254,6 +255,17 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: '#fff',
+    position: 'relative', // 新增的屬性
+  },
+  loadingContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)', // loading在一個半透明的背景上
   },
   header: {
     marginTop:-45,

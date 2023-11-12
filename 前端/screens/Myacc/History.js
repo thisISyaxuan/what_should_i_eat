@@ -84,10 +84,12 @@ export default function MyHistory() {
 
     return (
         <View style={styles.container}>
-            {dataLoaded ? 
-                (<EventList data={datacontent} />) : 
-                (<ActivityIndicator size="large" color="#0000ff" />)
-            }
+            <View style={styles.loadingContainer}>
+              {dataLoaded ? 
+                  (<EventList data={datacontent} />) : 
+                  (<ActivityIndicator size="large" color="#338168" />)
+              }
+            </View>
         </View>
         
     );
@@ -100,24 +102,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#f4f4f4',
         paddingTop: '4%',
+        position: 'relative', // 新增的屬性
     },
-    card: {
-//        width: screenWidth * 0.8,
-        height: 150,
-        flexDirection: 'row',
-        backgroundColor: 'white',
-        borderRadius: 10,
-        padding: 10,
-        marginBottom: 10,
+    loadingContainer: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         alignItems: 'center',
-    },
-    cardLeft: {
-        flex: 1,
-        justifyContent: 'space-between',
-        paddingLeft: '4%',
-    },
-    cardRight: {
-        width: '50%',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 0.7)', // loading在一個半透明的背景上
     },
     shopImage: {
         width: '100%',
