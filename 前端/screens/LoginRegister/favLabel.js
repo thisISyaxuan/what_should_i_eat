@@ -30,18 +30,14 @@ const FavLabel = ({navigation}) => {
         <View style={styles.circle}>
           <TouchableOpacity style={styles.image} onPress={() => togglePreference(item.label)}>
             <Image style={styles.pic} source={item.image} />
-
             {isSelected && (
-          <View style={styles.overlay}>
-            <Image
-              source={require('../../assets/images/checked.png')}
-              style={styles.overlayImage}
-            />
-          </View>
-        )}
+            <View style={styles.overlay}>
+              <Image source={require('../../assets/images/checked.png')} style={styles.overlayImage} />
+            </View>
+            )}
           </TouchableOpacity>
-          <View  style={styles.money}>
-            <Text style={[{color:'black',}]}>{item.label}</Text></View>
+          <View  style={styles.money}><Text style={[{color:'black',}]}>{item.label}</Text>
+          </View>
         </View>
       )
       
@@ -100,7 +96,7 @@ const FavLabel = ({navigation}) => {
     return (
         <View style={styles.container}>
             <View style={styles.hone}>
-                <Text style={[{color:'black',fontSize:20,fontWeight:'bold',padding:10}]}>再多選幾個你喜歡的餐飲類別</Text>
+                <Text style={[{color:'black',fontSize:20,fontWeight:'bold',padding:10}]}>勾選五個以上你的餐飲類別</Text>
             <FlatList
                 data={images}
                 renderItem={renderItem}
@@ -136,7 +132,8 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 40,
         alignItems: 'center',
-        marginBottom:50,
+        marginTop:30,
+        marginBottom:30,
     },
     listContainer: {
         flexGrow: 1,
@@ -150,7 +147,7 @@ const styles = StyleSheet.create({
     circle: {
         flexDirection: 'column',
         width: '33%',
-        height:140,
+        height:150,
         alignItems: 'center', 
     },
     image: {
@@ -165,23 +162,21 @@ const styles = StyleSheet.create({
         backgroundColor: '#F6D58A',
     },
     overlay: {
-      position: 'absolute', // 使用绝对定位将叠加图片放在圆圈上方
-      top: 5, // 控制叠加图片的位置，可以根据需要微调
+      position: 'absolute', //把疊加圖片放在圓圈上方
+      top: 5, //控制疊加綠色圖片的位置，可以根據需要微調
       alignItems: 'center',
       justifyContent: 'center',
       width: '100%',
       height: '100%',
     },
     overlayImage: {
-      width: '100%', // 根据需要的尺寸调整
-      height: '100%', // 根据需要的尺寸调整
-      opacity: 0.7, // 控制叠加图片的透明度
+      width: '100%',
+      height: '100%',
+      opacity: 0.7, //控制疊加綠色圖片的透明度
     },
     money:{
-        marginTop: 'auto',
         flexDirection: 'row',
         padding:5,
-        width:200,
         alignItems: 'center', 
         justifyContent: 'center',
         
@@ -202,5 +197,4 @@ const styles = StyleSheet.create({
     },
 });
 
-// 導出該組件供其他組件使用
 export default FavLabel;

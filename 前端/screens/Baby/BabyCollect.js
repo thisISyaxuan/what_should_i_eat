@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     circle: {
         flexDirection: 'column',
         width: '33%',
-        height: 140,
+        height: 150,
         alignItems: 'center',
     },
     image: {

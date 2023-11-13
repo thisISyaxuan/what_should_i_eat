@@ -4,6 +4,7 @@ import { globalStyles } from '../../styles/global';
 import { useState } from "react";
 import { Switch } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+
 export default function Register({navigation}) {
   const [username, setUsername] = useState('');
   const [gender, setGender] = useState(1);
@@ -25,6 +26,9 @@ export default function Register({navigation}) {
     } else if (selectedGender === '女生') {
       setGender(0);
     }
+  };
+  const handleDateChange = (date) => {
+    setBirthday(date);
   };
   const handleRegister = async () => {
       if (username === '' || birthday === '' || phone_number === '' || address === '' || email === '') {
@@ -77,6 +81,7 @@ export default function Register({navigation}) {
             placeholder='生日:  2000-01-01'
             onChangeText={text => setBirthday(text)}
           />
+
           <TextInput 
             style={globalStyles.input}
             placeholder='手機:'

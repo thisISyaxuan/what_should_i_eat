@@ -15,6 +15,7 @@ export default function Home() {
     const [datacontent, setDatacontent] = useState();//傳給EventList的資料
 
     useEffect(() => {
+        
         if (data.success != 2){//從篩選條件返回的參數
             setDatacontent(data.success);
             setDataLoaded(true);
@@ -22,6 +23,7 @@ export default function Home() {
             //從其他頁面進來的
             checkLocationPermission();
             fetchRestaurants(); // 執行上面的函數
+            
     }
     }, [data]);
     const checkLocationPermission = async () => {//先檢查定位有沒有被開啟

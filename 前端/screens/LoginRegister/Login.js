@@ -13,8 +13,8 @@ export default function Login({navigation}) {
 
   const checkTokenAndNavigate = async () => {
     try {
-      await AsyncStorage.removeItem('userToken');
-//      const token = await AsyncStorage.getItem('userToken');
+      //await AsyncStorage.removeItem('userToken');
+      const token = await AsyncStorage.getItem('userToken');
       if (token) {
         navigation.navigate('ButtomTabStack');
       }else{

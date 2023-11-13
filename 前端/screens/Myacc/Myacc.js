@@ -621,30 +621,30 @@ export default function Myacc() {
         <View style={[styles.OutCol]}>
           <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("任務清單")}>
             <Ionicons name="person-circle-outline" size={50} color={'#C0C0C0'}/>
-            <Text style={globalStyles.TextSize}>個人資訊</Text>
+            <Text style={{fontSize:18,}}>個人資訊</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("任務清單")}>
             <Ionicons name="megaphone-outline" size={50} color={'#C0C0C0'}/>
-            <Text style={globalStyles.TextSize}>最新公告</Text>
+            <Text style={{fontSize:18,}}>最新公告</Text>
           </TouchableOpacity>
         </View>
         
         <View style={[styles.OutCol]}>
             <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("我的收藏")}>
             <Ionicons name="heart-circle-outline" size={50} color={'#C0C0C0'}></Ionicons>
-            <Text style={globalStyles.TextSize}>我的收藏</Text></TouchableOpacity>
+            <Text style={{fontSize:18,}}>我的收藏</Text></TouchableOpacity>
             <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("瀏覽紀錄")}>
             <Ionicons name="time-outline" size={50} color={'#C0C0C0'}></Ionicons>
-            <Text style={globalStyles.TextSize}>瀏覽紀錄</Text></TouchableOpacity>
+            <Text style={{fontSize:18,}}>瀏覽紀錄</Text></TouchableOpacity>
         </View>
 
         <View style={[styles.OutCol]}>
             <TouchableOpacity style={[styles.infoCol]}>
             <Ionicons name="document-text-outline" size={50} color={'#C0C0C0'}></Ionicons>
-            <Text style={globalStyles.TextSize}>隱私政策與條款</Text></TouchableOpacity>
+            <Text style={{fontSize:18,}}>隱私政策與條款</Text></TouchableOpacity>
             <TouchableOpacity style={[styles.infoCol]}>
             <Ionicons name="help-circle-outline" size={50} color={'#C0C0C0'}></Ionicons>
-            <Text style={globalStyles.TextSize}>常見問題與說明</Text></TouchableOpacity>
+            <Text style={{fontSize:18,}}>常見問題與說明</Text></TouchableOpacity>
         </View>   
           
         <View style={[globalStyles.Gocenter, {padding:50}]}>
@@ -697,17 +697,16 @@ const styles = StyleSheet.create({
     justifyContent:'space-around',
   },
   infoCol: {
-    marginBottom: 5,
-    marginVertical: 5,
-    borderBottomColor: '#CCCCCC',
-    paddingBottom: 5,
-    backgroundColor:'white',
-    padding:10,
-    width:"45%",
     borderRadius:20,
+    width:"45%",
+    backgroundColor:'white',
+    marginBottom: 10,//框外距離
+    marginVertical: 5,//第一個框到最上面的距離
+    padding:10,
     height:100,
-    alignItems:'center',
     justifyContent:'center',
+    alignContent:'center',
+    alignItems:'center',
   },
   m:{marginTop:30,padding:10,justifyContent:'space-between'},
   logout:{
