@@ -1,3 +1,4 @@
+//90行有清除資料
 //第13行userToken註解拿掉
 //第55行註解拿掉
 //第67行改api
@@ -86,6 +87,7 @@ export default function AddCash() {
                 {
                     text: 'OK',
                     onPress: () => {
+                      ClearAllData();
                       navigation.goBack();
                     },
                 },

@@ -4,6 +4,8 @@ import { globalStyles } from '../../styles/global';
 import { useState } from "react";
 import { Switch } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { AntDesign } from '@expo/vector-icons'; 
 
 export default function Register({navigation}) {
   const [username, setUsername] = useState('');
@@ -15,6 +17,7 @@ export default function Register({navigation}) {
   const [password, setPassword] = useState('');
   const [verify_password, setverify_Password] = useState('');
   const [isChecked, setIsChecked] = useState(true);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   //const navigation = useNavigation();
 
   const handleSwitchToggle = () => {
@@ -27,8 +30,9 @@ export default function Register({navigation}) {
       setGender(0);
     }
   };
-  const handleDateChange = (date) => {
-    setBirthday(date);
+  const handleConfirm = (date) => {
+    setBirthday(date.toISOString().split('T')[0]); //'YYYY-MM-DD'
+    setDatePickerVisibility(false);
   };
   const handleRegister = async () => {
       if (username === '' || birthday === '' || phone_number === '' || address === '' || email === '') {
@@ -54,60 +58,60 @@ export default function Register({navigation}) {
       <SafeAreaView style={styles.container}>
       <Text style={styles.h2text}> 註冊新帳號 </Text>
     <View style={styles.content}>
-    <TextInput 
-            style={globalStyles.input}
-            placeholder='帳號:'
-            onChangeText={text => setUsername(text)}
-          />
-          <View style={[globalStyles.input, { flexDirection: 'row', alignItems: 'center' }]}>
-              <Text style={[styles.label, { color: '#C0C0C0' }]}>性別:   </Text>
-              <TouchableOpacity
-                  style={[styles.button, gender === 1 && styles.activeButton]}
-                  onPress={() => handleGenderSelection("男生")}
-              >
-              <Text style={[styles.buttonText, gender === '男生' && styles.activeButtonText]}>男生</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                  style={[styles.button, gender === 0 && styles.activeButton]}
-                  onPress={() => handleGenderSelection("女生")}
-              >
-              <Text style={[styles.buttonText, gender === '女生' && styles.activeButtonText]}>女生</Text>
-              </TouchableOpacity>
-            </View>
 
-           
-          <TextInput 
-            style={globalStyles.input}
-            placeholder='生日:  2000-01-01'
-            onChangeText={text => setBirthday(text)}
-          />
+    <View style={[globalStyles.input,{flexDirection:'row', alignItems: 'center' }]}>
+      <Text>帳號:</Text>
+      <TextInput
+        value={username}
+        placeholder='  請設定您的帳號'
+        onChangeText={text => setUsername(text)}
+      />
+    </View>
+    
+    <View style={[globalStyles.input, { flexDirection: 'row', alignItems: 'center' }]}>
+      <Text style={styles.label}>性別:   </Text>
+      <TouchableOpacity style={[styles.button, gender === 1 && styles.activeButton]} onPress={() => handleGenderSelection("男生")} >
+        <Text style={[styles.buttonText, gender === '男生' && styles.activeButtonText]}>男生</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={[styles.button, gender === 0 && styles.activeButton]} onPress={() => handleGenderSelection("女生")} >
+        <Text style={[styles.buttonText, gender === '女生' && styles.activeButtonText]}>女生</Text>
+      </TouchableOpacity>
+    </View>
+            
+    <View style={{flexDirection:'row',borderBottomWidth: 1, borderColor:'#777', padding:8, margin:10, width:250,justifyContent:'space-between', alignItems: 'center' }}> 
+      <View style={{flexDirection:'row'}}>
+        <Text>生日:</Text>
+        <TextInput value={birthday} style={{}} placeholder='  2000-01-01' onChangeText={text => setBirthday(text)} />
+      </View>
+      <AntDesign name="calendar" size={24} color="black" onPress={() => setDatePickerVisibility(true) }/>
+        <DateTimePickerModal isVisible={isDatePickerVisible} mode="date"  onConfirm={handleConfirm} onCancel={() => setDatePickerVisibility(false)}/>
+    </View>
 
-          <TextInput 
-            style={globalStyles.input}
-            placeholder='手機:'
-            onChangeText={text => setPhone(text)}
-            keyboardType='numeric'
-          />
-          <TextInput 
-            style={globalStyles.input}
-            placeholder='地址:'
-            onChangeText={text => setAddress(text)}
-          />
-          <TextInput 
-            style={globalStyles.input}
-            placeholder='電子郵件:'
-            onChangeText={text => setEmail(text)}
-          />
-          <TextInput 
-            style={globalStyles.input}
-            placeholder='輸入密碼:'
-            onChangeText={text => setPassword(text)}
-          />
-          <TextInput 
-            style={globalStyles.input}
-            placeholder='確認密碼:'
-            onChangeText={text => setverify_Password(text)}
-          />
+    <View style={[globalStyles.input,{flexDirection:'row', alignItems: 'center' }]}>
+      <Text>手機:</Text>
+      <TextInput placeholder="  請輸入您的行動電話" onChangeText={text => setPhone(text)} keyboardType='numeric' />
+    </View>
+
+    <View style={[globalStyles.input,{flexDirection:'row', alignItems: 'center' }]}>
+      <Text>地址:</Text>
+      <TextInput  placeholder='  請輸入您的地址' onChangeText={text => setAddress(text)} />
+    </View>
+
+    <View style={[globalStyles.input,{flexDirection:'row', alignItems: 'center' }]}>
+      <Text>電子郵件:</Text>
+      <TextInput  placeholder='  請輸入您的電子郵件' onChangeText={text => setEmail(text)} />
+    </View>
+
+    <View style={[globalStyles.input,{flexDirection:'row', alignItems: 'center' }]}>
+      <Text>輸入密碼:</Text>
+      <TextInput placeholder='  請設定您的密碼' onChangeText={text => setPassword(text)} />
+    </View>
+          
+    <View style={[globalStyles.input,{flexDirection:'row', alignItems: 'center' }]}>
+      <Text>確認密碼:</Text>
+      <TextInput placeholder='  請確認您的密碼' onChangeText={text => setverify_Password(text)} />
+    </View>
+
         <View style={styles.agree}>
         <Switch value={isChecked}
                 onValueChange={handleSwitchToggle}

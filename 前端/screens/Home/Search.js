@@ -18,8 +18,6 @@ const SearchRes = ({navigation}) => {
   const [rating, setRatingSort] = useState(false);//Rating Sort
   const [userPos,setuserPos] = useState([23.01,120.01]);
   const [isLoading, setIsLoading] = useState(false);//等待的變數
-
-
   const resdata1 = {//現在後端的資料是這個
     "success": {
       "rName": ["叮叮風味健康餐盒","中山壽司","原住民冰店","阿胖師便當","不良鍋燒專門店","堪吉郎（埔里店）",
@@ -31,23 +29,9 @@ const SearchRes = ({navigation}) => {
       "collect": [1,1,1,1,0,0,0,0],
       "distance": [0.65,0.65,0.68,0.72,0.73,0.75,0.86,0.86,],
       "rID": [174,237,654,7,28,32,148,152,],
-      "labelID":[1,2,3,4,5,6,7,8],
+      "BigLabel":['中式','健康餐','日式','中式','健康餐','日式','中式','健康餐'],
     }
   }
-
-  const resdata2 = {
-    "rName": ["叮叮風味健康餐盒","中山壽司","原住民冰店","阿胖師便當","不良鍋燒專門店","堪吉郎（埔里店）",
-        "298快餐","埔里美食 蔡家 排肉飯",],
-        "rMap_Score": [5.0,5.0,5.0,5.0,4.9,4.9,4.9,4.9,],
-        "rPhone": ["0910532789","0492990160","0928072795","0988042919","0492423606","0937242704","0960684957","0976026355",],
-        "rAddress": ["54543南投縣埔里鎮北環路36號","545南投縣埔里鎮中山路二段312號","545南投縣埔里鎮隆生路96之15號","545南投縣埔里鎮中山路二段229號","545南投縣埔里鎮中正路367號","545南投縣埔里鎮慈恩街10號","545南投縣埔里鎮中山路二段316號1樓","54555南投縣埔里鎮西安路一段87號",],
-        "open": [1,1,1,1,-1,-1,-1,-1,],
-        "collect": [1,1,1,1,0,0,0,0],
-        "distance": [0.65,0.65,0.68,0.72,0.73,0.75,0.86,0.86,],
-        "rID": [174,237,654,7,28,32,148,152,],
-        "labelID":[1,2,3,4,5,6,7,8],
-  }
-  
   const resetToDefault = () => {//按下預設按鈕
     setSortOption('系統推薦');
     setIsOpen('全部');
@@ -317,7 +301,8 @@ const styles = StyleSheet.create({
     
   },
   activeSortButtonText: {
-    color: '#fff',
+    color: 'black',
+    fontWeight:'bold',
   },
   isOpenButtonsContainer: {
     flexDirection: 'row',
@@ -340,7 +325,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   activeIsOpenButtonText: {
-    color: '#fff',
+    color: 'black',
+    fontWeight:'bold',
   },
   isMealButtonsContainer: {
     flexDirection: 'row',
@@ -363,7 +349,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   activeIsMealButtonText: {
-    color: '#fff',
+    color: 'black',
+    fontWeight:'bold',
   },
   picker: {
     height: 50,
@@ -378,7 +365,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    color: '#fff',
+    color: 'black',
+    fontWeight:'bold',
   },
   pickerContainer: {
     borderWidth: 1,

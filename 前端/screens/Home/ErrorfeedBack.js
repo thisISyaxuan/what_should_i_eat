@@ -14,11 +14,11 @@ const Errorfb = () => {
   const [menuFile, setMenuFile] = useState('');
   const [otherInfo, setOtherInfo] = useState('');
   const handleSubmit = () => {
+    ClearALL();
     Alert.alert('提交成功!');
     navigation.goBack();
   };
   const ClearALL = () => {
-    console.log('全部清空');
     setPhone(rPhone);
     setAddress(rAddress);
     setBusinessHours('');
@@ -69,6 +69,7 @@ const Errorfb = () => {
           />
         </View>
       </View>
+      
       <Text style={styles.label}>菜單更新</Text>
       <View style={styles.rowfile}>
         

@@ -16,10 +16,11 @@ export const globalStyles = StyleSheet.create({
     },
   input:{//輸入盒的外觀
     borderBottomWidth: 1,
-        borderColor:'#777',
-        padding:8,
-        margin:10,
-        width:250,
+    borderColor:'#777',
+    padding:8,
+    margin:10,
+    width:250,
+    flexDirection:'row',
     },
   Btn: {//包圍綠跟紅的框框按鈕
       flexDirection: 'row',

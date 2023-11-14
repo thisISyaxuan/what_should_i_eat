@@ -13,11 +13,8 @@ export default EventItem = ({rID,rName,rMap_Score,rPhone,rAddress,open,collect,d
     //點下去的話
     const ClickResName = async () => {
       try {
-        console.log('try 裡面')
         const userToken = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
-        console.log('123')
         if (userToken) {//抓時間，token，rID
-          console.log('if ok')
           const currentDate = new Date();//先抓時間 格式為年-月-日-時-分-秒
           const formattedTime = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}-${currentDate.getHours()}-${currentDate.getMinutes()}-${currentDate.getSeconds()}`;
           const postdata = {
@@ -40,7 +37,7 @@ export default EventItem = ({rID,rName,rMap_Score,rPhone,rAddress,open,collect,d
             Alert.alert("發生錯誤，請再試一次");
           }
         }else{
-          console.log("抓不到token")
+          navigation.navigate("餐廳資訊",{rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID})
         }
       }catch{
         console.log('43 行')

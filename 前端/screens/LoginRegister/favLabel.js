@@ -96,7 +96,7 @@ const FavLabel = ({navigation}) => {
     return (
         <View style={styles.container}>
             <View style={styles.hone}>
-                <Text style={[{color:'black',fontSize:20,fontWeight:'bold',padding:10}]}>勾選五個以上你的餐飲類別</Text>
+                <Text style={[{color:'black',fontSize:20,fontWeight:'bold',padding:10}]}>勾選五個以上你喜歡的類別</Text>
             <FlatList
                 data={images}
                 renderItem={renderItem}

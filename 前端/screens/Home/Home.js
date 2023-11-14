@@ -14,6 +14,8 @@ export default function Home() {
     const [dataLoaded,setDataLoaded] = useState(false);//追蹤資料有沒有都抓取成功了
     const [datacontent, setDatacontent] = useState();//傳給EventList的資料
 
+
+
     useEffect(() => {
         
         if (data.success != 2){//從篩選條件返回的參數

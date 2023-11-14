@@ -7,9 +7,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useState } from "react";
-import ImageView from "react-native-image-view";
 import { imag } from '../../data/menu';
 import { Linking } from 'react-native'; //超連結
+//import ImageView from "react-native-image-viewing";
+//npm install --save react-native-image-viewing
 
 
 export default ResInfo = ({navigation}) =>{
@@ -19,7 +20,6 @@ export default ResInfo = ({navigation}) =>{
     const [modalVisible, setModalVisible] = useState(false);
     const menuImg = imag.find(image => image.imgID === (rID).toString());
     
-    const images = [];
 
     const toggleCollect = () => {
       setIsCollected((prevCollected) => (prevCollected === 1 ? 0 : 1));
@@ -51,15 +51,15 @@ export default ResInfo = ({navigation}) =>{
         console.error('res-detail-screen Error sending request:', error);
     }
     }
-    const openGoogleMaps = (address) => {
-      const formattedAddress = address.replace(' ', '+'); // 把地址中有空格的地方替換為+號以構建 Google 地圖 URL
-      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${formattedAddress}`;
+    const openGoogleMaps = (resname) => {
+      const formattedResName = resname.replace(' ', '+'); // 把地址中有空格的地方替換為+號以構建 Google 地圖 URL
+      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${formattedResName}`;
       Linking.openURL(mapUrl)
         .then((result) => {
           if (result) {
             console.log('已打開 Google 地圖');
           } else {
-            console.error('無法打開 Google 地圖');
+            console.log('無法打開 Google 地圖');
           }
         })
         .catch((error) => {
@@ -67,6 +67,7 @@ export default ResInfo = ({navigation}) =>{
           Alert("發生錯誤，請稍後再試一次");
         });
     };
+    
     return(
         <View style={styles.container}>
             <View style={styles.title}>
@@ -74,27 +75,40 @@ export default ResInfo = ({navigation}) =>{
             <TouchableOpacity onPress={toggleCollect} style={{flex:3, alignItems: 'flex-end'}}>{isCollected === 1 ? <Ionicons name="heart" size={45} color={'red'} /> : <Ionicons name="heart-outline" size={45} color={'#C0C0C0'} />}</TouchableOpacity>
             </View>
                 <View style={{ borderTOPColor: 'gray', borderBottomWidth: 1 ,width:'100%'}}></View>
-            <ScrollView horizontal showsVerticalScrollIndicator={false} style={{borderTopWidth:0.5, borderTopColor:'gray', borderBottomWidth:1, borderBottomColor:'gray', top:20}}>
+            <ScrollView horizontal showsVerticalScrollIndicator={false} style={{borderTopWidth:0.5, borderTopColor:'gray', borderBottomWidth:1, top:20}}>
               <View>
-              <TouchableOpacity style={{ width: 250, height: 250, margin: 7, justifyContent: 'center', alignItems: 'center' }} onPress={() => setModalVisible(true)}>
                 {menuImg ? (
+                <TouchableOpacity style={{ width: 250, height: 250, margin: 7, justifyContent: 'center', alignItems: 'center' }} onPress={() => setModalVisible(true)}>
                 <Image source={menuImg.image} style={{ width: '100%', height: '100%' }} />
-                ) : (<Text>暫無照片</Text>)}
-              </TouchableOpacity>
+                </TouchableOpacity>
+                
+                ) : (
+                <TouchableOpacity style={{ width: 250, height: 250, margin: 7, justifyContent: 'center', alignItems: 'center' }}>
+                <Text>暫無照片</Text></TouchableOpacity>
+                )
+              }
               </View>
             </ScrollView>
-
-            <View style={styles.centeredView}>
-              <Modal  animationType="slide" transparent={true} visible={modalVisible} 
-                      onRequestClose={() => {
-                        Alert.alert('Modal has been closed.');
-                        setModalVisible(!modalVisible); 
-                      }}> 
-                  <ImageView images={images} imageIndex={0}  visible={modalVisible}
-                      onRequestClose={() => setModalVisible(!modalVisible)}/>
-              </Modal>
-            </View>
             
+            <Modal  style={styles.centeredView} animationType="slide" transparent={true} visible={modalVisible} >
+              <View style={styles.modalContainer}>
+                <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(!modalVisible)}>
+                  <Text style={{fontSize:23,color:'white',fontWeight:'bold'}}>X</Text>
+                </TouchableOpacity>
+                {menuImg ? (
+                <Image source={menuImg.image} style={{ width: '100%', height: '100%',resizeMode:'contain', }} onRequestClose={() => setModalVisible(!modalVisible)}/>
+                ) : null}
+              </View>
+            </Modal>
+
+
+            {/*
+              <ImageView images={images} imageIndex={0}  visible={modalVisible}
+                      onRequestClose={() => setModalVisible(!modalVisible)}/>
+            */}
+
+
+            <View style={{height:50}}><Text> </Text></View>
             <View style={{ borderBottomColor: 'gray', borderBottomWidth: 1 ,width:'100%'}}></View>
             <View style={styles.output}>
             <View style={{flexDirection: 'row', height: 50, flex: 2}}>
@@ -103,13 +117,20 @@ export default ResInfo = ({navigation}) =>{
             </View>
             <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>評分: {rMap_Score} 顆星</Text>
             <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>距離: {distance}km</Text>
-            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>電話: {rPhone}</Text>
-            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>
+
+            <TouchableOpacity onPress={() => Linking.openURL(`tel:${rPhone}`)}>
+              <Text style={{ fontSize: 18, height: 30 }}>
+                電話: 
+                <Text style={{ fontSize:18,height: 30,textDecorationLine: 'underline',color:'blue'}}> {rPhone} </Text>
+              </Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity onPress={() => openGoogleMaps(rName)}>
+            <Text style={{fontSize:18, height: 30}}>
               地址: 
-              <TouchableOpacity onPress={() => openGoogleMaps(rAddress)} style={{ textDecorationLine: 'underline', marginLeft: 5 }}>
-              <Text> {rAddress} </Text>
-              </TouchableOpacity>
+              <Text style={{ fontSize:18,height: 30,textDecorationLine: 'underline',color:'blue'}}> {rAddress} </Text>
             </Text>
+            </TouchableOpacity>
         </View> 
 
         <View style={styles.bottom}>
@@ -134,6 +155,24 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+    modalContainer: {
+      position: "relative",
+      width: "100%",
+      height: "100%",
+      
+      backgroundColor:'black',
+    },
+    closeButton: {
+      position: "absolute",
+      top: 100,
+      right: 30,
+      zIndex: 2,
+      backgroundColor:'gray',
+      borderRadius:50,
+      height:25,
+      width:25,
+      alignItems:'center',
+    },
     container: {
         flex: 1,
         flexDirection: 'column',
@@ -148,6 +187,7 @@ const styles = StyleSheet.create({
         alignItems:"center",
       },
       output: {
+
         top:10,
         width: '90%',
         flexDirection: 'column',
@@ -184,7 +224,6 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 22,
       },
       modalView: {
         margin: 20,
