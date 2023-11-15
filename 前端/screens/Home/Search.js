@@ -62,7 +62,6 @@ const SearchRes = ({navigation}) => {
     }else{
       try {
         const userToken = await AsyncStorage.getItem('userToken');//先抓token
-        console.log("我在第73行", userToken)
         if (userToken) {
           let location = await Location.getCurrentPositionAsync({});
           const currentUserPos = [location.coords.latitude, location.coords.longitude];
@@ -75,7 +74,6 @@ const SearchRes = ({navigation}) => {
             DistanceSort: distance,
             RatingSort: rating
           };
-          console.log(data)
           const response = await fetch('http://172.20.10.2:8000/recommend/restaurant/', {//改連結
           method: 'POST',
           headers: {
@@ -83,12 +81,19 @@ const SearchRes = ({navigation}) => {
             Authorization: `Token ${userToken}`,
           },
           body: JSON.stringify(data),
-        });
+          });
         const responseData = await response.json();//後端回傳資料
         console.log("後端回傳的responseData為:",responseData);
-        navigation.navigate('餐廳探索',{data : responseData});//把資料傳到餐廳探索
+        navigation.navigate('餐廳探索',{data:{data : responseData,filter : data}});//把資料傳到餐廳探索
         }else{
-        navigation.navigate('餐廳探索',{data: resdata1});
+          const data = {//要傳給後端的資料
+            TimeFilter: isOpen === '營業中' ? true : false,
+            MealFilter: isMeal === '全部' ? -1 : (isMeal === '正餐' ? 1 : 0),
+            LabelFilter: selectedValue,
+            DistanceSort: distance,
+            RatingSort: rating
+          };
+        navigation.navigate('餐廳探索',{data:{data : resdata1,filter : data}});
         }
       } catch (error) {
         console.error('Search Error sending request:', error);
