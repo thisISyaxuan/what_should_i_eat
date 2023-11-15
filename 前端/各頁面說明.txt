@@ -1,32 +1,8 @@
-[Search頁面]
-初始化先檢查有沒有開定位
-按下搜尋後:
-1.抓token
-2.抓定位
-3.傳給後端資料
-4.後端回傳相應資料
-5.將後端參數傳至餐廳探索、導航至餐廳探索
 
-[Home頁面]
-一、從篩選條件傳參數過來
-將後端資料傳給EventList
-二、從其他頁面進來
-1.先檢查定位有沒有開啟
-2.抓token
-3.抓定位
-4.後端回傳相應資料
-5.將後端參數傳至餐廳探索、導航至餐廳探索//這部分有可能有錯!!!
-
-[EventList]
-會收到的資訊長這樣:{"distance": [0.65, 0.65], "open": [-1, -1], "rAddress": ["545南投縣埔里鎮南盛街11....
-把各參數傳給EventItem作呈現
-
-[EventItem]
-
-///////
 
 1. npm i expo-location --force
 2. npm i @react-native-async-storage/async-storage --force
 3. npm install react-datepicker --save
 4. npm i react-native-modal-datetime-picker --force
 5. npx expo install react-native-modal-datetime-picker @react-native-community/datetimepicker --force
+6. npx expo install expo-image-picker

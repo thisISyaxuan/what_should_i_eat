@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, StyleSheet,TouchableWithoutFeedback,Keyboard } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, StyleSheet,TouchableWithoutFeedback,Keyboard,Image } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute } from "@react-navigation/native";
 import { globalStyles } from '../../styles/global';
 import { Alert } from 'react-native';
+import * as ImagePicker from "expo-image-picker";
+import { launchCamera } from 'react-native-image-picker';
+
+//import ImagePicker from 'react-native-image-picker';
+//import { launchCamera,launchImageLibrary } from 'react-native-image-picker';
+//npm i react-native-image-picker
 const Errorfb = () => {
   const route = useRoute()
   const {rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID} = route.params
@@ -13,6 +19,8 @@ const Errorfb = () => {
   const [businessHours, setBusinessHours] = useState('');
   const [menuFile, setMenuFile] = useState('');
   const [otherInfo, setOtherInfo] = useState('');
+  const [modalvisible,setmodalvisible] = useState(false);
+  const [image, setImage] = useState(null);
   const handleSubmit = () => {
     ClearALL();
     Alert.alert('提交成功!');
@@ -23,7 +31,22 @@ const Errorfb = () => {
     setAddress(rAddress);
     setBusinessHours('');
     setOtherInfo('');
+    setImage(null);
   };
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      delete result.cancelled;
+      setImage(result.assets[0].uri);
+    }
+  }
   const navigation = useNavigation();
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
@@ -71,15 +94,30 @@ const Errorfb = () => {
       </View>
       
       <Text style={styles.label}>菜單更新</Text>
-      <View style={styles.rowfile}>
+      <View style={[styles.rowfile,{flexDirection:'row', position: 'relative'}]}>
         
-        <TouchableOpacity style={styles.fileButton}>
-          <Text style={[styles.buttonText, { color: 'white' }]}>選擇檔案</Text>
-        </TouchableOpacity>
+        <View style={styles.file}>
+        <TouchableOpacity style={styles.fileButton} onPress={() => pickImage()}>
+          <Text style={[styles.buttonText, { color: 'white' }]}>選擇檔案</Text>          
+        </TouchableOpacity></View>
+
+        <View style={{marginLeft:50}}>
+        {image && 
+        ( 
+        <View style={{ position: 'absolute', top: 0, right: 0 ,zIndex:2}}> 
+            <TouchableOpacity style={{backgroundColor:'gray', borderRadius:50, height:25, width:25, alignItems:'center',}} onPress={() => setImage(null)}>
+                <Text style={{ color: 'white', fontSize: 18 }}>X</Text>
+            </TouchableOpacity>
+        </View>
+        )}
+        {image && <Image source={{ uri: image }} style={{ width: 80, height: 80 }} />}
+        </View>
+
       </View>
+      
       <View style={styles.row}>
         <Text style={styles.label}>其他資訊</Text>
-        <View style={[styles.inputContainer, {height: 4 * 40 }]}>
+        <View style={[styles.inputContainer, {height: 4 * 30 }]}>
           <TextInput
             style={styles.input}
             value={otherInfo}
@@ -153,13 +191,19 @@ const styles = StyleSheet.create({
     flex: 1,
     color: 'black',
   },
+  file:{
+    width:'50%',
+    height:90,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   fileButton: {
     backgroundColor: '#338168',
     borderRadius: 50,
     padding: 10,
+    width:"70%",
     alignItems: 'center',
     justifyContent: 'center',
-    width:"30%",
   },
 });
 
