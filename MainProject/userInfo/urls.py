@@ -13,5 +13,7 @@ urlpatterns = [
     path('Register/', views.register_api.as_view()),
     path('Login/', views.login_api.as_view()),
     path('GetUser/',views.get_user_data),
-    path('get_user_money/',views.get_user_money)
+    path('get_user_money/',views.get_user_money),
+    path('get_user_skin/',views.user_skin),
+    path('get_user_sign/',views.user_sign)
 ]
