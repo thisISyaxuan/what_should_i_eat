@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, Animated } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, Animated, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -82,7 +82,7 @@ export default function Baby() {
             });
 
             if (!response.ok) {
-                console.error('簽到失敗，請檢查您的網絡連接或伺服器狀態');
+                Alert.alert("簽到失敗")
                 return;
             }
 
@@ -93,7 +93,7 @@ export default function Baby() {
                 setHasSignedIn(true);
                 showFloatingCoin(coinsDifference);
             } else {
-                console.error('簽到失敗');
+                Alert.alert("簽到失敗")
             }
 
         } catch (error) {
