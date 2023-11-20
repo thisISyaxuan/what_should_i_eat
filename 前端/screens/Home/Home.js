@@ -71,10 +71,12 @@ export default function Home() {
                     } else {
                         console.error('後端回傳發生錯誤嗚嗚嗚', response.status);
                     }
-                }else{
-                    // 如果經度和緯度變化不超過0.001，則不發送請求
-                    setDataLoaded(true);
                 }
+//                else{
+                    // 如果經度和緯度變化不超過0.001，則不發送請求
+//                    console.log("rID undefined?")
+//                    setDataLoaded(true);
+//                }
             } else {
                 setDataLoaded(true);
             }

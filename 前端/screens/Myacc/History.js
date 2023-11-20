@@ -54,10 +54,11 @@ export default function MyHistory() {
                     } else {
                         console.error('後端回傳發生錯誤嗚嗚嗚', response.status);
                     }
-                }else{
-                    // 如果經度和緯度變化不超過0.001，則不發送請求
-                    setDataLoaded(true);
                 }
+//                else{
+//                    // 如果經度和緯度變化不超過0.001，則不發送請求
+//                    setDataLoaded(true);
+//                }
             } else {
                 //console.log('Home抓不到token');
                 const location = await Location.getCurrentPositionAsync({});//抓經緯
@@ -73,10 +74,11 @@ export default function MyHistory() {
                         RatingSort: false
                       };
                       console.log("這是我要傳給後端的資料:", requestdata);
-                }else{
-                    //console.log('經度和緯度變化不超過0.001，不發送請求');
-                    setDataLoaded(true);
                 }
+//                else{
+//                    //console.log('經度和緯度變化不超過0.001，不發送請求');
+//                    setDataLoaded(true);
+//                }
             }
         } catch (error) {
             console.error('Home Error sending request:', error);

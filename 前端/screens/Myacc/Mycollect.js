@@ -58,9 +58,10 @@ const RatingScreen = () => {
                     } else {
                         console.error('我在Mycollect，後端回傳發生錯誤', response.status);
                     }
-                }else{
-                    setDataLoaded(true); // 如果經度和緯度變化不超過0.001，則不發送請求
-                }
+                  }
+//                }else{
+//                    setDataLoaded(true); // 如果經度和緯度變化不超過0.001，則不發送請求
+//                }
             } else {
                 console.log('Mycollect未獲取到Token');
                 //setDataLoaded(true);
@@ -123,10 +124,11 @@ const DistanceScreen = ({route}) => {
                     } else {
                         console.error('我在Mycollect，後端回傳發生錯誤', response.status);
                     }
-                }else{
-                    setDataLoaded(true); // 如果經度和緯度變化不超過0.001，則不發送請求
-                    
                 }
+//                else{
+//                    setDataLoaded(true); // 如果經度和緯度變化不超過0.001，則不發送請求
+//
+//                }
             } else {
                 console.log('Mycollect未獲取到Token');
                 //setDataLoaded(true);

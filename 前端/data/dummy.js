@@ -1,5 +1,5 @@
 export const DUMMY_DATA =[
-    {id: 1, title:'蘇媽媽湯圓',description:'545南投縣埔里鎮中正路309號'},
+    {title:'蘇媽媽湯圓'},
     {id: 2, title:'一燒丼燒肉專賣店',description:'545南投縣埔里鎮中正路309號'},
     {id: 3, title:'肯德基 南投埔里餐廳',description:' 545南投縣埔里鎮中正路340號'},
     {id: 4, title:'藝鍋物-埔里店',description:' 545南投縣埔里鎮中山路三段423號'},

@@ -117,16 +117,15 @@ def checkDistance(userPos, Restaurant):
         # print(Restaurant.loc[rID, 'distance'])
     return Restaurant
 
-def checkCollect(uID, Restaurant):
+def checkCollect(uID, Restaurant, collect):
+    # print(Restaurant)
     Restaurant.insert(Restaurant.shape[1], 'collect', 0)
-    sql = f"SELECT `rID` FROM `1_user_collectrest` WHERE uID = {uID}"
-    cursor.execute(sql)
-    result = cursor.fetchall() # tuple
-    collect = [item[0] for item in result]
-    for rID in collect:
-        Restaurant.loc[rID, 'collect'] = 1
-    print("collect")
-    print(Restaurant)
+    rID_list = collect['rID'].tolist()
+    all = Restaurant.index.tolist()
+    for rID in rID_list:
+        if (rID in all):
+            Restaurant.loc[rID, 'collect'] = 1
+    # print(Restaurant)
     return Restaurant
 
 def rad2deg(radians):
@@ -200,7 +199,7 @@ def RecommenderUserBasedCollaborativeFiltering(uID, SimilarUsers_num, NewRLabel,
             sim = 0
         else:
             # 尚未測試
-            print('hello')
+            print('recommender.py 第202行')
             sim = cal_similarity_for_res_ratings(uID, other_user, common_res, resRating)
         similarities.append(sim)
         user_ids.append(other_user)
@@ -300,13 +299,17 @@ def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, Rating
     NewRLabel = get_pd('1_new_rlabel', 'rID', "NULL")
     UserLike = get_pd('1_user_like', 'uID', uID)
     CostDetail = get_pd('1_cost_detail', 'cID', "NULL")
+    collect = get_pd("1_user_collectrest", "collectID", uID)
     uNum = selectCount('1_user_info')
+
+    db.close
+    print('close')
+
+    # print(Restaurant)
 
     Restaurant = checkTime(Restaurant)
     Restaurant = checkDistance(userPos, Restaurant)
-    Restaurant = checkCollect(uID, Restaurant)
-    db.close
-    print('close')
+    Restaurant = checkCollect(uID, Restaurant, collect)
 
     if ((TimeFilter==False) and (MealFilter==-1) and (LabelFilter=='全部')): # 初始值
         FilterResult = Restaurant
@@ -343,6 +346,7 @@ def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, Rating
     DFresult = DFresult.drop(['meal_or_not', 'rLat', 'rLng'], axis=1)
     DFresult = replaceAllLabel(DFresult)
     DFresult['rID'] = DFresult.index
+    # print("-------------------------------------------")
     # print(DFresult)
     return DFresult
 

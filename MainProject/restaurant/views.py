@@ -20,10 +20,12 @@ class recommend(generics.GenericAPIView):
         if user.is_authenticated:
             # uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, RatingSort
             # print(updated_request['userPos'][0])
+            print("BEFORE")
             # DataFrameResult = recommender.main(user.id, updated_request['TimeFilter'], updated_request['MealFilter'], updated_request['LabelFilter'], [23, 120], updated_request['DistanceSort'], updated_request['RatingSort'])
             DataFrameResult = recommender.main(user.id, updated_request['TimeFilter'], updated_request['MealFilter'], updated_request['LabelFilter'], updated_request['userPos'], updated_request['DistanceSort'], updated_request['RatingSort'])
-            print("response head")
-            print(DataFrameResult.rID)
+            print("AFTER")
+            print(type(DataFrameResult))
+            print(DataFrameResult.shape)
             return Response({
                 # 前端名稱
                 # rName rMap_Score rPhone rAddress BigLabel open distance collect rID
