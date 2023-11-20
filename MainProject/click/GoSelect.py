@@ -122,49 +122,38 @@ def deg2rad(degrees):
 def checkCollect(uID, Restaurant, collect):
     Restaurant.insert(Restaurant.shape[1], 'collect', 0)
     rID_list = collect['rID'].tolist()
-    # print(rID_list)
+    all = Restaurant["rID"].tolist()
     for rID in rID_list:
-        if (rID in Restaurant["rID"]):
-            Restaurant.loc[rID, 'collect'] = 1
+        if (rID in all):
+            thisRow = Restaurant[Restaurant['rID'] == rID]
+            Restaurant.loc[thisRow.index, 'collect'] = 1
+    print(Restaurant)
     return Restaurant
 
 def replaceAllLabel(Restaurant):
     global labelDict
     # print(Restaurant)
-    for rID, row in Restaurant.iterrows():
+    for index, row in Restaurant.iterrows():
         thisLabel = row['all_label'].split(",")[0]
         for key, values in labelDict.items():
             if (thisLabel in values):
-                Restaurant.loc[rID, 'all_label'] = key
+                Restaurant.loc[index, 'all_label'] = key
                 continue
     Restaurant = Restaurant.rename(columns={'all_label': 'BigLabel'})
     return Restaurant
-
-def filter_same_rID(rID):
-    print(rID)
-    result = []
-    for index, value in enumerate(rID):
-        if value in result:
-            result.remove(result[result.index(value)])
-        result.append(value)
-    # print(result)
-    return result[::-1]
 
 def main(uID, userPos):
 # def main():
 #     uID = 1
 #     userPos = [23.96656, 120.96586]
     Restaurant = get_pd('1_restaurant', "NULL", "NULL")
-    NewRLabel = get_pd('1_new_rlabel', 'rID', "NULL")
     ThisUserClick = get_pd("1_user_click", "clickID", uID)
     collect = get_pd("1_user_collectrest", "collectID", uID)
     db.close
     print('close')
 
-    # 拿掉重複瀏覽的 rID
-    rID_list = filter_same_rID(ThisUserClick['rID'].tolist())
-    # print(rID_list)
-
+    rID_list = ThisUserClick['rID'].tolist()
+    rID_list = rID_list[::-1]
     # restaurant 留下瀏覽過的、排序
     Restaurant = Restaurant[Restaurant['rID'].isin(rID_list)]
     Restaurant['order'] = Restaurant['rID'].apply(lambda x: rID_list.index(x))
@@ -182,7 +171,7 @@ def main(uID, userPos):
     # 刪掉不要的欄位
     Restaurant = Restaurant.drop(['meal_or_not', 'rLat', 'rLng'], axis=1)
 
-    print(Restaurant.rID)
+    # print(Restaurant)
     return Restaurant
 
 # if __name__ == '__main__':

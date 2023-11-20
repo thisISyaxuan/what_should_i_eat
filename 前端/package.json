@@ -12,7 +12,7 @@
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
-    "@react-native-async-storage/async-storage": "^1.19.3",
+    "@react-native-async-storage/async-storage": "^1.19.5",
     "@react-native-community/datetimepicker": "6.7.3",
     "@react-native-community/geolocation": "^3.1.0",
     "@react-native-community/slider": "^4.4.2",
@@ -23,6 +23,7 @@
     "@react-navigation/stack": "^6.3.17",
     "axios": "^1.5.0",
     "expo": "~48.0.18",
+    "expo-image-picker": "~14.1.1",
     "expo-location": "~15.1.1",
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",
@@ -45,8 +46,7 @@
     "react-native-swiper": "^1.6.0",
     "react-native-tab-view": "^3.5.2",
     "react-slider": "^2.0.6",
-    "react-svg-piechart": "^2.4.2",
-    "expo-image-picker": "~14.1.1"
+    "react-svg-piechart": "^2.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

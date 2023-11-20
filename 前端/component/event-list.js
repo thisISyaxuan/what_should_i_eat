@@ -5,8 +5,8 @@ export default EventList =({data, onRefresh}) => {
   const datalist = data;
   
     const renderItem =({item,index}) =>{
-        return <EventItem rID={datalist.rID[index]}
-                          rName={datalist.rName[index]} 
+        return <EventItem rID={[datalist.rID[index]]}
+                          rName={datalist.rName[index]}
                           rMap_Score={datalist.rMap_Score[index]}
                           rPhone={datalist.rPhone[index]}
                           rAddress={datalist.rAddress[index]}

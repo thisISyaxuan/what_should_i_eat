@@ -64,7 +64,7 @@ const BabyCollect = () => {
                     throw new Error('未能取得token');
                   }
     
-                  const response = await fetch('http://10.1.1.22:8000/api/get_user_skin/', { // 請填寫正確的後端接口
+                  const response = await fetch('http://172.20.10.2:8000/api/get_user_skin/', { // 請填寫正確的後端接口
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ const BabyCollect = () => {
                                 return;
                             }
     
-                            const response = await fetch('http://10.1.1.22:8000/baby/buy_baby/', {
+                            const response = await fetch('http://172.20.10.2:8000/baby/buy_baby/', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',

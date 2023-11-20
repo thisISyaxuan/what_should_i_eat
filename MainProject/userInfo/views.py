@@ -24,6 +24,7 @@ def user_sign(request):
             u.sign = date2
             u.money = money + 100 # 簽到加的金額
             u.save()
+            print(123)
             return Response({
                 'success':True,
                 'coins':money + 100 # 簽到加的金額

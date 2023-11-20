@@ -88,7 +88,7 @@ export default function AddCash() {
                     text: 'OK',
                     onPress: () => {
                       ClearAllData();
-                      navigation.goBack();
+                      //navigation.goBack();
                     },
                 },
             ]);

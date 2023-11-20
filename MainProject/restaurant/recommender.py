@@ -125,6 +125,8 @@ def checkCollect(uID, Restaurant):
     collect = [item[0] for item in result]
     for rID in collect:
         Restaurant.loc[rID, 'collect'] = 1
+    print("collect")
+    print(Restaurant)
     return Restaurant
 
 def rad2deg(radians):
@@ -278,7 +280,7 @@ def replaceAllLabel(Restaurant):
 
 def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, RatingSort):
 # def main():
-#     uID = 2
+#     uID = 1
 #     TimeFilter = True
 #     MealFilter = 0
 #     LabelFilter = '全部'

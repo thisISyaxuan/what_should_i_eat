@@ -8,6 +8,7 @@ from django.http import QueryDict
 from . import recommender
 class recommend(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
+        print("got a /recommend/restaurant/ request")
         # print(request.data)
         temp  = request.data
         query_dict = QueryDict('', mutable=True)
@@ -22,7 +23,7 @@ class recommend(generics.GenericAPIView):
             # DataFrameResult = recommender.main(user.id, updated_request['TimeFilter'], updated_request['MealFilter'], updated_request['LabelFilter'], [23, 120], updated_request['DistanceSort'], updated_request['RatingSort'])
             DataFrameResult = recommender.main(user.id, updated_request['TimeFilter'], updated_request['MealFilter'], updated_request['LabelFilter'], updated_request['userPos'], updated_request['DistanceSort'], updated_request['RatingSort'])
             print("response head")
-            print(DataFrameResult.head(10))
+            print(DataFrameResult.rID)
             return Response({
                 # 前端名稱
                 # rName rMap_Score rPhone rAddress BigLabel open distance collect rID
