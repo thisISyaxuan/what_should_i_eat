@@ -3,11 +3,12 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import AuthStack from "./routes/AuthStack";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AppStack from "./routes/AppStack";
 
 export default function App({navigation}) {
   return (
     <NavigationContainer>
-      <AuthStack/>
+      <AppStack/>
     </NavigationContainer>
   );
 }

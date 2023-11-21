@@ -13,8 +13,7 @@ import FavLabel from '../screens/LoginRegister/favLabel';
 const Stack = createStackNavigator();
 
 const AuthStack = () => (
-  <NavigationContainer independent={true}>
-    <Stack.Navigator name="AuthStack">
+    <Stack.Navigator independent={true} initialRouteName="Login">
         <Stack.Screen name="Login" component={Login} 
                       options={{headerShown: false}} />
         <Stack.Screen name="Register" component={Register} options={{headerShown: false}}/>
@@ -43,12 +42,7 @@ const AuthStack = () => (
                             },
                             headerTintColor: 'black'
                             }}/>
-        <Stack.Screen name="ForgotPWD" component={ForgotPWD} options={{headerShown: false}}/>
-        <Stack.Screen name="SendPWD" component={SendPWD} options={{headerShown: false}}/>
-        <Stack.Screen name="ButtomTabStack" component={ButtomTabStack} 
-                      options={{headerShown:false}}/>
     </Stack.Navigator>
-  </NavigationContainer>
   
 );
 

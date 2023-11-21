@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 import Wallet from '../screens/Wallet/Wallet';
 import Addcash from '../screens/Add/AddCash';
 import Myacc from '../screens/Myacc/Myacc';
@@ -13,7 +13,6 @@ import WalletStack from './WalletStack';
 import Baby from './BabyStack';
 
 const Tab = createBottomTabNavigator();
-
 export default function ButtomTabStack() {
   const navigationRef = React.useRef();
 
@@ -28,7 +27,6 @@ export default function ButtomTabStack() {
   };
 
   return (
-    <NavigationContainer independent={true} ref={navigationRef}>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -97,7 +95,6 @@ export default function ButtomTabStack() {
 
         />
       </Tab.Navigator>
-    </NavigationContainer>
   );
 }
 

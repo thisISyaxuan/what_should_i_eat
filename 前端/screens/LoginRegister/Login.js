@@ -81,27 +81,32 @@ export default function Login({navigation}) {
 
       <View style={styles.content}>
       <Text style={styles.h2text}> 歡迎使用! </Text>
-
+      <Text>  </Text>
       <TextInput
         style={globalStyles.input}
-        placeholder='帳號:'
+        placeholder='帳號：'
         onChangeText={text => setUsername(text)}
         />
       <TextInput
         style={globalStyles.input}
-        placeholder='密碼:'
+        placeholder='密碼：'
         secureTextEntry={true}
         onChangeText={text => setPassword(text)}
         />
+
+      {/* 
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ForgotPWD')}>
         <Text>忘記密碼嗎?</Text>
       </TouchableOpacity>
-      <Text>{'\n'}</Text>
+      
+      */}
+      <Text>  </Text>
 
-      <View style={globalStyles.Btn}>
+      <View style={{flexDirection: 'row', justifyContent: 'center',}}>
       <TouchableOpacity style={globalStyles.YellowBtn} onPress={() => navigation.navigate('Register')}>
         <Text style={globalStyles.BtnText}>註冊</Text>
       </TouchableOpacity>
+      <Text>　　</Text>
       <TouchableOpacity style={globalStyles.GreenBtn} onPress={handleLogin}>
         <Text style={globalStyles.BtnText}>登入</Text>
       </TouchableOpacity>
