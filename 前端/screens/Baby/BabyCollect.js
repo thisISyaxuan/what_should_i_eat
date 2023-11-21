@@ -9,12 +9,19 @@ const BabyCollect = () => {
     const navigation = useNavigation();
     const [ownedBabies, setOwnedBabies] = useState([baby_DATA[0].id]);
     const [coins, setCoins] = useState(0);  // 修正這裡
+    const [myskin,setmyskin] = useState();
 
     useEffect(() => {
         const fetchOwnedBabiesAndCoins = async () => {
             try {
                 const token = await AsyncStorage.getItem('userToken');
+                const avatar = await AsyncStorage.getItem('avatarId');
                 if (token) {
+                    if (avatar){
+                        setmyskin(avatar);
+                    }else{
+                        setmyskin(null);
+                    }
                     fetch('http://172.20.10.2:8000/baby/baby/', {
                         method: 'POST',
                         headers: {
@@ -165,8 +172,12 @@ const BabyCollect = () => {
                 }}
             >
                 <Image style={styles.pic} source={item} />
-                {!ownedBabies.includes(baby_DATA[index].id) && 
-                    <View style={[styles.mask]} />}
+                {!ownedBabies.includes(baby_DATA[index].id) &&  <View style={[styles.mask]} />}
+                {baby_DATA[index].id.toString() === myskin ? (
+                    <View style={styles.overlay}>
+                        <Image source={require('../../assets/images/checked.png')} style={styles.overlayImage} />
+                    </View>
+                    ):null}
             </TouchableOpacity>
             {!ownedBabies.includes(baby_DATA[index].id) && (
                 <View style={styles.money}>
@@ -206,7 +217,7 @@ const styles = StyleSheet.create({
     coinsContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 15,
+        marginBottom: 20,
         alignSelf: 'center',
     },
     flatlist: {},
@@ -218,7 +229,7 @@ const styles = StyleSheet.create({
     circle: {
         flexDirection: 'column',
         width: '33%',
-        height: 150,
+        height: 140,
         alignItems: 'center',
     },
     image: {
@@ -231,6 +242,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 5,
     },
+    overlay: {
+        position: 'absolute', //把疊加圖片放在圓圈上方
+        top: 5, //控制疊加綠色圖片的位置，可以根據需要微調
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%',
+      },
+      overlayImage: {
+        width: '100%',
+        height: '100%',
+        opacity: 0.7, //控制疊加綠色圖片的透明度
+      },
     mask: {
         position: 'absolute',
         top: 0,

@@ -5,6 +5,7 @@ import EventList from '../../component/event-list';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from 'expo-location';
 import { ActivityIndicator } from 'react-native';//loading的圖示
+import { useRef } from 'react';
 
 export default function Home() {
     const navigation = useNavigation();
@@ -15,15 +16,19 @@ export default function Home() {
     const [lastSentPos, setLastSentPos] = useState([0,0]);
     const [dataLoaded,setDataLoaded] = useState(false);//追蹤資料有沒有都抓取成功了
     const [datacontent, setDatacontent] = useState();//傳給EventList的資料
-
-
+    const flatListRef = useRef(null); // 在這裡定義 flatListRef
+    const ForwardedEventList = React.forwardRef((props, ref) => (
+        <EventList ref={ref} {...props} />
+      ));
 
     useEffect(() => {
         
         if (data.success != 2){//從篩選條件返回的參數
             setDatacontent(data.success);
             setDataLoaded(true);
-            const filter = dataFilter;console.log('123:',filter);
+            const filter = dataFilter;
+            console.log('123:',filter);
+            flatListRef.current?.scrollToOffset({ animated: true, offset: 0 });
         }else{
             //從其他頁面進來的
             checkLocationPermission();
@@ -72,11 +77,6 @@ export default function Home() {
                         console.error('後端回傳發生錯誤嗚嗚嗚', response.status);
                     }
                 }
-//                else{
-                    // 如果經度和緯度變化不超過0.001，則不發送請求
-//                    console.log("rID undefined?")
-//                    setDataLoaded(true);
-//                }
             } else {
                 setDataLoaded(true);
             }
@@ -126,7 +126,7 @@ export default function Home() {
         <View style={styles.container}>
             <View style={styles.loadingContainer}>
                 {dataLoaded ? 
-                (<EventList data={datacontent} onRefresh={handleRefresh}/>) : 
+                (<ForwardedEventList ref={flatListRef} data={datacontent} onRefresh={handleRefresh}/>) : 
                 (<ActivityIndicator size="large" color="#338168" />)
                 }
             </View>

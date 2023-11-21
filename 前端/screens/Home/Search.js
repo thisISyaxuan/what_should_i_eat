@@ -56,10 +56,10 @@ const SearchRes = ({navigation}) => {
 }, []);
 
   const searchRestaurants = async () => {//按下搜尋按鈕
-    setIsLoading(true);
     if(selectedValue==='請選擇類別'){
       Alert.alert('請選擇欲搜索之類別')
     }else{
+      setIsLoading(true);
       try {
         const userToken = await AsyncStorage.getItem('userToken');//先抓token
         if (userToken) {

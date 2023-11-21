@@ -60,7 +60,7 @@ export default function Register({navigation}) {
     <View style={styles.content}>
 
     <View style={[globalStyles.input,{flexDirection:'row', alignItems: 'center' }]}>
-      <Text>帳號:</Text>
+      <Text>帳號：  </Text>
       <TextInput
         value={username}
         placeholder='  請設定您的帳號'
@@ -69,7 +69,7 @@ export default function Register({navigation}) {
     </View>
     
     <View style={[globalStyles.input, { flexDirection: 'row', alignItems: 'center' }]}>
-      <Text style={styles.label}>性別:   </Text>
+      <Text style={styles.label}>性別：  </Text>
       <TouchableOpacity style={[styles.button, gender === 1 && styles.activeButton]} onPress={() => handleGenderSelection("男生")} >
         <Text style={[styles.buttonText, gender === '男生' && styles.activeButtonText]}>男生</Text>
       </TouchableOpacity>
@@ -80,7 +80,7 @@ export default function Register({navigation}) {
             
     <View style={{flexDirection:'row',borderBottomWidth: 1, borderColor:'#777', padding:8, margin:10, width:250,justifyContent:'space-between', alignItems: 'center' }}> 
       <View style={{flexDirection:'row'}}>
-        <Text>生日:</Text>
+        <Text>生日：  </Text>
         <TextInput value={birthday} style={{}} placeholder='  2000-01-01' onChangeText={text => setBirthday(text)} />
       </View>
       <AntDesign name="calendar" size={24} color="black" onPress={() => setDatePickerVisibility(true) }/>
@@ -88,27 +88,27 @@ export default function Register({navigation}) {
     </View>
 
     <View style={[globalStyles.input,{flexDirection:'row', alignItems: 'center' }]}>
-      <Text>手機:</Text>
+      <Text>手機：  </Text>
       <TextInput placeholder="  請輸入您的行動電話" onChangeText={text => setPhone(text)} keyboardType='numeric' />
     </View>
 
     <View style={[globalStyles.input,{flexDirection:'row', alignItems: 'center' }]}>
-      <Text>地址:</Text>
+      <Text>地址：  </Text>
       <TextInput  placeholder='  請輸入您的地址' onChangeText={text => setAddress(text)} />
     </View>
 
     <View style={[globalStyles.input,{flexDirection:'row', alignItems: 'center' }]}>
-      <Text>電子郵件:</Text>
+      <Text>電子郵件：  </Text>
       <TextInput  placeholder='  請輸入您的電子郵件' onChangeText={text => setEmail(text)} />
     </View>
 
     <View style={[globalStyles.input,{flexDirection:'row', alignItems: 'center' }]}>
-      <Text>輸入密碼:</Text>
+      <Text>輸入密碼：  </Text>
       <TextInput placeholder='  請設定您的密碼' onChangeText={text => setPassword(text)} />
     </View>
           
     <View style={[globalStyles.input,{flexDirection:'row', alignItems: 'center' }]}>
-      <Text>確認密碼:</Text>
+      <Text>確認密碼：  </Text>
       <TextInput placeholder='  請確認您的密碼' onChangeText={text => setverify_Password(text)} />
     </View>
 
