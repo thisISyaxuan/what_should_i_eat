@@ -104,12 +104,12 @@ export default function Register({navigation}) {
 
     <View style={[globalStyles.input,{flexDirection:'row', alignItems: 'center' }]}>
       <Text>輸入密碼：  </Text>
-      <TextInput placeholder='  請設定您的密碼' onChangeText={text => setPassword(text)} />
+      <TextInput placeholder='  請設定您的密碼' secureTextEntry={true} style={{width:200,}} onChangeText={text => setPassword(text)} />
     </View>
           
     <View style={[globalStyles.input,{flexDirection:'row', alignItems: 'center' }]}>
       <Text>確認密碼：  </Text>
-      <TextInput placeholder='  請確認您的密碼' onChangeText={text => setverify_Password(text)} />
+      <TextInput placeholder='  請確認您的密碼' secureTextEntry={true} style={{width:200,}} onChangeText={text => setverify_Password(text)} />
     </View>
 
         <View style={styles.agree}>

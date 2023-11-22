@@ -71,7 +71,7 @@ export default ResInfo = ({navigation}) =>{
     return(
         <View style={styles.container}>
             <View style={styles.title}>
-            <Text style={{flex: 6,textAlign: 'right', fontSize:25,fontWeight:"bold"}}>{rName}</Text>
+            <Text style={{flex: 14, textAlign: 'left', fontSize:25,fontWeight:"bold"}}>{rName}</Text>
             <TouchableOpacity onPress={toggleCollect} style={{flex:3, alignItems: 'flex-end'}}>{isCollected === 1 ? <Ionicons name="heart" size={45} color={'red'} /> : <Ionicons name="heart-outline" size={45} color={'#C0C0C0'} />}</TouchableOpacity>
             </View>
                 <View style={{ borderTOPColor: 'gray', borderBottomWidth: 1 ,width:'100%'}}></View>

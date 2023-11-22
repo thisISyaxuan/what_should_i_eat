@@ -111,6 +111,7 @@ export default function Baby() {
                     style={{ width: 35, height: 35 }}
                     source={require('../../assets/images/coin.png')}
                 />
+                <Text> </Text>
                 <Text>{coins}</Text>
             </TouchableOpacity>
 
