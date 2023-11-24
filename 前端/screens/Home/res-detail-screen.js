@@ -10,8 +10,6 @@ import { useState } from "react";
 import { imag } from '../../data/menu';
 import { Linking } from 'react-native'; //超連結
 import { link } from "../../data/apiLink";
-//import ImageView from "react-native-image-viewing";
-//npm install --save react-native-image-viewing
 
 
 export default ResInfo = ({navigation}) =>{
@@ -34,7 +32,6 @@ export default ResInfo = ({navigation}) =>{
               rID:rID,
               collect:isCollected,
             };
-            console.log(isCollected)
             const response = await fetch(link.resDetail, {
               method: 'POST',
               headers: {'Content-Type': 'application/json',Authorization: `Token ${userToken}`,},
@@ -70,13 +67,14 @@ export default ResInfo = ({navigation}) =>{
     };
     
     return(
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
+          <View style={{alignItems:'center'}}>
             <View style={styles.title}>
             <Text style={{flex: 14, textAlign: 'left', fontSize:25,fontWeight:"bold"}}>{rName}</Text>
             <TouchableOpacity onPress={toggleCollect} style={{flex:3, alignItems: 'flex-end'}}>{isCollected === 1 ? <Ionicons name="heart" size={45} color={'red'} /> : <Ionicons name="heart-outline" size={45} color={'#C0C0C0'} />}</TouchableOpacity>
             </View>
                 <View style={{ borderTOPColor: 'gray', borderBottomWidth: 1 ,width:'100%'}}></View>
-            <ScrollView horizontal showsVerticalScrollIndicator={false} style={{borderTopWidth:0.5, borderTopColor:'gray', borderBottomWidth:1, top:20}}>
+            <View horizontal showsVerticalScrollIndicator={false} style={{borderTopWidth:0.5, borderTopColor:'gray', borderBottomWidth:1, top:20}}>
               <View>
                 {menuImg ? (
                 <TouchableOpacity style={{ width: 250, height: 250, margin: 7, justifyContent: 'center', alignItems: 'center' }} onPress={() => setModalVisible(true)}>
@@ -89,7 +87,7 @@ export default ResInfo = ({navigation}) =>{
                 )
               }
               </View>
-            </ScrollView>
+            </View>
             
             <Modal  style={styles.centeredView} animationType="slide" transparent={true} visible={modalVisible} >
               <View style={styles.modalContainer}>
@@ -144,8 +142,8 @@ export default ResInfo = ({navigation}) =>{
             </TouchableOpacity>
             </View>
         </View>
-
         </View>
+        </ScrollView>
         
     )
 }
@@ -179,7 +177,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         padding: 5,
         backgroundColor: '#fff',
-        alignItems: 'center',
+        //alignItems: 'center',
       },
       title: {
         flexDirection: 'row',

@@ -41,8 +41,8 @@ export default function Login({navigation}) {
     };
   
     try {
-       navigation.navigate('ButtomTabStack');
-       return;
+       //navigation.navigate('ButtomTabStack');
+       //return;
       fetch(link.login, {
         method: 'POST',
         headers: {
