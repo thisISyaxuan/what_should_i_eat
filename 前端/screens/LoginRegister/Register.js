@@ -56,7 +56,7 @@ export default function Register({navigation}) {
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
       <SafeAreaView style={styles.container}>
-      <Text style={styles.h2text}> 註冊新帳號 </Text>
+      <Text style={styles.h2text}>  註冊新帳號</Text>
     <View style={styles.content}>
 
     <View style={[globalStyles.input,{flexDirection:'row', alignItems: 'center' }]}>

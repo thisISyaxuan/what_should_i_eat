@@ -84,10 +84,12 @@ class register_api(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 
     def post(self, request, *args, **kwargs):
+        print('/api/Register/')
         print(request.data)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.validate(attrs=request.data)  # 判斷密碼是否相同
+        print('serializer2')
         serializer2 = UserSerializer(data=request.data)
         serializer2.is_valid()
         print(request.data["preferences"])
