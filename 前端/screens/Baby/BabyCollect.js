@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { images } from '../../data/babyImage';
 import { baby_DATA } from '../../data/baby';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { link } from '../../data/apiLink';
 
 const BabyCollect = () => {
     const navigation = useNavigation();
@@ -22,7 +23,7 @@ const BabyCollect = () => {
                     }else{
                         setmyskin(null);
                     }
-                    fetch('http://172.20.10.2:8000/baby/baby/', {
+                    fetch(link.babyBaby, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -71,7 +72,7 @@ const BabyCollect = () => {
                     throw new Error('未能取得token');
                   }
     
-                  const response = await fetch('http://172.20.10.2:8000/api/get_user_skin/', { // 請填寫正確的後端接口
+                  const response = await fetch(link.getUsrSkin, { // 請填寫正確的後端接口
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
@@ -124,7 +125,7 @@ const BabyCollect = () => {
                                 return;
                             }
     
-                            const response = await fetch('http://172.20.10.2:8000/baby/buy_baby/', {
+                            const response = await fetch(link.buyBaby, {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',

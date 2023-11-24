@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from 'expo-location';
 import { ActivityIndicator } from 'react-native';//loading的圖示
 import { useRef } from 'react';
+import { link } from '../../data/apiLink';
 
 export default function Home() {
     const navigation = useNavigation();
@@ -30,9 +31,11 @@ export default function Home() {
             console.log('123:',filter);
             flatListRef.current?.scrollToOffset({ animated: true, offset: 0 });
         }else{
+            /*
             //從其他頁面進來的
             checkLocationPermission();
             fetchRestaurants(); // 執行上面的函數
+            */
         }
     }, [data]);
     const checkLocationPermission = async () => {//先檢查定位有沒有被開啟
@@ -58,7 +61,7 @@ export default function Home() {
                         RatingSort: false
                     };
                     console.log("這是我要傳給後端的資料:",requestdata)
-                    const response = await fetch('http://172.20.10.2:8000/recommend/restaurant/', {
+                    const response = await fetch(link.home, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -94,7 +97,7 @@ export default function Home() {
                 const newCoords = [location.coords.latitude, location.coords.longitude];//新的經緯
                 if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
                     setLastSentPos(newCoords);
-                    const response = await fetch('http://172.20.10.2:8000/recommend/restaurant/', {
+                    const response = await fetch(link.home, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

@@ -11,6 +11,7 @@ import { globalStyles } from '../../styles/global';
 import { DUMMY_DATA } from '../../data/dummy';
 import { Feather } from '@expo/vector-icons';
 import SearchFilter from '../../component/SearchFilter';
+import { link } from "../../data/apiLink";
 
 export default function AddCash() {
   const[senddate,setdate] = useState("");
@@ -74,7 +75,7 @@ export default function AddCash() {
             my_text: MyText,//(備註)
           };
       
-          const response = await fetch('http://172.20.10.2:8000/account/cost/', {
+          const response = await fetch(link.addCash, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

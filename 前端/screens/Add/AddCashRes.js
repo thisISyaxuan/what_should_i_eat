@@ -9,6 +9,7 @@ import Slider from '@react-native-community/slider';
 import { globalStyles } from '../../styles/global';
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
+import { link } from "../../data/apiLink";
 
 export default function AddCashRes() {
   const navigation = useNavigation()
@@ -69,7 +70,7 @@ export default function AddCashRes() {
             my_text: MyText,//(備註)
           };
       
-          const response = await fetch('http://172.20.10.2:8000/account/cost/', {
+          const response = await fetch(link.addCash, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-na
 import { Calendar } from 'react-native-calendars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FlatList } from 'react-native-gesture-handler';
+import { link } from '../../data/apiLink';
 
 export default function Wallet() {
   const currentDate = new Date();
@@ -48,7 +49,7 @@ export default function Wallet() {
         const data = {
           date: date,
         };
-        const response = await fetch('http://172.20.10.2:8000/account/cost_record/', {
+        const response = await fetch(link.wallet, {
           method: 'POST',
           headers: {
             Authorization: `Token ${userToken}`,

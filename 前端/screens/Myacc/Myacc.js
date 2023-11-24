@@ -4,6 +4,7 @@ import { globalStyles } from '../../styles/global';
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { link } from '../../data/apiLink';
 
 export default function Myacc() {
   const navigation = useNavigation();
@@ -20,7 +21,7 @@ export default function Myacc() {
           const userToken = await AsyncStorage.getItem('userToken');
           
           if (userToken) { 
-              const response = await fetch('http://172.20.10.2:8000/api/GetUser/', {
+              const response = await fetch(link.myaccGetUsr, {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json',

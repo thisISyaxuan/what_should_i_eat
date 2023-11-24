@@ -6,6 +6,7 @@ import { useState } from "react";
 import {images} from '../data/labelImage'
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { link } from "../data/apiLink";
 export default EventItem = ({rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID}) => {
     const limitRName = rName.length > 15 ? rName.slice(0, 15) + '...' : rName;//字數大於20個字
     const navigation = useNavigation()
@@ -21,7 +22,7 @@ export default EventItem = ({rID,rName,rMap_Score,rPhone,rAddress,open,collect,d
             Time:formattedTime,//裡面放當下時間
             rID:rID,//餐廳id
           };
-          const response = await fetch('http://172.20.10.2:8000/click/rest/', {
+          const response = await fetch(link.eventItem, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

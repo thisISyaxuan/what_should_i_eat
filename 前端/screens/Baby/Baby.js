@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, Animated, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { link } from '../../data/apiLink';
 
 export default function Baby() {
     const navigation = useNavigation();
@@ -18,7 +19,7 @@ export default function Baby() {
                     return;
                 }
 
-                const response = await fetch('http://172.20.10.2:8000/api/get_user_money/', {
+                const response = await fetch(link.getUsrMoney, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -73,7 +74,7 @@ export default function Baby() {
                 return;
             }
 
-            const response = await fetch('http://172.20.10.2:8000/api/get_user_sign/', {
+            const response = await fetch(link.getUsrSign, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

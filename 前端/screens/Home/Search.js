@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Location from 'expo-location';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ActivityIndicator } from 'react-native';//loading的圖示
+import { link } from '../../data/apiLink';
 
 const SearchRes = ({navigation}) => {
   const [isPickerVisible,setIsPickerVisible] = useState(false);
@@ -74,7 +75,7 @@ const SearchRes = ({navigation}) => {
             DistanceSort: distance,
             RatingSort: rating
           };
-          const response = await fetch('http://172.20.10.2:8000/recommend/restaurant/', {//改連結
+          const response = await fetch(link.search, {//改連結
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

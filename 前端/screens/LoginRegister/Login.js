@@ -4,6 +4,7 @@ import { StyleSheet, TextInput, Text, View ,SafeAreaView ,TouchableOpacity,Touch
 import { globalStyles } from '../../styles/global';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
+import { link } from "../../data/apiLink";
 export default function Login({navigation}) {
   const [username,setUsername] = useState('');
   const [password,setPassword] = useState('');
@@ -40,9 +41,9 @@ export default function Login({navigation}) {
     };
   
     try {
-       //navigation.navigate('ButtomTabStack');
-       //return;
-      fetch('http://172.20.10.2:8000/api/Login/', {
+       navigation.navigate('ButtomTabStack');
+       return;
+      fetch(link.login, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

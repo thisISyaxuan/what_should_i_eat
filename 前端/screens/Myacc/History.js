@@ -4,6 +4,7 @@ import EventList from '../../component/event-list';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from 'expo-location';
 import { ActivityIndicator } from 'react-native';
+import { link } from '../../data/apiLink';
 
 export default function MyHistory() {
       const [lastSentPos, setLastSentPos] = useState([0,0]);//經緯度
@@ -35,7 +36,7 @@ export default function MyHistory() {
                         userPos:newCoords,
                     };
                     console.log("這是我要傳給後端的資料:",requestdata)
-                    const response = await fetch('http://172.20.10.2:8000/click/show/', {
+                    const response = await fetch(link.history, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

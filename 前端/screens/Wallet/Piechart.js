@@ -6,6 +6,7 @@ import { View, StyleSheet, Text,TouchableOpacity, Modal, FlatList} from 'react-n
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { G, Circle } from 'react-native-svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { link } from '../../data/apiLink';
 const PiechartMoney = () => {
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const mealColors = {
@@ -37,7 +38,7 @@ const PiechartMoney = () => {
           year: year,
           month:month
         };
-        const response = await fetch('http://172.20.10.2:8000/account/cost_record_month/', {
+        const response = await fetch(link.piechart, {
           method: 'POST',
           headers: {
             Authorization: `Token ${userToken}`,

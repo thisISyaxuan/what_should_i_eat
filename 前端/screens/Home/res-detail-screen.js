@@ -9,6 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useState } from "react";
 import { imag } from '../../data/menu';
 import { Linking } from 'react-native'; //超連結
+import { link } from "../../data/apiLink";
 //import ImageView from "react-native-image-viewing";
 //npm install --save react-native-image-viewing
 
@@ -34,7 +35,7 @@ export default ResInfo = ({navigation}) =>{
               collect:isCollected,
             };
             console.log(isCollected)
-            const response = await fetch('http://172.20.10.2:8000/collect/rest/', {
+            const response = await fetch(link.resDetail, {
               method: 'POST',
               headers: {'Content-Type': 'application/json',Authorization: `Token ${userToken}`,},
               body: JSON.stringify(requestdata)

@@ -6,6 +6,7 @@ import * as Location from 'expo-location';
 import EventList from '../../component/event-list';
 import { useFocusEffect } from '@react-navigation/native';
 import { ActivityIndicator } from 'react-native';//loading的圖示
+import { link } from '../../data/apiLink';
 const screenWidth = Dimensions.get('window').width;
 const Tab = createMaterialTopTabNavigator();
 
@@ -45,7 +46,7 @@ const RatingScreen = () => {
                         sorting:true,
                         userPos:newCoords,
                     };
-                    const response = await fetch('http://172.20.10.2:8000/collect/show/', {//改他
+                    const response = await fetch(link.collect, {//改他
                         method: 'POST',
                         headers: {'Content-Type': 'application/json',Authorization: `Token ${token}`,},
                         body: JSON.stringify(requestdata)
@@ -112,7 +113,7 @@ const DistanceScreen = ({route}) => {
                         sorting:false,
                         userPos:newCoords,
                     };
-                    const response = await fetch('http://172.20.10.2:8000/collect/show/', {//改他
+                    const response = await fetch(link.collect, {//改他
                         method: 'POST',
                         headers: {'Content-Type': 'application/json',Authorization: `Token ${token}`,},
                         body: JSON.stringify(requestdata)
