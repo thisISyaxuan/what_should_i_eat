@@ -1,4 +1,4 @@
-const ipaddress = '192.168.137.1'; //放ip
+const ipaddress = '172.20.10.2'; //放ip
 export const link = {
     login: `http://${ipaddress}:8000/api/Login/`,
     home: `http://${ipaddress}:8000/recommend/restaurant/`,

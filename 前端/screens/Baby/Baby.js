@@ -94,7 +94,7 @@ export default function Baby() {
                 setHasSignedIn(true);
                 showFloatingCoin(coinsDifference);
             } else {
-                Alert.alert("簽到失敗")
+                Alert.alert("今日已完成簽到")
             }
 
         } catch (error) {
@@ -148,7 +148,7 @@ export default function Baby() {
                     ...styles.floatingCoin,
                     opacity: fadeAnim,
                 }}>
-                <Text style={styles.coinText}>+100元金幣</Text>
+                <Text style={styles.coinText}>+100元雞腿幣</Text>
             </Animated.View>
 
             <View style={styles.circle}>

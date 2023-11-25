@@ -106,13 +106,13 @@ const BabyCollect = () => {
 
       const purchaseBaby = useCallback(async (baby) => {
         if (coins < baby.price) {
-            Alert.alert('金幣不足', '您的金幣不足，無法購買！');
+            Alert.alert('雞腿幣不足', '您的雞腿幣不足，無法購買！');
             return;
         }
-    
+
         Alert.alert(
             '購買確認',
-            `您確定要花費 ${baby.price} 金幣購買嗎？`, 
+            `您確定要花費 ${baby.price} 雞腿幣購買嗎？`,
             [
                 { text: '取消', style: 'cancel' },
                 {
@@ -124,7 +124,7 @@ const BabyCollect = () => {
                                 console.error('未能取得token');
                                 return;
                             }
-    
+
                             const response = await fetch(link.buyBaby, {
                                 method: 'POST',
                                 headers: {
@@ -135,22 +135,22 @@ const BabyCollect = () => {
                                     baby_Id: baby.id
                                 })
                             });
-    
+
                             if (!response.ok) {
                                 console.error('購買失敗，請檢查您的網絡連接或伺服器狀態');
                                 return;
                             }
-    
+
                             const data = await response.json();
                             setCoins(data.coins);
                             if (data.success) {
                                 let newOwnedBabies = [...ownedBabies, baby.id];
                                 setOwnedBabies(newOwnedBabies);
-                                Alert.alert('購買成功', `您已成功購買此項目，目前餘額為 ${data.coins} 金幣。`);
+                                Alert.alert('購買成功', `您已成功購買此項目，目前餘額為 ${data.coins} 雞腿幣。`);
                             } else {
-                                Alert.alert('購買失敗', '您的金幣不足，請獲得更多金幣後再試。');
+                                Alert.alert('購買失敗', '您的雞腿幣不足，請獲得更多雞腿幣後再試。');
                             }
-    
+
                         } catch (error) {
                             console.error('購買過程中出現錯誤:', error);
                         }
@@ -193,7 +193,7 @@ const BabyCollect = () => {
         <View style={styles.container}>
             <View style={styles.coinsContainer}>
                 <Image style={styles.coinIcon} source={require('../../assets/images/coin.png')} />
-                <Text style={styles.coinsText}>金幣: {coins}</Text>
+                <Text style={styles.coinsText}>雞腿幣：{coins}</Text>
             </View>
             
             <FlatList

@@ -37,6 +37,7 @@ def user_sign(request):
 @api_view(['POST'])
 def user_skin(request):
     user = request.user
+    print('user_skin')
     print(request.data)
     if user.is_authenticated:
         username = user.username
@@ -56,6 +57,7 @@ def get_user_data(request):
     if user.is_authenticated:
         username = user.username
         skin = UserInfo.objects.filter(username=username).values()[0]['skin']
+        print(username, skin)
         return Response({
             'id': user.id,
             'username': user.username,
