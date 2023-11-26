@@ -53,16 +53,16 @@ export default function Baby() {
     const showFloatingCoin = (coinsDifference) => {
         Animated.timing(fadeAnim, {
             toValue: 1,
-            duration: 1000,
+            duration: 500,
             useNativeDriver: true,
         }).start(() => {
             setTimeout(() => {
                 Animated.timing(fadeAnim, {
                     toValue: 0,
-                    duration: 1000,
+                    duration: 500,
                     useNativeDriver: true,
                 }).start();
-            }, 10000);
+            }, 1000);
         });
     };
 
@@ -147,13 +147,15 @@ export default function Baby() {
                 style={{
                     ...styles.floatingCoin,
                     opacity: fadeAnim,
+                    duration: 3000
                 }}>
-                <Text style={styles.coinText}>+100元雞腿幣</Text>
+                <Text style={styles.coinText}>雞腿幣+100</Text>
             </Animated.View>
 
             <View style={styles.circle}>
                 <Image
                     style={{ width: 250, resizeMode: 'contain' }}
+//                    背景那隻
                     source={require('../../assets/images/baby/baby0/6.png')}
                 />
             </View>

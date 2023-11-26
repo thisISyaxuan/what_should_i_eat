@@ -114,19 +114,19 @@ export default ResInfo = ({navigation}) =>{
                 <View style={{ justifyContent: 'center', margin: 7 }}><Icon name="circle" size={10} color={open === -1 ? 'red' : 'green' }/></View>
                 <Text style={{fontSize:18}}>{open === -1 ? '已打烊' : '營業中'}</Text>
             </View>
-            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>評分: {rMap_Score} 顆星</Text>
-            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>距離: {distance}km</Text>
+            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>評分：{rMap_Score} 顆星</Text>
+            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>距離：{distance} km</Text>
 
             <TouchableOpacity onPress={() => Linking.openURL(`tel:${rPhone}`)}>
               <Text style={{ fontSize: 18, height: 30 }}>
-                電話: 
+                電話：
                 <Text style={{ fontSize:18,height: 30,textDecorationLine: 'underline',color:'blue'}}> {rPhone} </Text>
               </Text>
             </TouchableOpacity>
             
             <TouchableOpacity onPress={() => openGoogleMaps(rName)}>
             <Text style={{fontSize:18, height: 30}}>
-              地址: 
+              地址：
               <Text style={{ fontSize:18,height: 30,textDecorationLine: 'underline',color:'blue'}}> {rAddress} </Text>
             </Text>
             </TouchableOpacity>

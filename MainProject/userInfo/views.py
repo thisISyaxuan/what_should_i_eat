@@ -135,4 +135,3 @@ def get_user_money(request):
         return Response({
             'error':'not authenticated'
         },status = 400)
-

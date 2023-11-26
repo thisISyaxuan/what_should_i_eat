@@ -88,7 +88,7 @@ const PiechartMoney = () => {
       <View>
         <View style={[{alignItems:'center',marginTop:-30,padding:10,}]}>
             <TouchableOpacity onPress={togglePickerVisibility}>
-                <Text style={[{fontWeight:'700',fontSize:26}]}>{selectedYear}年,{selectedMonth}月</Text>
+                <Text style={[{fontWeight:'700',fontSize:26}]}>{selectedYear}年 {selectedMonth}月</Text>
             </TouchableOpacity>
         </View>
       <View style={styles.graph}>
@@ -122,7 +122,8 @@ const PiechartMoney = () => {
             </Svg>
             <Text style={styles.label}>${total}</Text>
           </View>)}
-          <Text style={styles.labelavg}>平均每天消費:{avg} 元</Text>
+          <Text style={styles.labelavg}> </Text>
+          <Text style={styles.labelavg}>平均每天消費：{avg} 元</Text>
           </View>
 
           <View style={styles.detail}>
@@ -146,8 +147,7 @@ const PiechartMoney = () => {
                 <View style={[styles.square, { backgroundColor: mealColors[meal] }]} />
                 <Text style={[{ fontSize: 20,marginLeft: 10, }]}>{mealTranslation[meal]}</Text>
               </View>
-              <Text style={[{ fontSize: 20}]}>{isNaN(percentage) ? '0.00 % ' : percentage + '%'}</Text>
-              
+              <Text style={[{ fontSize: 20}]}>{isNaN(percentage) ? '0.00 % ' : percentage + ' %'}</Text>
               <Text style={[{ fontSize: 20}]}>{value}元</Text>
             </View>
         );})}

@@ -59,7 +59,7 @@ export default function AddCash() {
   const handleAddMoney = async () => {//送出表單
         try {
           if (Price === "") {
-            Alert.alert('提示', '請輸入金額!');
+            Alert.alert('提示', '請輸入金額！');
             return;
           } else if (Input === '') {
             Alert.alert('提示', '請輸入正確的店家名稱');
@@ -124,11 +124,11 @@ export default function AddCash() {
           </View>
           
           <View style={styles.dollar}>
-            <Icon name="dollar" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}>  金額:  </Text>
+            <Icon name="dollar" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}>  金額：</Text>
             <TextInput style={styles.dollarInput} onChangeText={SetPrice} value={Price} placeholder='金額輸入' keyboardType='numeric'/></View>
               
           <View style={styles.OO}><View style={styles.MyStar}>
-              <Icon name="star" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}> 評價:  </Text></View>
+              <Icon name="star" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}> 評價：</Text></View>
           
           <View style={styles.sliderContainer}>
             <Slider
@@ -141,8 +141,8 @@ export default function AddCash() {
         
         <View style={styles.Textinput}>
           <View style={styles.Textlabel}>
-            <Icon name="file-text" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}> 備註欄: </Text></View>
-            <TextInput style={styles.TextLine} onChangeText={SetMyText} value={MyText} placeholder='說點什麼吧!' multiline={true}/>
+            <Icon name="file-text" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}> 備註欄：</Text></View>
+            <TextInput style={styles.TextLine} onChangeText={SetMyText} value={MyText} placeholder='寫下這次的用餐經驗！' multiline={true}/>
         </View>  
         
         <View style={styles.bottom}>

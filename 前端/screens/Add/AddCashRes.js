@@ -20,7 +20,6 @@ export default function AddCashRes() {
   const [Rating, SetRating] = useState(5.0);
 
   const [MyText, SetMyText] = useState("");
-  const [Input,SetInput] = useState('');
   const route = useRoute()
   const {rName,rMap_Score,rPhone,rAddress,open,collect,distance,rID,labelID} = route.params
 
@@ -52,17 +51,16 @@ export default function AddCashRes() {
     SetPrice("");
     SetRating(5.0);
     SetMyText("");
-    SetInput("");
   }
   const handleAddMoney = async () => {//送出表單
         try {
           if (Price === "") {
-            Alert.alert('提示', '請輸入金額!');
+            Alert.alert('提示', '請輸入金額！');
             return;
           }
           const userToken = await AsyncStorage.getItem('userToken');
           const data = {
-            ResName: Input,//店名
+            ResName: rName,//店名
             date: senddate,//日期
             which_meal: Class,//類別(是數字0~3)
             price: Price,//價錢
@@ -115,11 +113,11 @@ export default function AddCashRes() {
           </View>
           
           <View style={styles.dollar}>
-            <Icon name="dollar" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}>  金額:  </Text>
+            <Icon name="dollar" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}>  金額：</Text>
             <TextInput style={styles.dollarInput} onChangeText={SetPrice} value={Price} placeholder='金額輸入' keyboardType='numeric'/></View>
               
           <View style={styles.OO}><View style={styles.MyStar}>
-              <Icon name="star" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}> 評價:  </Text></View>
+              <Icon name="star" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}> 評價：</Text></View>
           
           <View style={styles.sliderContainer}>
             <Slider
@@ -132,8 +130,8 @@ export default function AddCashRes() {
         
         <View style={styles.Textinput}>
           <View style={styles.Textlabel}>
-            <Icon name="file-text" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}> 備註欄: </Text></View>
-            <TextInput style={styles.TextLine} onChangeText={SetMyText} value={MyText} placeholder='說點什麼吧!' multiline={true}/>
+            <Icon name="file-text" size={20} color={'#F6D58A'} /><Text style={{fontSize:20}}> 備註欄：</Text></View>
+            <TextInput style={styles.TextLine} onChangeText={SetMyText} value={MyText} placeholder='寫下這次的用餐經驗！' multiline={true}/>
         </View>  
         
         <View style={styles.bottom}>
@@ -198,7 +196,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dollarInput:{
-    borderBottomWidth:1, 
+    borderBottomWidth:1,
     borderBottomColor:'#EFEEEC',
     padding:10,
     fontSize: 20,

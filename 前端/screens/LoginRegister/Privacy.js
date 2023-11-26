@@ -8,7 +8,7 @@ const Privacy = () => {
     return (
         
     <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>歡迎使用!</Text>
+        <Text style={styles.title}>歡迎使用！</Text>
         <View>
         
         <ScrollView>

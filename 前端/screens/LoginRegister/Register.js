@@ -36,16 +36,16 @@ export default function Register({navigation}) {
   };
   const handleRegister = async () => {
       if (username === '' || birthday === '' || phone_number === '' || address === '' || email === '') {
-        Alert.alert('提示', '欄位不可留白!');
+        Alert.alert('提示', '欄位不可留白！');
         return;
       } else if (password === '' || verify_password === '') {
-        Alert.alert('提示', '密碼和確認密碼都需要輸入!');
+        Alert.alert('提示', '密碼和確認密碼都需要輸入！');
         return;
       } else if (password !== verify_password) {
-        Alert.alert('提示', '密碼和確認密碼不一致!');
+        Alert.alert('提示', '密碼和確認密碼不一致！');
         return;
       } else if (!isChecked) {
-        Alert.alert('提示', '需同意隱私政策與使用條款方可註冊!');
+        Alert.alert('提示', '需同意隱私政策與使用條款方可註冊！');
         return;
       } else {
         navigation.navigate('喜好勾選', { username, gender, birthday, phone_number, address, email, password, verify_password,

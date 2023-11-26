@@ -81,7 +81,7 @@ export default function Wallet() {
           [selected]: { selected: true, disableTouchEvent: true, selectedDotColor: 'orange' },
         }}
       />
-      <Text style={[{fontSize:16},{margin:5}]}>今日總支出: ${total}</Text>
+      <Text style={[{fontSize:16},{margin:5}]}>今日總支出：${total}</Text>
       <FlatList
         data={dateData}
         renderItem={renderItem}

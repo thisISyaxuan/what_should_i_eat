@@ -50,8 +50,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             phone_number=phone_number,
             address=address,
             email=email,
-            password=password,
-            verify_password=verify_password,
+            password=hash(password),
+            verify_password=hash(verify_password),
             money=100,
             sign=datetime.datetime.now() - datetime.timedelta(days=1),
             skin=1
@@ -85,4 +85,3 @@ class UserLikeSerializer(serializers.ModelSerializer):
             **validated_data
         )
         return user_like
-
