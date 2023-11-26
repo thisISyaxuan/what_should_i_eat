@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2023-09-30 00:06:17
+-- 產生時間： 2023-11-26 07:58:18
 -- 伺服器版本： 10.4.28-MariaDB
 -- PHP 版本： 8.0.28
 
@@ -30,7 +30,6 @@ SET time_zone = "+00:00";
 CREATE TABLE `1_cost_detail` (
   `cID` int(11) NOT NULL,
   `uID` int(11) NOT NULL,
-  `ResName` varchar(20) NOT NULL,
   `date` date NOT NULL,
   `which_meal` int(11) NOT NULL,
   `rID` int(11) NOT NULL,
@@ -38,11 +37,6 @@ CREATE TABLE `1_cost_detail` (
   `rating` decimal(2,1) NOT NULL,
   `my_text` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `1_cost_detail`
---
-
 
 -- --------------------------------------------------------
 
@@ -1032,8 +1026,8 @@ INSERT INTO `1_restaurant` (`rID`, `rName`, `rMap_Score`, `rPhone`, `rAddress`, 
 (25, '85度C咖啡蛋糕飲料麵包- 埔里中山店', 4, '0492985222', '545南投縣埔里鎮中山路三段224號', NULL, NULL, '07:00~23:30', '07:00~23:30', '07:00~23:30', '07:00~23:30', '07:00~23:30', '07:00~23:30', '07:00~23:30', '飲料,西式,咖啡,甜點,麵包', 0),
 (26, '942藥膳滷味', 3.5, '0987121530', '545南投縣埔里鎮八德路73號', NULL, NULL, '', '', '', '', '', '', '', '滷味', 1),
 (27, '9張桌子', 4.1, '0492902323', '545南投縣埔里鎮北安路78號', NULL, NULL, '11:30~14:30; 17:00~20:30', '', '11:30~14:30; 17:00~20:30', '11:30~14:30; 17:00~20:30', '11:30~14:30; 17:00~20:30', '11:30~14:30; 17:00~20:30', '11:30~14:30; 17:00~20:30', '義式,簡餐,義大利麵', 1),
-(28, 'Adam,s', 4.5, '無', '545南投縣埔里鎮吉祥巷2-1號', NULL, NULL, '15:00~19:00', '', '', '15:00~19:00', '15:00~19:00', '15:00~19:00', '15:00~19:00', '點心,麵包', 0),
-(29, 'Anita,s 義式小廚 Pasta', 4.4, '0492993880', '545南投縣埔里鎮西安路一段181號', NULL, NULL, '11:30~14:00; 17:00~20:30', '', '11:30~14:00; 16:30~20:30', '11:30~14:00; 16:30~20:30', '11:30~14:00; 16:30~20:30', '11:30~14:00; 16:30~20:30', '11:30~14:00; 17:00~20:30', '義式,簡餐,義大利麵', 1),
+(28, 'Adam\'s', 4.5, '無', '545南投縣埔里鎮吉祥巷2-1號', NULL, NULL, '15:00~19:00', '', '', '15:00~19:00', '15:00~19:00', '15:00~19:00', '15:00~19:00', '點心,麵包', 0),
+(29, 'Anita\'s 義式小廚 Pasta', 4.4, '0492993880', '545南投縣埔里鎮西安路一段181號', NULL, NULL, '11:30~14:00; 17:00~20:30', '', '11:30~14:00; 16:30~20:30', '11:30~14:00; 16:30~20:30', '11:30~14:00; 16:30~20:30', '11:30~14:00; 16:30~20:30', '11:30~14:00; 17:00~20:30', '義式,簡餐,義大利麵', 1),
 (30, 'A明早午餐', 4.8, '0978992375', '545南投縣埔里鎮中山路一段186之6號', NULL, NULL, '05:00~10:30', '05:00~10:30', '05:00~10:30', '05:00~10:30', '05:00~10:30', '05:00~10:30', '', '早午餐,早餐', 1),
 (31, 'B.W義式料理 （不定休，店休請見IG、FB)', 4.6, '0984387113', '545南投縣埔里鎮東興一街211號', NULL, NULL, '11:30~14:30; 17:30~20:00', '11:30~14:00; 17:30~20:00', '11:30~14:00; 17:30~20:00', '11:30~14:00; 17:30~20:00', '', '11:30~14:00; 17:30~20:00', '11:30~14:30; 17:30~20:00', '義式,簡餐,義大利麵', 1),
 (32, 'Bakeryguoguo菓菓烘焙', 4.6, '0956599967', '545南投縣埔里鎮九成街117巷24弄55號', NULL, NULL, '14:00~18:00', '', '', '', '14:00~18:00', '14:00~18:00', '14:00~18:00', '甜點,點心,麵包,蛋糕', 0),
@@ -2480,11 +2474,6 @@ CREATE TABLE `1_user_baby` (
   `babyID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- 傾印資料表的資料 `1_user_baby`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -2510,11 +2499,6 @@ CREATE TABLE `1_user_collectrest` (
   `rID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- 傾印資料表的資料 `1_user_collectrest`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -2535,11 +2519,6 @@ CREATE TABLE `1_user_info` (
   `sign` datetime DEFAULT current_timestamp(),
   `skin` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `1_user_info`
---
-
 
 -- --------------------------------------------------------
 
@@ -2749,11 +2728,6 @@ CREATE TABLE `1_user_like` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- 傾印資料表的資料 `1_user_like`
---
-
-
---
 -- 已傾印資料表的索引
 --
 
@@ -2819,7 +2793,7 @@ ALTER TABLE `1_user_like`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `1_cost_detail`
 --
 ALTER TABLE `1_cost_detail`
-  MODIFY `cID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `cID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `1_new_rlabel`
@@ -2837,7 +2811,7 @@ ALTER TABLE `1_rlabel`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `1_user_baby`
 --
 ALTER TABLE `1_user_baby`
-  MODIFY `buyID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `buyID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `1_user_click`
@@ -2849,19 +2823,19 @@ ALTER TABLE `1_user_click`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `1_user_collectrest`
 --
 ALTER TABLE `1_user_collectrest`
-  MODIFY `collectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `collectID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `1_user_info`
 --
 ALTER TABLE `1_user_info`
-  MODIFY `uID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `uID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `1_user_like`
 --
 ALTER TABLE `1_user_like`
-  MODIFY `uID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `uID` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
