@@ -10,7 +10,11 @@ export default function Myacc() {
   const navigation = useNavigation();
   const [userData, setUserData] = useState({ name: '用戶1號', email: 'userone@gmail.com' });
   const [avatarSource, setAvatarSource] = useState(require("../../assets/images/baby/baby0/90.png"));
-
+  const LogOut = async () => {
+    navigation.navigate('Login');
+    await AsyncStorage.removeItem('userToken');
+    await AsyncStorage.removeItem('avatarId');
+  }
   useEffect(() => {
     console.log(userData, avatarSource); // Log the current state values when they change
 
@@ -164,11 +168,11 @@ export default function Myacc() {
 
       <View style={styles.m}>
         <View style={[styles.OutCol]}>
-          <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("任務清單")}>
+          <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("個人資訊")}>
             <Ionicons name="person-circle-outline" size={50} color={'#C0C0C0'}/>
             <Text style={{fontSize:18,}}>個人資訊</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("任務清單")}>
+          <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("最新公告")}>
             <Ionicons name="megaphone-outline" size={50} color={'#C0C0C0'}/>
             <Text style={{fontSize:18,}}>最新公告</Text>
           </TouchableOpacity>
@@ -184,16 +188,16 @@ export default function Myacc() {
         </View>
 
         <View style={[styles.OutCol]}>
-            <TouchableOpacity style={[styles.infoCol]}>
+            <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("隱私政策與使用條款")}>
             <Ionicons name="document-text-outline" size={50} color={'#C0C0C0'}></Ionicons>
             <Text style={{fontSize:18,}}>隱私政策與條款</Text></TouchableOpacity>
-            <TouchableOpacity style={[styles.infoCol]}>
+            <TouchableOpacity style={[styles.infoCol]} onPress={() => navigation.navigate("常見問題與說明")}>
             <Ionicons name="help-circle-outline" size={50} color={'#C0C0C0'}></Ionicons>
             <Text style={{fontSize:18,}}>常見問題與說明</Text></TouchableOpacity>
         </View>   
           
         <View style={[globalStyles.Gocenter, {padding:50}]}>
-            <TouchableOpacity style={[styles.logout,]} /*onPress={() => navigation.navigate('')}*/>
+            <TouchableOpacity style={[styles.logout,]} onPress={LogOut}>
                 <Ionicons name="log-out-outline" size={30} color={'#c13e27'}></Ionicons>
                 <Text style={[styles.logOutBtn,]}>登出 </Text>
             </TouchableOpacity>
