@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View ,TextInput, Alert} from "react-native";
+import { StyleSheet, Text, View ,TextInput, Alert, Platform} from "react-native";
 import { SafeAreaView ,TouchableOpacity,Button,TouchableWithoutFeedback,Keyboard} from "react-native";
 import { globalStyles } from '../../styles/global';
 import { useState } from "react";
@@ -6,6 +6,7 @@ import { Switch } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { AntDesign } from '@expo/vector-icons'; 
+import { KeyboardAvoidingView } from "react-native";
 
 export default function Register({navigation}) {
   const [username, setUsername] = useState('');
@@ -19,7 +20,6 @@ export default function Register({navigation}) {
   const [isChecked, setIsChecked] = useState(true);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   //const navigation = useNavigation();
-
   const handleSwitchToggle = () => {
     setIsChecked(!isChecked);
   };
@@ -54,7 +54,12 @@ export default function Register({navigation}) {
   };
   
   return (
+    
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
+      <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
       <SafeAreaView style={styles.container}>
       <Text style={styles.h2text}>  註冊新帳號</Text>
     <View style={styles.content}>
@@ -136,9 +141,8 @@ export default function Register({navigation}) {
 
     </View>
     </SafeAreaView>
+    </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
-    
-
   );
 }
 

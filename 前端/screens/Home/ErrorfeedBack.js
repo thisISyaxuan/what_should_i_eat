@@ -8,9 +8,7 @@ import { Alert } from 'react-native';
 import * as ImagePicker from "expo-image-picker";
 import { launchCamera } from 'react-native-image-picker';
 
-//import ImagePicker from 'react-native-image-picker';
-//import { launchCamera,launchImageLibrary } from 'react-native-image-picker';
-//npm i react-native-image-picker
+//npm i react-native-image-crop-picker
 const Errorfb = () => {
   const route = useRoute()
   const {rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID} = route.params
@@ -37,8 +35,8 @@ const Errorfb = () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
+      //allowsEditing: true,
+      //aspect: undefined,
       quality: 1,
     });
 

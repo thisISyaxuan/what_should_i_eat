@@ -15,7 +15,7 @@ export default function Baby() {
             try {
                 const token = await AsyncStorage.getItem('userToken');
                 if (!token) {
-                    console.error('未能取得token');
+                    console.log('未能取得token');
                     return;
                 }
 
@@ -28,7 +28,7 @@ export default function Baby() {
                 });
 
                 if (!response.ok) {
-                    console.error('獲取用戶數據失敗，請檢查您的網絡連接或伺服器狀態');
+                    Alert.alert('獲取用戶數據失敗，請檢查您的網絡連接或伺服器狀態');
                     return;
                 }
 
@@ -37,7 +37,7 @@ export default function Baby() {
                 setHasSignedIn(data.hasSignedIn);
 
             } catch (error) {
-                console.error('獲取用戶數據過程中出現錯誤:', error);
+                Alert.alert('獲取用戶數據過程中出現錯誤:', error);
             }
         };
 
@@ -70,7 +70,7 @@ export default function Baby() {
         try {
             const token = await AsyncStorage.getItem('userToken');
             if (!token) {
-                console.error('未能取得token');
+                console.log('未能取得token');
                 return;
             }
 
@@ -98,7 +98,7 @@ export default function Baby() {
             }
 
         } catch (error) {
-            console.error('簽到過程中出現錯誤:', error);
+            Alert.alert('簽到過程中出現錯誤:', error);
         }
     }, [fadeAnim, coins]);
 

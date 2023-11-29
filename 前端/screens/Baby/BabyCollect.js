@@ -90,6 +90,7 @@ const BabyCollect = () => {
                     // Save the baby id to local storage as well
                     await AsyncStorage.setItem('avatarId', baby.id.toString());
                     Alert.alert('成功', '已成功更換大頭貼！');
+                    
                   } else {
                     Alert.alert('失敗', '更換大頭貼失敗，請稍後再試。');
                   }

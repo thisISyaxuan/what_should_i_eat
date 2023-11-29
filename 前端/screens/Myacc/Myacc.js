@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { link } from '../../data/apiLink';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function Myacc() {
   const navigation = useNavigation();
@@ -16,7 +17,7 @@ export default function Myacc() {
     await AsyncStorage.removeItem('avatarId');
   }
   useEffect(() => {
-    console.log(userData, avatarSource); // Log the current state values when they change
+    //console.log(userData, avatarSource); // Log the current state values when they change
 
     const unsubscribe = navigation.addListener('focus', fetchUserData);
 

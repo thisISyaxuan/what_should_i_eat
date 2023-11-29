@@ -9,12 +9,12 @@ import { link } from '../../data/apiLink';
 export default function MyHistory() {
       const [lastSentPos, setLastSentPos] = useState([0,0]);//經緯度
       const [dataLoaded,setDataLoaded] = useState(false);//追蹤資料有沒有都抓取成功了
-      const [datacontent, setDatacontent] = useState();//傳給EventList的資料
+      const [datacontent, setDatacontent] = useState(null);//傳給EventList的資料
   
     useEffect(() => {
-        console.log("點")
+        console.log("點")/*
         checkLocationPermission();//檢查定位
-        fetchRestaurants();
+        fetchRestaurants();*/
     }, []);
 
     
@@ -89,10 +89,13 @@ export default function MyHistory() {
     return (
         <View style={styles.container}>
             <View style={styles.loadingContainer}>
-              {dataLoaded ? 
-                  (<EventList data={datacontent} />) : 
-                  (<ActivityIndicator size="large" color="#338168" />)
-              }
+                {dataLoaded ? 
+                    (datacontent === null ? 
+                      (<Text>尚無歷史資訊</Text>) :
+                      (<EventList data={datacontent} />)
+                    ) : 
+                    (<ActivityIndicator size="large" color="#338168" />)
+                }
             </View>
         </View>
         
