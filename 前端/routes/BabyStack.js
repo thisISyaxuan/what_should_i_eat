@@ -6,6 +6,8 @@ import Baby from '../screens/Baby/Baby';
 import 'react-native-gesture-handler';
 import BabyCollect from '../screens/Baby/BabyCollect';
 import Mycoin from '../screens/Myacc/Mycoin';
+import AboutMe from '../screens/Myacc/AboutMe';
+import RandomRes from '../screens/Baby/RandomRes';
 const Stack = createStackNavigator();
 const BabyStack = () => (
   <NavigationContainer independent={true}>
@@ -43,6 +45,19 @@ const BabyStack = () => (
                             },
                             headerTintColor: 'black'
                             }} />
+        <Stack.Screen name="為您推薦" component={RandomRes} 
+                      options={{
+                        headerShown: true,
+                        headerStyle: {
+                            backgroundColor: '#f6d58a',
+                        },
+                        headerBackTitle: ' ',
+                        headerBackTitleStyle: {
+                            color: 'black', 
+                            fontSize: 16,
+                        },
+                        headerTintColor: 'black'
+                        }} />
 
 
     </Stack.Navigator>

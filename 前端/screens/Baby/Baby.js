@@ -9,8 +9,9 @@ export default function Baby() {
     const [hasSignedIn, setHasSignedIn] = useState(false);
     const [coins, setCoins] = useState(null);
     const [fadeAnim] = useState(new Animated.Value(0));
-
+    const [fadeAnimone] = useState(new Animated.Value(1));
     useEffect(() => {
+        
         const fetchUserData = async () => {
             try {
                 const token = await AsyncStorage.getItem('userToken');
@@ -67,6 +68,7 @@ export default function Baby() {
     };
 
     const handleSignIn = useCallback(async () => {
+        
         try {
             const token = await AsyncStorage.getItem('userToken');
             if (!token) {
@@ -100,21 +102,47 @@ export default function Baby() {
         } catch (error) {
             Alert.alert('簽到過程中出現錯誤:', error);
         }
+        
     }, [fadeAnim, coins]);
+
+    const RandomRes = async () =>{
+        //navigation.navigate("為您推薦")
+        
+        try{//跟後端要餐廳的資訊
+            
+            const response = await fetch(link.randomRes, {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Token ${userToken}`,
+                },
+                body: JSON.stringify(data),
+            });
+            const responseData = await response.json();//後端回傳資料
+            console.log("後端回傳的responseData為:",responseData);
+            
+            navigation.navigate("為您推薦",{data:responseData.success})
+        }catch(error){
+            console.error('Baby Error sending request:', error);
+        }
+        
+    }
+
+
 
     return (
         <ImageBackground
             source={require('../../assets/images/Background.jpg')}
             style={styles.container}
         >
-            <TouchableOpacity style={styles.btn}>
+            <View style={styles.btn}>
                 <Image
                     style={{ width: 35, height: 35 }}
                     source={require('../../assets/images/coin.png')}
                 />
                 <Text> </Text>
                 <Text>{coins}</Text>
-            </TouchableOpacity>
+            </View>
 
             <TouchableOpacity
                 style={styles.collect}
@@ -151,14 +179,19 @@ export default function Baby() {
                 }}>
                 <Text style={styles.coinText}>雞腿幣+100</Text>
             </Animated.View>
+            
 
-            <View style={styles.circle}>
-                <Image
-                    style={{ width: 250, resizeMode: 'contain' }}
-//                    背景那隻
-                    source={require('../../assets/images/baby/baby0/6.png')}
-                />
+            <View style={styles.dialogBox}> 
+              <Text style={styles.dialogText}>還是不知道吃什麼的話</Text> 
+              <Text style={styles.dialogText}>我可以幫你推薦！</Text> 
+              
             </View>
+            <View style={styles.arrow}></View> 
+
+            
+                <TouchableOpacity style={styles.circle} onPress={RandomRes}><Text>123</Text>
+                <Image style={{ width: 250, resizeMode: 'contain' }} source={require('../../assets/images/baby/baby0/6.png')} />
+                </TouchableOpacity>
         </ImageBackground>
     );
 }
@@ -214,9 +247,18 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: '40%',
         left: '40%',
-        backgroundColor: 'gold',
+        backgroundColor: '#E5B45A',
         borderRadius: 20,
         padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    floatingRes: {
+        position: 'absolute',
+        top: '40%',
+        backgroundColor: 'white',
+        borderRadius: 80,
+        padding: 15,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -224,4 +266,37 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
     },
+    ResText: {
+        fontWeight: '500',
+        fontSize:23,
+        padding:5,
+    },
+    dialogBox: {
+        position: 'absolute',
+        backgroundColor: '#ffffff',
+        padding: 16,
+        borderRadius: 30,
+        maxWidth: 300,
+        top:'40%'
+      },
+      dialogText: {
+        color: '#000000',
+        fontWeight: '500',
+        fontSize:23,
+        padding:5,
+
+      },
+      arrow: {
+        position: 'absolute',
+        top: '56%',
+        left:'30%',
+        width: 0,
+        height: 0,
+        borderLeftWidth: 15,
+        borderLeftColor: 'transparent',
+        borderRightWidth: 15,
+        borderRightColor: 'transparent',
+        borderTopWidth: 15,
+        borderTopColor: '#ffffff',
+      },
 });
