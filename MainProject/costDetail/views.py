@@ -70,7 +70,7 @@ def cost_record_month(request):
             else:
                 other = other + month_detail[i]['price']
         # 忘記要哪種格式了
-        data = [{'breakfast':breakfast,'lunch':lunch,'dinner':dinner,'other':other}]
+        data = [{'breakfast':breakfast,'lunch':lunch,'dinner':dinner,'others':other}]
         return Response({
             # 'breakfast':{'breakfast':breakfast},
             # 'lunch': {'lunch': lunch},

@@ -16,10 +16,10 @@ const PiechartMoney = () => {
     'others': '#E2E2E2',//黃
   };
   const mealTranslation = {
+    others: '其他',
     breakfast: '早餐',
     lunch: '午餐',
     dinner: '晚餐',
-    others: '其他',
   };
   
   const [selectedYear, setSelectedYear] = useState(''); // 年份
