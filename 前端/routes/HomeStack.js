@@ -15,9 +15,8 @@ import AddCashRes from '../screens/Add/AddCashRes';
 const Stack = createStackNavigator();
 
 const HomeStack = () => (
-  <NavigationContainer independent={true}>
-    <Stack.Navigator>
-    
+    <Stack.Navigator independent={true}>
+
         <Stack.Screen name="餐廳探索" component={Home} 
                       options={({ navigation }) => ({
                         headerStyle: {
@@ -115,8 +114,7 @@ const HomeStack = () => (
           
           
     </Stack.Navigator>
-  </NavigationContainer>
-  
+
 );
 
 export default HomeStack;

@@ -12,9 +12,9 @@ export default function MyHistory() {
       const [datacontent, setDatacontent] = useState(null);//傳給EventList的資料
   
     useEffect(() => {
-        console.log("點")/*
+        console.log("點")
         checkLocationPermission();//檢查定位
-        fetchRestaurants();*/
+        fetchRestaurants();
     }, []);
 
     
@@ -28,6 +28,7 @@ export default function MyHistory() {
         try {
             const userToken = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
             if (userToken) {//抓完token抓定位
+                console.log(userToken)
                 const location = await Location.getCurrentPositionAsync({});//抓經緯
                 const newCoords = [location.coords.latitude, location.coords.longitude];//新的經緯
                 if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos

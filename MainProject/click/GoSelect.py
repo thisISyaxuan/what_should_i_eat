@@ -142,18 +142,16 @@ def replaceAllLabel(Restaurant):
     Restaurant = Restaurant.rename(columns={'all_label': 'BigLabel'})
     return Restaurant
 
-def main(uID, userPos):
+def main(uID, ClickList, userPos):
 # def main():
 #     uID = 1
 #     userPos = [23.96656, 120.96586]
     Restaurant = get_pd('1_restaurant', "NULL", "NULL")
-    ThisUserClick = get_pd("1_user_click", "clickID", uID)
     collect = get_pd("1_user_collectrest", "collectID", uID)
     db.close
     print('close')
 
-    rID_list = ThisUserClick['rID'].tolist()
-    rID_list = rID_list[::-1]
+    rID_list = ClickList[::-1]
     # restaurant 留下瀏覽過的、排序
     Restaurant = Restaurant[Restaurant['rID'].isin(rID_list)]
     Restaurant['order'] = Restaurant['rID'].apply(lambda x: rID_list.index(x))

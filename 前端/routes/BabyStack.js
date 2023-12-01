@@ -10,8 +10,8 @@ import AboutMe from '../screens/Myacc/AboutMe';
 import RandomRes from '../screens/Baby/RandomRes';
 const Stack = createStackNavigator();
 const BabyStack = () => (
-  <NavigationContainer independent={true}>
-    <Stack.Navigator>
+
+    <Stack.Navigator independent={true}>
         <Stack.Screen name="我的精靈" component={Baby} 
                       options={{
                         headerStyle: {
@@ -61,7 +61,7 @@ const BabyStack = () => (
 
 
     </Stack.Navigator>
-  </NavigationContainer>
+
   
 );
 

@@ -131,20 +131,19 @@ def replaceAllLabel(Restaurant):
     Restaurant = Restaurant.rename(columns={'all_label': 'BigLabel'})
     return Restaurant
 
-def main(uID, userPos, sorting):
+def main(uID, CollectList, userPos, sorting):
 # def main():
 #     uID = 1
 #     userPos = [23.96656, 120.96586]
 #     sorting = 0
     Restaurant = get_pd('1_restaurant', "NULL", "NULL")
     NewRLabel = get_pd('1_new_rlabel', 'rID', "NULL")
-    collect = get_pd("1_user_collectrest", "collectID", uID)
     db.close
     print('close')
 
     # 過濾餐廳
-    rID_list = collect['rID'].tolist()
-    Restaurant = Restaurant[Restaurant['rID'].isin(rID_list)]
+    print(CollectList)
+    Restaurant = Restaurant[Restaurant['rID'].isin(CollectList)]
 
     Restaurant = checkTime(Restaurant)
     Restaurant = checkDistance(userPos, Restaurant)
@@ -159,7 +158,7 @@ def main(uID, userPos, sorting):
     else:  # 距離
         Restaurant = Restaurant.sort_values(by="distance", ascending=True)
 
-    # print(Restaurant.rID)
+    print(Restaurant.rID)
     return Restaurant
 
 # if __name__ == '__main__':

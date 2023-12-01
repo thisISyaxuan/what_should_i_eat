@@ -9,9 +9,8 @@ import PieChartMoney from '../screens/Wallet/Piechart';
 import { TouchableOpacity } from 'react-native';
 const Stack = createStackNavigator();
 const WalletStack = () => (
-    
-  <NavigationContainer independent={true}>
-    <Stack.Navigator>
+
+    <Stack.Navigator independent={true}>
       <Stack.Screen name="我的錢包" component={Wallet} 
                       options={({ navigation }) => ({
                         headerStyle: {
@@ -40,7 +39,7 @@ const WalletStack = () => (
           
           
     </Stack.Navigator>
-  </NavigationContainer>
+
   
 );
 
