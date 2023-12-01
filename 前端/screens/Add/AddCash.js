@@ -12,6 +12,8 @@ import { DUMMY_DATA } from '../../data/dummy';
 import { Feather } from '@expo/vector-icons';
 import SearchFilter from '../../component/SearchFilter';
 import { link } from "../../data/apiLink";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { AntDesign } from '@expo/vector-icons'; 
 
 export default function AddCash() {
   const[senddate,setdate] = useState("");
@@ -21,6 +23,7 @@ export default function AddCash() {
   const [Rating, SetRating] = useState(5.0);
   const [MyText, SetMyText] = useState("");
   const [Input,SetInput] = useState('');
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   useEffect(() => {//當前時間
     const now = new Date();// 獲取當前時間
@@ -97,21 +100,38 @@ export default function AddCash() {
         } catch (error) {
           console.error('Error sending request:', error);
         }
-        
-      
+  };
+
+  const handleConfirm = (date) => {
+    //console.log()
+    const datea = new Date(date.toISOString().split('T')[0]);
+    console.log("日期:",datea.getDay())
+    const dayOfWeek = datea.getDay();
+    const daysOfWeekText = ['週日',  '週一', '週二','週三','週四', '週五', '週六'];
+    const dayText = daysOfWeekText[dayOfWeek];
+    const formattedDate = `${date.toISOString().split('T')[0].split('-')[0]} 年 ${date.toISOString().split('T')[0].split('-')[1]} 月 ${date.toISOString().split('T')[0].split('-')[2]} 日 ${dayText}`;
+    setCurrentDate(formattedDate);
+    setdate(date.toISOString().split('T')[0]);
+    
+    setDatePickerVisibility(false)
   };
 
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
     <SafeAreaView style={styles.container}>
         <View>
-          <View style={styles.title}><Text style={{fontSize:20}}>{currentDate}</Text></View>
+          
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
             <Feather name="search" size={20} color="black" style={{ marginLeft: 4,marginTop:10, marginRight: 4 }} />
             <TextInput value={Input} onChangeText={(text) => SetInput(text)} style={styles.res} placeholder="請輸入完整店名"/>
           </View>
           {Input !== '' && <SearchFilter data={DUMMY_DATA} input={Input} SetInput={handleInputUpdate} />}
-             
+          
+          <View style={styles.title}>
+            <Text style={{fontSize:20}}>{currentDate}　</Text>
+            <AntDesign name="calendar" size={24} color="black" onPress={() => setDatePickerVisibility(true) }/>
+            <DateTimePickerModal isVisible={isDatePickerVisible} mode="date" onConfirm={handleConfirm} onCancel={() => setDatePickerVisibility(false)}/>
+          </View>
           <View style={styles.class}>
               <TouchableOpacity style={[styles.button, Class === 0 && styles.activeButton]} onPress={() => handleClassSelection("早餐")}>
               <Text style={[styles.buttonText, Class === '早餐' && styles.activeButtonText]}>早餐</Text></TouchableOpacity>
@@ -166,6 +186,8 @@ const styles = StyleSheet.create({
   title:{
     padding:10,
     alignItems: 'center',
+    flexDirection:'row',
+    justifyContent:'center'
   },
   res:{
     padding:10,
@@ -174,7 +196,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom:10,
     marginTop:20,
-    flex:1
+    flex:1,
+    height:50,
+    justifyContent:'center'
   },
   class:{
     padding:10,
