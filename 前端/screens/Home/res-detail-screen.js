@@ -15,9 +15,13 @@ import { link } from "../../data/apiLink";
 export default ResInfo = ({navigation}) =>{
     const route = useRoute()
     const {rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID} = route.params
+    console.log(route.params)
     const [isCollected, setIsCollected] = useState(collect);
+
     const [modalVisible, setModalVisible] = useState(false);
     const menuImg = imag.find(image => image.imgID === (rID).toString());
+    console.log("test:",rName)
+    console.log("test:",collect)
     
 
     const toggleCollect = () => {

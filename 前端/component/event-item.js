@@ -33,8 +33,11 @@ export default EventItem = ({rID,rName,rMap_Score,rPhone,rAddress,open,collect,d
           if (response.ok) {//if response.ok
             console.log("response.ok")
             const responseData = await response.json();
-            const mycollect = responseData.success.collect;
-            navigation.navigate("餐廳資訊",{rID,rName,rMap_Score,rPhone,rAddress,open,mycollect,distance,labelID})
+            //console.log(responseData)
+            const collect = responseData.success.collect;
+            const mydata = {rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID}
+            console.log("mydata:",mydata)
+            navigation.navigate("餐廳資訊",mydata)
           } else {
             console.error('後端回傳發生錯誤嗚嗚嗚', response.status);
             Alert.alert("發生錯誤，請再試一次");
