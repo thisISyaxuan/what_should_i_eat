@@ -109,20 +109,22 @@ export default function Baby() {
         //navigation.navigate("為您推薦")
         
         try{//跟後端要餐廳的資訊
-            
-            const response = await fetch(link.randomRes, {
-                method: 'GET',
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Token ${userToken}`,
-                },
-                body: JSON.stringify(data),
-            });
-            const responseData = await response.json();//後端回傳資料
-            console.log("後端回傳的responseData為:",responseData);
-            
-            navigation.navigate("為您推薦",{data:responseData.success})
+            const userToken = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
+            console.log(userToken)
+            if (userToken){
+                const response = await fetch(link.randomRes, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                       Authorization: `Token ${userToken}`,
+                    },
+                });
+                const responseData = await response.json();//後端回傳資料
+                console.log("後端回傳的responseData為:",responseData);
+                navigation.navigate("為您推薦",{data:responseData.success})
+            }
         }catch(error){
+            console.log("BABY")
             console.error('Baby Error sending request:', error);
         }
         
@@ -245,7 +247,7 @@ const styles = StyleSheet.create({
     },
     floatingCoin: {
         position: 'absolute',
-        top: '40%',
+        top: '20%',
         left: '40%',
         backgroundColor: '#E5B45A',
         borderRadius: 20,

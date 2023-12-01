@@ -305,11 +305,10 @@ def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, Rating
     db.close
     print('close')
 
-    # print(Restaurant)
-
     Restaurant = checkTime(Restaurant)
     Restaurant = checkDistance(userPos, Restaurant)
     Restaurant = checkCollect(uID, Restaurant, collect)
+    # print(Restaurant)
 
     if ((TimeFilter==False) and (MealFilter==-1) and (LabelFilter=='全部')): # 初始值
         FilterResult = Restaurant
@@ -343,6 +342,7 @@ def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, Rating
             # print(filtering)
             ListResult = GoMerge(init, content, filtering)
         DFresult = transDataFrame(FilterResult, ListResult)
+
     DFresult = DFresult.drop(['meal_or_not', 'rLat', 'rLng'], axis=1)
     DFresult = replaceAllLabel(DFresult)
     DFresult['rID'] = DFresult.index

@@ -34,6 +34,7 @@ def user_sign(request):
                 'success':False,
                 'coins':money
             })
+
 @api_view(['POST'])
 def user_skin(request):
     user = request.user
@@ -50,6 +51,7 @@ def user_skin(request):
     return Response({
         'success':False
     })
+
 @api_view(['POST'])
 def get_user_data(request):
     print(request.data,"get_user_data")
@@ -103,8 +105,11 @@ class register_api(generics.GenericAPIView):
             small_label = small_label+label_convert.get(big_label[i])
 
         for i in range(len(small_label)):
-            label[small_label[i]] = 1 # 小標籤評分
+            print(small_label[i])
+            print(label)
+            label[small_label[i]] = 0.1 # 小標籤評分
 
+        # label[small_label[米苔目]] += 0.1  # 小標籤評分
 
         serializer3 = UserLikeSerializer(data=label)
         serializer3.is_valid()

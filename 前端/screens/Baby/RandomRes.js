@@ -6,10 +6,11 @@ import { ScrollView, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { imag } from '../../data/menu';
 import { Linking } from 'react-native'; //超連結
 import { link } from "../../data/apiLink";
+import { ActivityIndicator } from 'react-native';//loading的圖示
 
 
 export default RandomRes = ({navigation}) =>{
@@ -23,12 +24,20 @@ export default RandomRes = ({navigation}) =>{
 
     const [isCollected, setIsCollected] = useState(collect);
     const [modalVisible, setModalVisible] = useState(false);
-    const menuImg = imag.find(image => image.imgID === (rID).toString());
+
     const [isloading,setloading] = useState(false);
 
     useEffect(() => {
+    const change = () =>{
         const route = useRoute();
+        console.log(route.data)
+    }
+    /*
+        const change = () =>{
+            const route = useRoute();
+        console.log(route.data)
         setrID(route.data.rID);
+
         setrName(route.data.rName);
         setrMap_Score(route.data.rMap_Score);
         setrPhone(route.data.rPhone);
@@ -36,8 +45,18 @@ export default RandomRes = ({navigation}) =>{
         setopen(route.data.open);
         setcollect(route.data.collect);
         //const {rID,rName,rMap_Score,rPhone,rAddress,open,collect} = route.data.params
+        const menuImg = imag.find(image => image.imgID === (rID).toString());
         setloading(true);
+
+        }
+        change();
+*/
     }, []);
+
+    const testonetwothree = ()=> {
+        const route = useRoute();
+        console.log(route.data)
+    }
 
     const toggleRandom = async() => {
         try{//跟後端要餐廳的資訊

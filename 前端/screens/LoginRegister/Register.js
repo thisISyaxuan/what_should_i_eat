@@ -17,7 +17,7 @@ export default function Register({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [verify_password, setverify_Password] = useState('');
-  const [isChecked, setIsChecked] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   //const navigation = useNavigation();
   const handleSwitchToggle = () => {

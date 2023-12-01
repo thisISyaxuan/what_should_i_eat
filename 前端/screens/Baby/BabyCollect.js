@@ -11,6 +11,7 @@ const BabyCollect = () => {
     const [ownedBabies, setOwnedBabies] = useState([baby_DATA[0].id]);
     const [coins, setCoins] = useState(0);  // 修正這裡
     const [myskin,setmyskin] = useState();
+    const [already,setalready] = useState(false);
 
     useEffect(() => {
         const fetchOwnedBabiesAndCoins = async () => {
@@ -68,6 +69,7 @@ const BabyCollect = () => {
               onPress: async () => {
                 try {
                   const token = await AsyncStorage.getItem('userToken');
+                  useEffect();
                   if (!token) {
                     throw new Error('未能取得token');
                   }
@@ -164,7 +166,7 @@ const BabyCollect = () => {
     const renderItem = ({ item, index }) => (
         <View style={styles.circle}>
             <TouchableOpacity
-                style={[styles.image, ownedBabies.includes(baby_DATA[index].id) ? styles.greenCircle : null]}  // 使用greenCircle樣式顯示綠色圓圈
+                style={[styles.image, ownedBabies.includes(baby_DATA[index].id)  ? styles.greenCircle : null]}  // 使用greenCircle樣式顯示綠色圓圈
                 onPress={() => {
                     if(ownedBabies.includes(baby_DATA[index].id)){
                         changeAvatar(baby_DATA[index])

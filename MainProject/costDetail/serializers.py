@@ -8,10 +8,11 @@ class CostSerializer(serializers.ModelSerializer):
     class Meta:
         model = CostDetail
         fields = (
-            'uid', 'date', 'which_meal', 'rid', 'price', 'rating', 'my_text')
+            'uid','ResName', 'date', 'which_meal', 'rid', 'price', 'rating', 'my_text')
 
     def create(self, validated_data):
         uid = validated_data.get('uid')
+        ResName = validated_data.get('ResName')
         date = validated_data.get('date')
         which_meal = validated_data.get('which_meal')
         rid = validated_data.get('rid')
@@ -21,6 +22,7 @@ class CostSerializer(serializers.ModelSerializer):
 
         cost = CostDetail.objects.create(
             uid=uid,
+            ResName=ResName,
             date=date,
             which_meal=which_meal,
             rid=rid,

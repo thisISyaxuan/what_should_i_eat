@@ -21,8 +21,8 @@ class recommend(generics.GenericAPIView):
             # uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, RatingSort
             # print(updated_request['userPos'][0])
             print("BEFORE")
-            # DataFrameResult = recommender.main(user.id, updated_request['TimeFilter'], updated_request['MealFilter'], updated_request['LabelFilter'], [23, 120], updated_request['DistanceSort'], updated_request['RatingSort'])
-            DataFrameResult = recommender.main(user.id, updated_request['TimeFilter'], updated_request['MealFilter'], updated_request['LabelFilter'], updated_request['userPos'], updated_request['DistanceSort'], updated_request['RatingSort'])
+            DataFrameResult = recommender.main(user.id, updated_request['TimeFilter'], updated_request['MealFilter'], updated_request['LabelFilter'], [23, 120], updated_request['DistanceSort'], updated_request['RatingSort'])
+            # DataFrameResult = recommender.main(user.id, updated_request['TimeFilter'], updated_request['MealFilter'], updated_request['LabelFilter'], updated_request['userPos'], updated_request['DistanceSort'], updated_request['RatingSort'])
             print("AFTER")
             print(type(DataFrameResult))
             print(DataFrameResult.shape)
@@ -47,6 +47,39 @@ class collect(generics.GenericAPIView):
             # print(DataFrameResult.columns)
             return Response({
                 'success': DataFrameResult
+            })
+        return Response({
+            'success': False
+        })
+
+class random(generics.GenericAPIView):
+    def post(self, request, *args, **kwargs):
+        print("got a /recommend/random/ request")
+        # print(request.data)
+        temp  = request.data
+        print(temp)
+        print(type(temp))
+        print("-------------------------")
+        query_dict = QueryDict('', mutable=True)
+        query_dict.update(temp)
+        print(type(query_dict))
+        print(query_dict)
+        updated_request = query_dict
+        user = request.user
+        if user.is_authenticated:
+            # uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, RatingSort
+            # print(updated_request['userPos'][0])
+            # print("BEFORE")
+            # DataFrameResult = recommender.main(user.id, updated_request['TimeFilter'], updated_request['MealFilter'], updated_request['LabelFilter'], [23, 120], updated_request['DistanceSort'], updated_request['RatingSort'])
+            # # DataFrameResult = recommender.main(user.id, updated_request['TimeFilter'], updated_request['MealFilter'], updated_request['LabelFilter'], updated_request['userPos'], updated_request['DistanceSort'], updated_request['RatingSort'])
+            # print("AFTER")
+            # print(type(DataFrameResult))
+            # print(DataFrameResult.shape)
+            return Response({
+                # 前端名稱
+                # rName rMap_Score rPhone rAddress BigLabel open distance collect rID
+                # {"success": {"rName": [], "rMa_Score": [], "rAddress": [], "open": []}}
+                'success': {"rID": 6, "rName": "test", "rMa_Score": "test", "rAddress": "test", "rPhone": "test", "open": 1, "collect": 1}
             })
         return Response({
             'success': False

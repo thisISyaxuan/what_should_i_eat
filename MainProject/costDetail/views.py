@@ -37,8 +37,8 @@ def cost_record(request):
     data = []
     if user.is_authenticated:
         user_id = user.id
-        for i in range(len(CostDetail.objects.filter(uid=user_id, date=date).values())):
-            data.append(CostDetail.objects.filter(uid=user_id, date=date).values()[i])
+        for i in range(len(CostDetail.objects.filter(uid = user_id,date=date).values())):
+            data.append(CostDetail.objects.filter(uid = user_id,date=date).values()[i])
         total = CostDetail.objects.filter(uid=user_id, date=date).aggregate(total=Sum('price'))
         return Response({
             'data':data,

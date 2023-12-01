@@ -31,11 +31,11 @@ export default function Home() {
             console.log('123:',filter);
             flatListRef.current?.scrollToOffset({ animated: true, offset: 0 });
         }else{
-            /*
+
             //從其他頁面進來的
             checkLocationPermission();
             fetchRestaurants(); // 執行上面的函數
-            */
+
         }
     }, [data]);
     const checkLocationPermission = async () => {//先檢查定位有沒有被開啟

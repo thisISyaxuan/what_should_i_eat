@@ -17,5 +17,5 @@ export const link = {
     collect: `http://${ipaddress}:8000/collect/show/`,
     piechart: `http://${ipaddress}:8000/account/cost_record_month/`,
     wallet: `http://${ipaddress}:8000/account/cost_record/`,
-    randomRes:`http://${ipaddress}:8000`,
+    randomRes: `http://${ipaddress}:8000/recommend/random/`,
 };
