@@ -1,7 +1,4 @@
-from django.shortcuts import render
-from knox.models import AuthToken
-from rest_framework import generics, status
-from rest_framework.decorators import api_view
+from rest_framework import generics
 from rest_framework.response import Response
 from .models import Restaurant
 from django.http import QueryDict
@@ -9,7 +6,6 @@ from . import recommender
 from collectRest.models import UserCollectrest
 import random
 import datetime
-
 
 class recommend(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):

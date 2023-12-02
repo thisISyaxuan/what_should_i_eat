@@ -8,7 +8,11 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from userLike import label_convert
 from .models import UserInfo
 from baby.models import UserBaby
+from restaurant.models import Restaurant
 import datetime
+from . import mail
+import base64
+
 @api_view(['POST'])
 def user_sign(request):
     user = request.user
@@ -148,3 +152,44 @@ def get_user_money(request):
         return Response({
             'error':'not authenticated'
         },status = 400)
+
+# 錯誤回報
+class RestInfoWrong(generics.GenericAPIView):
+    def post(self, request, *args, **kwargs):
+        print("got a /api/RestInfoWrong/ request")
+        data = request.data
+        user = request.user
+        data['rPhone'] = "0963630190"
+        data['rAddress'] = "南投縣埔里鎮大學一號"
+        data['open'] = "12:00~13:30"
+        data['rPhoto'] = image_to_base64()
+        # data['rPhoto'] = ""
+        data['rText'] = "Hello"
+        data['rID'] = 4
+        if user.is_authenticated:
+            uid = user.id
+            uName = UserInfo.objects.filter(uid=uid).values()[0]['username']
+            uEmail = UserInfo.objects.filter(uid=uid).values()[0]['email']
+            rName = Restaurant.objects.filter(rid=data['rID']).values()[0]['rname']
+            print(uid, uName, uEmail)
+            status = mail.main(uid, uName, uEmail, data['rID'], rName, data['rPhone'], data['rAddress'], data['open'], data['rPhoto'], data['rText'])
+            return Response({
+                'success': "status"
+            })
+        return Response({
+            'success': False
+        })
+
+def image_to_base64():
+    PATH = "D:/user/Downloads/logo 1 (1).png"
+    try:
+        # 開啟圖片文件並讀取二進制數據
+        with open(PATH, 'rb') as file:
+            image_data = file.read()
+        # 將二進制數據轉換為 base64 字串
+        base64_data = base64.b64encode(image_data).decode('utf-8')
+        print(type(base64_data))
+        return base64_data
+    except FileNotFoundError:
+        print("File not found.")
+        return None

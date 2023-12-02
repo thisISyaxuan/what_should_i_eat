@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from restaurant.models import Restaurant
 from userInfo.models import UserInfo
 from .models import CostDetail
-from django.db.models import Sum
+from django.db.models import Sum, F
 
 class cost_detail(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
@@ -45,11 +45,14 @@ def cost_record(request):
     if user.is_authenticated:
         user_id = user.id
         for i in range(len(CostDetail.objects.filter(uid = user_id,date=date).values())):
-            aCost = CostDetail.objects.filter(uid = user_id,date=date).values()[i]
-            aCost['ResName'] = Restaurant.objects.filter(rid=aCost['rid']).values()[0]['rname']
-            print(aCost)
-            data.append(aCost)
-        total = CostDetail.objects.filter(uid=user_id, date=date).aggregate(total=Sum('price'))
+            aCost = CostDetail.objects.filter(uid=user_id, date=date).values()[i]
+            if (aCost['rid']>0):
+                aCost['ResName'] = Restaurant.objects.filter(rid=aCost['rid']).values()[0]['rname']
+                print(aCost)
+                data.append(aCost)
+        total = CostDetail.objects.filter(uid=user_id, date=date, rid__gt=0).aggregate(total=Sum('price'))
+        if (total['total'] == None):
+            total['total'] = 0
         print(total)
         return Response({
             'data':data,
@@ -70,7 +73,7 @@ def cost_record_month(request):
     other= 0
     if user.is_authenticated:
         user_id = user.id
-        month_detail = CostDetail.objects.filter(uid = user_id,date__year=year,date__month=month).values()
+        month_detail = CostDetail.objects.filter(uid = user_id,date__year=year,date__month=month, rid__gt=0).values()
         for i in range(len(month_detail)):
             if month_detail[i]['which_meal'] == 0:
                 breakfast = breakfast + month_detail[i]['price']
@@ -97,3 +100,19 @@ def cost_record_month(request):
     return Response({
         'success': False
     })
+
+class delete(generics.GenericAPIView):
+    def post(self, request, *args, **kwargs):
+        print("/account/delete/")
+        print(request.data)
+        data = request.data
+        user = request.user
+        if user.is_authenticated:
+            user_id = user.id
+            CostDetail.objects.filter(uid=user_id, cid=data['cid']).update(rid=F('rid')*-1)
+            return Response({
+                'success': True
+            })
+        return Response({
+            'success': False
+        })
