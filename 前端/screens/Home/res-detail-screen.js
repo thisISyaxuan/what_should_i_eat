@@ -17,11 +17,8 @@ export default ResInfo = ({navigation}) =>{
     const {rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID} = route.params
     console.log(route.params)
     const [isCollected, setIsCollected] = useState(collect);
-
     const [modalVisible, setModalVisible] = useState(false);
     const menuImg = imag.find(image => image.imgID === (rID).toString());
-    console.log("test:",rName)
-    console.log("test:",collect)
     
 
     const toggleCollect = () => {
@@ -114,24 +111,24 @@ export default ResInfo = ({navigation}) =>{
             <View style={{height:50}}><Text> </Text></View>
             <View style={{ borderBottomColor: 'gray', borderBottomWidth: 1 ,width:'100%'}}></View>
             <View style={styles.output}>
-            <View style={{flexDirection: 'row', height: 50, flex: 2}}>
+            <View style={{flexDirection: 'row', flex: 1,alignItems:'center'}}>
                 <View style={{ justifyContent: 'center', margin: 7 }}><Icon name="circle" size={10} color={open === -1 ? 'red' : 'green' }/></View>
                 <Text style={{fontSize:18}}>{open === -1 ? '已打烊' : '營業中'}</Text>
             </View>
-            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>評分：{rMap_Score} 顆星</Text>
-            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>距離：{distance} km</Text>
+            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray',marginBottom:3,}}>評分：{rMap_Score} 顆星</Text>
+            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray',marginBottom:3}}>距離：{distance} km</Text>
 
             <TouchableOpacity onPress={() => Linking.openURL(`tel:${rPhone}`)}>
-              <Text style={{ fontSize: 18, height: 30 }}>
+              <Text style={{ fontSize: 18,marginBottom:3}}>
                 電話：
-                <Text style={{ fontSize:18,height: 30,textDecorationLine: 'underline',color:'blue'}}> {rPhone} </Text>
+                <Text style={{ fontSize:18,textDecorationLine: 'underline',color:'blue'}}> {rPhone} </Text>
               </Text>
             </TouchableOpacity>
             
             <TouchableOpacity onPress={() => openGoogleMaps(rName)}>
-            <Text style={{fontSize:18, height: 30}}>
+            <Text style={{fontSize:18, flexWrap: 'wrap',marginBottom:3}}>
               地址：
-              <Text style={{ fontSize:18,height: 30,textDecorationLine: 'underline',color:'blue'}}> {rAddress} </Text>
+              <Text style={{ fontSize:18,textDecorationLine: 'underline',color:'blue'}}> {rAddress} </Text>
             </Text>
             </TouchableOpacity>
         </View> 
@@ -190,21 +187,19 @@ const styles = StyleSheet.create({
         alignItems:"center",
       },
       output: {
-
-        top:10,
         width: '90%',
         flexDirection: 'column',
         textAlign: 'left',
-        height:150,
+        height:'25%',
       },  
       bottom: {
         borderTopWidth:1, borderTopColor:'gray',
-        flex: 4,
+        flex: 3,
         margin: 10,
         padding: 15,
       },
       ButtonL: {
-        top: 20,
+        top: 10,
         justifyContent: 'center',
         left: 12,
         width: '50%',
@@ -213,7 +208,7 @@ const styles = StyleSheet.create({
         borderRadius: 30
       },
       ButtonR: {
-        top: 20,
+        top: 10,
         justifyContent: 'center',
         right: 12,
         width: '50%',

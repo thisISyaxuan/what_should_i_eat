@@ -5,13 +5,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from 'expo-location';
 import { ActivityIndicator } from 'react-native';
 import { link } from '../../data/apiLink';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function MyHistory() {
       const [lastSentPos, setLastSentPos] = useState([0,0]);//經緯度
       const [dataLoaded,setDataLoaded] = useState(false);//追蹤資料有沒有都抓取成功了
       const [datacontent, setDatacontent] = useState(null);//傳給EventList的資料
-  
-    useEffect(() => {
+    
+    useFocusEffect(() => {
         console.log("點")
         checkLocationPermission();//檢查定位
         fetchRestaurants();

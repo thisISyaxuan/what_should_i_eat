@@ -1,6 +1,6 @@
 //第42 43行 註解掉
 import { startTransition, useState,useEffect } from "react";
-import { StyleSheet, TextInput, Text, View ,SafeAreaView ,TouchableOpacity,TouchableWithoutFeedback,Keyboard,Button} from "react-native";
+import { Image , StyleSheet, TextInput, Text, View ,SafeAreaView ,TouchableOpacity,TouchableWithoutFeedback,Keyboard,Button} from "react-native";
 import { globalStyles } from '../../styles/global';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
@@ -82,8 +82,13 @@ export default function Login({navigation}) {
     <SafeAreaView style={styles.container}>
 
       <View style={styles.content}>
-      <Text style={styles.h2text}> 歡迎使用！ </Text>
-      <Text>  </Text>
+
+        <View style={{alignItems:'center',marginBottom:'8%'}}>
+        <Image style={{width:200,height:200}} source={require('../../assets/icon.png')}/>
+        {/*<Text style={{fontSize:23,fontWeight:'600',padding:3,margin:5}}>吃啥?</Text>*/}
+        </View>
+
+        <View>
       <TextInput
         style={globalStyles.input}
         placeholder='帳號：'
@@ -115,6 +120,9 @@ export default function Login({navigation}) {
       </View>
       </View>
 
+
+      </View>
+
     </SafeAreaView>
     </TouchableWithoutFeedback>
 
@@ -123,9 +131,11 @@ export default function Login({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex:1,
     justifyContent: 'center',
     alignItems: 'center',
+    height:'75%',
+    
   },
   h2text:{
     textAlign:"center",
@@ -136,7 +146,9 @@ const styles = StyleSheet.create({
   },
 
   content:{
-    marginTop:20,
+    //marginTop:20,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   button:{
     marginLeft: 'auto',

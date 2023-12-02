@@ -4,6 +4,7 @@ import { Calendar } from 'react-native-calendars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FlatList } from 'react-native-gesture-handler';
 import { link } from '../../data/apiLink';
+import { color } from 'react-native-elements/dist/helpers';
 
 export default function Wallet() {
   const currentDate = new Date();
@@ -78,7 +79,7 @@ export default function Wallet() {
           fetchDateData(day.dateString);
         }}
         markedDates={{
-          [selected]: { selected: true, disableTouchEvent: true, selectedDotColor: 'orange' },
+          [selected]: { selected: true, selectedColor: '#338168' },
         }}
       />
       <Text style={[{fontSize:16},{margin:5}]}>今日總支出：${total}</Text>
