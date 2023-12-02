@@ -718,6 +718,6 @@ export const DUMMY_DATA =[
 export const SearchRestaurant = (query) => {
     const searchTerm = query.toLowerCase();
     return DUMMY_DATA.filter(restaurant =>
-      restaurant.title.toLowerCase().includes(searchTerm)
+      restaurant.title.trim().toLowerCase().includes(searchTerm)
     );
   };
