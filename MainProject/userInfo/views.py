@@ -58,11 +58,19 @@ def get_user_data(request):
     user = request.user
     if user.is_authenticated:
         username = user.username
+        gender = UserInfo.objects.filter(username=username).values()[0]['gender']
+        birthday = UserInfo.objects.filter(username=username).values()[0]['birthday']
+        phone = UserInfo.objects.filter(username=username).values()[0]['phone_number']
+        address = UserInfo.objects.filter(username=username).values()[0]['address']
         skin = UserInfo.objects.filter(username=username).values()[0]['skin']
         print(username, skin)
         return Response({
             'id': user.id,
             'username': user.username,
+            'gender': gender,
+            'birthday': birthday,
+            'phone': phone,
+            'address': address,
             'email': user.email,
             'avatarId':skin
         })

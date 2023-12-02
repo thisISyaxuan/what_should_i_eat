@@ -13,14 +13,14 @@ class UserInfo(models.Model):
     username = models.CharField(max_length=20)
     gender = models.IntegerField()
     birthday = models.DateField()
-    phone_number = models.IntegerField()
+    phone_number = models.CharField(max_length=11)
     address = models.CharField(max_length=20)
     email = models.CharField(max_length=50)
     password = models.CharField(max_length=20)
     verify_password = models.CharField(max_length=20)
-    money = models.IntegerField(default=100)
-    sign = models.DateField(blank=True, null=False)
-    skin = models.IntegerField(default=1)
+    money = models.IntegerField()
+    sign = models.DateTimeField(blank=True, null=True)
+    skin = models.IntegerField()
 
     class Meta:
         managed = False
