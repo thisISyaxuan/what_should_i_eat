@@ -5,10 +5,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import CostSerializer
 from restaurant.models import Restaurant
+from userInfo.models import UserInfo
 from .models import CostDetail
 from django.db.models import Sum
-
-
 
 class cost_detail(generics.GenericAPIView):
     serializer_class = CostSerializer
@@ -23,6 +22,10 @@ class cost_detail(generics.GenericAPIView):
             serializer = self.get_serializer(data = updated_request)
             serializer.is_valid(raise_exception=True)
             serializer.save()
+            # 記帳
+            u = UserInfo.objects.get(uid=user_id)
+            u.money = u.money + 20  # 簽到加的金額
+            u.save()
             return Response({
                 'success': True
             })
