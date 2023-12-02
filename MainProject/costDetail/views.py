@@ -3,33 +3,33 @@ from knox.models import AuthToken
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import CostSerializer
 from restaurant.models import Restaurant
 from userInfo.models import UserInfo
 from .models import CostDetail
 from django.db.models import Sum
 
 class cost_detail(generics.GenericAPIView):
-    serializer_class = CostSerializer
     def post(self, request, *args, **kwargs):
-        print(request.data)
-        updated_request = request.data.copy()
+        aCost = request.data.copy()
+        print(aCost)
         user = request.user
         if user.is_authenticated:
-            msg = True
+            print("got a /account/cost/")
+            msg = False
             user_id = user.id
-            rid = Restaurant.objects.filter(rname=request.data['ResName']).values()
-            if (len(rid)==1):
-                updated_request.update({'uid': user_id, 'rid': rid[0]['rid']})
-                serializer = self.get_serializer(data=updated_request)
-                serializer.is_valid(raise_exception=True)
-                serializer.save()
+            try:
+                aCostRID = Restaurant.objects.filter(rname=request.data['ResName']).values()[0]['rid']
+            except:
+                aCostRID = -1
+            if (aCostRID > 0):
                 # 記帳
+                cost = CostDetail.objects.create(uid=user_id, rid=aCostRID, date=aCost['date'], which_meal=aCost['which_meal'], price=aCost['price'], rating=aCost['rating'], my_text=aCost['my_text'])
+                cost.save()
+                # 雞腿幣
                 u = UserInfo.objects.get(uid=user_id)
                 u.money = u.money + 20  # 簽到加的金額
                 u.save()
-            else:
-                msg = False
+                msg = True
             return Response({
                 'success': msg
             })
@@ -45,8 +45,12 @@ def cost_record(request):
     if user.is_authenticated:
         user_id = user.id
         for i in range(len(CostDetail.objects.filter(uid = user_id,date=date).values())):
-            data.append(CostDetail.objects.filter(uid = user_id,date=date).values()[i])
+            aCost = CostDetail.objects.filter(uid = user_id,date=date).values()[i]
+            aCost['ResName'] = Restaurant.objects.filter(rid=aCost['rid']).values()[0]['rname']
+            print(aCost)
+            data.append(aCost)
         total = CostDetail.objects.filter(uid=user_id, date=date).aggregate(total=Sum('price'))
+        print(total)
         return Response({
             'data':data,
             'total':total,
