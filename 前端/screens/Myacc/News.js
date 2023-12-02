@@ -8,32 +8,91 @@ const News = () => {
 
     return (
         <ScrollView >
-        <View style={styles.card}>
+          <View style={styles.card}>
             <Text style={styles.cardtext}>2023/11/27</Text>
-            <View style={[styles.content,{backgroundColor:'#a7aab3'}]}>
+            <View style={[styles.content,{backgroundColor:'#ffd8c3'}]}>
                 <View style={styles.circleout}>
                 <View style={styles.circle}>
-                    <Image style={styles.image} source={require('../../assets/images/baby/baby0/132.png')}/>
+                    <Image style={styles.image} source={require('../../assets/images/baby/baby0/510.png')}/>
                 </View></View>
 
                 <View style={styles.contenttext}>
                 <Text style={styles.usrtext}>                    全新精靈上架啦!                    </Text></View>
             </View>
         </View>
-            <View style={styles.card}>
+        <View style={styles.card}>
+            <Text style={styles.cardtext}>2023/11/27</Text>
+            <View style={[styles.content,{backgroundColor:'#ffe4e4'}]}>
+                <View style={styles.circleout}>
+                <View style={styles.circle}>
+                    <Image style={styles.image} source={require('../../assets/images/baby/baby0/468.png')}/>
+                </View></View>
+
+                <View style={styles.contenttext}>
+                <Text style={styles.usrtext}>                    全新精靈上架啦!                    </Text></View>
+            </View>
+        </View>
+        <View style={styles.card}>
+            <Text style={styles.cardtext}>2023/11/27</Text>
+            <View style={[styles.content,{backgroundColor:'#cda686'}]}>
+                <View style={styles.circleout}>
+                <View style={styles.circle}>
+                    <Image style={styles.image} source={require('../../assets/images/baby/baby0/426.png')}/>
+                </View></View>
+
+                <View style={styles.contenttext}>
+                <Text style={styles.usrtext}>                    全新精靈上架啦!                    </Text></View>
+            </View>
+        </View>
+        <View style={styles.card}>
+            <Text style={styles.cardtext}>2023/11/27</Text>
+            <View style={[styles.content,{backgroundColor:'#9d8b8b'}]}>
+                <View style={styles.circleout}>
+                <View style={styles.circle}>
+                    <Image style={styles.image} source={require('../../assets/images/baby/baby0/384.png')}/>
+                </View></View>
+
+                <View style={styles.contenttext}>
+                <Text style={styles.usrtext}>                    全新精靈上架啦!                    </Text></View>
+            </View>
+        </View>
+        <View style={styles.card}>
+            <Text style={styles.cardtext}>2023/11/27</Text>
+            <View style={[styles.content,{backgroundColor:'#b1a9a9'}]}>
+                <View style={styles.circleout}>
+                <View style={styles.circle}>
+                    <Image style={styles.image} source={require('../../assets/images/baby/baby0/342.png')}/>
+                </View></View>
+
+                <View style={styles.contenttext}>
+                <Text style={styles.usrtext}>                    全新精靈上架啦!                    </Text></View>
+            </View>
+        </View>
+        <View style={styles.card}>
+            <Text style={styles.cardtext}>2023/11/27</Text>
+            <View style={[styles.content,{backgroundColor:'#666666'}]}>
+                <View style={styles.circleout}>
+                <View style={styles.circle}>
+                    <Image style={styles.image} source={require('../../assets/images/baby/baby0/300.png')}/>
+                </View></View>
+
+                <View style={styles.contenttext}>
+                <Text style={styles.usrtext}>                    全新精靈上架啦!                    </Text></View>
+            </View>
+        </View>
+        <View style={styles.card}>
                 <Text style={styles.cardtext}>2023/11/27</Text>
-                <View style={[styles.content,{backgroundColor:'#cdb4a6'}]}>
+                <View style={[styles.content,{backgroundColor:'#e2c997'}]}>
                     <View style={styles.circleout}>
                     <View style={styles.circle}>
-                        <Image style={styles.image} source={require('../../assets/images/baby/baby0/90.png')}/>
+                        <Image style={styles.image} source={require('../../assets/images/baby/baby0/258.png')}/>
                     </View></View>
 
                     <View style={styles.contenttext}>
                     <Text style={styles.usrtext}>                    全新精靈上架啦!                    </Text></View>
                 </View>
-            </View>
-            
-            <View style={styles.card}>
+        </View>
+        <View style={styles.card}>
                 <Text style={styles.cardtext}>2023/11/27</Text>
                 <View style={[styles.content,{backgroundColor:'#ece1cf'}]}>
                     <View style={styles.circleout}>
@@ -44,8 +103,8 @@ const News = () => {
                     <View style={styles.contenttext}>
                     <Text style={styles.usrtext}>                    全新精靈上架啦!                    </Text></View>
                 </View>
-            </View>
-            <View style={styles.card}>
+        </View>
+        <View style={styles.card}>
                 <Text style={styles.cardtext}>2023/11/27</Text>
                 <View style={[styles.content,{backgroundColor:'#fbcda1'}]}>
                     <View style={styles.circleout}>
@@ -56,31 +115,57 @@ const News = () => {
                     <View style={styles.contenttext}>
                     <Text style={styles.usrtext}>                    全新精靈上架啦!                    </Text></View>
                 </View>
-            </View>
-            <View style={styles.card}>
+        </View>
+        <View style={styles.card}>
                 <Text style={styles.cardtext}>2023/11/27</Text>
-                <View style={[styles.content,{backgroundColor:'#ece1cf'}]}>
+                <View style={[styles.content,{backgroundColor:'#a8aab3'}]}>
                     <View style={styles.circleout}>
                     <View style={styles.circle}>
-                        <Image style={styles.image} source={require('../../assets/images/baby/baby0/258.png')}/>
+                        <Image style={styles.image} source={require('../../assets/images/baby/baby0/132.png')}/>
                     </View></View>
 
                     <View style={styles.contenttext}>
                     <Text style={styles.usrtext}>                    全新精靈上架啦!                    </Text></View>
                 </View>
-            </View>
-            <View style={styles.card}>
+        </View>
+        <View style={styles.card}>
                 <Text style={styles.cardtext}>2023/11/27</Text>
-                <View style={[styles.content,{backgroundColor:'#a7aab3'}]}>
+                <View style={[styles.content,{backgroundColor:'#cdb4a6'}]}>
                     <View style={styles.circleout}>
                     <View style={styles.circle}>
-                        <Image style={styles.image} source={require('../../assets/images/baby/baby0/300.png')}/>
+                        <Image style={styles.image} source={require('../../assets/images/baby/baby0/90.png')}/>
                     </View></View>
 
                     <View style={styles.contenttext}>
                     <Text style={styles.usrtext}>                    全新精靈上架啦!                    </Text></View>
                 </View>
+        </View>
+        <View style={styles.card}>
+                <Text style={styles.cardtext}>2023/11/27</Text>
+                <View style={[styles.content,{backgroundColor:'#ffc3bc'}]}>
+                    <View style={styles.circleout}>
+                    <View style={[styles.circle]}>
+                        <Image style={styles.image} source={require('../../assets/images/baby/baby0/48.png')}/>
+                    </View></View>
+
+                    <View style={styles.contenttext}>
+                    <Text style={styles.usrtext}>                    全新精靈上架啦!                    </Text></View>
+                </View>
+        </View>
+
+        <View style={styles.card}>
+          <Text style={styles.cardtext}>2023/11/27</Text>
+            <View style={[styles.content,{backgroundColor:'#f5eab8'}]}>
+              <View style={styles.circleout}>
+                  <View style={[styles.circle,{backgroundColor:'#f5eab8'}]}>
+                      <Image style={styles.image} source={require('../../assets/images/baby/baby0/6.png')}/>
+                  </View>
+              </View>
+
+            <View style={styles.contenttext}> <Text style={styles.usrtext}>                    全新精靈上架啦!                    </Text></View>
             </View>
+        </View>
+            
         </ScrollView>
   );
 };
@@ -123,6 +208,7 @@ const styles = StyleSheet.create({
   contenttext:{
     flex: 1,
     backgroundColor:'white',
+    width:'100%',
   },
   image:{
     height:200,

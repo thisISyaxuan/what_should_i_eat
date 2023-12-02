@@ -18,4 +18,5 @@ export const link = {
     piechart: `http://${ipaddress}:8000/account/cost_record_month/`,
     wallet: `http://${ipaddress}:8000/account/cost_record/`,
     randomRes: `http://${ipaddress}:8000/recommend/random/`,
+    AboutMe: `http://${ipaddress}:8000`,
 };
