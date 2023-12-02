@@ -5,7 +5,7 @@ from django.http import QueryDict
 from . import recommender
 from collectRest.models import UserCollectrest
 import random
-import datetime
+from datetime import datetime, timedelta, time
 
 class recommend(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
@@ -61,11 +61,11 @@ class randomRest(generics.GenericAPIView):
             user_id = user.id
             num = Restaurant.objects.count()
             index = random.randint(1,num)
-            print(index)
+            # print(index)
             aRest = Restaurant.objects.all().values()[index-1]
-            print(aRest)
+            # print(aRest)
             aRest = check(user_id, aRest)
-            print(aRest)
+            # print(aRest)
             return Response({
                 # {"success": {"rName": [], "rMa_Score": [], "rAddress": [], "open": []}}
                 # 'success': {"rID": 6, "rName": "test", "rMa_Score": "test", "rAddress": "test", "rPhone": "test", "open": 1, "collect": 1}
@@ -90,31 +90,39 @@ def check(user_id, aRest):
 def openORnot(aRest):
     open = 999
     date = ['mon', 'tue', 'wed', 'thur', 'fri', 'sat', 'sun']
-    day_of_week = datetime.datetime.today().weekday()
-    currentTime = datetime.datetime.now().time()
+    day_of_week = datetime.today().weekday()
+    currentTime = datetime.now().time()
     # ----
     RestaurantTime = aRest[date[day_of_week]].split(';')
-    print(RestaurantTime)
+    # print(RestaurantTime)
     openCheck = [False] * len(RestaurantTime)
-    print(openCheck)
+    # print(openCheck)
     for index, eachTime in enumerate(RestaurantTime):
         eachTime = eachTime.strip().split('~')
         # print(eachTime)
         if (eachTime != ['']):
-            start_time = datetime.time(int(eachTime[0].split(':')[0]), int(eachTime[0].split(':')[1][0]),
-                                       int(eachTime[0].split(':')[1][1]))
-            # print(eachTime[0].split(':')[0])
-            # print(eachTime[0].split(':')[1][0])
-            # print(eachTime[0].split(':')[1][1])
-            end_time = datetime.time(int(eachTime[1].split(':')[0]), int(eachTime[1].split(':')[1][0]),
-                                     int(eachTime[1].split(':')[1][1]))
+            start_time = time(int(eachTime[0].split(':')[0]), int(eachTime[0].split(':')[1][0]))
+            end_time = time(int(eachTime[1].split(':')[0]), int(eachTime[1].split(':')[1]))
+            # print(start_time)
+            # print(currentTime)
+            # print(end_time)
             if (start_time <= currentTime <= end_time):
-                openCheck[index] = True
+                after30 = datetime.now() + timedelta(minutes=30)
+                # print("-------------")
+                # print(after30, end_time)
+                # print("-------------")
+                if (after30.time() >= end_time):
+                    openCheck[index] = 0    # 營業中
+                else:
+                    openCheck[index] = 1    # 快關了
             else:
-                openCheck[index] = False
-    # print(openCheck)
-    if (True not in openCheck):
-        open = -1
+                openCheck[index] = -1    # 沒開 
+    print(openCheck)
+    if (-1 not in openCheck):
+        if(0 not in openCheck):
+            open = 1    # 營業中
+        else:
+            open = 0    # 快關了
     else:
-        open = 1
+        open = -1   # 沒開
     return open

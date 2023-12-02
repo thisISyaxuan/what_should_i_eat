@@ -4,7 +4,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from numpy import dot, sin, cos, arccos, pi, round
 from numpy.linalg import norm
-import datetime
+from datetime import datetime, timedelta, time
 
 # ------------
 labelDict = {}
@@ -71,8 +71,8 @@ def selectCount(tabel_name):
 def checkTime(Restaurant):
     Restaurant.insert(Restaurant.shape[1], 'open', 0)
     date = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun']
-    day_of_week = datetime.datetime.today().weekday()
-    currentTime = datetime.datetime.now().time()
+    day_of_week = datetime.today().weekday()
+    currentTime = datetime.now().time()
     for rID, row in Restaurant.iterrows():
         RestaurantTime = row[date[day_of_week]].split(';')
         openCheck = [False] * len(RestaurantTime)
@@ -81,20 +81,27 @@ def checkTime(Restaurant):
             eachTime = eachTime.strip().split('~')
             # print(eachTime)
             if (eachTime != ['']):
-                start_time = datetime.time(int(eachTime[0].split(':')[0]), int(eachTime[0].split(':')[1][0]), int(eachTime[0].split(':')[1][1]))
-                # print(eachTime[0].split(':')[0])
-                # print(eachTime[0].split(':')[1][0])
-                # print(eachTime[0].split(':')[1][1])
-                end_time = datetime.time(int(eachTime[1].split(':')[0]), int(eachTime[1].split(':')[1][0]), int(eachTime[1].split(':')[1][1]))
+                start_time = time(int(eachTime[0].split(':')[0]), int(eachTime[0].split(':')[1][0]))
+                end_time = time(int(eachTime[1].split(':')[0]), int(eachTime[1].split(':')[1]))
                 if (start_time <= currentTime <= end_time):
-                    openCheck[index] = True
+                    after30 = datetime.now() + timedelta(minutes=30)
+                    # print("-------------")
+                    # print(after30, end_time)
+                    # print("-------------")
+                    if (after30.time() >= end_time):
+                        openCheck[index] = 0  # 營業中
+                    else:
+                        openCheck[index] = 1  # 快關了
                 else:
-                    openCheck[index] = False
+                    openCheck[index] = -1  # 沒開
         # print(openCheck)
-        if (True not in openCheck):
-            Restaurant.at[rID, 'open'] = -1
+        if (-1 not in openCheck):
+            if (0 not in openCheck):
+                Restaurant.at[rID, 'open']  = 1  # 營業中
+            else:
+                Restaurant.at[rID, 'open']  = 0  # 快關了
         else:
-            Restaurant.at[rID, 'open'] = 1
+            Restaurant.at[rID, 'open'] = -1  # 沒開
     Restaurant = Restaurant.drop(date, axis=1)
     return Restaurant
 
