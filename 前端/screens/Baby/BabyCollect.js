@@ -9,8 +9,8 @@ import { link } from '../../data/apiLink';
 const BabyCollect = () => {
     const navigation = useNavigation();
     const [ownedBabies, setOwnedBabies] = useState([baby_DATA[0].id]);
-    const [coins, setCoins] = useState(0);  // 修正這裡
-    const [myskin,setmyskin] = useState();
+    const [coins, setCoins] = useState(0);  // 用戶餘額
+    const [myskin,setmyskin] = useState();  // 用戶選擇的皮膚
 
     useEffect(() => {
         const fetchOwnedBabiesAndCoins = async () => {
@@ -89,8 +89,9 @@ const BabyCollect = () => {
                   if (data.success) {
                     // Save the baby id to local storage as well
                     await AsyncStorage.setItem('avatarId', baby.id.toString());
+                    // Update the myskin state to reflect the new avatar
+                    setmyskin(baby.id.toString());
                     Alert.alert('成功', '已成功更換大頭貼！');
-                    
                   } else {
                     Alert.alert('失敗', '更換大頭貼失敗，請稍後再試。');
                   }
