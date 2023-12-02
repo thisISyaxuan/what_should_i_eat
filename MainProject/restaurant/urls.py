@@ -11,5 +11,5 @@ router = routers.DefaultRouter()
 urlpatterns = [
     # path('',include(router.urls)),
     path('restaurant/', views.recommend.as_view()),
-    path('random/', views.random.as_view()),
+    path('random/', views.randomRest.as_view()),
 ]
