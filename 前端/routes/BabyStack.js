@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 const BabyStack = () => (
 
     <Stack.Navigator independent={true}>
-        <Stack.Screen name="我的精靈" component={Baby} 
+        <Stack.Screen name=" 我的精靈 " component={Baby} 
                       options={{
                         headerStyle: {
                         backgroundColor: '#f6d58a',

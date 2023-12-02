@@ -158,12 +158,17 @@ export default function Myacc() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={[styles.rowContainer]}>
+        <View>
+      <View style={styles.circleout}>
         <View style={styles.circle}>
           <Image style={styles.pic} source={avatarSource} />
         </View>
-        <View>
-          <Text>{userData.name}</Text>
-          <Text>{userData.email}</Text>
+        </View>
+</View>
+
+        <View style={{marginLeft:'5%',flex:1}}>
+          <Text style={{fontSize:16}}>{userData.name}</Text>
+          <Text style={{fontSize:16,flexWrap: 'wrap'}}>{userData.email}</Text>
         </View>
       </View>
 
@@ -222,24 +227,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding:10,
     borderRadius:10,
-    backgroundColor:'white',
+    backgroundColor:'#fff5c5',
     width:"95%",
-    marginLeft:10,
+    //margin:10,
+    marginHorizontal:10,
     marginTop:30,
+    //justifyContent:'center',
+    //alignContent:'center',
+  },
+  circleout:{
+    margin:5,
+    height:120,
+    width:120,
+    borderRadius:120,
+    backgroundColor:'white',
+    justifyContent:'center',
+    alignItems:'center',
+    marginLeft:'10%',
   },
   circle: {
-    width: 96,
-    height: 96,
+    width: 103,
+    height: 103,
     borderRadius: 50,
-    borderWidth: 1,
     borderColor: '#777',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 10,
+    //marginLeft:'10%',
+    borderRadius:100,
+    backgroundColor:'#f5eab8',
   },
   pic:{
-    width:92,
-    height:92,
+    width:100,
+    height:100,
     resizeMode:'contain',
   },
   OutCol:{

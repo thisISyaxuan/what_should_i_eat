@@ -85,7 +85,7 @@ const SearchRes = ({navigation}) => {
           });
         const responseData = await response.json();//後端回傳資料
         console.log("後端回傳的responseData為:",responseData);
-        navigation.navigate('餐廳探索',{data:{data : responseData,filter : data}});//把資料傳到餐廳探索
+        navigation.navigate(' 餐廳探索 ',{data:{data : responseData,filter : data}});//把資料傳到餐廳探索
         }else{
           const data = {//要傳給後端的資料
             TimeFilter: isOpen === '營業中' ? true : false,
@@ -94,7 +94,7 @@ const SearchRes = ({navigation}) => {
             DistanceSort: distance,
             RatingSort: rating
           };
-        navigation.navigate('餐廳探索',{data:{data : resdata1,filter : data}});
+        navigation.navigate(' 餐廳探索 ',{data:{data : resdata1,filter : data}});
         }
       } catch (error) {
         console.error('Search Error sending request:', error);

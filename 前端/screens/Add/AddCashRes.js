@@ -10,6 +10,8 @@ import { globalStyles } from '../../styles/global';
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 import { link } from "../../data/apiLink";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { AntDesign } from '@expo/vector-icons'; 
 
 export default function AddCashRes() {
   const navigation = useNavigation()
@@ -22,6 +24,8 @@ export default function AddCashRes() {
   const [MyText, SetMyText] = useState("");
   const route = useRoute()
   const {rName,rMap_Score,rPhone,rAddress,open,collect,distance,rID,labelID} = route.params
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
 
   useEffect(() => {//當前時間
     const now = new Date();// 獲取當前時間
@@ -33,6 +37,9 @@ export default function AddCashRes() {
   const getDayOfWeek = (dayIndex) => {//顯示出來
     const daysOfWeek = ['週日', '週一', '週二', '週三', '週四', '週五', '週六'];
     return daysOfWeek[dayIndex];
+  };
+  const handleInputUpdate = (newInput) => {//每次改變輸入文字都要更新SetInput
+    SetInput(newInput);
   };
 
   const handleClassSelection = (selectedClass) => {//類別
@@ -90,17 +97,35 @@ export default function AddCashRes() {
           console.error('Error sending request:', error);
         }
   };
+  const handleConfirm = (date) => {
+    //console.log()
+    const datea = new Date(date.toISOString().split('T')[0]);
+    console.log("日期:",datea.getDay())
+    const dayOfWeek = datea.getDay();
+    const daysOfWeekText = ['週日',  '週一', '週二','週三','週四', '週五', '週六'];
+    const dayText = daysOfWeekText[dayOfWeek];
+    const formattedDate = `${date.toISOString().split('T')[0].split('-')[0]} 年 ${date.toISOString().split('T')[0].split('-')[1]} 月 ${date.toISOString().split('T')[0].split('-')[2]} 日 ${dayText}`;
+    setCurrentDate(formattedDate);
+    setdate(date.toISOString().split('T')[0]);
+    
+    setDatePickerVisibility(false)
+  };
 
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
     <SafeAreaView style={styles.container}>
         <View>
-          <View style={styles.title}><Text style={{fontSize:20}}>{currentDate}</Text></View>
+          
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center',alignContent:'center',margin:20}}>
             <Icon name="cutlery" size={20} color={'#C0C0C0'} style={{ marginLeft: 4,marginRight: 4 }} />
             <Text style={{ fontSize:24,fontWeight:'bold'}}> {rName}</Text>
           </View>
-             
+
+          <View style={styles.title}>
+            <Text style={{fontSize:20}}>{currentDate}　</Text>
+            <AntDesign name="calendar" size={24} color="black" onPress={() => setDatePickerVisibility(true) }/>
+            <DateTimePickerModal isVisible={isDatePickerVisible} mode="date" onConfirm={handleConfirm} onCancel={() => setDatePickerVisibility(false)}/>
+          </View>   
           <View style={styles.class}>
               <TouchableOpacity style={[styles.button, Class === 0 && styles.activeButton]} onPress={() => handleClassSelection("早餐")}>
               <Text style={[styles.buttonText, Class === '早餐' && styles.activeButtonText]}>早餐</Text></TouchableOpacity>
@@ -155,6 +180,9 @@ const styles = StyleSheet.create({
   title:{
     padding:10,
     alignItems: 'center',
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center'
   },
   res:{
     padding:10,

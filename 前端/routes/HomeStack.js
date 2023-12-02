@@ -17,7 +17,7 @@ const Stack = createStackNavigator();
 const HomeStack = () => (
     <Stack.Navigator independent={true}>
 
-        <Stack.Screen name="餐廳探索" component={Home} 
+        <Stack.Screen name=" 餐廳探索 " component={Home} 
                       options={({ navigation }) => ({
                         headerStyle: {
                         backgroundColor: '#f6d58a',

@@ -13,13 +13,12 @@ import { link } from '../../data/apiLink';
 const AboutMe = () => {
     const navigation = useNavigation();
     const [isloading,setiwsloading]=useState(false);
-    const [userData, setUserData] = useState({ username: '用戶1號',
+    const [userData, setUserData] = useState({ acc: '用戶1號', 
                                                gender:'女性',
                                                birthday:'2000-01-01',
                                                phone:'0912345678',
                                                address:'談投現埔里鎮大學路',
-                                               email: 'userone@gmail.com',
-                                               avatarId: 1
+                                               email: 'userone@gmail.com', 
                                               });
     useEffect(() => {
       const fetchUserData = async () => {
@@ -69,7 +68,7 @@ const AboutMe = () => {
           
         <View style={styles.info}>
         <View style={styles.data}>
-            <Text style={styles.datatext}>帳號：{userData.username}</Text>
+            <Text style={styles.datatext}>帳號：{userData.acc}</Text>
         </View>
         <View style={styles.data}>
             <Text style={styles.datatext}>性別：{userData.gender}</Text>
@@ -97,7 +96,7 @@ const styles = StyleSheet.create({
   content: {
     flexDirection: 'column',
     //flex:1,
-    width:420,
+    width:390,
     //marginTop: 20,
     alignItems: 'center',
     //borderRadius: 50,

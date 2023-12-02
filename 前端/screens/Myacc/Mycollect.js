@@ -76,7 +76,9 @@ const RatingScreen = () => {
         <View style={styles.container}>
             <View style={styles.loadingContainer}>
               {dataLoaded ? 
-                  (<EventList data={datacontent} />) : 
+                  (datacontent === null ? 
+                    (<Text>尚無歷史資訊</Text>) :
+                    (<EventList data={datacontent} />)) : 
                   (<ActivityIndicator size="large" color="#338168" />)
               }
             </View>
@@ -143,7 +145,9 @@ const DistanceScreen = ({route}) => {
         <View style={styles.container}>
             <View style={styles.loadingContainer}>
               {dataLoaded ? 
-                  (<EventList data={datacontent} />) : 
+                  (datacontent === null ? 
+                    (<Text>尚無歷史資訊</Text>) :
+                    (<EventList data={datacontent} />)) : 
                   (<ActivityIndicator size="large" color="#338168" />)
               }
             </View>
