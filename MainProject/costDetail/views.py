@@ -16,18 +16,22 @@ class cost_detail(generics.GenericAPIView):
         updated_request = request.data.copy()
         user = request.user
         if user.is_authenticated:
+            msg = True
             user_id = user.id
             rid = Restaurant.objects.filter(rname=request.data['ResName']).values()
-            updated_request.update({'uid':user_id,'rid':rid[0]['rid']})
-            serializer = self.get_serializer(data = updated_request)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-            # 記帳
-            u = UserInfo.objects.get(uid=user_id)
-            u.money = u.money + 20  # 簽到加的金額
-            u.save()
+            if (len(rid)==1):
+                updated_request.update({'uid': user_id, 'rid': rid[0]['rid']})
+                serializer = self.get_serializer(data=updated_request)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                # 記帳
+                u = UserInfo.objects.get(uid=user_id)
+                u.money = u.money + 20  # 簽到加的金額
+                u.save()
+            else:
+                msg = False
             return Response({
-                'success': True
+                'success': msg
             })
         return Response({
             'success': False
