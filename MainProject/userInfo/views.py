@@ -107,7 +107,7 @@ class register_api(generics.GenericAPIView):
         for i in range(len(small_label)):
             print(small_label[i])
             print(label)
-            label[small_label[i]] = 0.1 # 小標籤評分
+            label[small_label[i]] = 1 # 小標籤評分
 
         # label[small_label[米苔目]] += 0.1  # 小標籤評分
 

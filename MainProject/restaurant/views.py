@@ -21,8 +21,8 @@ class recommend(generics.GenericAPIView):
             # uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, RatingSort
             # print(updated_request['userPos'][0])
             print("BEFORE")
-            DataFrameResult = recommender.main(user.id, updated_request['TimeFilter'], updated_request['MealFilter'], updated_request['LabelFilter'], [23, 120], updated_request['DistanceSort'], updated_request['RatingSort'])
-            # DataFrameResult = recommender.main(user.id, updated_request['TimeFilter'], updated_request['MealFilter'], updated_request['LabelFilter'], updated_request['userPos'], updated_request['DistanceSort'], updated_request['RatingSort'])
+            # DataFrameResult = recommender.main(user.id, updated_request['TimeFilter'], updated_request['MealFilter'], updated_request['LabelFilter'], [23, 120], updated_request['DistanceSort'], updated_request['RatingSort'])
+            DataFrameResult = recommender.main(user.id, updated_request['TimeFilter'], updated_request['MealFilter'], updated_request['LabelFilter'], updated_request['userPos'], updated_request['DistanceSort'], updated_request['RatingSort'])
             print("AFTER")
             print(type(DataFrameResult))
             print(DataFrameResult.shape)
