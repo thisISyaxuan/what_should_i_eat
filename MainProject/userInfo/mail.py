@@ -53,7 +53,7 @@ def ForAdmin(uid, uName, uEmail, rID, rName, rPhone, rAddress, open, rPhoto, rTe
     else:
         mime = MIMEText(content, "html", "utf-8")
     mime['Subject']= f'來自使用者流水號為 {uid} 的錯誤回報'
-    mime["From"]="吃啥(waht_should_i_eat)"
+    mime["From"]="吃啥(what_should_i_eat)"
     return mime.as_string()
 
 def detect_image_type(base64_string):
