@@ -214,8 +214,13 @@ export default function Baby() {
                     },
                 });
                 const responseData = await response.json();
+<<<<<<< HEAD
                 console.log("有嬤",responseData)
                 navigation.navigate("為您推薦", {data:responseData.success})
+=======
+                console.log(responseData)
+                navigation.navigate("為您推薦", {responseData})
+>>>>>>> d03978ba (a loooooooooooooooots of update)
             }
         } catch(error) {
             console.error('Baby Error sending request:', error);

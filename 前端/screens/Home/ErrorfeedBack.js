@@ -9,7 +9,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from 'expo-file-system';
 import axios from 'axios';
 
-const Errorfb = () => {
+const Errorfb = ({navigation}) => {
   const route = useRoute()
   const {rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID} = route.params
   const [phone, setPhone] = useState(rPhone);
@@ -46,32 +46,41 @@ const Errorfb = () => {
 
   // 處理表單提交的函數
   const handleSubmit = async () => {
-    const base64Image = await convertImageToBase64(image);
+    // 檢查是否所有欄位都未被修改
+    if (phone === rPhone && address === rAddress && businessHours === '' && otherInfo === '' && image === null) {
+      Alert.alert('錯誤', '請輸入您欲修正之資料');
+      return;
+    }
+
+    let base64Image = '';
+    if (image !== null) {
+      base64Image = await convertImageToBase64(image);
+    }
 
     const data = {
       rPhone: phone,
       rAddress: address,
       open: businessHours,
-      rPhoto: base64Image,
+      rPhoto: base64Image, // 現在即使沒有圖片，也不會產生錯誤
       rText: otherInfo,
       rID: rID,
     };
 
     try {
-        const userToken = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
-        const response = await fetch(link.Error, {
+      const userToken = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
+      const response = await fetch(link.Error, {
         method: 'POST',
         headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Token ${userToken}`,
+          'Content-Type': 'application/json',
+          Authorization: `Token ${userToken}`,
         },
         body: JSON.stringify(data)
-        });
-        Alert.alert('提交成功!');
-        console.log(response.data);
+      });
+      Alert.alert('提交成功!');
+      console.log(response.data);
     } catch (error) {
-        console.error('提交失敗:', error);
-        Alert.alert('提交失敗');
+      console.error('提交失敗:', error);
+      Alert.alert('提交失敗');
     }
 
     ClearALL();

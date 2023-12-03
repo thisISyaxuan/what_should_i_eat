@@ -90,4 +90,8 @@ def ForUser(uName):
     mime=MIMEText(msg, "html", "utf-8")
     mime['Subject']="APP 吃啥 已收到您的錯誤回報"
     mime["From"]="吃啥(what_should_i_eat)"
+<<<<<<< HEAD
     return mime.as_string()
+=======
+    return mime.as_string()
+>>>>>>> d03978ba (a loooooooooooooooots of update)

@@ -15,9 +15,12 @@ import { ActivityIndicator } from 'react-native';//loading的圖示
 
 
 export default RandomRes = ({navigation}) =>{
+<<<<<<< HEAD
     const route = useRoute();
 
     //const data = route.params && route.params.data.data ? route.params.data.data : {success: 2 };
+=======
+>>>>>>> d03978ba (a loooooooooooooooots of update)
     const [ResData, setUserData] = useState({ rID: 0,
                                             rName:'',
                                             rMap_Score:0.0,
@@ -25,6 +28,7 @@ export default RandomRes = ({navigation}) =>{
                                             rAddress:'',
                                             open:0,
                                             collect:0,});
+<<<<<<< HEAD
 
     const [modalVisible, setModalVisible] = useState(false);
     const [isloading,setloading] = useState(false);
@@ -35,6 +39,14 @@ export default RandomRes = ({navigation}) =>{
     console.log("是嗎",route.params.data);
     setIsCollected(route.params.data.collect);
 
+=======
+    const route = useRoute();
+    setUserData(route.success);
+    console.log(route.success);
+    const [isCollected, setIsCollected] = useState(route.success.collect);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [isloading,setloading] = useState(false);
+>>>>>>> d03978ba (a loooooooooooooooots of update)
 
     setloading(true);
 
