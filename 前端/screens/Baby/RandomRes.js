@@ -13,34 +13,45 @@ import { link } from "../../data/apiLink";
 import { ActivityIndicator } from 'react-native';//loading的圖示
 
 
+
 export default RandomRes = ({navigation}) =>{
-    const [ResData, setUserData] = useState({ rID: '用戶1號', 
+    const route = useRoute();
+
+    //const data = route.params && route.params.data.data ? route.params.data.data : {success: 2 };
+    const [ResData, setUserData] = useState({ rID: 0,
                                             rName:'',
-                                            rMap_Score:'',
+                                            rMap_Score:0.0,
                                             rPhone:'',
                                             rAddress:'',
                                             open:0,
                                             collect:0,});
 
-    const [isCollected, setIsCollected] = useState(collect);
     const [modalVisible, setModalVisible] = useState(false);
     const [isloading,setloading] = useState(false);
-    const route = useRoute();
-    setUserData(route.data);
+    const [isCollected, setIsCollected] = useState(0);
+    const menuImg = imag.find(image => image.imgID === (5).toString());
+
+    setUserData(route.params.data);
+    console.log("是嗎",route.params.data);
+    setIsCollected(route.params.data.collect);
+
+
     setloading(true);
+
 
     const toggleRandom = async() => {
       const userToken = await AsyncStorage.getItem('userToken');
       if(userToken){
         try{//跟後端要餐廳的資訊
           const response = await fetch(link.randomRes, {
-              method: 'GET',
+              method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Token ${userToken}`,
               },
               //body: JSON.stringify(data),
           });
+          console.log(response.success)
           const responseData = await response.json();//後端回傳資料
           console.log("後端回傳的responseData為:",responseData);
           setUserData(responseData.success)
@@ -102,8 +113,8 @@ export default RandomRes = ({navigation}) =>{
             <ScrollView style={styles.container}>
           <View style={{alignItems:'center'}}>
             <View style={styles.title}>
-            <Text style={{flex: 14, textAlign: 'left', fontSize:25,fontWeight:"bold"}}>{rName}</Text>
-            <TouchableOpacity onPress={toggleCollect} style={{flex:3, alignItems: 'flex-end'}}>{isCollected === 1 ? <Ionicons name="heart" size={45} color={'red'} /> : <Ionicons name="heart-outline" size={45} color={'#C0C0C0'} />}</TouchableOpacity>
+            <Text style={{flex: 14, textAlign: 'left', fontSize:25,fontWeight:"bold"}}>{ResData.rName}</Text>
+            <TouchableOpacity onPress={toggleCollect} style={{flex:3, alignItems: 'flex-end'}}>{ResData.isCollected === 1 ? <Ionicons name="heart" size={45} color={'red'} /> : <Ionicons name="heart-outline" size={45} color={'#C0C0C0'} />}</TouchableOpacity>
             </View>
                 <View style={{ borderTOPColor: 'gray', borderBottomWidth: 1 ,width:'100%'}}></View>
             <View horizontal showsVerticalScrollIndicator={false} style={{borderTopWidth:0.5, borderTopColor:'gray', borderBottomWidth:1, top:20}}>
@@ -143,23 +154,23 @@ export default RandomRes = ({navigation}) =>{
             <View style={{ borderBottomColor: 'gray', borderBottomWidth: 1 ,width:'100%'}}></View>
             <View style={styles.output}>
             <View style={{flexDirection: 'row', height: 50, flex: 2,alignItems:'center'}}>
-                <View style={{ justifyContent: 'center', margin: 7 }}><Icon name="circle" size={10} color={open === -1 ? 'red' :open ===0 ? '#E5B45A' : 'green' }/></View>
-                <Text style={{fontSize:18}}>{open === -1 ? '已打烊' : open === 0 ? '即將打烊': '營業中'}</Text>
+                <View style={{ justifyContent: 'center', margin: 7 }}><Icon name="circle" size={10} color={ResData.open === -1 ? 'red' :ResData.open ===0 ? '#E5B45A' : 'green' }/></View>
+                <Text style={{fontSize:18}}>{ResData.open === -1 ? '已打烊' : ResData.open === 0 ? '即將打烊': '營業中'}</Text>
             </View>
-            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>評分：{rMap_Score} 顆星</Text>
+            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>評分：{ResData.rMap_Score} 顆星</Text>
             
 
-            <TouchableOpacity onPress={() => Linking.openURL(`tel:${rPhone}`)}>
+            <TouchableOpacity onPress={() => Linking.openURL(`tel:${ResData.rPhone}`)}>
               <Text style={{ fontSize: 18, height: 30 }}>
                 電話：
-                <Text style={{ fontSize:18,height: 30,textDecorationLine: 'underline',color:'blue'}}> {rPhone} </Text>
+                <Text style={{ fontSize:18,height: 30,textDecorationLine: 'underline',color:'blue'}}> {ResData.rPhone} </Text>
               </Text>
             </TouchableOpacity>
             
-            <TouchableOpacity onPress={() => openGoogleMaps(rName)}>
+            <TouchableOpacity onPress={() => openGoogleMaps(ResData.rName)}>
             <Text style={{fontSize:18, height: 30}}>
               地址：
-              <Text style={{ fontSize:18,height: 30,textDecorationLine: 'underline',color:'blue'}}> {rAddress} </Text>
+              <Text style={{ fontSize:18,height: 30,textDecorationLine: 'underline',color:'blue'}}> {ResData.rAddress} </Text>
             </Text>
             </TouchableOpacity>
         </View>
