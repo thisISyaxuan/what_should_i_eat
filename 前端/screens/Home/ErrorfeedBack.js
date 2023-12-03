@@ -27,7 +27,7 @@ const Errorfb = () => {
       quality: 1,
     });
 
-    if (!result.cancelled && result.assets) {
+    if (!result.canceled && result.assets) {
       const uri = result.assets[0].uri;
       setImage(uri);
     }
