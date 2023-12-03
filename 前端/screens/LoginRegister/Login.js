@@ -41,8 +41,8 @@ export default function Login({navigation}) {
     };
   
     try {
-       navigation.navigate('ButtomTabStack');
-       return;
+//       navigation.navigate('ButtomTabStack');
+//       return;
        console.log(link.login)
       fetch(link.login, {
         method: 'POST',
@@ -56,7 +56,8 @@ export default function Login({navigation}) {
         console.log(responseData)
           if (responseData.success === true) {
             AsyncStorage.setItem('userToken', responseData.token)
-            AsyncStorage.setItem('position', [23.9494326,120.9351076])//預設值
+            AsyncStorage.setItem('positionL', '23.9494326')
+            AsyncStorage.setItem('positionR', '120.9351076')
               .then(() => {
                 navigation.navigate('ButtomTabStack', { userToken: responseData.token });
               })
