@@ -81,6 +81,10 @@ export default function Wallet() {
         markedDates={{
           [selected]: { selected: true, selectedColor: '#338168' },
         }}
+        theme={{
+          arrowColor: '#338168', // 顏色
+          todayTextColor: '#338168', // 今天的顏色
+        }}
       />
       <Text style={[{fontSize:16},{margin:5}]}>今日總支出：${total}</Text>
       <FlatList
