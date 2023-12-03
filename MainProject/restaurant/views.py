@@ -26,7 +26,7 @@ class recommend(generics.GenericAPIView):
             DataFrameResult = recommender.main(user.id, updated_request['TimeFilter'], updated_request['MealFilter'], updated_request['LabelFilter'], updated_request['userPos'], updated_request['DistanceSort'], updated_request['RatingSort'])
             print("AFTER")
             print(type(DataFrameResult))
-            print(DataFrameResult.shape)
+            print(DataFrameResult)
             return Response({
                 # 前端名稱
                 # rName rMap_Score rPhone rAddress BigLabel open distance collect rID
@@ -65,7 +65,7 @@ class randomRest(generics.GenericAPIView):
             aRest = Restaurant.objects.all().values()[index-1]
             # print(aRest)
             aRest = check(user_id, aRest)
-            # print(aRest)
+            print(aRest)
             return Response({
                 # {"success": {"rName": [], "rMa_Score": [], "rAddress": [], "open": []}}
                 # 'success': {"rID": 6, "rName": "test", "rMa_Score": "test", "rAddress": "test", "rPhone": "test", "open": 1, "collect": 1}
@@ -117,7 +117,7 @@ def openORnot(aRest):
                     openCheck[index] = 1    # 快關了
             else:
                 openCheck[index] = -1    # 沒開 
-    print(openCheck)
+    # print(openCheck)
     if (-1 not in openCheck):
         if(0 not in openCheck):
             open = 1    # 營業中
