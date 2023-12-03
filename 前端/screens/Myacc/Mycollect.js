@@ -40,13 +40,14 @@ const RatingScreen = () => {
             if (token) {
                 //const location = await Location.getCurrentPositionAsync({});//抓經緯
                 //const newCoords = [location.coords.latitude, location.coords.longitude];//新的經緯
-                const mypos = await AsyncStorage.getItem('position');
+                const myposL = await AsyncStorage.getItem('positionL');
+                const myposR = await AsyncStorage.getItem('positionR');
                 
                 //if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
                     //setLastSentPos(newCoords);
                     const requestdata = {
                         sorting:true,
-                        userPos:mypos,
+                        userPos:[parseFloat(myposL),parseFloat(myposR)],
                     };
                     const response = await fetch(link.collect, {//改他
                         method: 'POST',
@@ -113,10 +114,11 @@ const DistanceScreen = ({route}) => {
                 
                 //if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
                 //    setLastSentPos(newCoords);
-                const mypos = await AsyncStorage.getItem('position');
+                const myposL = await AsyncStorage.getItem('positionL');
+                const myposR = await AsyncStorage.getItem('positionR');
                     const requestdata = {
                         sorting:false,
-                        userPos:mypos,
+                        userPos:[parseFloat(myposL),parseFloat(myposR)],
                     };
                     const response = await fetch(link.collect, {//改他
                         method: 'POST',
