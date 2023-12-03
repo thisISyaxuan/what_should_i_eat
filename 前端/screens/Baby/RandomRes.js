@@ -14,73 +14,41 @@ import { ActivityIndicator } from 'react-native';//loading的圖示
 
 
 export default RandomRes = ({navigation}) =>{
-    const [rID,setrID] = useState();
-    const [rName,setrName] = useState();
-    const [rMap_Score,setrMap_Score] = useState();
-    const [rPhone,setrPhone] = useState();
-    const [rAddress,setrAddress] = useState();
-    const [open,setopen] = useState();
-    const [collect,setcollect] = useState();
+    const [ResData, setUserData] = useState({ rID: '用戶1號', 
+                                            rName:'',
+                                            rMap_Score:'',
+                                            rPhone:'',
+                                            rAddress:'',
+                                            open:0,
+                                            collect:0,});
 
     const [isCollected, setIsCollected] = useState(collect);
     const [modalVisible, setModalVisible] = useState(false);
-
     const [isloading,setloading] = useState(false);
-
-    useEffect(() => {
-    const change = () =>{
-        const route = useRoute();
-        console.log(route.data)
-    }
-    /*
-        const change = () =>{
-            const route = useRoute();
-        console.log(route.data)
-        setrID(route.data.rID);
-
-        setrName(route.data.rName);
-        setrMap_Score(route.data.rMap_Score);
-        setrPhone(route.data.rPhone);
-        setrAddress(route.data.rAddress);
-        setopen(route.data.open);
-        setcollect(route.data.collect);
-        //const {rID,rName,rMap_Score,rPhone,rAddress,open,collect} = route.data.params
-        const menuImg = imag.find(image => image.imgID === (rID).toString());
-        setloading(true);
-
-        }
-        change();
-*/
-    }, []);
-
-    const testonetwothree = ()=> {
-        const route = useRoute();
-        console.log(route.data)
-    }
+    const route = useRoute();
+    setUserData(route.data);
+    setloading(true);
 
     const toggleRandom = async() => {
+      const userToken = await AsyncStorage.getItem('userToken');
+      if(userToken){
         try{//跟後端要餐廳的資訊
-            const response = await fetch(link.randomRes, {
-                method: 'GET',
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Token ${userToken}`,
-                },
-                body: JSON.stringify(data),
-            });
-            const responseData = await response.json();//後端回傳資料
-            console.log("後端回傳的responseData為:",responseData);
-            setrID(responseData.success.rID);
-            setrName(responseData.success.rName);
-            setrMap_Score(responseData.success.rMap_Score);
-            setrPhone(responseData.success.rPhone);
-            setrAddress(responseData.success.rAddress);
-            setopen(responseData.success.open);
-            setcollect(responseData.success.collect);
-            setloading(true);
+          const response = await fetch(link.randomRes, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${userToken}`,
+              },
+              //body: JSON.stringify(data),
+          });
+          const responseData = await response.json();//後端回傳資料
+          console.log("後端回傳的responseData為:",responseData);
+          setUserData(responseData.success)
+          setloading(true);
         }catch(error){
-            console.error('Baby Error sending request:', error);
+          console.error('Baby Error sending request:', error);
         }
+      }
     }
 
     const toggleCollect = () => {
@@ -92,7 +60,7 @@ export default RandomRes = ({navigation}) =>{
         const userToken = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
         if (userToken) {//抓完token抓定位
             const requestdata = {
-              rID:rID,
+              rID:ResData.rID,
               collect:isCollected,
             };
             const response = await fetch(link.resDetail, {
