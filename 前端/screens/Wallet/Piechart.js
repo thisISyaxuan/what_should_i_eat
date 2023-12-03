@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { G, Circle } from 'react-native-svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { link } from '../../data/apiLink';
+import { AntDesign } from '@expo/vector-icons'; 
 const PiechartMoney = () => {
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const mealColors = {
@@ -86,10 +87,11 @@ const PiechartMoney = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <View style={[{alignItems:'center',marginTop:-30,padding:10,}]}>
-            <TouchableOpacity onPress={togglePickerVisibility}>
-                <Text style={[{fontWeight:'700',fontSize:26}]}>{selectedYear}年 {selectedMonth}月</Text>
-            </TouchableOpacity>
+        <View style={[{flexDirection:'row',alignItems:'center',marginTop:-30,padding:10,alignContent:'center'}]}>
+            
+            <Text style={[{fontWeight:'700',fontSize:26}]}>{selectedYear}年 {selectedMonth}月</Text>
+            <AntDesign name="calendar" size={24} color="black" onPress={() => togglePickerVisibility}/>
+
         </View>
       <View style={styles.graph}>
         <View style={styles.outgraphWrapper}>
