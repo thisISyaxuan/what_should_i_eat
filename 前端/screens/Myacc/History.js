@@ -23,13 +23,14 @@ export default function MyHistory() {
         try {
             const userToken = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
             if (userToken) {//抓完token抓定位
-                const mypos = await AsyncStorage.getItem('position'); // 從AsyncStorage中取得token
+                const myposL = await AsyncStorage.getItem('positionL');
+                const myposR = await AsyncStorage.getItem('positionR');
                 //const location = await Location.getCurrentPositionAsync({});//抓經緯
                 //const newCoords = [location.coords.latitude, location.coords.longitude];//新的經緯
                 //if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
                     //setLastSentPos(newCoords);
                     const requestdata = {//預設值傳給後端
-                        userPos:mypos,
+                        userPos:[parseFloat(myposL),parseFloat(myposR)],
                     };
                     //console.log("這是我要傳給後端的資料:",requestdata)
                     const response = await fetch(link.history, {
@@ -58,7 +59,8 @@ export default function MyHistory() {
 //                }
             } else {
                 //console.log('Home抓不到token');
-                const mypos = await AsyncStorage.getItem('position');
+                const myposL = await AsyncStorage.getItem('positionL');
+                const myposR = await AsyncStorage.getItem('positionR');
                 //const location = await Location.getCurrentPositionAsync({});//抓經緯
                 //const newCoords = [location.coords.latitude, location.coords.longitude];
                 //if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){//判斷經緯有沒有超過0.001
@@ -68,7 +70,7 @@ export default function MyHistory() {
                         TimeFilter: false,
                         MealFilter: -1,
                         LabelFilter: "全部",
-                        userPos:mypos,
+                        userPos:[parseFloat(myposL),parseFloat(myposR)],
                         DistanceSort: false,
                         RatingSort: false
                       };
@@ -131,4 +133,4 @@ const styles = StyleSheet.create({
         height: '100%',
         borderRadius: 10,
     },
-});
+});	
