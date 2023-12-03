@@ -1,30 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet} from "react-native";
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import EventList from '../../component/event-list';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from 'expo-location';
-import { ActivityIndicator } from 'react-native';
 import { link } from '../../data/apiLink';
 import { useFocusEffect } from '@react-navigation/native';
 
 export default function MyHistory() {
-      const [lastSentPos, setLastSentPos] = useState([0,0]);//經緯度
-      const [dataLoaded,setDataLoaded] = useState(false);//追蹤資料有沒有都抓取成功了
-      const [datacontent, setDatacontent] = useState(null);//傳給EventList的資料
-    
-    useFocusEffect(() => {
-        console.log("點")
-        checkLocationPermission();//檢查定位
-        fetchRestaurants();
-    }, []);
+    const [lastSentPos, setLastSentPos] = useState([0,0]);
+    const [dataLoaded, setDataLoaded] = useState(false);
+    const [datacontent, setDatacontent] = useState(null);
 
-    
-    const checkLocationPermission = async () => {//先檢查定位有沒有被開啟
+    // 函數用於檢查定位權限
+    const checkLocationPermission = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
           console.log('定位權限未被授予');
         }
     };
+
     const fetchRestaurants = async () => {//傳給後端資料
         try {
             const userToken = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
@@ -88,19 +82,26 @@ export default function MyHistory() {
         }
     };
 
+    useFocusEffect(
+        React.useCallback(() => {
+            setDataLoaded(false); // 重置加載狀態
+            checkLocationPermission();
+            fetchRestaurants();
+        }, [])
+    );
+
     return (
         <View style={styles.container}>
             <View style={styles.loadingContainer}>
-                {dataLoaded ? 
-                    (datacontent === null ? 
+                {dataLoaded ?
+                    (datacontent === null ?
                       (<Text>尚無歷史資訊</Text>) :
                       (<EventList data={datacontent} />)
-                    ) : 
+                    ) :
                     (<ActivityIndicator size="large" color="#338168" />)
                 }
             </View>
         </View>
-        
     );
 };
 
