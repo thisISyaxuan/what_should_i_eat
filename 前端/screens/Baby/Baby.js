@@ -214,6 +214,7 @@ export default function Baby() {
                     },
                 });
                 const responseData = await response.json();
+                console.log("有嬤",responseData)
                 navigation.navigate("為您推薦", {data:responseData.success})
             }
         } catch(error) {
