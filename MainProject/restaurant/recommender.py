@@ -94,6 +94,8 @@ def checkTime(Restaurant):
                         openCheck[index] = 1  # 快關了
                 else:
                     openCheck[index] = -1  # 沒開
+            else:
+                openCheck[index] = -1  # 沒開
         # print(openCheck)
         if (-1 not in openCheck):
             if (0 not in openCheck):
@@ -110,8 +112,9 @@ def checkDistance(userPos, Restaurant):
     # [lat, lng]
     for rID, row in Restaurant.iterrows():
         # 測試
-        resPos = [23.968, 120.959]
-        # resPos = [Restaurant.loc[rID, 'lat'], Restaurant.loc[rID, 'lng']]
+        # resPos = [23.968, 120.959]
+        resPos = [float(Restaurant.loc[rID, 'rLat']), float(Restaurant.loc[rID, 'rLng'])]
+        # print(userPos[1], resPos[1])
         # print(type(userPos[1]), type(resPos[1]))
         theta = userPos[1]-resPos[1]
         distance = 60 * 1.1515 * rad2deg(
