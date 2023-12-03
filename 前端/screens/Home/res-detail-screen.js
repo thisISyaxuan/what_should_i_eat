@@ -112,8 +112,8 @@ export default ResInfo = ({navigation}) =>{
             <View style={{ borderBottomColor: 'gray', borderBottomWidth: 1 ,width:'100%'}}></View>
             <View style={styles.output}>
             <View style={{flexDirection: 'row', flex: 1,alignItems:'center'}}>
-                <View style={{ justifyContent: 'center', margin: 7 }}><Icon name="circle" size={10} color={open === -1 ? 'red' : 'green' }/></View>
-                <Text style={{fontSize:18}}>{open === -1 ? '已打烊' : '營業中'}</Text>
+                <View style={{ justifyContent: 'center', margin: 7 }}><Icon name="circle" size={10} color={open === -1 ? 'red' :open ===0 ? '#E5B45A' : 'green' }/></View>
+                <Text style={{fontSize:18}}>{open === -1 ? '已打烊' : open === 0 ? '即將打烊': '營業中'}</Text>
             </View>
             <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray',marginBottom:3,}}>評分：{rMap_Score} 顆星</Text>
             <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray',marginBottom:3}}>距離：{distance} km</Text>
