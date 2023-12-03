@@ -158,23 +158,26 @@ class RestInfoWrong(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         print("got a /api/RestInfoWrong/ request")
         data = request.data
+        print(data.keys())
         user = request.user
-        data['rPhone'] = "0963630190"
-        data['rAddress'] = "南投縣埔里鎮大學一號"
-        data['open'] = "12:00~13:30"
-        data['rPhoto'] = image_to_base64()
+        # data['rPhone'] = "0963630190"
+        # data['rAddress'] = "南投縣埔里鎮大學一號"
+        # data['open'] = "12:00~13:30"
+        # data['rPhoto'] = image_to_base64()
         # data['rPhoto'] = ""
-        data['rText'] = "Hello"
-        data['rID'] = 4
+        # data['rText'] = "Hello"
+        data['rID'] = data['rID'][0]
+        print(user.is_authenticated)
         if user.is_authenticated:
             uid = user.id
             uName = UserInfo.objects.filter(uid=uid).values()[0]['username']
             uEmail = UserInfo.objects.filter(uid=uid).values()[0]['email']
             rName = Restaurant.objects.filter(rid=data['rID']).values()[0]['rname']
-            print(uid, uName, uEmail)
+            print(uid, uName, uEmail, data['rID'], rName, data['rPhone'], data['rAddress'], data['open'], data['rText'])
             status = mail.main(uid, uName, uEmail, data['rID'], rName, data['rPhone'], data['rAddress'], data['open'], data['rPhoto'], data['rText'])
+            print(status)
             return Response({
-                'success': "status"
+                'success': status
             })
         return Response({
             'success': False
