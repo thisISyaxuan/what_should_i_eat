@@ -31,11 +31,11 @@ export default function Home() {
             console.log('123:',filter);
             flatListRef.current?.scrollToOffset({ animated: true, offset: 0 });
         }else{
-/*
+
             //從其他頁面進來的
             checkLocationPermission();
             fetchRestaurants(); // 執行上面的函數
-*/
+
         }
     }, [data]);
     const checkLocationPermission = async () => {//先檢查定位有沒有被開啟
@@ -50,36 +50,42 @@ export default function Home() {
             if (userToken) {//抓完token抓定位
                 const location = await Location.getCurrentPositionAsync({});//抓經緯
                 const newCoords = [location.coords.latitude, location.coords.longitude];//新的經緯
-                if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
-                    setLastSentPos(newCoords);
-                    const requestdata = {//預設值傳給後端
-                        TimeFilter: false,
-                        MealFilter: -1,
-                        LabelFilter: "全部",
-                        userPos:newCoords,
-                        DistanceSort: false,
-                        RatingSort: false
-                    };
-                    console.log("這是我要傳給後端的資料:",requestdata)
-                    const response = await fetch(link.home, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Token ${userToken}`,
-                    },
-                    body: JSON.stringify(requestdata)
-                    });
-                    if (response.ok) {
-                        console.log("response.ok")
-                        const responseData = await response.json();//把後端回傳的資料放在responsData
-                        console.log(responseData.success);
-                        setDatacontent(responseData.success);
-                        setDataLoaded(true);// 在這裡設定資料載入完成的狀態
-                        //const data = responseData.success;
-                    } else {
-                        console.error('後端回傳發生錯誤嗚嗚嗚', response.status);
+                //AsyncStorage.setItem('position', newCoords)//抓第一次的經緯度
+                //const mypos = await AsyncStorage.getItem('position');
+                //if(mypos){
+                    if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
+                        setLastSentPos(newCoords);
+                        AsyncStorage.setItem('position', newCoords);
+                        const requestdata = {//預設值傳給後端
+                            TimeFilter: false,
+                            MealFilter: -1,
+                            LabelFilter: "全部",
+                            userPos:newCoords,
+                            DistanceSort: false,
+                            RatingSort: false
+                        };
+                        console.log("這是我要傳給後端的資料:",requestdata)
+                        const response = await fetch(link.home, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Token ${userToken}`,
+                        },
+                        body: JSON.stringify(requestdata)
+                        });
+                        if (response.ok) {
+                            console.log("response.ok")
+                            const responseData = await response.json();//把後端回傳的資料放在responsData
+                            console.log(responseData.success);
+                            setDatacontent(responseData.success);
+                            setDataLoaded(true);// 在這裡設定資料載入完成的狀態
+                            //const data = responseData.success;
+                        } else {
+                            console.error('後端回傳發生錯誤嗚嗚嗚', response.status);
+                        }
                     }
-                }
+                //}
+                
             } else {
                 setDataLoaded(true);
             }
@@ -97,6 +103,7 @@ export default function Home() {
                 const newCoords = [location.coords.latitude, location.coords.longitude];//新的經緯
                 if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
                     setLastSentPos(newCoords);
+                    AsyncStorage.setItem('position', newCoords);
                     const response = await fetch(link.home, {
                     method: 'POST',
                     headers: {

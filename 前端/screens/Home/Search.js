@@ -63,15 +63,18 @@ const SearchRes = ({navigation}) => {
       setIsLoading(true);
       try {
         const userToken = await AsyncStorage.getItem('userToken');//先抓token
+        const mypos = await AsyncStorage.getItem('position');//先抓token
         if (userToken) {
+          /* 抓定位
           let location = await Location.getCurrentPositionAsync({});
           const currentUserPos = [location.coords.latitude, location.coords.longitude];
           console.log("currentUserPos", currentUserPos)
+          */
           const data = {//要傳給後端的資料
             TimeFilter: isOpen === '營業中' ? true : false,
             MealFilter: isMeal === '全部' ? -1 : (isMeal === '正餐' ? 1 : 0),
             LabelFilter: selectedValue,
-            userPos:currentUserPos,
+            userPos:mypos,
             DistanceSort: distance,
             RatingSort: rating
           };

@@ -23,15 +23,15 @@ export default function MyHistory() {
         try {
             const userToken = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
             if (userToken) {//抓完token抓定位
-                console.log(userToken)
-                const location = await Location.getCurrentPositionAsync({});//抓經緯
-                const newCoords = [location.coords.latitude, location.coords.longitude];//新的經緯
-                if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
-                    setLastSentPos(newCoords);
+                const mypos = await AsyncStorage.getItem('position'); // 從AsyncStorage中取得token
+                //const location = await Location.getCurrentPositionAsync({});//抓經緯
+                //const newCoords = [location.coords.latitude, location.coords.longitude];//新的經緯
+                //if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
+                    //setLastSentPos(newCoords);
                     const requestdata = {//預設值傳給後端
-                        userPos:newCoords,
+                        userPos:mypos,
                     };
-                    console.log("這是我要傳給後端的資料:",requestdata)
+                    //console.log("這是我要傳給後端的資料:",requestdata)
                     const response = await fetch(link.history, {
                     method: 'POST',
                     headers: {
@@ -51,22 +51,24 @@ export default function MyHistory() {
                     } else {
                         console.error('後端回傳發生錯誤嗚嗚嗚', response.status);
                     }
-                }
+                //}
 //                else{
 //                    // 如果經度和緯度變化不超過0.001，則不發送請求
 //                    setDataLoaded(true);
 //                }
             } else {
                 //console.log('Home抓不到token');
-                const location = await Location.getCurrentPositionAsync({});//抓經緯
-                const newCoords = [location.coords.latitude, location.coords.longitude];
-                if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){//判斷經緯有沒有超過0.001
-                    setLastSentPos(newCoords);
+                const mypos = await AsyncStorage.getItem('position');
+                //const location = await Location.getCurrentPositionAsync({});//抓經緯
+                //const newCoords = [location.coords.latitude, location.coords.longitude];
+                //if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){//判斷經緯有沒有超過0.001
+                    //setLastSentPos(newCoords);
+                    //AsyncStorage.setItem('position', newCoords);
                     const requestdata = {
                         TimeFilter: false,
                         MealFilter: -1,
                         LabelFilter: "全部",
-                        userPos:newCoords,
+                        userPos:mypos,
                         DistanceSort: false,
                         RatingSort: false
                       };
@@ -76,7 +78,7 @@ export default function MyHistory() {
 //                    //console.log('經度和緯度變化不超過0.001，不發送請求');
 //                    setDataLoaded(true);
 //                }
-            }
+            //}
         } catch (error) {
             console.error('Home Error sending request:', error);
         }

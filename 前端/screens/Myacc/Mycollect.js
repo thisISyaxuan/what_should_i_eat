@@ -20,7 +20,7 @@ export default function Mycollect() {
 }
 
 const RatingScreen = () => {
-    const [lastSentPos, setLastSentPos] = useState([0,0]);
+    //const [lastSentPos, setLastSentPos] = useState([0,0]);
     const [dataLoaded,setDataLoaded] = useState(false);//追蹤資料有沒有都抓取成功了
     const [datacontent,setDatacontent] = useState();//傳給EventList的資料
 
@@ -36,15 +36,17 @@ const RatingScreen = () => {
     const fetchRestaurants = async (type) => {//token,boolean,distance
         try {
             const token = await AsyncStorage.getItem('userToken');//抓token
+            
             if (token) {
-                const location = await Location.getCurrentPositionAsync({});//抓經緯
-                const newCoords = [location.coords.latitude, location.coords.longitude];//新的經緯
+                //const location = await Location.getCurrentPositionAsync({});//抓經緯
+                //const newCoords = [location.coords.latitude, location.coords.longitude];//新的經緯
+                const mypos = await AsyncStorage.getItem('position');
                 
-                if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
-                    setLastSentPos(newCoords);
+                //if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
+                    //setLastSentPos(newCoords);
                     const requestdata = {
                         sorting:true,
-                        userPos:newCoords,
+                        userPos:mypos,
                     };
                     const response = await fetch(link.collect, {//改他
                         method: 'POST',
@@ -53,13 +55,13 @@ const RatingScreen = () => {
                     });
                     if (response.ok) {
                         const responseData = await response.json();//把後端回傳的資料放在responsData
-                        console.log(responseData)
+                        //console.log(responseData)
                         setDatacontent(responseData.success);
                         setDataLoaded(true);// 在這裡設定資料載入完成的狀態
                     } else {
                         console.error('我在Mycollect，後端回傳發生錯誤', response.status);
                     }
-                  }
+                  //}
 //                }else{
 //                    setDataLoaded(true); // 如果經度和緯度變化不超過0.001，則不發送請求
 //                }
@@ -106,14 +108,15 @@ const DistanceScreen = ({route}) => {
         try {
             const token = await AsyncStorage.getItem('userToken');//抓token
             if (token) {
-                const location = await Location.getCurrentPositionAsync({});//抓經緯
-                const newCoords = [location.coords.latitude, location.coords.longitude];//新的經緯
+                //const location = await Location.getCurrentPositionAsync({});//抓經緯
+                //const newCoords = [location.coords.latitude, location.coords.longitude];//新的經緯
                 
-                if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
-                    setLastSentPos(newCoords);
+                //if (Math.abs(newCoords[0] - lastSentPos[0]) > 0.001 ||Math.abs(newCoords[1] - lastSentPos[1]) > 0.001){ // 如果超過0.001，更新 lastSentPos
+                //    setLastSentPos(newCoords);
+                const mypos = await AsyncStorage.getItem('position');
                     const requestdata = {
                         sorting:false,
-                        userPos:newCoords,
+                        userPos:mypos,
                     };
                     const response = await fetch(link.collect, {//改他
                         method: 'POST',
@@ -127,7 +130,7 @@ const DistanceScreen = ({route}) => {
                     } else {
                         console.error('我在Mycollect，後端回傳發生錯誤', response.status);
                     }
-                }
+                //}
 //                else{
 //                    setDataLoaded(true); // 如果經度和緯度變化不超過0.001，則不發送請求
 //
