@@ -19,4 +19,5 @@ export const link = {
     wallet: `http://${ipaddress}:8000/account/cost_record/`,
     randomRes: `http://${ipaddress}:8000/recommend/random/`,
     AboutMe: `http://${ipaddress}:8000/api/GetUser/`,
+    Error: `http://${ipaddress}:8000/api/RestInfoWrong/`,
 };
