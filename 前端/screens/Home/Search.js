@@ -1,6 +1,6 @@
 //68行改連結
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert ,Image} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Location from 'expo-location';
@@ -230,7 +230,13 @@ const SearchRes = ({navigation}) => {
       
     <View style={styles.loadingContainer}>
       {isLoading ? (
-        <ActivityIndicator size="large" color="#338168" />
+        <View style={{justifyContent:'center',alignItems:'center'}}>
+        <Image style={{width:150,height:120}} source={{uri: 'https://i.imgur.com/kC42XEp.gif'}}
+        />
+        <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+        <ActivityIndicator size="small" color="#338168" /><Text>　等我一下</Text>
+        </View>
+     </View>
         ) : (
         <TouchableOpacity style={{ ...styles.searchButton}} onPress={searchRestaurants}>
         <Text style={styles.buttonText}>搜尋</Text>

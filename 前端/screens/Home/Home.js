@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet} from 'react-native';
+import { View, StyleSheet,Image,Text} from 'react-native';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import EventList from '../../component/event-list';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -137,7 +137,13 @@ export default function Home() {
             <View style={styles.loadingContainer}>
                 {dataLoaded ? 
                 (<ForwardedEventList ref={flatListRef} data={datacontent} onRefresh={handleRefresh}/>) : 
-                (<ActivityIndicator size="large" color="#338168" />)
+                (<View style={{justifyContent:'center',alignItems:'center'}}>
+                <Image style={{width:150,height:120}} source={{uri: 'https://i.imgur.com/kC42XEp.gif'}}
+                />
+                <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                <ActivityIndicator size="small" color="#338168" /><Text>　載入中</Text>
+                </View>
+             </View>)
                 }
             </View>
         </View>
