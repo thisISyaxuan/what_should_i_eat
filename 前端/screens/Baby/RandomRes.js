@@ -58,8 +58,8 @@ export default RandomRes = ({navigation}) =>{
           setIsCollected(mydata.collect);
           const menuImgt = imag.find(image => image.imgID === (rID).toString());
           setmenuImg(menuImgt);
-          setSendImg(true);
           setloading(true);
+          setSendImg(true);
           console.log("ID:",mydata.rID," 檔名:",menuImgt.image)
         }catch(error){
           console.error('Baby Error sending request:', error);
