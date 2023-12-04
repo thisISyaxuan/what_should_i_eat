@@ -86,16 +86,25 @@ export default function AddCash() {
             },
             body: JSON.stringify(data),
           });
+          const responseData = await response.json();//後端回傳資料
           if (response.ok) {
-            Alert.alert('訊息', '儲存成功!', [
+            if (responseData.success===false){
+              Alert.alert('訊息', '請輸入正確的店家資訊!', [
+                {
+                    text: 'OK',
+                },
+              ]);
+          }else{
+              Alert.alert('訊息', '儲存成功!', [
                 {
                     text: 'OK',
                     onPress: () => {
-                      ClearAllData();
-                      //navigation.goBack();
+                      navigation.goBack();
                     },
                 },
             ]);
+            }
+            
           }
         } catch (error) {
           console.error('Error sending request:', error);
