@@ -81,7 +81,7 @@ export default ResInfo = ({navigation}) =>{
                 <TouchableOpacity style={{ width: 250, height: 250, margin: 7, justifyContent: 'center', alignItems: 'center' }} onPress={() => setModalVisible(true)}>
                 <Image source={menuImg.image} style={{ width: '100%', height: '100%' }} />
                 </TouchableOpacity>
-                
+
                 ) : (
                 <TouchableOpacity style={{ width: 250, height: 250, margin: 7, justifyContent: 'center', alignItems: 'center' }}>
                 <Text>暫無照片</Text></TouchableOpacity>
@@ -89,7 +89,7 @@ export default ResInfo = ({navigation}) =>{
               }
               </View>
             </View>
-            
+
             <Modal  style={styles.centeredView} animationType="slide" transparent={true} visible={modalVisible} >
               <View style={styles.modalContainer}>
                 <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(!modalVisible)}>
@@ -124,14 +124,14 @@ export default ResInfo = ({navigation}) =>{
                 <Text style={{ fontSize:18,textDecorationLine: 'underline',color:'blue'}}> {rPhone} </Text>
               </Text>
             </TouchableOpacity>
-            
+
             <TouchableOpacity onPress={() => openGoogleMaps(rName)}>
             <Text style={{fontSize:18, flexWrap: 'wrap',marginBottom:3}}>
               地址：
               <Text style={{ fontSize:18,textDecorationLine: 'underline',color:'blue'}}> {rAddress} </Text>
             </Text>
             </TouchableOpacity>
-        </View> 
+        </View>
 
         <View style={styles.bottom}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 10, top: -20}}>
@@ -145,7 +145,7 @@ export default ResInfo = ({navigation}) =>{
         </View>
         </View>
         </ScrollView>
-        
+
     )
 }
 const styles = StyleSheet.create({
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
       position: "relative",
       width: "100%",
       height: "100%",
-      
+
       backgroundColor:'black',
     },
     closeButton: {
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         textAlign: 'left',
         height:'25%',
-      },  
+      },
       bottom: {
         borderTopWidth:1, borderTopColor:'gray',
         flex: 3,
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         width:'100%',
         height:'78%',
-        
+
       },
       image: {
         flex: 1,

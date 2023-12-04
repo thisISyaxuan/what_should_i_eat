@@ -232,8 +232,9 @@ const styles = StyleSheet.create({
     circle: {
         flexDirection: 'column',
         width: '33%',
-        height: 140,
+        height: 160,
         alignItems: 'center',
+//        marginVertical: 5, // 增加垂直間距
     },
     image: {
         borderWidth: 1,
@@ -272,7 +273,7 @@ const styles = StyleSheet.create({
         borderWidth: 3,
     },
     money: {
-        marginTop: 'auto',
+//        marginTop: 'auto',
         flexDirection: 'row',
         padding: 5,
         width: '60%',

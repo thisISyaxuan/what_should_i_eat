@@ -130,7 +130,7 @@ export default function Myacc() {
 
   const LogOut = async () => {
   const token = await AsyncStorage.getItem('userToken');
-console.log("token",token)
+    console.log("token",token)
     await AsyncStorage.removeItem('userToken');
     await AsyncStorage.removeItem('avatarId');
     await AsyncStorage.removeItem('positionL');
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
     marginLeft:'8%',
-    marginRight:'5%',
+//    marginRight:'5%',
   },
   circle: {
     width: 103,

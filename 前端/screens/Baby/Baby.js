@@ -9,7 +9,7 @@ export default function Baby() {
     const [hasSignedIn, setHasSignedIn] = useState(false);
     const [coins, setCoins] = useState(null);
     const [fadeAnim] = useState(new Animated.Value(0));
-    const [avatarSource, setAvatarSource] = useState(require('../../assets/images/baby/baby0/6.png')); // 初始大頭貼源
+    const [avatarSource, setAvatarSource] = useState(require('../../assets/images/baby/baby0/384.png')); // 初始大頭貼源
     
     // 定義大頭貼映射對象
     const images = {

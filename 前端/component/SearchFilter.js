@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 const SearchFilter = ({ data, input, SetInput }) => {
     const [shouldRender, setShouldRender] = useState(true);
 
-    // 使用 useMemo 來優化效能，只在 data 或 input 變化時重新計算
+    // 使用 useMemo 來優化效能
     const filteredData = useMemo(() => {
         if (!input.trim()) {
             return [];
@@ -21,8 +21,8 @@ const SearchFilter = ({ data, input, SetInput }) => {
     }, [data, input]);
 
     return (
-        shouldRender && (
-            <View style={{ marginTop: 10, maxHeight: 100 }}>
+        shouldRender && filteredData.length > 0 && (
+            <View style={styles.resultContainer}>
                 <FlatList
                     data={filteredData}
                     renderItem={({ item }) => (
@@ -31,13 +31,12 @@ const SearchFilter = ({ data, input, SetInput }) => {
                                 SetInput(item.title);
                                 setShouldRender(false); // 點擊後隱藏 SearchFilter
                             }}
-                            style={{ marginVertical: 10 }}
+                            style={styles.item}
                         >
-                            <Text style={{ fontSize: 14, fontWeight: "bold" }}>{item.title}</Text>
-                            <Text style={{ borderColor: "gray", borderWidth: 1, height: 1, marginTop: 5 }} />
+                            <Text style={styles.itemText}>{item.title}</Text>
                         </TouchableOpacity>
                     )}
-                    keyExtractor={item => item.id.toString()} // 假設每個項目有唯一的 id
+                    keyExtractor={item => item.id.toString()}
                 />
             </View>
         )
@@ -45,4 +44,23 @@ const SearchFilter = ({ data, input, SetInput }) => {
 }
 
 export default SearchFilter;
-const styles = StyleSheet.create({});
+
+const styles = StyleSheet.create({
+    resultContainer: {
+        marginTop: 10,
+        maxHeight: 100,
+        overflow: 'hidden', // 防止內容溢出
+    },
+    item: {
+        marginVertical: 1,
+        padding: 12,
+        backgroundColor: '#f9f9f9', // 背景顏色
+        width: 300, // 設置固定寬度
+        marginLeft:30
+    },
+    itemText: {
+        fontSize: 14,
+        fontWeight: "bold",
+        flexWrap: 'wrap', // 允許文本換行
+    }
+});
