@@ -4,8 +4,11 @@ import 'react-native-gesture-handler';
 import AuthStack from "./routes/AuthStack";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppStack from "./routes/AppStack";
+import * as SplashScreen from 'expo-splash-screen';
+import { useState } from "react";
 
 export default function App({navigation}) {
+  useState
   return (
     <NavigationContainer>
       <AppStack/>
