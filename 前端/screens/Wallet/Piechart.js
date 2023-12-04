@@ -86,13 +86,12 @@ const PiechartMoney = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
+      <View style={{alignItems:'center'}}>
         <View style={[{flexDirection:'row',alignItems:'center',marginTop:-30,padding:10,alignContent:'center'}]}>
             
-            <Text style={[{fontWeight:'700',fontSize:26}]}>{selectedYear}年 {selectedMonth}月</Text>
-            <AntDesign name="calendar" size={24} color="black" onPress={() => togglePickerVisibility}/>
-
-        </View>
+            <Text style={[{fontWeight:'700',fontSize:26}]}>{selectedYear}年 {selectedMonth}月 </Text>
+            <AntDesign name="calendar" size={24} color="black" onPress={togglePickerVisibility}/></View>
+            
       <View style={styles.graph}>
         <View style={styles.outgraphWrapper}>
       {total === 0 ? (<View style={styles.noDataTextContainer}><Text style={styles.noDataText}>無圖表資訊 </Text></View>) : (
@@ -156,7 +155,7 @@ const PiechartMoney = () => {
       </View>
 
       {isPickerVisible && (
-      <TouchableOpacity style={[{ alignItems: 'flex-end',}]} onPress={handlePress}>
+      <TouchableOpacity style={[{position:'absolute',top:470,right:10,alignItems: 'flex-end',}]} onPress={handlePress}>
         <View style={styles.button}>
           <Text style={styles.buttontext}>完成</Text>
         </View>
@@ -172,7 +171,7 @@ const PiechartMoney = () => {
             mode="dropdown"
             onValueChange={(itemValue) => setSelectedYear(itemValue)}
           > 
-          {['2023','2024'].map(item => (
+          {['2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029'].map(item => (
             <Picker.Item
               label={`${item}年`}
               value={item}
@@ -212,9 +211,11 @@ const styles = StyleSheet.create({
   selectone:{
     flexDirection: 'row',
     padding:10,
-    justifyContent: 'center',
-    alignItems: 'center',
     flex:1,
+    position:'absolute',
+    top:-50,
+    left:-190
+    //backgroundColor:'blue',
   },
   detail:{
     flex:2,

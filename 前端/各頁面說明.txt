@@ -6,4 +6,5 @@
 4. npm i react-native-modal-datetime-picker --force
 5. npx expo install react-native-modal-datetime-picker @react-native-community/datetimepicker --force
 6. npx expo install expo-image-picker
-7.npm i react-native-image-crop-picker
+7. npm i react-native-image-crop-picker
+8. npx expo install expo-splash-screen
