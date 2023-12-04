@@ -14,7 +14,7 @@ export default function Wallet() {
   const [selected, setSelected] = useState(formattedDate);//一開始為當下時間
   const [dateData, setDateData] = useState([]);//依日期對應的記帳資訊
   const [total, setTotal] = useState(0);//總金額
-  const [isdelete,setisdelete] = useState(true);
+  const [isdelete,setisdelete] = useState(false);
   const initial = {"data": [ {"cid": 1, "price": 70, "rating": 4.1, "ResName": "蘇嬤嬤湯圓", "which_meal": 3,"my_text":"好累=..= "},
                              {"cid": 2, "price": 80, "rating": 5, "ResName": "大仁鍋貼", "which_meal": 1}, 
                              {"cid": 3, "price": 90, "rating": 4.5, "ResName": "麥三", "which_meal": 2},
