@@ -51,6 +51,7 @@ export default function Wallet() {
                     'Content-Type': 'application/json',
                     Authorization: `Token ${userToken}`,
                   },
+                  body: JSON.stringify(cid)
                 });
                 const responseData = await response.json();//後端回傳資料
                 if (responseData.success === true){
@@ -157,14 +158,16 @@ export default function Wallet() {
       <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:50}}>
       <Text style={[{fontSize:16},{margin:5}]}>今日總支出：${total}</Text>
       
-        <TouchableOpacity style={{padding:5,marginRight:5}} onPress={() => setisdelete(prevState => !prevState)}>
-          {isdelete ? (
-              <Text style={{fontSize:16,color:'black'}}>取消編輯</Text>
-            ) : (
-              <Text style={{fontSize:16,color:'red'}}>編輯</Text>
-            ) 
-        }
-        </TouchableOpacity>
+
+        {dateData.length > 0 && (
+  <TouchableOpacity style={{ padding: 5, marginRight: 5 }} onPress={() => setisdelete(prevState => !prevState)}>
+    {isdelete ? (
+      <Text style={{ fontSize: 16, color: 'black' }}>取消編輯</Text>
+    ) : (
+      <Text style={{ fontSize: 16, color: 'red' }}>編輯</Text>
+    )}
+  </TouchableOpacity>
+)}
       </View>
       <View style={{height:240}}>
       <FlatList
