@@ -83,7 +83,7 @@ const RatingScreen = () => {
                     (<Text>尚無歷史資訊</Text>) :
                     (<EventList data={datacontent} />)) : 
                   (<View style={{justifyContent:'center',alignItems:'center'}}>
-                  <Image style={{width:150,height:150}} source={{uri: 'https://i.imgur.com/Xbw8oze.gif'}}
+                  <Image style={{width:150,height:150}} source={{uri: 'https://upload.cc/i1/2023/12/04/1gWaAQ.gif'}}
                   />
                   <View style={{marginTop:5,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                   <ActivityIndicator size="small" color="#338168" /><Text>　載入中</Text>
@@ -160,7 +160,7 @@ const DistanceScreen = ({route}) => {
                     (<Text>尚無歷史資訊</Text>) :
                     (<EventList data={datacontent} />)) : 
                   (<View style={{justifyContent:'center',alignItems:'center'}}>
-                  <Image style={{width:150,height:150}} source={{uri: 'https://i.imgur.com/Xbw8oze.gif'}}
+                  <Image style={{width:150,height:150}} source={{uri: 'https://upload.cc/i1/2023/12/04/1gWaAQ.gif'}}
                   />
                   <View style={{marginTop:5,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                   <ActivityIndicator size="small" color="#338168" /><Text>　載入中</Text>

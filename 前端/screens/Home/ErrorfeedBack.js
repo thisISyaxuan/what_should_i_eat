@@ -8,6 +8,7 @@ import { globalStyles } from '../../styles/global';
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from 'expo-file-system';
 import axios from 'axios';
+import { ActivityIndicator } from 'react-native';//loading的圖示
 
 const Errorfb = ({navigation}) => {
   const route = useRoute()
@@ -19,6 +20,7 @@ const Errorfb = ({navigation}) => {
   const [otherInfo, setOtherInfo] = useState('');
   const [modalvisible,setmodalvisible] = useState(false);
   const [image, setImage] = useState(null);
+  const [isloading,setisloading] = useState(false);
 
   // 選擇圖片的函數
   const pickImage = async () => {
@@ -68,6 +70,7 @@ const Errorfb = ({navigation}) => {
 
     try {
       const userToken = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
+      setisloading(true);
       const response = await fetch(link.Error, {
         method: 'POST',
         headers: {
@@ -76,8 +79,20 @@ const Errorfb = ({navigation}) => {
         },
         body: JSON.stringify(data)
       });
-      Alert.alert('提交成功!');
-      console.log(response.data);
+      const responseData = await response.json();//後端回傳資料
+      if(responseData.ok){
+        setisloading(false);
+        if (responseData.success===false){
+          Alert.alert('訊息', '提交失敗，請再試一次', [
+            {
+                text: 'OK',
+            },
+          ]);
+        }else{
+          Alert.alert('提交成功!');
+          console.log(response.data);
+        }
+      }
     } catch (error) {
       console.error('提交失敗:', error);
       Alert.alert('提交失敗');
@@ -98,7 +113,9 @@ const Errorfb = ({navigation}) => {
 
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
+      
       <SafeAreaView style={styles.container}>
+        
       <View style={styles.rowfirst}>
         <Text style={styles.label}>店家名稱</Text>
         <View style={styles.dropdown}><Text>{rName}</Text></View>
@@ -184,6 +201,23 @@ const Errorfb = ({navigation}) => {
           <Text style={[styles.buttonText, { color: 'white' }]}>提交</Text>
         </TouchableOpacity>
       </View>
+
+      {isloading ? 
+      (
+      <View style={{position:'absolute',top:'50%',left:'28%',width:'55%',justifyContent:'center',alignItems:'center',zIndex:2,backgroundColor:'#E2E2E2',borderRadius:10,padding:15}}>
+      <View style={{justifyContent:'center',alignItems:'center'}}>
+                <Image style={{width:150,height:150}} source={{uri:'https://i.imgur.com/kC42XEp.gif'}}
+                />
+                <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                <ActivityIndicator size="small" color="#338168" /><Text>　等我一下下</Text>
+                </View>
+             </View>
+      </View>
+      ) : (
+        null
+      )}
+      
+
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
