@@ -68,7 +68,7 @@ export default ResInfo = ({navigation}) =>{
     };
     
     return(
-        <ScrollView style={styles.container}>
+        <ScrollView style={[styles.container]}>
           <View style={{alignItems:'center'}}>
             <View style={styles.title}>
             <Text style={{flex: 14, textAlign: 'left', fontSize:25,fontWeight:"bold"}}>{rName}</Text>

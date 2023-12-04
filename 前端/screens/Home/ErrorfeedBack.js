@@ -81,14 +81,15 @@ const Errorfb = ({navigation}) => {
       });
       const responseData = await response.json();//後端回傳資料
       if(responseData.ok){
-        setisloading(false);
         if (responseData.success===false){
+          setisloading(false);
           Alert.alert('訊息', '提交失敗，請再試一次', [
             {
                 text: 'OK',
             },
           ]);
         }else{
+          setisloading(false);
           Alert.alert('提交成功!');
           console.log(response.data);
         }

@@ -7,20 +7,18 @@ const Privacy = () => {
     const navigation = useNavigation();
     return (
         
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView >
+    <View>
+        <ScrollView style={styles.container}>
         <Text style={styles.title}>歡迎使用！</Text>
-        <View>
-        
-        <ScrollView>
-        
         <Text style={styles.description}>
         在您註冊並使用本App之前，請仔細閱讀以下隱私政策與使用條款，以確保您充分理解我們收集、使用、儲存和分享您的個人資訊的方式。{'\n'}</Text>
         <Text style={styles.boldText}>1. 接受條款</Text>
         <Text style={styles.description}>
-        {'\n'}通過註冊並使用本App，您表示您已閱讀、理解並同意遵守本條款中所述的所有條款和條件。如果您不同意這些條款，請不要註冊或使用本App。{'\n'}</Text>
+        通過註冊並使用本App，您表示您已閱讀、理解並同意遵守本條款中所述的所有條款和條件。如果您不同意這些條款，請不要註冊或使用本App。{'\n'}</Text>
         <Text style={styles.boldText}>2. 收集的資訊</Text>
         <Text style={styles.description}>
-        {'\n'}當您註冊使用本App時，我們會收集以下類型的資訊：
+        當您註冊使用本App時，我們會收集以下類型的資訊：
         {'\n'}{'\n'}(1.)個人資訊： {'\n'}包括但不限於您的姓名、電子郵件地址、聯絡資訊等，以便我們建立您的帳戶並聯繫您。
         {'\n'}{'\n'}(2.)使用資訊： {'\n'}包括但不限於您在本App上的活動、搜索、瀏覽紀錄、評分和點評等，這些資訊將被用於生成個性化的美食推薦。
         {'\n'}{'\n'}(3.)設備資訊： {'\n'}包括但不限於您的設備型號、操作系統、瀏覽器類型等，以優化您的使用體驗。{'\n'}</Text>
@@ -63,11 +61,11 @@ const Privacy = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    padding: 10,
   },
   title: {
-    marginTop:-50,
-    padding: 10,
+//marginTop:-50,
+    //padding: 10,
     fontSize: 20,
     textAlign: 'center',
   },
@@ -77,6 +75,7 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 16,
+    lineHeight:25
   },
 });
 

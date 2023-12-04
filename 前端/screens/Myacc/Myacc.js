@@ -129,9 +129,15 @@ export default function Myacc() {
   };
 
   const LogOut = async () => {
-    navigation.navigate('Login');
+  const token = await AsyncStorage.getItem('userToken');
+console.log("token",token)
     await AsyncStorage.removeItem('userToken');
     await AsyncStorage.removeItem('avatarId');
+    await AsyncStorage.removeItem('positionL');
+    await AsyncStorage.removeItem('positionR');
+    //const q = await AsyncStorage.getItem();
+    //console.log("q:",q)
+    navigation.navigate('Login');
   }
 
 

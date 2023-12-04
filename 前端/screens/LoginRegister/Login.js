@@ -5,6 +5,7 @@ import { globalStyles } from '../../styles/global';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 import { link } from "../../data/apiLink";
+import { KeyboardAvoidingView } from "react-native";
 export default function Login({navigation}) {
   const [username,setUsername] = useState('');
   const [password,setPassword] = useState('');
@@ -81,6 +82,10 @@ export default function Login({navigation}) {
 
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
     <SafeAreaView style={styles.container}>
 
       <View style={styles.content}>
@@ -126,6 +131,7 @@ export default function Login({navigation}) {
       </View>
 
     </SafeAreaView>
+    </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
 
   );

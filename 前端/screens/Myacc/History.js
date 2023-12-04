@@ -98,7 +98,7 @@ export default function MyHistory() {
         <View style={styles.container}>
             <View style={styles.loadingContainer}>
                 {dataLoaded ?
-                    (datacontent === null ?
+                      (datacontent.BigLabel.length === 0 ?
                       (<Text>尚無歷史資訊</Text>) :
                       (<EventList data={datacontent} />)
                     ) :

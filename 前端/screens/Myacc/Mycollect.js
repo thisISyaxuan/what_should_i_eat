@@ -58,6 +58,7 @@ const RatingScreen = () => {
                         const responseData = await response.json();//把後端回傳的資料放在responsData
                         //console.log(responseData)
                         setDatacontent(responseData.success);
+                        console.log(responseData.success)
                         setDataLoaded(true);// 在這裡設定資料載入完成的狀態
                     } else {
                         console.error('我在Mycollect，後端回傳發生錯誤', response.status);
@@ -79,8 +80,8 @@ const RatingScreen = () => {
         <View style={styles.container}>
             <View style={styles.loadingContainer}>
               {dataLoaded ? 
-                  (datacontent === null ? 
-                    (<Text>尚無歷史資訊</Text>) :
+                  (datacontent.BigLabel.length === 0 ?
+                    (<Text>尚無收藏店家</Text>) :
                     (<EventList data={datacontent} />)) : 
                   (<View style={{justifyContent:'center',alignItems:'center'}}>
                   <Image style={{width:150,height:150}} source={{uri: 'https://upload.cc/i1/2023/12/04/1gWaAQ.gif'}}
@@ -156,8 +157,8 @@ const DistanceScreen = ({route}) => {
         <View style={styles.container}>
             <View style={styles.loadingContainer}>
               {dataLoaded ? 
-                  (datacontent === null ? 
-                    (<Text>尚無歷史資訊</Text>) :
+                  (datacontent.BigLabel.length === 0 ?
+                    (<Text>尚無收藏店家</Text>) :
                     (<EventList data={datacontent} />)) : 
                   (<View style={{justifyContent:'center',alignItems:'center'}}>
                   <Image style={{width:150,height:150}} source={{uri: 'https://upload.cc/i1/2023/12/04/1gWaAQ.gif'}}
