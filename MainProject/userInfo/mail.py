@@ -24,7 +24,7 @@ def main(uid, uName, uEmail, rID, rName, rPhone, rAddress, open, rPhoto, rText):
         smtp.sendmail(from_addr, uEmail, MsgForUser)
         return True
     except:
-        return True
+        return False
 
 def write_photo_to_file(rPhoto):
     file_path = 'photo.txt'  # 要寫入的檔案路徑

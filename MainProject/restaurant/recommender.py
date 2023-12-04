@@ -347,7 +347,7 @@ def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, Rating
             # uID, UserLike, NewRLabel
             print("I dont have cost")
             print(list(CostDetail['uID']))
-            # ListResult = RecommenderInit(uID, UserLike, NewRLabel)
+            ListResult = RecommenderInit(uID, UserLike, NewRLabel)
         else:
             init = RecommenderInit(uID, UserLike, NewRLabel)
             content = RecommenderContent(uID, NewRLabel, CostDetail)
