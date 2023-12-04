@@ -149,7 +149,7 @@ def deg2rad(degrees):
 def GoFilter(Restaurant, TimeFilter, MealFilter, LabelFilter, NewRLabel):
     # 營業時間
     if (TimeFilter):
-        Restaurant = Restaurant[Restaurant['open'] == 1]
+        Restaurant = Restaurant[Restaurant['open'] > -1]
     # 正餐
     # MealFilter = -1 => 不篩選
     if (MealFilter == 1):
@@ -171,8 +171,11 @@ def GoFilter(Restaurant, TimeFilter, MealFilter, LabelFilter, NewRLabel):
 def RecommenderInit(uID, UserLike, NewRLabel):
     # 餘弦算相似度
     SimilarityMatrix = cosine_similarity(UserLike.values, NewRLabel.values)
+    print(SimilarityMatrix)
     SimilarityMatrix = pd.DataFrame(SimilarityMatrix, index=UserLike.index, columns=NewRLabel.index)
+    print(SimilarityMatrix)
     result = get_the_most_similar_res(uID, SimilarityMatrix)
+    print(result)
     return result
 
 def RecommenderContent(uID, NewRLabel, CostDetail):
@@ -332,8 +335,8 @@ def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, Rating
     # 如果不排序
         # 推薦 -> output
 
-    DistanceSort = False
-    RatingSort = False
+    # DistanceSort = False
+    # RatingSort = False
     if (DistanceSort):
         DFresult = FilterResult.sort_values(by="distance", ascending=True)
     elif (RatingSort):
@@ -342,11 +345,12 @@ def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, Rating
         # 如果這個人沒有記帳紀錄
         if (True not in list(CostDetail['uID'] != uID)):
             # uID, UserLike, NewRLabel
-            ListResult = RecommenderInit(uID, UserLike, NewRLabel)
-        else:
-            init = RecommenderInit(uID, UserLike, NewRLabel)
             content = RecommenderContent(uID, NewRLabel, CostDetail)
-            filtering = RecommenderUserBasedCollaborativeFiltering(uID, uNum, NewRLabel, CostDetail)
+            # ListResult = RecommenderInit(uID, UserLike, NewRLabel)
+        else:
+            # init = RecommenderInit(uID, UserLike, NewRLabel)
+            content = RecommenderContent(uID, NewRLabel, CostDetail)
+            # filtering = RecommenderUserBasedCollaborativeFiltering(uID, uNum, NewRLabel, CostDetail)
             # print(init)
             # print(content)
             # print(filtering)

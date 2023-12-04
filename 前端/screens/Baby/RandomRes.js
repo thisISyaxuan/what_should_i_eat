@@ -15,41 +15,25 @@ import { ActivityIndicator } from 'react-native';//loading的圖示
 
 
 export default RandomRes = ({navigation}) =>{
-<<<<<<< HEAD
-    const route = useRoute();
-
-    //const data = route.params && route.params.data.data ? route.params.data.data : {success: 2 };
-=======
->>>>>>> d03978ba (a loooooooooooooooots of update)
-    const [ResData, setUserData] = useState({ rID: 0,
-                                            rName:'',
-                                            rMap_Score:0.0,
-                                            rPhone:'',
-                                            rAddress:'',
-                                            open:0,
-                                            collect:0,});
-<<<<<<< HEAD
-
-    const [modalVisible, setModalVisible] = useState(false);
+    //const route = useRoute();
+    //const { rID,rName,rMap_Score,rPhone,rAddress,open,collect}=route.params.data;
     const [isloading,setloading] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const [rID,setrID] = useState(0);
+    const [rName,setrName]=useState('');
+    const [rMap_Score,setrMap_Score]=useState('');
+    const [rPhone,setrPhone]=useState('');
+    const [rAddress,setrAddress]=useState('');
+    const [open,setopen]=useState(0);
     const [isCollected, setIsCollected] = useState(0);
-    const menuImg = imag.find(image => image.imgID === (5).toString());
+    const [menuImg,setmenuImg] = useState()
 
-    setUserData(route.params.data);
-    console.log("是嗎",route.params.data);
-    setIsCollected(route.params.data.collect);
+    //const menuImg = imag.find(image => image.imgID === (rID).toString());
 
-=======
-    const route = useRoute();
-    setUserData(route.success);
-    console.log(route.success);
-    const [isCollected, setIsCollected] = useState(route.success.collect);
-    const [modalVisible, setModalVisible] = useState(false);
-    const [isloading,setloading] = useState(false);
->>>>>>> d03978ba (a loooooooooooooooots of update)
-
-    setloading(true);
-
+    useEffect(() => {
+        toggleRandom();
+    }, []);
 
     const toggleRandom = async() => {
       const userToken = await AsyncStorage.getItem('userToken');
@@ -61,13 +45,22 @@ export default RandomRes = ({navigation}) =>{
                 'Content-Type': 'application/json',
                 Authorization: `Token ${userToken}`,
               },
-              //body: JSON.stringify(data),
           });
-          console.log(response.success)
+          //console.log(response.success)
           const responseData = await response.json();//後端回傳資料
-          console.log("後端回傳的responseData為:",responseData);
-          setUserData(responseData.success)
+          //console.log("後端回傳的responseData為:",responseData);
+          mydata = responseData.success;
+          setrID(mydata.rID);
+          setrName(mydata.rName);
+          setrMap_Score(mydata.rMap_Score);
+          setrPhone(mydata.rPhone);
+          setrAddress(mydata.rAddress);
+          setopen(mydata.open);
+          setIsCollected(mydata.collect);
+          const menuImgt = imag.find(image => image.imgID === (rID).toString());
+          setmenuImg(menuImgt)
           setloading(true);
+          console.log("ID:",mydata.rID," 檔名:",menuImgt.image)
         }catch(error){
           console.error('Baby Error sending request:', error);
         }
@@ -83,8 +76,8 @@ export default RandomRes = ({navigation}) =>{
         const userToken = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
         if (userToken) {//抓完token抓定位
             const requestdata = {
-              rID:ResData.rID,
-              collect:isCollected,
+              rID:rID,
+              collect:collect,
             };
             const response = await fetch(link.resDetail, {
               method: 'POST',
@@ -119,14 +112,13 @@ export default RandomRes = ({navigation}) =>{
           Alert("發生錯誤，請稍後再試一次");
         });
     };
-    
+
     return(
-        isloading ?(
-            <ScrollView style={styles.container}>
+           isloading ? ( <ScrollView style={styles.container}>
           <View style={{alignItems:'center'}}>
             <View style={styles.title}>
-            <Text style={{flex: 14, textAlign: 'left', fontSize:25,fontWeight:"bold"}}>{ResData.rName}</Text>
-            <TouchableOpacity onPress={toggleCollect} style={{flex:3, alignItems: 'flex-end'}}>{ResData.isCollected === 1 ? <Ionicons name="heart" size={45} color={'red'} /> : <Ionicons name="heart-outline" size={45} color={'#C0C0C0'} />}</TouchableOpacity>
+            <Text style={{flex: 14, textAlign: 'left', fontSize:25,fontWeight:"bold"}}>{rName}</Text>
+            <TouchableOpacity onPress={toggleCollect} style={{flex:3, alignItems: 'flex-end'}}>{isCollected === 1 ? <Ionicons name="heart" size={45} color={'red'} /> : <Ionicons name="heart-outline" size={45} color={'#C0C0C0'} />}</TouchableOpacity>
             </View>
                 <View style={{ borderTOPColor: 'gray', borderBottomWidth: 1 ,width:'100%'}}></View>
             <View horizontal showsVerticalScrollIndicator={false} style={{borderTopWidth:0.5, borderTopColor:'gray', borderBottomWidth:1, top:20}}>
@@ -135,7 +127,7 @@ export default RandomRes = ({navigation}) =>{
                 <TouchableOpacity style={{ width: 250, height: 250, margin: 7, justifyContent: 'center', alignItems: 'center' }} onPress={() => setModalVisible(true)}>
                 <Image source={menuImg.image} style={{ width: '100%', height: '100%' }} />
                 </TouchableOpacity>
-                
+
                 ) : (
                 <TouchableOpacity style={{ width: 250, height: 250, margin: 7, justifyContent: 'center', alignItems: 'center' }}>
                 <Text>暫無照片</Text></TouchableOpacity>
@@ -143,7 +135,7 @@ export default RandomRes = ({navigation}) =>{
               }
               </View>
             </View>
-            
+
             <Modal  style={styles.centeredView} animationType="slide" transparent={true} visible={modalVisible} >
               <View style={styles.modalContainer}>
                 <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(!modalVisible)}>
@@ -166,23 +158,23 @@ export default RandomRes = ({navigation}) =>{
             <View style={{ borderBottomColor: 'gray', borderBottomWidth: 1 ,width:'100%'}}></View>
             <View style={styles.output}>
             <View style={{flexDirection: 'row', height: 50, flex: 2,alignItems:'center'}}>
-                <View style={{ justifyContent: 'center', margin: 7 }}><Icon name="circle" size={10} color={ResData.open === -1 ? 'red' :ResData.open ===0 ? '#E5B45A' : 'green' }/></View>
-                <Text style={{fontSize:18}}>{ResData.open === -1 ? '已打烊' : ResData.open === 0 ? '即將打烊': '營業中'}</Text>
+                <View style={{ justifyContent: 'center', margin: 7 }}><Icon name="circle" size={15} color={open === -1 ? 'red' :open ===0 ? '#E5B45A' : 'green' }/></View>
+                <Text style={{fontSize:18}}>{open === -1 ? '已打烊' : open === 0 ? '即將打烊': '營業中'}</Text>
             </View>
-            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>評分：{ResData.rMap_Score} 顆星</Text>
-            
+            <Text style={{fontSize:18, borderBottomWidth:1.5, borderBottomColor:'gray', height: 30}}>評分：{rMap_Score} 顆星</Text>
 
-            <TouchableOpacity onPress={() => Linking.openURL(`tel:${ResData.rPhone}`)}>
+
+            <TouchableOpacity onPress={() => Linking.openURL(`tel:${rPhone}`)}>
               <Text style={{ fontSize: 18, height: 30 }}>
                 電話：
-                <Text style={{ fontSize:18,height: 30,textDecorationLine: 'underline',color:'blue'}}> {ResData.rPhone} </Text>
+                <Text style={{ fontSize:18,height: 30,textDecorationLine: 'underline',color:'blue'}}> {rPhone} </Text>
               </Text>
             </TouchableOpacity>
-            
-            <TouchableOpacity onPress={() => openGoogleMaps(ResData.rName)}>
+
+            <TouchableOpacity onPress={() => openGoogleMaps(rName)}>
             <Text style={{fontSize:18, height: 30}}>
               地址：
-              <Text style={{ fontSize:18,height: 30,textDecorationLine: 'underline',color:'blue'}}> {ResData.rAddress} </Text>
+              <Text style={{ fontSize:18,height: 30,textDecorationLine: 'underline',color:'blue'}}> {rAddress} </Text>
             </Text>
             </TouchableOpacity>
         </View>
@@ -195,9 +187,10 @@ export default RandomRes = ({navigation}) =>{
             </View>
         </View>
         </View>
-        </ScrollView>
-        )
-        :( <ActivityIndicator size="large" color="#338168" />)
+        </ScrollView>)
+        :
+        (<ActivityIndicator size="large" color="#338168" />)
+
     );
 }
 const styles = StyleSheet.create({
@@ -314,3 +307,4 @@ const styles = StyleSheet.create({
       },
 
   });
+

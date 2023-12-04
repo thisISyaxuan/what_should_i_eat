@@ -203,28 +203,7 @@ export default function Baby() {
     }, [fadeAnim, coins]);
 
     const RandomRes = async () =>{
-        try {
-            const userToken = await AsyncStorage.getItem('userToken');
-            if (userToken){
-                const response = await fetch(link.randomRes, {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json',
-                       Authorization: `Token ${userToken}`,
-                    },
-                });
-                const responseData = await response.json();
-<<<<<<< HEAD
-                console.log("有嬤",responseData)
-                navigation.navigate("為您推薦", {data:responseData.success})
-=======
-                console.log(responseData)
-                navigation.navigate("為您推薦", {responseData})
->>>>>>> d03978ba (a loooooooooooooooots of update)
-            }
-        } catch(error) {
-            console.error('Baby Error sending request:', error);
-        }
+        navigation.navigate("為您推薦");
     };
 
     return (
