@@ -52,11 +52,12 @@ export default function Wallet() {
                     Authorization: `Token ${userToken}`,
                   },
                 });
-                if (response.ok) {
-                  await updateDataSomehow(updatedData);
-                }else{
-                  Alert.alert("刪除失敗，請再試一次!")
-                }
+                const responseData = await response.json();//後端回傳資料
+                if (responseData.success === true){
+                    await updateDataSomehow(updatedData);
+                  }else{
+                    Alert.alert("刪除失敗，請再試一次!")
+                  }
               }
             } catch (error) {
               console.error('Error deleting data:', error);
