@@ -12,8 +12,13 @@ export default function Wallet() {
   const [selected, setSelected] = useState(formattedDate);//一開始為當下時間
   const [dateData, setDateData] = useState([]);//依日期對應的記帳資訊
   const [total, setTotal] = useState(0);//總金額
-  const initial = {"data": [ /*{"cid": 1, "price": 70, "rating": 4.1, "ResName": "蘇嬤嬤湯圓", "which_meal": 3,"my_text":"好累=..= "}, {"cid": 2, "price": 80, "rating": 5, "ResName": "大仁鍋貼", "which_meal": 1}, 
-                            {"cid": 3, "price": 90, "rating": 4.5, "ResName": "麥當勞", "which_meal": 2} */], 
+  const initial = {"data": [ {"cid": 1, "price": 70, "rating": 4.1, "ResName": "蘇嬤嬤湯圓", "which_meal": 3,"my_text":"好累=..= "},
+                             {"cid": 2, "price": 80, "rating": 5, "ResName": "大仁鍋貼", "which_meal": 1}, 
+                             {"cid": 3, "price": 90, "rating": 4.5, "ResName": "麥當勞", "which_meal": 2},
+                             {"cid": 4, "price": 90, "rating": 4.5, "ResName": "麥當勞", "which_meal": 1},
+                             {"cid": 5, "price": 90, "rating": 4.5, "ResName": "麥當勞", "which_meal": 2},
+                             {"cid": 6, "price": 90, "rating": 4.5, "ResName": "麥當勞", "which_meal": 0},
+                             {"cid": 7, "price": 90, "rating": 4.5, "ResName": "麥當勞", "which_meal": 2} ], 
                             "total": {"total": 0}}
 
   useEffect(() => {
@@ -21,7 +26,7 @@ export default function Wallet() {
   }, []);
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.costdetail}>
+    <View style={styles.costdetail}>
       <View style={[{borderBottomWidth:1,flexDirection:'row',borderBottomColor:"#C0C0C0"}]}>
       <View style={[styles.circle,{backgroundColor: item.which_meal === 0 ? '#415CA4'
                                                   : item.which_meal === 1 ? '#FFB755'
@@ -39,8 +44,13 @@ export default function Wallet() {
       <View style={styles.money}>
         <Text style={styles.textMoney}>$ {item.price}</Text>
       </View>
+
+      <View style={{margin:10,width:60,justifyContent:'center',alignItems:'center',backgroundColor:'red',borderRadius:100}}>
+        <Text style={{color:'white',fontWeight:'bold'}}>-</Text>
       </View>
-    </TouchableOpacity>
+      
+      </View>
+    </View>
   );
 
   const fetchDateData = async (date) => {
@@ -72,7 +82,7 @@ export default function Wallet() {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{justifyContent:'space-between'}}>
       <Calendar
         onDayPress={(day) => {
           setSelected(day.dateString);
@@ -86,12 +96,22 @@ export default function Wallet() {
           todayTextColor: '#338168', // 今天的顏色
         }}
       />
+      <View>
+      <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:50}}>
       <Text style={[{fontSize:16},{margin:5}]}>今日總支出：${total}</Text>
+      <TouchableOpacity style={{padding:5,marginRight:5}}>
+        <Text style={{fontSize:16,color:'red'}}>編輯</Text></TouchableOpacity>
+      </View>
+      <View style={{height:240}}>
       <FlatList
         data={dateData}
         renderItem={renderItem}
         keyExtractor={(item) => item.cid.toString()}
+        showsVerticalScrollIndicator={false} // 隱藏垂直滾動條（根據需要）
+        style={{ flexGrow: 0 }}
       />
+      </View>
+      </View>
       
     </SafeAreaView>
   );
