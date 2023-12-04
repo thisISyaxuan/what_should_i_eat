@@ -20,5 +20,5 @@ export const link = {
     randomRes: `http://${ipaddress}:8000/recommend/random/`,
     AboutMe: `http://${ipaddress}:8000/api/GetUser/`,
     Error: `http://${ipaddress}:8000/api/RestInfoWrong/`,
-    deletecash: `http://${ipaddress}:8000`,
+    deletecash: `http://${ipaddress}:8000/account/delete/`,
 };
