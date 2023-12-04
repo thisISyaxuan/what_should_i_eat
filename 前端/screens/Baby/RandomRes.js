@@ -56,11 +56,13 @@ export default RandomRes = ({navigation}) =>{
           setrAddress(mydata.rAddress);
           setopen(mydata.open);
           setIsCollected(mydata.collect);
-          const menuImgt = imag.find(image => image.imgID === (rID).toString());
-          setmenuImg(menuImgt);
-          setloading(true);
-          setSendImg(true);
-          console.log("ID:",mydata.rID," 檔名:",menuImgt.image)
+          const menuImgT = imag.find(image => image.imgID === (mydata.rID).toString());
+
+          console.log("ID:",mydata.rID," 檔名:",menuImgT)
+          setmenuImg(menuImgT);
+          await setSendImg(true);
+          await setloading(true);
+          //console.log("ID:",mydata.rID," 檔名:",menuImg, menuImgT)
         }catch(error){
           console.error('Baby Error sending request:', error);
         }
