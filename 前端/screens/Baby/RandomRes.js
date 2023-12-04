@@ -15,6 +15,8 @@ import { ActivityIndicator } from 'react-native';//loading的圖示
 
 
 export default RandomRes = ({navigation}) =>{
+    //const route = useRoute();
+    //const { rID,rName,rMap_Score,rPhone,rAddress,open,collect}=route.params.data;
     const [isloading,setloading] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
 
