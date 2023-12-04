@@ -15,8 +15,6 @@ import { ActivityIndicator } from 'react-native';//loading的圖示
 
 
 export default RandomRes = ({navigation}) =>{
-    //const route = useRoute();
-    //const { rID,rName,rMap_Score,rPhone,rAddress,open,collect}=route.params.data;
     const [isloading,setloading] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -27,6 +25,7 @@ export default RandomRes = ({navigation}) =>{
     const [rAddress,setrAddress]=useState('');
     const [open,setopen]=useState(0);
     const [isCollected, setIsCollected] = useState(0);
+    const [sendimg,setSendImg] = useState(false);
     const [menuImg,setmenuImg] = useState()
 
     //const menuImg = imag.find(image => image.imgID === (rID).toString());
@@ -46,9 +45,7 @@ export default RandomRes = ({navigation}) =>{
                 Authorization: `Token ${userToken}`,
               },
           });
-          //console.log(response.success)
           const responseData = await response.json();//後端回傳資料
-          //console.log("後端回傳的responseData為:",responseData);
           mydata = responseData.success;
           setrID(mydata.rID);
           setrName(mydata.rName);
@@ -58,7 +55,8 @@ export default RandomRes = ({navigation}) =>{
           setopen(mydata.open);
           setIsCollected(mydata.collect);
           const menuImgt = imag.find(image => image.imgID === (rID).toString());
-          setmenuImg(menuImgt)
+          setmenuImg(menuImgt);
+          setSendImg(true);
           setloading(true);
           console.log("ID:",mydata.rID," 檔名:",menuImgt.image)
         }catch(error){
@@ -123,16 +121,17 @@ export default RandomRes = ({navigation}) =>{
                 <View style={{ borderTOPColor: 'gray', borderBottomWidth: 1 ,width:'100%'}}></View>
             <View horizontal showsVerticalScrollIndicator={false} style={{borderTopWidth:0.5, borderTopColor:'gray', borderBottomWidth:1, top:20}}>
               <View>
-                {menuImg ? (
-                <TouchableOpacity style={{ width: 250, height: 250, margin: 7, justifyContent: 'center', alignItems: 'center' }} onPress={() => setModalVisible(true)}>
-                <Image source={menuImg.image} style={{ width: '100%', height: '100%' }} />
-                </TouchableOpacity>
-
-                ) : (
-                <TouchableOpacity style={{ width: 250, height: 250, margin: 7, justifyContent: 'center', alignItems: 'center' }}>
-                <Text>暫無照片</Text></TouchableOpacity>
-                )
-              }
+                {sendimg ? (
+                  menuImg ? (
+                    <TouchableOpacity style={{ width: 250, height: 250, margin: 7, justifyContent: 'center', alignItems: 'center' }} onPress={() => setModalVisible(true)}>
+                        <Image source={menuImg.image} style={{ width: '100%', height: '100%' }} />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity style={{ width: 250, height: 250, margin: 7, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text>暫無照片</Text>
+                    </TouchableOpacity>
+                  )
+                  ) : null}
               </View>
             </View>
 
