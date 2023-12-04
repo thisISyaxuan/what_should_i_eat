@@ -171,11 +171,11 @@ def GoFilter(Restaurant, TimeFilter, MealFilter, LabelFilter, NewRLabel):
 def RecommenderInit(uID, UserLike, NewRLabel):
     # 餘弦算相似度
     SimilarityMatrix = cosine_similarity(UserLike.values, NewRLabel.values)
-    print(SimilarityMatrix)
+    # print(SimilarityMatrix)
     SimilarityMatrix = pd.DataFrame(SimilarityMatrix, index=UserLike.index, columns=NewRLabel.index)
-    print(SimilarityMatrix)
+    # print(SimilarityMatrix)
     result = get_the_most_similar_res(uID, SimilarityMatrix)
-    print(result)
+    # print(result)
     return result
 
 def RecommenderContent(uID, NewRLabel, CostDetail):
@@ -343,18 +343,20 @@ def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, Rating
         DFresult = FilterResult.sort_values(by="rMap_Score", ascending=False)
     else:
         # 如果這個人沒有記帳紀錄
-        if (True not in list(CostDetail['uID'] != uID)):
+        if (uID not in list(CostDetail['uID'])):
             # uID, UserLike, NewRLabel
-            content = RecommenderContent(uID, NewRLabel, CostDetail)
+            print("I dont have cost")
+            print(list(CostDetail['uID']))
             # ListResult = RecommenderInit(uID, UserLike, NewRLabel)
         else:
-            # init = RecommenderInit(uID, UserLike, NewRLabel)
+            init = RecommenderInit(uID, UserLike, NewRLabel)
             content = RecommenderContent(uID, NewRLabel, CostDetail)
-            # filtering = RecommenderUserBasedCollaborativeFiltering(uID, uNum, NewRLabel, CostDetail)
+            filtering = RecommenderUserBasedCollaborativeFiltering(uID, uNum, NewRLabel, CostDetail)
             # print(init)
             # print(content)
             # print(filtering)
             ListResult = GoMerge(init, content, filtering)
+            # ListResult = GoMerge(content, content, content)
         DFresult = transDataFrame(FilterResult, ListResult)
 
     DFresult = DFresult.drop(['meal_or_not', 'rLat', 'rLng'], axis=1)
