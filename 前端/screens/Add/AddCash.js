@@ -2,7 +2,6 @@
 //第13行userToken註解拿掉
 //第55行註解拿掉
 //第67行改api
-import { useNavigation, useRoute } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {StyleSheet, Text,TextInput, View,TouchableOpacity,Modal,SafeAreaView,TouchableWithoutFeedback,Keyboard, Alert} from 'react-native';
 import React, {useEffect, useState} from 'react';
@@ -100,7 +99,7 @@ export default function AddCash() {
                 {
                     text: 'OK',
                     onPress: () => {
-                      navigation.goBack();
+                      ClearAllData();
                     },
                 },
             ]);

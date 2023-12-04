@@ -247,9 +247,13 @@ const styles = StyleSheet.create({
   graphWrapper: {
     justifyContent:'center',
     alignItems: 'center',
+    alignContent:'center'
   },
   outgraphWrapper:{
     flex:5,
+    justifyContent:'center',
+    alignItems: 'center',
+    alignContent:'center'
     //padding:5,
   },
   label: {
@@ -260,9 +264,12 @@ const styles = StyleSheet.create({
   },
   labelavg: {
     //position: 'absolute',
-    paddingTop:10,
-    fontWeight: '700',
+    //paddingTop:10,
+    fontWeight: '500',
     fontSize: 16,
+    paddingBottom:5,
+    marginTop:-10,
+    marginBottom:10,
   },
   button: {
     padding: 5,

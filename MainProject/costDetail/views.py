@@ -105,11 +105,11 @@ class delete(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         print("/account/delete/")
         print(request.data)
-        data = request.data
+        cID = request.data
         user = request.user
         if user.is_authenticated:
             user_id = user.id
-            CostDetail.objects.filter(uid=user_id, cid=data['cid']).update(rid=F('rid')*-1)
+            CostDetail.objects.filter(uid=user_id, cid=cID).update(rid=F('rid')*-1)
             return Response({
                 'success': True
             })
