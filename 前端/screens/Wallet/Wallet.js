@@ -27,9 +27,6 @@ export default function Wallet() {
   useEffect(() => {
     fetchDateData(selected); // 初始化時取得當天數據
   }, []);
-  
-
-
 
   const handleDelete = (cid) => {
     // 顯示確認刪除的提示框
@@ -45,6 +42,7 @@ export default function Wallet() {
               //console.log("按下的數字為:",updatedData)
               const userToken = await AsyncStorage.getItem('userToken');
               if (userToken) {
+                console.log(userToken)
                 const response = await fetch(link.deletecash, {
                   method: 'POST',
                   headers: {
@@ -147,7 +145,7 @@ export default function Wallet() {
           fetchDateData(day.dateString);
         }}
         markedDates={{
-          [selected]: { selected: true, selectedColor: '#338168' },
+          [selected]: {selected: true, selectedColor: '#338168' },
         }}
         theme={{
           arrowColor: '#338168', // 顏色
@@ -155,8 +153,8 @@ export default function Wallet() {
         }}
       />
       <View>
-      <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:50}}>
-      <Text style={[{fontSize:16},{margin:5}]}>今日總支出：${total}</Text>
+      <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:20}}>
+      <Text style={[{fontSize:16},{margin:5,marginLeft:10}]}>今日總支出：${total}</Text>
       
 
         {dateData.length > 0 && (
@@ -169,7 +167,7 @@ export default function Wallet() {
   </TouchableOpacity>
 )}
       </View>
-      <View style={{height:240}}>
+      <View style={{height:270}}>
       <FlatList
         data={dateData}
         renderItem={renderItem}
