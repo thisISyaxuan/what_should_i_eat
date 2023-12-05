@@ -273,9 +273,11 @@ def GoMerge(init, content, filtering):
 
 def transDataFrame(FilterResult, ListResult):
     result = FilterResult.drop(FilterResult.index)
+    print(276)
     for rID in ListResult:
         if rID in FilterResult.index:
             result.loc[rID] = FilterResult.loc[rID]
+    print(280)
     return result
 
 def replaceAllLabel(Restaurant):
@@ -357,6 +359,8 @@ def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, Rating
             # print(filtering)
             ListResult = GoMerge(init, content, filtering)
             # ListResult = GoMerge(content, content, content)
+        print(ListResult)
+        print(FilterResult)
         DFresult = transDataFrame(FilterResult, ListResult)
 
     DFresult = DFresult.drop(['meal_or_not', 'rLat', 'rLng'], axis=1)
