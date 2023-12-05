@@ -1,12 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, Alert, Modal, ScrollView, TouchableOpacity, Linking, ActivityIndicator } from "react-native";
+//要先下載 npm i react-native-image-view --force
+import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
+import { View,Text,StyleSheet,Image, Alert ,Modal} from "react-native";
+import { ScrollView, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useEffect, useState } from "react";
 import { imag } from '../../data/menu';
+import { Linking } from 'react-native'; //超連結
 import { link } from "../../data/apiLink";
+import { ActivityIndicator } from 'react-native';//loading的圖示
 
-export default function RandomRes({ navigation }) {
+
+
+export default RandomRes = ({navigation}) =>{
     //const route = useRoute();
     //const { rID,rName,rMap_Score,rPhone,rAddress,open,collect}=route.params.data;
     const [isloading,setloading] = useState(false);
@@ -71,7 +79,7 @@ export default function RandomRes({ navigation }) {
         if (userToken) {//抓完token抓定位
             const requestdata = {
               rID:rID,
-              collect:collect,
+              collect:isCollected,
             };
             const response = await fetch(link.resDetail, {
               method: 'POST',
