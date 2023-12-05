@@ -35,6 +35,35 @@ export default RandomRes = ({navigation}) =>{
     useEffect(() => {
         toggleRandom();
     }, []);
+    const ClickResName = async (rID) => {
+      try {
+        const userToken = await AsyncStorage.getItem('userToken'); // 從AsyncStorage中取得token
+        if (userToken) {//抓時間，token，rID
+          const currentDate = new Date();//先抓時間 格式為年-月-日-時-分-秒
+          const formattedTime = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}-${currentDate.getHours()}-${currentDate.getMinutes()}-${currentDate.getSeconds()}`;
+          const postdata = {
+            Time:formattedTime,//裡面放當下時間
+            rID:rID,//餐廳id
+          };
+          const response = await fetch(link.eventItem, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+               Authorization: `Token ${userToken}`,
+            },
+            body: JSON.stringify(postdata)
+          });
+          if (response.ok) {
+          console.log("OK")
+          } else {
+            Alert.alert("這裡哪");
+          }
+        }
+      }catch{
+        console.log('43 行')
+        console.log("發生錯誤，可能連結沒改")
+      }
+    }
 
     const toggleRandom = async() => {
       const userToken = await AsyncStorage.getItem('userToken');
@@ -56,6 +85,7 @@ export default RandomRes = ({navigation}) =>{
           setrAddress(mydata.rAddress);
           setopen(mydata.open);
           setIsCollected(mydata.collect);
+          ClickResName(mydata.rID);
           const menuImgT = imag.find(image => image.imgID === (mydata.rID).toString());
 
           console.log("ID:",mydata.rID," 檔名:",menuImgT)
