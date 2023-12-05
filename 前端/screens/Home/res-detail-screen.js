@@ -19,7 +19,7 @@ export default ResInfo = ({navigation}) =>{
     const [isCollected, setIsCollected] = useState(collect);
     const [modalVisible, setModalVisible] = useState(false);
     const menuImg = imag.find(image => image.imgID === (rID).toString());
-    
+
 
     const toggleCollect = () => {
       setIsCollected((prevCollected) => (prevCollected === 1 ? 0 : 1));
@@ -66,7 +66,7 @@ export default ResInfo = ({navigation}) =>{
           Alert("發生錯誤，請稍後再試一次");
         });
     };
-    
+
     return(
         <ScrollView style={[styles.container]}>
           <View style={{alignItems:'center'}}>

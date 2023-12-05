@@ -44,7 +44,7 @@ export default function Login({navigation}) {
     try {
 //       navigation.navigate('ButtomTabStack');
 //       return;
-       console.log(link.login)
+      console.log(link.login)
       fetch(link.login, {
         method: 'POST',
         headers: {
@@ -56,9 +56,11 @@ export default function Login({navigation}) {
         .then(responseData => {
         console.log(responseData)
           if (responseData.success === true) {
+            console.log(responseData.babyID)
             AsyncStorage.setItem('userToken', responseData.token)
             AsyncStorage.setItem('positionL', '23.9494326')
             AsyncStorage.setItem('positionR', '120.9351076')
+            AsyncStorage.setItem('avatarId', responseData.babyID)
               .then(() => {
                 navigation.navigate('ButtomTabStack', { userToken: responseData.token });
               })

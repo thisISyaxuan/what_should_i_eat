@@ -159,29 +159,45 @@ def GoFilter(Restaurant, TimeFilter, MealFilter, LabelFilter, NewRLabel):
 
 def RecommenderInit(uID, UserLike, NewRLabel):
     # 餘弦算相似度
+    print(UserLike.shape)
+    print(NewRLabel.shape)
     SimilarityMatrix = cosine_similarity(UserLike.values, NewRLabel.values)
+    print("------------")
+    print(SimilarityMatrix, SimilarityMatrix.shape)
+    print("------------")
     SimilarityMatrix = pd.DataFrame(SimilarityMatrix, index=UserLike.index, columns=NewRLabel.index)
+    print(SimilarityMatrix)
     result = get_the_most_similar_res(uID, SimilarityMatrix)
+    print('result')
     return result
 
 def RecommenderContent(uID, NewRLabel, CostDetail):
     # user vector 
     resRating = pd.merge(CostDetail[["uID", "rID"]], NewRLabel, on='rID')
-    # print(resRating)
+    print(resRating)
     resRating.drop(['rID'], axis=1, inplace=True)
-    # print(resRating)
+    print(resRating)
     user_vec = resRating.groupby("uID").mean()
     # 餘弦算相似度
     SimilarityMatrix = cosine_similarity(user_vec.values, NewRLabel.values)
+    print(SimilarityMatrix)
     SimilarityMatrix = pd.DataFrame(SimilarityMatrix, index=user_vec.index, columns=NewRLabel.index)
+    print(SimilarityMatrix)
     result = get_the_most_similar_res(uID, SimilarityMatrix)
     return result
 
 def get_the_most_similar_res(uID, SimilarityMatrix):
     # Get the most similar restaurant
     # Find the top-n restaurant most similar to the user
+    print('in most similar res')
+    print(SimilarityMatrix.loc[uID])
+    print('----------')
     user_like = SimilarityMatrix.loc[uID].values
+    print(user_like)
+    print('----------')
+    print('user_like', user_like[::-1])
     SortedIndex = np.argsort(user_like)[::-1]
+    print('SortedIndex', SortedIndex)
     result = (list(SimilarityMatrix.columns[SortedIndex]))
     return result
 
@@ -278,7 +294,7 @@ def replaceAllLabel(Restaurant):
 
 # def main(uID, TimeFilter, MealFilter, LabelFilter, userPos, DistanceSort, RatingSort):
 def main():
-    uID = 2
+    uID = 10
     TimeFilter = True
     MealFilter = 0
     LabelFilter = '全部'
@@ -291,7 +307,7 @@ def main():
     UserLike = get_pd('1_user_like', 'uID', uID)
     CostDetail = get_pd('1_cost_detail', 'cID', "NULL")
     uNum = selectCount('1_user_info')
-
+    print(CostDetail)
     Restaurant = checkTime(Restaurant)
     Restaurant = checkDistance(userPos, Restaurant)
     Restaurant = checkCollect(uID, Restaurant)
@@ -321,22 +337,24 @@ def main():
         DFresult = FilterResult.sort_values(by="rMap_Score", ascending=False)
     else:
         # 如果這個人沒有記帳紀錄
-        if (True not in list(CostDetail['uID'] != uID)):
+        print(uID not in list(CostDetail['uID']))
+        if (uID not in list(CostDetail['uID'])):
             # uID, UserLike, NewRLabel
-            ListResult = RecommenderInit(uID, UserLike, NewRLabel)
+            # ListResult = RecommenderInit(uID, UserLike, NewRLabel)
+            ListResult = RecommenderContent(uID, NewRLabel, CostDetail)
         else:
-            init = RecommenderInit(uID, UserLike, NewRLabel)
+            # init = RecommenderInit(uID, UserLike, NewRLabel)
             content = RecommenderContent(uID, NewRLabel, CostDetail)
-            filtering = RecommenderUserBasedCollaborativeFiltering(uID, uNum, NewRLabel, CostDetail)
+            # filtering = RecommenderUserBasedCollaborativeFiltering(uID, uNum, NewRLabel, CostDetail)
             # print(init)
             # print(content)
             # print(filtering)
-            ListResult = GoMerge(init, content, filtering)
+            ListResult = GoMerge(content, content, content)
         DFresult = transDataFrame(FilterResult, ListResult)
     DFresult = DFresult.drop(['meal_or_not', 'rLat', 'rLng'], axis=1)
     DFresult = replaceAllLabel(DFresult)
     DFresult['rID'] = DFresult.index
-    print(DFresult)
+    # print(DFresult)
     # return DFresult
 
 if __name__ == '__main__':

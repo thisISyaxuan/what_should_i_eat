@@ -86,14 +86,17 @@ def get_user_data(request):
 class login_api(generics.GenericAPIView):
     serializer_class = AuthTokenSerializer
     def post(self, request, *args, **kwargs):
+        print(request.data['username'])
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         _, token = AuthToken.objects.create(user)
+        babyID = str(UserInfo.objects.filter(username=request.data['username']).values()[0]['skin'])
         print(token)
         return Response({
             'success':True,
-            'token': token
+            'token': token,
+            'babyID':babyID
         })
 # Create your views here.
 class register_api(generics.GenericAPIView):
