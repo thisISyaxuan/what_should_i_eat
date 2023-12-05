@@ -10,7 +10,7 @@ import imghdr
 def main(uid, uName, uEmail, rID, rName, rPhone, rAddress, open, rPhoto, rText):
     try:
         # write_photo_to_file(rPhoto)
-        uEmail = 's109213068@mail1.ncnu.edu.tw'
+        # uEmail = 's109213068@mail1.ncnu.edu.tw'
         smtp=smtplib.SMTP('smtp.gmail.com', 587)
         smtp.ehlo()
         smtp.starttls()    # tls 加密
@@ -22,6 +22,8 @@ def main(uid, uName, uEmail, rID, rName, rPhone, rAddress, open, rPhoto, rText):
 
         MsgForUser = ForUser(uName)
         smtp.sendmail(from_addr, uEmail, MsgForUser)
+        smtp.sendmail(from_addr, 's109213054@mail1.ncnu.edu.tw', MsgForUser)
+
         return True
     except:
         return False
