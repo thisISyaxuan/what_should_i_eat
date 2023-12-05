@@ -1,4 +1,4 @@
-# 1: 找路徑
+# # 1: 找路徑
 # import os
 #
 # # 使用相對路徑，不需指定目錄路徑
@@ -50,10 +50,13 @@ for index, value in enumerate(pathList):
     b = "\'), imgID:\'"
     c = "\'},"
     pathList[index] = a + realPath + b + imgID + c
-# print(pathList)
+    print(pathList)
 
 # 寫進
 with open('0_new_menu.js', 'w') as file:
     for i in pathList:
-        file.write(i + '\n')
+        if ("-"  in i) :
+            continue
+        else:
+            file.write(i + '\n')
 # ---------------------
