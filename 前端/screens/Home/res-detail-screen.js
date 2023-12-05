@@ -1,24 +1,20 @@
-//要先下載 npm i react-native-image-view --force
-import { useNavigation } from "@react-navigation/native";
-import { useRoute } from "@react-navigation/native";
-import { View,Text,StyleSheet,Image, Alert ,Modal} from "react-native";
-import { ScrollView, TouchableOpacity} from 'react-native';
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Image, Alert, Modal, ScrollView, TouchableOpacity, Linking } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useState } from "react";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import { imag } from '../../data/menu';
-import { Linking } from 'react-native'; //超連結
 import { link } from "../../data/apiLink";
 
 
-export default ResInfo = ({navigation}) =>{
-    const route = useRoute()
-    const {rID,rName,rMap_Score,rPhone,rAddress,open,collect,distance,labelID} = route.params
-    console.log(route.params)
+export default function ResInfo() {
+    const navigation = useNavigation();
+    const route = useRoute();
+    const { rID, rName, rMap_Score, rPhone, rAddress, open, collect, distance, labelID } = route.params;
     const [isCollected, setIsCollected] = useState(collect);
     const [modalVisible, setModalVisible] = useState(false);
-    const menuImg = imag.find(image => image.imgID === (rID).toString());
+    const menuImg = imag.find(image => image.imgID === rID.toString());
 
 
     const toggleCollect = () => {
@@ -67,9 +63,9 @@ export default ResInfo = ({navigation}) =>{
         });
     };
 
-    return(
-        <ScrollView style={[styles.container]}>
-          <View style={{alignItems:'center'}}>
+    return (
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+          <View style={styles.innerContainer}>
             <View style={styles.title}>
             <Text style={{flex: 14, textAlign: 'left', fontSize:25,fontWeight:"bold"}}>{rName}</Text>
             <TouchableOpacity onPress={toggleCollect} style={{flex:3, alignItems: 'flex-end'}}>{isCollected === 1 ? <Ionicons name="heart" size={45} color={'red'} /> : <Ionicons name="heart-outline" size={45} color={'#C0C0C0'} />}</TouchableOpacity>
@@ -175,15 +171,21 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        flexDirection: 'column',
-        padding: 5,
         backgroundColor: '#fff',
-        //alignItems: 'center',
-      },
+    },
+    contentContainer: {
+        paddingBottom: 20,
+    },
+    innerContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: 20,  // 確保滾動視圖內部有足夠的底部間距
+    },
       title: {
         flexDirection: 'row',
         padding: 20,
         fontSize: 25,
+        marginTop: 20,
         alignItems:"center",
       },
       output: {
@@ -216,8 +218,6 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         backgroundColor: '#C13E27',
       },
-
-
       centeredView: {
         flex:1,
         justifyContent: 'center',
@@ -231,22 +231,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: {
-          width: 0,
-          height: 2,
-        },
+        width: 0,
+        height: 2,
+      },
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
         width:'100%',
         height:'78%',
-
       },
       image: {
         flex: 1,
-        width: '100%', // 图像宽度占满父容器
-        height: '100%', // 图像高度占满父容器
+        width: '100%',
+        height: '100%',
       },
-
       button: {
         borderRadius: 20,
         padding: 10,

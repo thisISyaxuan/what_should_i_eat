@@ -60,12 +60,16 @@ class randomRest(generics.GenericAPIView):
         if user.is_authenticated:
             user_id = user.id
             num = Restaurant.objects.count()
-            index = random.randint(1,num)
-            # print(index)
-            aRest = Restaurant.objects.all().values()[index-1]
-            # print(aRest)
-            aRest = check(user_id, aRest)
-            print(aRest)
+            aRest = {}
+            while(True):
+                index = random.randint(1,num)
+                # print(index)
+                aRest = Restaurant.objects.all().values()[index-1]
+                # print(aRest)
+                aRest = check(user_id, aRest)
+                if (aRest['open'] > -1 ):
+                    print(aRest)
+                    break
             return Response({
                 # {"success": {"rName": [], "rMa_Score": [], "rAddress": [], "open": []}}
                 # 'success': {"rID": 6, "rName": "test", "rMa_Score": "test", "rAddress": "test", "rPhone": "test", "open": 1, "collect": 1}
